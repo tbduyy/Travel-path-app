@@ -9,6 +9,9 @@
     "lint": "eslint",
     "test:db": "ts-node --project tsconfig.seed.json test-db.ts"
   },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "clsx": "^2.1.1",

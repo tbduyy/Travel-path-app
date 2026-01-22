@@ -1,10 +1,51 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { searchPlaces } from '@/app/actions/search';
 
 export default function SearchWidget() {
-    // Step 25: "only the plan trip" works -> Link to /plan-trip
+    const router = useRouter();
+
+    // State for filters
+    const [destination, setDestination] = useState('');
+    const [dates, setDates] = useState('');
+    const [people, setPeople] = useState('');
+    const [budget, setBudget] = useState('');
+    const [style, setStyle] = useState('');
+
+    const handleSearch = async () => {
+        console.log("Searching for:", { destination });
+
+        try {
+            const result = await searchPlaces({
+                destination,
+                dates,
+                people,
+                budget,
+                style
+            });
+
+            if (result.success) {
+                console.log("Search Results:", result.data);
+                if (result.data && result.data.length > 0) {
+                    // Create a formatted list of names
+                    const names = result.data.map((place: any) => `- ${place.name}`).join('\n');
+                    alert(`Tìm thấy ${result.data.length} địa điểm khớp với '${destination}':\n\n${names}`);
+                } else {
+                    alert(`Không tìm thấy địa điểm nào khớp với '${destination}'`);
+                }
+
+                // Future: Navigate or update state
+            } else {
+                console.error("Search failed");
+            }
+        } catch (error) {
+            console.error("Error calling search action:", error);
+        }
+    };
+
     return (
         <div className="w-[94.44%] mx-auto mt-12 relative z-20">
             {/* Aspect Ratio 1360/173 */}
@@ -34,40 +75,73 @@ export default function SearchWidget() {
                             <div className="relative z-10 w-full h-full flex items-center px-[2%] justify-between">
 
                                 {/* Section 1: "Chọn điểm đến" */}
-                                <div className="flex-[1.8] h-full flex items-center justify-center cursor-pointer hover:opacity-80">
-                                    <img src="/assets/search-bar/chon-diem-den.png" alt="Destination" className="h-[24%] w-auto object-contain" />
+                                <div className="flex-[1.8] h-full flex items-center justify-center px-2">
+                                    <input
+                                        type="text"
+                                        placeholder="Chọn điểm đến"
+                                        value={destination}
+                                        onChange={(e) => setDestination(e.target.value)}
+                                        className="w-full text-center bg-transparent border-none outline-none placeholder-[#1B4D3E]/60 text-[#1B4D3E] font-medium text-sm md:text-base lg:text-lg truncate"
+                                    />
                                 </div>
 
                                 <img src="/assets/search-bar/line-4.png" alt="|" className="h-[60%] w-auto object-contain opacity-50" />
 
                                 {/* Section 2: "Thời gian đi - về" */}
-                                <div className="flex-[2.2] h-full flex items-center justify-center cursor-pointer hover:opacity-80">
-                                    <img src="/assets/search-bar/thoi-gian.png" alt="Time" className="h-[24%] w-auto object-contain" />
+                                <div className="flex-[2.2] h-full flex items-center justify-center px-2">
+                                    <input
+                                        type="text"
+                                        placeholder="Thời gian đi - về"
+                                        value={dates}
+                                        onChange={(e) => setDates(e.target.value)}
+                                        className="w-full text-center bg-transparent border-none outline-none placeholder-[#1B4D3E]/60 text-[#1B4D3E] font-medium text-sm md:text-base lg:text-lg truncate"
+                                    />
                                 </div>
 
                                 <img src="/assets/search-bar/line-4.png" alt="|" className="h-[60%] w-auto object-contain opacity-50" />
 
                                 {/* Section 3: "Số người" */}
-                                <div className="flex-[1.2] h-full flex items-center justify-center cursor-pointer hover:opacity-80">
-                                    <img src="/assets/search-bar/so-nguoi.png" alt="People" className="h-[21%] w-auto object-contain" />
+                                <div className="flex-[1.2] h-full flex items-center justify-center px-2">
+                                    <input
+                                        type="text"
+                                        placeholder="Số người"
+                                        value={people}
+                                        onChange={(e) => setPeople(e.target.value)}
+                                        className="w-full text-center bg-transparent border-none outline-none placeholder-[#1B4D3E]/60 text-[#1B4D3E] font-medium text-sm md:text-base lg:text-lg truncate"
+                                    />
                                 </div>
 
                                 <img src="/assets/search-bar/line-4.png" alt="|" className="h-[60%] w-auto object-contain opacity-50" />
 
                                 {/* Section 4: "Ngân sách" */}
-                                <div className="flex-[1.3] h-full flex items-center justify-center cursor-pointer hover:opacity-80">
-                                    <img src="/assets/search-bar/ngan-sach.png" alt="Budget" className="h-[20%] w-auto object-contain" />
+                                <div className="flex-[1.3] h-full flex items-center justify-center px-2">
+                                    <input
+                                        type="text"
+                                        placeholder="Ngân sách"
+                                        value={budget}
+                                        onChange={(e) => setBudget(e.target.value)}
+                                        className="w-full text-center bg-transparent border-none outline-none placeholder-[#1B4D3E]/60 text-[#1B4D3E] font-medium text-sm md:text-base lg:text-lg truncate"
+                                    />
                                 </div>
 
                                 <img src="/assets/search-bar/line-4.png" alt="|" className="h-[60%] w-auto object-contain opacity-50" />
 
                                 {/* Section 5: "Phong cách" */}
-                                <div className="flex-[2.3] h-full flex items-center justify-center cursor-pointer hover:opacity-80">
-                                    <img src="/assets/search-bar/phong-cach.png" alt="Style" className="h-[21%] w-auto object-contain" />
+                                <div className="flex-[2.3] h-full flex items-center justify-center px-2">
+                                    <input
+                                        type="text"
+                                        placeholder="Phong cách"
+                                        value={style}
+                                        onChange={(e) => setStyle(e.target.value)}
+                                        className="w-full text-center bg-transparent border-none outline-none placeholder-[#1B4D3E]/60 text-[#1B4D3E] font-medium text-sm md:text-base lg:text-lg truncate"
+                                    />
                                 </div>
 
                                 {/* Search Icon */}
-                                <div className="relative w-[5%] h-full flex items-center justify-center ml-[1%] border-l border-gray-200/50">
+                                <div
+                                    className="relative w-[5%] h-full flex items-center justify-center ml-[1%] border-l border-gray-200/50 cursor-pointer hover:scale-110 transition-transform"
+                                    onClick={handleSearch}
+                                >
                                     <img
                                         src="/assets/search-bar/search-icon.png"
                                         alt="Search"

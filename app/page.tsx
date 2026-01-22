@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="min-h-screen relative flex flex-col items-center">
+    <main className="min-h-screen relative flex flex-col items-center bg-[#BBD9D9]">
 
       {/* Hero Background */}
       <div className="absolute top-0 left-0 w-full h-[90vh] z-0 rounded-b-[3rem] overflow-hidden">

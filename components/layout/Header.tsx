@@ -1,8 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Search } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
+    const pathname = usePathname();
+
     const navLinks = [
         { name: "About Us", href: "#" },
         { name: "Plan Trip", href: "/plan-trip" },
@@ -11,10 +16,10 @@ export default function Header() {
     ];
 
     return (
-        <header className="sticky top-0 z-50 w-full flex justify-center mt-4 px-4">
+        <header className="sticky top-0 z-50 w-full flex justify-center mt-4 px-4 pointer-events-none">
 
             {/* Background Image Container (Rectangle 4) */}
-            <div className="relative w-full max-w-7xl h-24 flex items-center justify-between px-8">
+            <div className="relative w-full max-w-7xl h-24 flex items-center justify-between px-8 pointer-events-auto filter drop-shadow-xl">
 
                 {/* The Background Shape */}
                 <div className="absolute inset-0 z-0">
@@ -70,15 +75,21 @@ export default function Header() {
 
                     {/* Center: Navigation Links */}
                     <nav className="hidden md:flex items-center gap-16">
-                        {navLinks.map((link) => (
-                            <Link
-                                key={link.name}
-                                href={link.href}
-                                className="text-base font-bold text-[#1B4D3E] hover:text-[#2C6E5A] transition-colors tracking-normal capitalize"
-                            >
-                                {link.name}
-                            </Link>
-                        ))}
+                        {navLinks.map((link) => {
+                            const isActive = pathname === link.href || (link.href !== "/" && pathname?.startsWith(link.href));
+                            return (
+                                <Link
+                                    key={link.name}
+                                    href={link.href}
+                                    className={`text-base font-bold transition-colors tracking-normal capitalize ${isActive
+                                            ? "text-[#00B14F] brightness-125"
+                                            : "text-[#1B4D3E] hover:text-[#2C6E5A]"
+                                        }`}
+                                >
+                                    {link.name}
+                                </Link>
+                            );
+                        })}
                     </nav>
 
                     {/* Right: Authorized Section (No Search, Just Avatar) */}
