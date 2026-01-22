@@ -1,5 +1,6 @@
 import Header from "@/components/layout/Header";
 import SearchWidget from "@/components/ui/SearchWidget";
+import WeatherWidget from "@/components/ui/WeatherWidget";
 import Image from "next/image";
 
 export default function Home() {
@@ -7,39 +8,53 @@ export default function Home() {
     <main className="min-h-screen relative flex flex-col items-center">
 
       {/* Hero Background */}
-      <div className="absolute inset-0 z-0 select-none">
+      <div className="absolute top-0 left-0 w-full h-[90vh] z-0 rounded-b-[3rem] overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070&auto=format&fit=crop"
-          alt="Nature Landscape"
+          src="/hero-bg.png"
+          alt="Hero Background"
           fill
-          className="object-cover brightness-75"
+          className="object-cover object-top"
           priority
           unoptimized
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/10" />
+        {/* Subtle overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-white/20" />
       </div>
 
       <Header />
 
       {/* Hero Content */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-8 flex flex-col items-center justify-center min-h-[85vh] text-center pt-20">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-8 flex flex-col justify-center min-h-screen pt-20 pb-10">
 
-        <h1 className="text-white text-6xl md:text-8xl font-bold tracking-tight drop-shadow-2xl mb-6 max-w-4xl leading-[1.1]">
-          MAKE YOUR <br />
-          <span className="text-secondary font-medium italic drop-shadow-lg">Dream Trip</span>
-        </h1>
+        {/* Top Section: Title (Left) and Widget (Right) */}
+        <div className="flex flex-col md:flex-row items-center justify-between w-full h-full gap-8">
 
-        <p className="text-white/90 text-xl font-medium mb-12 max-w-lg drop-shadow-md">
-          Discover the most beautiful places in Dalat and create your perfect itinerary in seconds.
-        </p>
-
-        <SearchWidget />
-
-        {/* Floating Badges/Partnerships (Visual Polish) */}
-        <div className="absolute bottom-12 left-8 hidden md:flex items-center gap-4 opacity-80 hover:opacity-100 transition-opacity">
-          <div className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-lg text-white text-xs font-semibold border border-white/20">
-            Trusted by 50k+ travelers
+          {/* Left: Title Image */}
+          <div className="flex-1 flex justify-start items-center">
+            <div className="relative w-full max-w-2xl h-64 md:h-96">
+              <Image
+                src="/hero-title.png"
+                alt="Make Your Dream Trip"
+                fill
+                className="object-contain object-left"
+                unoptimized
+                priority
+              />
+            </div>
           </div>
+
+          {/* Right: Weather Widget */}
+          <div className="flex-1 flex justify-end items-start md:-mt-20">
+            <WeatherWidget />
+          </div>
+        </div>
+
+        {/* Bottom Section: Search Widget & Badges */}
+        <div className="w-full mt-8 md:mt-0 flex flex-col gap-8">
+          <SearchWidget />
+
+          {/* Floating Badges/Partnerships */}
+
         </div>
 
       </div>

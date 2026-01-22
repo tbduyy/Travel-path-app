@@ -1,75 +1,100 @@
 "use client";
 
-import Link from "next/link";
-import { Search, Calendar, Users, Wallet, Compass } from "lucide-react";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
+import React from 'react';
+import Link from 'next/link';
 
 export default function SearchWidget() {
-    const [activeTab, setActiveTab] = useState("all");
-
+    // Step 25: "only the plan trip" works -> Link to /plan-trip
     return (
-        <div className="w-full max-w-5xl bg-white rounded-full shadow-2xl flex items-center p-2 border border-gray-100 relative z-20">
+        <div className="w-[94.44%] mx-auto mt-12 relative z-20">
+            {/* Aspect Ratio 1360/173 */}
+            <div className="w-full aspect-[1360/173] flex items-center justify-center relative font-sans">
 
-            {/* 1. Destination */}
-            <div className="flex-1 flex flex-col justify-center px-6 h-16 hover:bg-gray-50 rounded-full transition-colors cursor-pointer group relative">
-                <label className="text-[11px] uppercase tracking-wider font-extrabold text-gray-500 group-hover:text-primary transition-colors flex items-center gap-1 mb-0.5">
-                    Where to?
-                </label>
-                <input
-                    type="text"
-                    placeholder="Search destinations"
-                    className="w-full bg-transparent text-sm font-bold text-gray-800 placeholder:text-gray-300 outline-none"
-                />
+                {/* 1. Container Wrapper (Rec 1) */}
+                <div className="relative w-full h-full flex items-center px-[2%] py-[1%]">
+                    <img
+                        src="/assets/search-bar/rectangle-1.png"
+                        alt="Background"
+                        className="absolute inset-0 w-full h-full object-fill pointer-events-none"
+                    />
+
+                    {/* Inner Content */}
+                    <div className="relative z-10 w-full h-full flex items-center justify-between gap-[1.5%]">
+
+                        {/* Rectangle 2 (Input Area container) */}
+                        <div className="relative flex-1 h-[70%] flex items-center">
+                            {/* Rec 2 Background */}
+                            <img
+                                src="/assets/search-bar/rectangle-2.png"
+                                alt="Input Area"
+                                className="absolute inset-0 w-full h-full object-fill pointer-events-none"
+                            />
+
+                            {/* Content Overlay */}
+                            <div className="relative z-10 w-full h-full flex items-center px-[2%] justify-between">
+
+                                {/* Section 1: "Chọn điểm đến" */}
+                                <div className="flex-[1.8] h-full flex items-center justify-center cursor-pointer hover:opacity-80">
+                                    <img src="/assets/search-bar/chon-diem-den.png" alt="Destination" className="h-[24%] w-auto object-contain" />
+                                </div>
+
+                                <img src="/assets/search-bar/line-4.png" alt="|" className="h-[60%] w-auto object-contain opacity-50" />
+
+                                {/* Section 2: "Thời gian đi - về" */}
+                                <div className="flex-[2.2] h-full flex items-center justify-center cursor-pointer hover:opacity-80">
+                                    <img src="/assets/search-bar/thoi-gian.png" alt="Time" className="h-[24%] w-auto object-contain" />
+                                </div>
+
+                                <img src="/assets/search-bar/line-4.png" alt="|" className="h-[60%] w-auto object-contain opacity-50" />
+
+                                {/* Section 3: "Số người" */}
+                                <div className="flex-[1.2] h-full flex items-center justify-center cursor-pointer hover:opacity-80">
+                                    <img src="/assets/search-bar/so-nguoi.png" alt="People" className="h-[21%] w-auto object-contain" />
+                                </div>
+
+                                <img src="/assets/search-bar/line-4.png" alt="|" className="h-[60%] w-auto object-contain opacity-50" />
+
+                                {/* Section 4: "Ngân sách" */}
+                                <div className="flex-[1.3] h-full flex items-center justify-center cursor-pointer hover:opacity-80">
+                                    <img src="/assets/search-bar/ngan-sach.png" alt="Budget" className="h-[20%] w-auto object-contain" />
+                                </div>
+
+                                <img src="/assets/search-bar/line-4.png" alt="|" className="h-[60%] w-auto object-contain opacity-50" />
+
+                                {/* Section 5: "Phong cách" */}
+                                <div className="flex-[2.3] h-full flex items-center justify-center cursor-pointer hover:opacity-80">
+                                    <img src="/assets/search-bar/phong-cach.png" alt="Style" className="h-[21%] w-auto object-contain" />
+                                </div>
+
+                                {/* Search Icon */}
+                                <div className="relative w-[5%] h-full flex items-center justify-center ml-[1%] border-l border-gray-200/50">
+                                    <img
+                                        src="/assets/search-bar/search-icon.png"
+                                        alt="Search"
+                                        className="h-[28%] w-auto object-contain"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Rectangle 3 (Right Button) - Wrapped in Link to /plan-trip */}
+                        <Link href="/plan-trip" className="relative w-[16%] h-[70%] flex-shrink-0 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform">
+                            <img
+                                src="/assets/search-bar/rectangle-3.png"
+                                alt="Background"
+                                className="absolute inset-0 w-full h-full object-fill pointer-events-none"
+                            />
+                            {/* The Label/Icon */}
+                            <img
+                                src="/assets/search-bar/tao-lich-trinh.png"
+                                alt="Tạo lịch trình"
+                                className="relative z-10 h-[25%] w-auto object-contain"
+                            />
+                        </Link>
+                    </div>
+                </div>
+
             </div>
-
-            <div className="w-[1px] h-8 bg-gray-200" />
-
-            {/* 2. Dates */}
-            <div className="flex-1 flex flex-col justify-center px-6 h-16 hover:bg-gray-50 rounded-full transition-colors cursor-pointer group">
-                <label className="text-[11px] uppercase tracking-wider font-extrabold text-gray-500 group-hover:text-primary transition-colors flex items-center gap-1 mb-0.5">
-                    Check in - Check out
-                </label>
-                <div className="text-sm font-bold text-gray-400">Add dates</div>
-            </div>
-
-            <div className="w-[1px] h-8 bg-gray-200" />
-
-            {/* 3. Travellers */}
-            <div className="w-40 flex flex-col justify-center px-6 h-16 hover:bg-gray-50 rounded-full transition-colors cursor-pointer group">
-                <label className="text-[11px] uppercase tracking-wider font-extrabold text-gray-500 group-hover:text-primary transition-colors flex items-center gap-1 mb-0.5">
-                    Travellers
-                </label>
-                <div className="text-sm font-bold text-gray-400">Add guests</div>
-            </div>
-
-            <div className="w-[1px] h-8 bg-gray-200" />
-
-            {/* 4. Budget */}
-            <div className="w-36 flex flex-col justify-center px-6 h-16 hover:bg-gray-50 rounded-full transition-colors cursor-pointer group">
-                <label className="text-[11px] uppercase tracking-wider font-extrabold text-gray-500 group-hover:text-primary transition-colors flex items-center gap-1 mb-0.5">
-                    Budget
-                </label>
-                <div className="text-sm font-bold text-gray-400">Any</div>
-            </div>
-
-            <div className="w-[1px] h-8 bg-gray-200" />
-
-            {/* 5. Style */}
-            <div className="w-36 flex flex-col justify-center px-6 h-16 hover:bg-gray-50 rounded-full transition-colors cursor-pointer group">
-                <label className="text-[11px] uppercase tracking-wider font-extrabold text-gray-500 group-hover:text-primary transition-colors flex items-center gap-1 mb-0.5">
-                    Style
-                </label>
-                <div className="text-sm font-bold text-gray-400">Any</div>
-            </div>
-
-            {/* Submit Button */}
-            <Link href="/plan-trip" className="pl-2">
-                <button className="bg-primary hover:bg-primary-light text-white h-14 w-14 rounded-full font-bold shadow-xl transition-all flex items-center justify-center transform hover:scale-105">
-                    <Search className="w-6 h-6" />
-                </button>
-            </Link>
-
         </div>
     );
 }

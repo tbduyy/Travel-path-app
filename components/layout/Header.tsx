@@ -1,49 +1,106 @@
 import Link from "next/link";
-import { Search, MapPin, Info, Phone } from "lucide-react";
+import Image from "next/image";
+import { Search } from "lucide-react";
 
 export default function Header() {
+    const navLinks = [
+        { name: "About Us", href: "#" },
+        { name: "Plan Trip", href: "/plan-trip" },
+        { name: "My Journey", href: "#" },
+        { name: "Blog", href: "#" },
+    ];
+
     return (
-        <header className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-6">
-            {/* Logo */}
-            <Link href="/" className="text-2xl font-bold tracking-tight text-white drop-shadow-md">
-                Travel Path
-            </Link>
+        <header className="sticky top-0 z-50 w-full flex justify-center mt-4 px-4">
 
-            {/* Navigation */}
-            <nav className="hidden md:flex items-center gap-8 text-white/90 font-medium text-sm">
-                <Link href="#" className="flex items-center gap-2 hover:text-white transition-colors">
-                    <Search className="w-4 h-4" />
-                    Search
-                </Link>
-                <Link href="#" className="flex items-center gap-2 hover:text-white transition-colors">
-                    <MapPin className="w-4 h-4" />
-                    Destinations
-                </Link>
-                <Link href="#" className="flex items-center gap-2 hover:text-white transition-colors">
-                    <Info className="w-4 h-4" />
-                    Policy
-                </Link>
-                <Link href="#" className="flex items-center gap-2 hover:text-white transition-colors">
-                    <Phone className="w-4 h-4" />
-                    Contact
-                </Link>
-            </nav>
+            {/* Background Image Container (Rectangle 4) */}
+            <div className="relative w-full max-w-7xl h-24 flex items-center justify-between px-8">
 
-            {/* Auth Buttons */}
-            <div className="flex items-center gap-4">
-                <Link
-                    href="/login"
-                    className="text-white/90 text-sm font-medium hover:text-white transition-colors"
-                >
-                    Login
-                </Link>
-                <Link
-                    href="/signup"
-                    className="bg-white text-primary px-5 py-2 rounded-full text-sm font-bold shadow-md hover:bg-white/90 transition-all"
-                >
-                    Sign up
-                </Link>
+                {/* The Background Shape */}
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src="/header-bg.png"
+                        alt="Background"
+                        fill
+                        className="object-fill"
+                        unoptimized
+                        priority
+                    />
+                </div>
+
+                {/* Content Layer (z-10) */}
+                <div className="relative z-10 flex items-center justify-between w-full h-full">
+
+                    {/* Left: Logo + Name + Tagline */}
+                    <Link href="/" className="flex items-center gap-3 flex-shrink-0">
+                        {/* Icon */}
+                        <div className="relative w-12 h-12">
+                            <Image
+                                src="/logo.png"
+                                alt="Logo"
+                                fill
+                                className="object-contain"
+                                unoptimized
+                            />
+                        </div>
+                        {/* Name & Tagline Column */}
+                        <div className="flex flex-col justify-center gap-1">
+                            {/* Name Text (Larger Ratio) */}
+                            <div className="relative w-40 h-7">
+                                <Image
+                                    src="/logo-name.png"
+                                    alt="Travel Path"
+                                    fill
+                                    className="object-contain object-left"
+                                    unoptimized
+                                />
+                            </div>
+                            {/* Tagline Text */}
+                            <div className="relative w-44 h-4">
+                                <Image
+                                    src="/tagline.png"
+                                    alt="Your next adventures start here"
+                                    fill
+                                    className="object-contain object-left"
+                                    unoptimized
+                                />
+                            </div>
+                        </div>
+                    </Link>
+
+                    {/* Center: Navigation Links */}
+                    <nav className="hidden md:flex items-center gap-16">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.name}
+                                href={link.href}
+                                className="text-base font-bold text-[#1B4D3E] hover:text-[#2C6E5A] transition-colors tracking-normal capitalize"
+                            >
+                                {link.name}
+                            </Link>
+                        ))}
+                    </nav>
+
+                    {/* Right: Authorized Section (No Search, Just Avatar) */}
+                    <div className="flex items-center">
+                        {/* User Profile Avatar (No border, larger) */}
+                        <div className="relative cursor-pointer group">
+                            <div className="w-12 h-12 rounded-full overflow-hidden relative hover:opacity-90 transition-opacity">
+                                <Image
+                                    src="/user-avatar.png"
+                                    alt="Profile"
+                                    fill
+                                    className="object-cover"
+                                    unoptimized
+                                />
+                            </div>
+                            {/* Active Dot */}
+                            <span className="absolute bottom-1 right-1 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </header>
     );
 }
