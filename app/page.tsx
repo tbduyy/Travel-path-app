@@ -1,6 +1,7 @@
 import Header from "@/components/layout/Header";
 import SearchWidget from "@/components/ui/SearchWidget";
 import WeatherWidget from "@/components/ui/WeatherWidget";
+import CableCarAnimation from "@/components/home/CableCarAnimation";
 import Image from "next/image";
 
 export default function Home() {
@@ -53,6 +54,11 @@ export default function Home() {
         <div className="w-full mt-8 md:mt-0 flex flex-col gap-8">
           <SearchWidget />
 
+          {/* Cable Car Animation */}
+          <div className="w-full pointer-events-none">
+            <CableCarAnimation />
+          </div>
+
           {/* Floating Badges/Partnerships */}
 
         </div>
@@ -72,14 +78,14 @@ export default function Home() {
 
           <div className="grid grid-cols-1 gap-8">
             {/* Grab Card */}
-            <div className="bg-[#B7E4C7] rounded-3xl p-6 flex flex-col md:flex-row items-center gap-8 shadow-sm border border-white/50">
+            <div className="bg-[#D8F3DC] rounded-3xl p-6 flex flex-col md:flex-row items-center gap-8 shadow-sm border border-white/50">
               <div className="w-full md:w-1/3 h-48 relative bg-white/30 rounded-2xl overflow-hidden flex items-center justify-center">
                 {/* Placeholder for Grab illustration */}
                 <Image
-                  src="https://images.unsplash.com/photo-1616077303039-4d642db4d343?q=80&w=2669&auto=format&fit=crop"
+                  src="/assets/home/grab.png"
                   alt="Grab Service"
                   fill
-                  className="object-cover opacity-80"
+                  className="object-cover"
                   unoptimized
                 />
                 <span className="relative z-10 font-bold text-2xl text-[#00B14F]">Grab</span>
@@ -87,8 +93,7 @@ export default function Home() {
               <div className="flex-1 text-[#1B4D3E]">
                 <h3 className="text-2xl font-bold mb-2">Grab</h3>
                 <p className="text-sm leading-relaxed font-medium opacity-80">
-                  Grab là ứng dụng du lịch đa dịch vụ hàng đầu tại Việt Nam... (Grab is the leading multi-service app in Vietnam).
-                  Book rides easily to move between locations.
+                  Grab là ứng dụng đa dịch vụ thuần Việt, cung cấp hệ sinh thái toàn diện từ gọi xe (máy, ô tô), giao đồ ăn, vận chuyển đến vé máy bay và ngân hàng số. Nhờ thấu hiểu người dùng bản địa, Grab mang đến các giải pháp di chuyển và đời sống tiện lợi, an toàn trên một nền tảng duy nhất.
                 </p>
               </div>
             </div>
@@ -98,13 +103,12 @@ export default function Home() {
               <div className="flex-1 order-2 md:order-1 text-[#1B4D3E]">
                 <h3 className="text-2xl font-bold mb-2">Hotel Colline</h3>
                 <p className="text-sm leading-relaxed font-medium opacity-80">
-                  Hotel Colline là khách sạn 4 sao nổi bật... (Hotel Colline is a prominent 4-star hotel in the center of Dalat).
-                  Located right at Dalat Market.
+                  Hotel Colline là khách sạn 4 sao nổi bật với kiến trúc khối nâu hiện đại ngay trung tâm Đà Lạt. Nhờ vị trí đắc địa gần Hồ Xuân Hương cùng phong cách nội thất tối giản, sang trọng, nơi đây mang đến không gian nghỉ dưỡng tiện nghi và là địa điểm check-in yêu thích của giới trẻ.
                 </p>
               </div>
               <div className="w-full md:w-1/3 h-48 relative bg-gray-200 rounded-2xl overflow-hidden order-1 md:order-2">
                 <Image
-                  src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2670&auto=format&fit=crop"
+                  src="/assets/home/partner-1.png"
                   alt="Hotel Colline"
                   fill
                   className="object-cover"
@@ -117,7 +121,7 @@ export default function Home() {
             <div className="bg-[#D8F3DC] rounded-3xl p-6 flex flex-col md:flex-row items-center gap-8 shadow-sm border border-white/50">
               <div className="w-full md:w-1/3 h-48 relative bg-gray-200 rounded-2xl overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1550966871-3ed3c47e2ce2?q=80&w=2670&auto=format&fit=crop"
+                  src="/assets/home/partner-2.png"
                   alt="Le Rabelais"
                   fill
                   className="object-cover"
@@ -127,8 +131,7 @@ export default function Home() {
               <div className="flex-1 text-[#1B4D3E]">
                 <h3 className="text-2xl font-bold mb-2">Nhà Hàng Le Rabelais</h3>
                 <p className="text-sm leading-relaxed font-medium opacity-80">
-                  Le Rabelais là nhà hàng sang trọng... (Le Rabelais is a luxury French restaurant at Dalat Palace).
-                  Experience fine dining with a view.
+                  Le Rabelais là nhà hàng mang đậm phong cách kiến trúc Pháp sang trọng, sở hữu không gian thưởng thức ẩm thực tinh tế với tầm nhìn đẹp. Nơi đây chuyên phục vụ các món Âu đa dạng như súp hành tây, beefsteak kết hợp cùng rượu vang, mang đến trải nghiệm ẩm thực thăng hoa cho thực khách.
                 </p>
               </div>
             </div>
@@ -136,8 +139,12 @@ export default function Home() {
 
           {/* Carousel Arrows (Visual) */}
           <div className="flex justify-center gap-4 mt-8 text-[#1B4D3E]">
-            <div className="w-0 h-0 border-t-[10px] border-t-transparent border-r-[15px] border-r-current border-b-[10px] border-b-transparent transform rotate-180 opacity-50 cursor-pointer" />
-            <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[15px] border-l-current border-b-[10px] border-b-transparent cursor-pointer hover:scale-110 transition-transform" />
+            <div className="cursor-pointer hover:scale-110 transition-transform">
+              <Image src="/assets/home/arrow-left.png" alt="Previous" width={40} height={40} />
+            </div>
+            <div className="cursor-pointer hover:scale-110 transition-transform">
+              <Image src="/assets/home/arrow-right.png" alt="Next" width={40} height={40} />
+            </div>
           </div>
 
         </div>
@@ -160,8 +167,12 @@ export default function Home() {
 
           {/* Carousel Arrows (Visual) */}
           <div className="flex justify-center gap-4 mt-8 text-[#1B4D3E]">
-            <div className="w-0 h-0 border-t-[10px] border-t-transparent border-r-[15px] border-r-current border-b-[10px] border-b-transparent transform rotate-180 cursor-pointer hover:scale-110" />
-            <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[15px] border-l-current border-b-[10px] border-b-transparent cursor-pointer hover:scale-110" />
+            <div className="cursor-pointer hover:scale-110 transition-transform">
+              <Image src="/assets/home/arrow-left.png" alt="Previous" width={40} height={40} />
+            </div>
+            <div className="cursor-pointer hover:scale-110 transition-transform">
+              <Image src="/assets/home/arrow-right.png" alt="Next" width={40} height={40} />
+            </div>
           </div>
         </div>
       </section>
@@ -170,19 +181,41 @@ export default function Home() {
       <footer className="w-full bg-white relative z-20 py-12 border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-start">
           <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              {/* Logo Icon Placeholder */}
-              <div className="w-8 h-8 bg-primary rounded-lg" />
-              <span className="text-2xl font-bold text-primary tracking-tight">TRAVEL PATH</span>
+            <div className="flex items-center gap-4">
+              {/* Logo Icon */}
+              <Image
+                src="/logo.png"
+                alt="Travel Path Logo"
+                width={50}
+                height={50}
+                className="object-contain"
+              />
+              {/* Logo Name */}
+              <Image
+                src="/logo-name.png"
+                alt="Travel Path"
+                width={200}
+                height={50}
+                className="object-contain"
+              />
             </div>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest ml-10">Your real adventures start here</p>
+            <div className="pl-2 mt-2">
+              <Image
+                src="/tagline.png"
+                alt="Your real adventures start here"
+                width={300}
+                height={30}
+                className="object-contain"
+              />
+            </div>
           </div>
 
-          <div className="mt-8 md:mt-0 space-y-2 text-sm text-[#1B4D3E] font-medium">
-            <p><span className="font-bold">Địa chỉ:</span> FPT University</p>
-            <p><span className="font-bold">Hotline:</span> 090 123 4567</p>
-            <p><span className="font-bold">Email:</span> travelpath.vn@gmail.com</p>
-            <p><span className="font-bold">Website:</span> click to view</p>
+          <div className="mt-8 md:mt-0 space-y-3 text-sm text-[#1B4D3E] font-medium text-right">
+            <p className="text-xl font-bold mb-4">Liên hệ</p>
+            <p>FPT University</p>
+            <p>090 123 4567</p>
+            <p>travelpath.vn@gmail.com</p>
+            <p className="cursor-pointer hover:underline">www.travelpath.vn</p>
           </div>
         </div>
       </footer>
