@@ -5,6 +5,17 @@ import Header from "@/components/layout/Header";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { searchPlaces } from "@/app/actions/search";
+import dynamic from "next/dynamic";
+
+// Dynamically import MapComponent to avoid SSR issues with Leaflet
+const MapComponent = dynamic(() => import("@/components/MapComponent"), {
+    ssr: false,
+    loading: () => (
+        <div className="w-full h-full bg-[#E0E8E8] flex items-center justify-center">
+            <p className="text-[#1B4D3E]/40 font-bold">Đang tải bản đồ...</p>
+        </div>
+    ),
+});
 
 export default function PlanTripPage() {
     const [places, setPlaces] = useState<any[]>([]);
@@ -183,22 +194,11 @@ export default function PlanTripPage() {
                     {/* RIGHT COLUMN: Map */}
                     <div className="hidden md:block md:col-span-7 lg:col-span-8 h-full min-h-[500px] sticky top-32">
                         <div className="w-full h-full bg-gray-200 rounded-3xl overflow-hidden border border-white/50 shadow-inner relative">
-                            {/* Map Placeholder */}
-                            <iframe
-                                width="100%"
-                                height="100%"
-                                frameBorder="0"
-                                style={{ border: 0, filter: "grayscale(20%) opacity(0.9)" }}
-                                src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(
-                                    viewedPlace ? `${viewedPlace.name}, ${viewedPlace.address}` : searchTerm || "Đà Lạt"
-                                )}`}
-                                allowFullScreen
-                            ></iframe>
-                            {/* Fallback overlay since we don't have API Key */}
-                            <div className="absolute inset-0 bg-[#E0E8E8] flex flex-col items-center justify-center text-[#1B4D3E]/40 pointer-events-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg>
-                                <p className="mt-4 font-bold text-lg">Bản đồ khu vực {viewedPlace ? viewedPlace.name : (searchTerm || "Đà Lạt")}</p>
-                            </div>
+                            <MapComponent
+                                placeName={viewedPlace?.name}
+                                address={viewedPlace?.address}
+                                defaultCenter={[11.9404, 108.4583]}
+                            />
                         </div>
                     </div>
                 </div>
