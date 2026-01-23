@@ -45,7 +45,7 @@ export default function PlanTripPage() {
             </div>
 
             {/* Background Image Area */}
-            <div className="relative w-full max-w-7xl mx-auto mt-2 h-48 shrink-0 transition-all duration-500 ease-in-out">
+            <div className="relative w-full max-w-7xl mx-auto mt-2 h-28 shrink-0 transition-all duration-500 ease-in-out">
                 <Image src="/assets/plan-trip/rectangle-7.png" alt="Background" fill className="object-cover rounded-2xl shadow-lg" />
 
                 <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-16 bg-black/10 rounded-2xl">
@@ -68,7 +68,7 @@ export default function PlanTripPage() {
                                     </p>
                                 </div>
                             ) : (
-                                <p className="text-xl font-bold text-[#1B4D3E] tracking-wide uppercase drop-shadow-sm mt-3">
+                                <p className="text-3xl md:text-4xl font-extrabold text-[#113D38] tracking-wide uppercase drop-shadow-sm mt-3">
                                     CHỌN ĐỊA ĐIỂM BẠN MUỐN TỚI
                                 </p>
                             )}
@@ -216,8 +216,8 @@ export default function PlanTripPage() {
                         </div>
 
                         {/* Right: AI Chatbot */}
-                        <div className="pointer-events-auto relative w-20 h-20 -mb-2 hover:scale-110 transition-transform cursor-pointer drop-shadow-2xl">
-                            <div className="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse border-2 border-white z-10"></div>
+                        <div className="pointer-events-auto relative w-36 h-36 -mb-4 hover:scale-110 transition-transform cursor-pointer drop-shadow-2xl">
+                            <div className="absolute top-2 right-2 w-5 h-5 bg-red-500 rounded-full animate-pulse border-2 border-white z-10"></div>
                             <Image src="/assets/plan-trip/ai-chatbot.png" alt="AI Chatbot" fill className="object-contain" />
                         </div>
                     </div>
