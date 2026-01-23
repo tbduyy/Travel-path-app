@@ -51,7 +51,7 @@ const CableCarAnimation = () => {
                     }}
                 >
                     <Image
-                        src="/assets/home/TRAVEL PATH (1) 2.png"
+                        src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/TRAVEL%20PATH%20(1)%202.png"
                         alt="Cable Car Cabin"
                         width={220}
                         height={220}

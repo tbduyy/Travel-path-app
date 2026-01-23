@@ -11,7 +11,7 @@ export default function Home() {
       {/* Hero Background */}
       <div className="absolute top-0 left-0 w-full h-[90vh] z-0 rounded-b-[3rem] overflow-hidden">
         <Image
-          src="/hero-bg.png"
+          src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/hero-bg.png"
           alt="Hero Background"
           fill
           className="object-cover object-top"
@@ -34,7 +34,7 @@ export default function Home() {
           <div className="flex-1 flex justify-start items-center">
             <div className="relative w-full max-w-2xl h-64 md:h-96">
               <Image
-                src="/hero-title.png"
+                src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/hero-title.png"
                 alt="Make Your Dream Trip"
                 fill
                 className="object-contain object-left"
@@ -82,7 +82,7 @@ export default function Home() {
               <div className="w-full md:w-1/3 h-48 relative bg-white/30 rounded-2xl overflow-hidden flex items-center justify-center">
                 {/* Placeholder for Grab illustration */}
                 <Image
-                  src="/assets/home/grab.png"
+                  src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/grab.png"
                   alt="Grab Service"
                   fill
                   className="object-cover"
@@ -108,7 +108,7 @@ export default function Home() {
               </div>
               <div className="w-full md:w-1/3 h-48 relative bg-gray-200 rounded-2xl overflow-hidden order-1 md:order-2">
                 <Image
-                  src="/assets/home/partner-1.png"
+                  src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/partner-1.png"
                   alt="Hotel Colline"
                   fill
                   className="object-cover"
@@ -121,7 +121,7 @@ export default function Home() {
             <div className="bg-[#D8F3DC] rounded-3xl p-6 flex flex-col md:flex-row items-center gap-8 shadow-sm border border-white/50">
               <div className="w-full md:w-1/3 h-48 relative bg-gray-200 rounded-2xl overflow-hidden">
                 <Image
-                  src="/assets/home/partner-2.png"
+                  src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/partner-2.png"
                   alt="Le Rabelais"
                   fill
                   className="object-cover"
@@ -140,10 +140,10 @@ export default function Home() {
           {/* Carousel Arrows (Visual) */}
           <div className="flex justify-center gap-4 mt-8 text-[#1B4D3E]">
             <div className="cursor-pointer hover:scale-110 transition-transform">
-              <Image src="/assets/home/arrow-left.png" alt="Previous" width={40} height={40} />
+              <Image src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/arrow-left.png" alt="Previous" width={40} height={40} />
             </div>
             <div className="cursor-pointer hover:scale-110 transition-transform">
-              <Image src="/assets/home/arrow-right.png" alt="Next" width={40} height={40} />
+              <Image src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/arrow-right.png" alt="Next" width={40} height={40} />
             </div>
           </div>
 
@@ -168,10 +168,10 @@ export default function Home() {
           {/* Carousel Arrows (Visual) */}
           <div className="flex justify-center gap-4 mt-8 text-[#1B4D3E]">
             <div className="cursor-pointer hover:scale-110 transition-transform">
-              <Image src="/assets/home/arrow-left.png" alt="Previous" width={40} height={40} />
+              <Image src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/arrow-left.png" alt="Previous" width={40} height={40} />
             </div>
             <div className="cursor-pointer hover:scale-110 transition-transform">
-              <Image src="/assets/home/arrow-right.png" alt="Next" width={40} height={40} />
+              <Image src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/arrow-right.png" alt="Next" width={40} height={40} />
             </div>
           </div>
         </div>
@@ -184,7 +184,7 @@ export default function Home() {
             <div className="flex items-center gap-4">
               {/* Logo Icon */}
               <Image
-                src="/logo.png"
+                src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/logo.png"
                 alt="Travel Path Logo"
                 width={50}
                 height={50}
@@ -192,7 +192,7 @@ export default function Home() {
               />
               {/* Logo Name */}
               <Image
-                src="/logo-name.png"
+                src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/logo-name.png"
                 alt="Travel Path"
                 width={200}
                 height={50}
@@ -201,7 +201,7 @@ export default function Home() {
             </div>
             <div className="pl-2 mt-2">
               <Image
-                src="/tagline.png"
+                src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/tagline.png"
                 alt="Your real adventures start here"
                 width={300}
                 height={30}

@@ -24,7 +24,7 @@ export default function Header() {
                 {/* The Background Shape */}
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="/header-bg.png"
+                        src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/header-bg.png"
                         alt="Background"
                         fill
                         className="object-fill"
@@ -41,7 +41,7 @@ export default function Header() {
                         {/* Icon */}
                         <div className="relative w-12 h-12">
                             <Image
-                                src="/logo.png"
+                                src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/logo.png"
                                 alt="Logo"
                                 fill
                                 className="object-contain"
@@ -53,7 +53,7 @@ export default function Header() {
                             {/* Name Text (Larger Ratio) */}
                             <div className="relative w-40 h-7">
                                 <Image
-                                    src="/logo-name.png"
+                                    src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/logo-name.png"
                                     alt="Travel Path"
                                     fill
                                     className="object-contain object-left"
@@ -63,7 +63,7 @@ export default function Header() {
                             {/* Tagline Text */}
                             <div className="relative w-44 h-4">
                                 <Image
-                                    src="/tagline.png"
+                                    src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/tagline.png"
                                     alt="Your next adventures start here"
                                     fill
                                     className="object-contain object-left"
@@ -82,8 +82,8 @@ export default function Header() {
                                     key={link.name}
                                     href={link.href}
                                     className={`text-base font-bold transition-colors tracking-normal capitalize ${isActive
-                                            ? "text-[#00B14F] brightness-125"
-                                            : "text-[#1B4D3E] hover:text-[#2C6E5A]"
+                                        ? "text-[#00B14F] brightness-125"
+                                        : "text-[#1B4D3E] hover:text-[#2C6E5A]"
                                         }`}
                                 >
                                     {link.name}
@@ -98,7 +98,7 @@ export default function Header() {
                         <div className="relative cursor-pointer group">
                             <div className="w-12 h-12 rounded-full overflow-hidden relative hover:opacity-90 transition-opacity">
                                 <Image
-                                    src="/user-avatar.png"
+                                    src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/user-avatar.png"
                                     alt="Profile"
                                     fill
                                     className="object-cover"
