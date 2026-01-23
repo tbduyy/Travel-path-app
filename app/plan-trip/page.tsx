@@ -12,6 +12,7 @@ export default function PlanTripPage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedPlaceIds, setSelectedPlaceIds] = useState<string[]>([]);
     const [visibleCount, setVisibleCount] = useState(3);
+    const [viewedPlace, setViewedPlace] = useState<any>(null);
     const router = useRouter();
 
     const handleSearch = async (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -109,7 +110,11 @@ export default function PlanTripPage() {
                             {visiblePlaces.map((place) => {
                                 const isSelected = selectedPlaceIds.includes(place.id);
                                 return (
-                                    <div key={place.id} className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col gap-3 group">
+                                    <div
+                                        key={place.id}
+                                        className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col gap-3 group cursor-pointer"
+                                        onClick={() => setViewedPlace(place)}
+                                    >
                                         {/* Image */}
                                         <div className="relative w-full h-48 rounded-xl overflow-hidden bg-gray-100">
                                             <Image
@@ -141,7 +146,10 @@ export default function PlanTripPage() {
 
                                         {/* Button */}
                                         <button
-                                            onClick={() => togglePlace(place.id)}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                togglePlace(place.id);
+                                            }}
                                             className={`w-full py-2.5 rounded-xl font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2
                                                 ${isSelected
                                                     ? "bg-[#1B4D3E] text-white shadow-lg shadow-[#1B4D3E]/20"
@@ -181,13 +189,15 @@ export default function PlanTripPage() {
                                 height="100%"
                                 frameBorder="0"
                                 style={{ border: 0, filter: "grayscale(20%) opacity(0.9)" }}
-                                src={`https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${encodeURIComponent(searchTerm || "Đà Lạt")}`}
+                                src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(
+                                    viewedPlace ? `${viewedPlace.name}, ${viewedPlace.address}` : searchTerm || "Đà Lạt"
+                                )}`}
                                 allowFullScreen
                             ></iframe>
                             {/* Fallback overlay since we don't have API Key */}
                             <div className="absolute inset-0 bg-[#E0E8E8] flex flex-col items-center justify-center text-[#1B4D3E]/40 pointer-events-none">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg>
-                                <p className="mt-4 font-bold text-lg">Bản đồ khu vực {searchTerm || "Đà Lạt"}</p>
+                                <p className="mt-4 font-bold text-lg">Bản đồ khu vực {viewedPlace ? viewedPlace.name : (searchTerm || "Đà Lạt")}</p>
                             </div>
                         </div>
                     </div>
