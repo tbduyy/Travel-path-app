@@ -216,9 +216,9 @@ export default function PlanTripPage() {
                         </div>
 
                         {/* Right: AI Chatbot */}
-                        <div className="pointer-events-auto bg-white p-4 rounded-full shadow-2xl border border-gray-100 cursor-pointer hover:scale-110 transition-transform group relative">
-                            <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse border-2 border-white"></div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#1B4D3E]"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2Z" /><path d="M8 9h8" /><path d="M8 9v10" /><path d="M16 9v10" /></svg>
+                        <div className="pointer-events-auto relative w-20 h-20 -mb-2 hover:scale-110 transition-transform cursor-pointer drop-shadow-2xl">
+                            <div className="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse border-2 border-white z-10"></div>
+                            <Image src="/assets/plan-trip/ai-chatbot.png" alt="AI Chatbot" fill className="object-contain" />
                         </div>
                     </div>
                 </div>
