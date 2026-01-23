@@ -50,17 +50,17 @@ export default function PlanTripPage() {
 
                 <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-16 bg-black/10 rounded-2xl">
                     {/* Top Row: Back Arrow, Title, Search */}
-                    <div className="flex justify-between items-start w-full">
+                    <div className="flex justify-between items-center w-full">
                         {/* Back Arrow */}
-                        <div className="cursor-pointer hover:scale-110 transition-transform group mt-1" onClick={() => router.push('/')}>
-                            <Image src="/assets/plan-trip/arrow-long.png" alt="Back" width={42} height={42} className="object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
+                        <div className="cursor-pointer hover:scale-110 transition-transform group" onClick={() => router.push('/')}>
+                            <Image src="/assets/plan-trip/arrow-long.png" alt="Back" width={64} height={38} className="object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                         </div>
 
                         {/* Center Title Area */}
-                        <div className="flex-1 text-center px-4 pt-2">
+                        <div className="flex-1 h-12 flex flex-col items-center justify-center px-4">
                             {hasSearched ? (
                                 <div className="animate-in fade-in slide-in-from-top-4 duration-500">
-                                    <h1 className="text-3xl md:text-4xl font-extrabold text-[#113D38] uppercase drop-shadow-md mb-2">
+                                    <h1 className="text-2xl md:text-3xl font-extrabold text-[#113D38] uppercase drop-shadow-md mb-2">
                                         Các địa điểm nổi bật tại {searchTerm || "Đà Lạt"}
                                     </h1>
                                     <p className="text-[#2E968C] text-lg font-medium tracking-wide drop-shadow-sm">
@@ -68,7 +68,7 @@ export default function PlanTripPage() {
                                     </p>
                                 </div>
                             ) : (
-                                <p className="text-3xl md:text-4xl font-extrabold text-[#113D38] tracking-wide uppercase drop-shadow-sm mt-3">
+                                <p className="text-2xl md:text-3xl font-extrabold text-[#113D38] tracking-wide uppercase drop-shadow-sm">
                                     CHỌN ĐỊA ĐIỂM BẠN MUỐN TỚI
                                 </p>
                             )}
