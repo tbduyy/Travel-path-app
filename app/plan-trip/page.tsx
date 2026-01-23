@@ -45,7 +45,7 @@ export default function PlanTripPage() {
             </div>
 
             {/* Background Image Area */}
-            <div className="relative w-full max-w-7xl mx-auto mt-2 h-28 shrink-0 transition-all duration-500 ease-in-out">
+            <div className="relative w-full max-w-7xl mx-auto mt-2 h-24 shrink-0 transition-all duration-500 ease-in-out">
                 <Image src="/assets/plan-trip/rectangle-7.png" alt="Background" fill className="object-cover rounded-2xl shadow-lg" />
 
                 <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-16 bg-black/10 rounded-2xl">
@@ -68,8 +68,8 @@ export default function PlanTripPage() {
                                     </p>
                                 </div>
                             ) : (
-                                <p className="text-2xl md:text-3xl font-extrabold text-[#113D38] tracking-wide uppercase drop-shadow-sm">
-                                    CHỌN ĐỊA ĐIỂM BẠN MUỐN TỚI
+                                <p className="text-2xl md:text-3xl font-extrabold text-[#113D38] tracking-wide drop-shadow-sm">
+                                    Nhập địa điểm nơi bạn muốn tới
                                 </p>
                             )}
                         </div>
@@ -78,7 +78,7 @@ export default function PlanTripPage() {
                         <div className="relative w-64 h-12 bg-white rounded-full flex items-center px-5 shadow-lg border border-white/20 focus-within:ring-2 focus-within:ring-[#1B4D3E]/20 transition-all">
                             <input
                                 type="text"
-                                placeholder="nhập điểm đến nơi bạn muốn tới"
+                                placeholder="Tìm kiếm"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 onKeyDown={handleSearch}
