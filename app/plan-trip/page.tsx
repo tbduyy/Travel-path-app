@@ -192,7 +192,7 @@ export default function PlanTripPage() {
                     </div>
 
                     {/* RIGHT COLUMN: Map */}
-                    <div className="hidden md:block md:col-span-7 lg:col-span-8 h-full min-h-[500px] sticky top-32">
+                    <div className="hidden md:block md:col-span-7 lg:col-span-8 h-[600px] sticky top-28">
                         <div className="w-full h-full bg-gray-200 rounded-3xl overflow-hidden border border-white/50 shadow-inner relative">
                             <MapComponent
                                 placeName={viewedPlace?.name}
