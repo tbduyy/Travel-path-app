@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
+    "@supabase/supabase-js": "^2.91.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.27.5",
     "leaflet": "^1.9.4",
