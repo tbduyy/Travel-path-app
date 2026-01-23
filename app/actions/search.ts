@@ -44,6 +44,11 @@ export async function searchPlaces(params: SearchParams) {
             take: 10
         })
 
+        console.log(`[Search] Found ${places.length} places for term: "${params.destination}"`);
+        if (places.length > 0) {
+            console.log(`[Search] Sample Address for "${places[0].name}": "${places[0].address}"`);
+        }
+
         // Check if there is a pre-made trip for this destination
         let tripId = null;
         if (params.destination) {
