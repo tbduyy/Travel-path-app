@@ -29,6 +29,8 @@ model Place {
   priceLevel  Int        @default(1) // 1-5
   lat         Float?
   lng         Float?
+  city        String?    // Ha Noi, TP HCM, etc.
+  price       String?    // "500.000 VND/free"
   reviews     Int        @default(0)
   tripItems   TripItem[]
 }
@@ -53,8 +55,13 @@ model TripItem {
   trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
   placeId   String
   place     Place    @relation(fields: [placeId], references: [id])
-  dayIndex  Int      // 0 for Day 1, etc.
-  startTime String?  // "08:00"
-  order     Int      @default(0)
-  notes     String?
+  dayIndex        Int      // 0 for Day 1, etc.
+  startTime       String?  // "08:00"
+  endTime         String?  // "09:00"
+  title           String?  // Override for place name or custom activity title like "Bay HCM -> Cam Ranh"
+  description     String?  // "Xe giường nằm... -> ..."
+  transitDuration String?  // "8h", "1h10p"
+  cost            String?  // Specific cost for this item "900.000 VND/vé"
+  order           Int      @default(0)
+  notes           String?
 }

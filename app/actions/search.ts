@@ -37,12 +37,24 @@ export async function searchPlaces(params: SearchParams) {
                 description: true,
                 image: true,
                 rating: true,
-                priceLevel: true
+                priceLevel: true,
+                address: true,
+                price: true,
             },
             take: 10
         })
 
-        return { success: true, data: places }
+        // Check if there is a pre-made trip for this destination
+        let tripId = null;
+        if (params.destination) {
+            const trip = await prisma.trip.findFirst({
+                where: { destination: { contains: params.destination, mode: 'insensitive' } },
+                select: { id: true }
+            })
+            if (trip) tripId = trip.id;
+        }
+
+        return { success: true, data: places, tripId }
     } catch (error) {
         console.error('Search error:', error)
         return { success: false, error: 'Internal server error' }

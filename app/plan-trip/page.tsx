@@ -24,6 +24,7 @@ export default function PlanTripPage() {
     const [selectedPlaceIds, setSelectedPlaceIds] = useState<string[]>([]);
     const [visibleCount, setVisibleCount] = useState(3);
     const [viewedPlace, setViewedPlace] = useState<any>(null);
+    const [tripId, setTripId] = useState<string | null>(null);
     const router = useRouter();
 
     const handleSearch = async (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -33,7 +34,16 @@ export default function PlanTripPage() {
             const result = await searchPlaces({ destination: term });
             if (result.success && result.data) {
                 setPlaces(result.data);
+                setTripId(result.tripId);
             }
+        }
+    };
+
+    const handleContinue = () => {
+        if (tripId) {
+            router.push(`/trip/${tripId}`);
+        } else {
+            alert("Tính năng tạo lịch trình tùy chỉnh đang được phát triển. Vui lòng thử tìm kiếm 'Nha Trang' để xem lịch trình mẫu!");
         }
     };
 
@@ -71,12 +81,12 @@ export default function PlanTripPage() {
                         {/* Center Title Area */}
                         <div className="flex-1 h-12 flex flex-col items-center justify-center px-4">
                             {hasSearched ? (
-                                <div className="animate-in fade-in slide-in-from-top-4 duration-500">
-                                    <h1 className="text-2xl md:text-3xl font-extrabold text-[#113D38] uppercase drop-shadow-md mb-2">
-                                        Các địa điểm nổi bật tại {searchTerm || "Đà Lạt"}
+                                <div className="animate-in fade-in slide-in-from-top-4 duration-500 text-center">
+                                    <h1 className="text-2xl md:text-3xl font-extrabold text-[#113D38] uppercase drop-shadow-md mb-1 line-clamp-1">
+                                        Các địa điểm tại {searchTerm || "Đà Lạt"}
                                     </h1>
                                     <p className="text-[#2E968C] text-lg font-medium tracking-wide drop-shadow-sm">
-                                        Chọn ít nhất 1 nơi mà bạn muốn đến
+                                        Chọn ít nhất 1 nơi bạn muốn đến
                                     </p>
                                 </div>
                             ) : (
@@ -106,7 +116,11 @@ export default function PlanTripPage() {
 
             {/* Empty State */}
             {!hasSearched && (
-                <div className="flex-1 w-full flex flex-col items-center justify-center -mt-20 pointer-events-none">
+                <div className="flex-1 flex flex-col items-center justify-center p-8 text-center animate-in fade-in zoom-in duration-700">
+                    <div className="w-48 h-48 relative mb-6 opacity-40">
+                        <Image src="/assets/plan-trip/ai-chatbot.png" alt="Travel" fill className="object-contain grayscale" />
+                    </div>
+                    <h2 className="text-4xl font-black text-[#1B4D3E]/30 mb-2 uppercase tracking-tighter">Bắt đầu chuyến đi của bạn</h2>
                     <p className="text-2xl font-medium text-gray-400 tracking-wide">Nhập điểm đến để bắt đầu hành trình...</p>
                 </div>
             )}
@@ -213,6 +227,7 @@ export default function PlanTripPage() {
                         {/* Center/Right: Continue Button */}
                         <div className="pointer-events-auto">
                             <button
+                                onClick={handleContinue}
                                 disabled={selectedPlaceIds.length === 0}
                                 className={`px-10 py-4 rounded-full font-bold text-lg shadow-xl transition-all duration-300 transform 
                                     ${selectedPlaceIds.length > 0
@@ -225,7 +240,10 @@ export default function PlanTripPage() {
                         </div>
 
                         {/* Right: AI Chatbot */}
-                        <div className="pointer-events-auto relative w-36 h-36 -mb-4 hover:scale-110 transition-transform cursor-pointer drop-shadow-2xl">
+                        <div
+                            className="pointer-events-auto relative w-36 h-36 -mb-4 hover:scale-110 transition-transform cursor-pointer drop-shadow-2xl"
+                            onClick={() => alert("Chào bạn! Tôi là trợ lý AI của TravelPath. Hãy đặt câu hỏi nếu bạn cần hỗ trợ lên kế hoạch nhé!")}
+                        >
                             <div className="absolute top-2 right-2 w-5 h-5 bg-red-500 rounded-full animate-pulse border-2 border-white z-10"></div>
                             <Image src="/assets/plan-trip/ai-chatbot.png" alt="AI Chatbot" fill className="object-contain" />
                         </div>
