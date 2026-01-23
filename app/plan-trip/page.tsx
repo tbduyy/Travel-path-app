@@ -128,12 +128,10 @@ export default function PlanTripPage() {
                                     >
                                         {/* Image */}
                                         <div className="relative w-full h-48 rounded-xl overflow-hidden bg-gray-100">
-                                            <Image
+                                            <img
                                                 src={place.image || "/placeholder.png"}
                                                 alt={place.name}
-                                                fill
-                                                unoptimized
-                                                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                             />
                                             <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold text-[#1B4D3E] shadow-sm flex items-center gap-1">
                                                 ⭐ {place.rating}
