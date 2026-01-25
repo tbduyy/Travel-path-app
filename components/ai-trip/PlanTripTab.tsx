@@ -112,25 +112,7 @@ export default function PlanTripTab({
                     </div>
                 </div>
 
-                {/* Clear Data Button */}
-                {(selectedHotel || itinerary || hotelRecommendations || itineraryResult) && (
-                    <div className="flex justify-center mt-6">
-                        <button
-                            onClick={() => {
-                                if (confirm("Bạn có chắc muốn xóa tất cả dữ liệu và bắt đầu lại?")) {
-                                    setSelectedHotel(null);
-                                    setItinerary(null);
-                                    setHotelRecommendations(null);
-                                    setItineraryResult(null);
-                                    setCurrentStep("hotel");
-                                }
-                            }}
-                            className="px-6 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-xl transition-colors"
-                        >
-                            🗑️ Xóa và bắt đầu lại
-                        </button>
-                    </div>
-                )}
+
             </div>
 
             {/* Step Content */}
