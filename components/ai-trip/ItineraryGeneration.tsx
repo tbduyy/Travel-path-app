@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { API_BASE_URL } from "@/lib/api-config";
 
 interface ItineraryGenerationProps {
     selectedHotel: any;
@@ -46,7 +47,7 @@ export default function ItineraryGeneration({
                 .filter((s) => s.trim())
                 .map((name) => ({ name: name.trim(), lat: null, lng: null }));
 
-            const response = await fetch("http://localhost:8000/api/v1/planning/itinerary/generate", {
+            const response = await fetch(`${API_BASE_URL}/api/v1/planning/itinerary/generate`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

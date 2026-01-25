@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { API_BASE_URL } from "@/lib/api-config";
 
 interface HotelRecommendationProps {
     onHotelSelected: (hotel: any) => void;
@@ -31,7 +32,7 @@ export default function HotelRecommendation({
 
         try {
             // Call backend API with default weights
-            const response = await fetch("http://localhost:8000/api/v1/planning/hotels/suggest", {
+            const response = await fetch(`${API_BASE_URL}/api/v1/planning/hotels/suggest`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

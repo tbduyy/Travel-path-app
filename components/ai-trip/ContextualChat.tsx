@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { API_BASE_URL } from "@/lib/api-config";
 
 type Message = {
     role: "user" | "ai";
@@ -23,6 +24,8 @@ export default function ContextualChat() {
     const [currentLocation, setCurrentLocation] = useState("Chưa cập nhật");
     const [feeling, setFeeling] = useState("");
 
+    const [sessionId, setSessionId] = useState("");
+
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
@@ -32,6 +35,16 @@ export default function ContextualChat() {
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
+
+    useEffect(() => {
+        // Generate a random session ID when component mounts
+        if (typeof window !== "undefined") {
+            const newSessionId = window.crypto?.randomUUID 
+                ? window.crypto.randomUUID() 
+                : Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            setSessionId(newSessionId);
+        }
+    }, []);
 
     const handleSend = async () => {
         if (!inputMessage.trim()) return;
@@ -47,10 +60,11 @@ export default function ContextualChat() {
         setLoading(true);
 
         try {
-            const response = await fetch("http://localhost:8000/api/v1/journey/chat", {
+            const response = await fetch(`${API_BASE_URL}/api/v1/journey/chat`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
+                    session_id: sessionId,
                     user_message: inputMessage,
                     current_location: { name: currentLocation, lat: null, lng: null },
                     trip_status: tripStatus,

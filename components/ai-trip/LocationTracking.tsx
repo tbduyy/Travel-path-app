@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { API_BASE_URL } from "@/lib/api-config";
 
 export default function LocationTracking() {
     const [currentLocation, setCurrentLocation] = useState({
@@ -28,7 +29,7 @@ export default function LocationTracking() {
 
     const handleCheckReminder = async () => {
         try {
-            const response = await fetch("http://localhost:8000/api/v1/journey/reminders/check", {
+            const response = await fetch(`${API_BASE_URL}/api/v1/journey/reminders/check`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

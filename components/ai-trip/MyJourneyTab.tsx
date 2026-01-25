@@ -40,7 +40,9 @@ export default function MyJourneyTab() {
 
             {/* Feature Content */}
             <div className="min-h-[600px]">
-                {activeFeature === "chat" && <ContextualChat />}
+                <div className={activeFeature === "chat" ? "block" : "hidden"}>
+                    <ContextualChat />
+                </div>
                 {activeFeature === "weather" && <WeatherCheck />}
                 {activeFeature === "tracking" && <LocationTracking />}
             </div>
