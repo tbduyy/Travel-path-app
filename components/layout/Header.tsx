@@ -4,15 +4,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { Search } from "lucide-react";
 import { usePathname } from "next/navigation";
+import UserDropdown from "../auth/UserDropdown";
 
 export default function Header() {
     const pathname = usePathname();
 
     const navLinks = [
-        { name: "About Us", href: "#" },
-        { name: "Plan Trip", href: "/plan-trip" },
-        { name: "My Journey", href: "#" },
-        { name: "Blog", href: "#" },
+        { name: "Về TRAVEL PATH", href: "/about" },
+        { name: "Lịch trình chuyến đi", href: "/plan-trip" },
+        { name: "Chuyến đi của tôi", href: "#" },
+        { name: "Cẩm nang", href: "/blog" },
     ];
 
     return (
@@ -92,22 +93,9 @@ export default function Header() {
                         })}
                     </nav>
 
-                    {/* Right: Authorized Section (No Search, Just Avatar) */}
-                    <div className="flex items-center">
-                        {/* User Profile Avatar (No border, larger) */}
-                        <div className="relative cursor-pointer group">
-                            <div className="w-12 h-12 rounded-full overflow-hidden relative hover:opacity-90 transition-opacity">
-                                <Image
-                                    src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/user-avatar.png"
-                                    alt="Profile"
-                                    fill
-                                    className="object-cover"
-                                    unoptimized
-                                />
-                            </div>
-                            {/* Active Dot */}
-                            <span className="absolute bottom-1 right-1 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
-                        </div>
+                    {/* Right: Authorized Section */}
+                    <div className="flex items-center pointer-events-auto">
+                        <UserDropdown />
                     </div>
                 </div>
             </div>

@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import Header from "@/components/layout/Header";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { searchPlaces } from "@/app/actions/search";
 import dynamic from "next/dynamic";
+import clsx from "clsx";
 
-// Dynamically import MapComponent to avoid SSR issues with Leaflet
+// Dynamically import MapComponent
 const MapComponent = dynamic(() => import("@/components/MapComponent"), {
     ssr: false,
     loading: () => (
@@ -17,86 +18,159 @@ const MapComponent = dynamic(() => import("@/components/MapComponent"), {
     ),
 });
 
-export default function PlanTripPage() {
+function PlanTripContent() {
+    const [step, setStep] = useState(1);
     const [places, setPlaces] = useState<any[]>([]);
+    const [hotels, setHotels] = useState<any[]>([]);
     const [hasSearched, setHasSearched] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedPlaceIds, setSelectedPlaceIds] = useState<string[]>([]);
+    const [selectedHotelId, setSelectedHotelId] = useState<string | null>(null);
     const [visibleCount, setVisibleCount] = useState(3);
     const [viewedPlace, setViewedPlace] = useState<any>(null);
     const [tripId, setTripId] = useState<string | null>(null);
     const router = useRouter();
+    const searchParams = useSearchParams();
 
-    const handleSearch = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            setHasSearched(true);
-            const term = searchTerm || "Đà Lạt";
-            const result = await searchPlaces({ destination: term });
-            if (result.success && result.data) {
-                setPlaces(result.data);
-                setTripId(result.tripId);
+    // Default Da Lat logic if no results
+    const [mapCenter, setMapCenter] = useState<[number, number]>([11.9404, 108.4583]);
+
+    useEffect(() => {
+        const dest = searchParams.get('destination');
+        if (dest) {
+            performSearch(dest);
+        }
+    }, [searchParams]);
+
+    // Update map center when places change
+    useEffect(() => {
+        if (places.length > 0) {
+            // Find first place with valid coordinates to use as city center proxy
+            const validPlace = places.find(p => p.lat && p.lng);
+            if (validPlace) {
+                setMapCenter([validPlace.lat, validPlace.lng]);
+            }
+        }
+    }, [places]);
+
+    const performSearch = async (term: string) => {
+        setHasSearched(true);
+        setSearchTerm(term);
+        const result = await searchPlaces({ destination: term, type: 'ATTRACTION' });
+        if (result.success && result.data) {
+            setPlaces(result.data);
+            setTripId(result.tripId);
+            setStep(1);
+            setVisibleCount(5); // User requested 5 places as highlights
+            setViewedPlace(null);
+        }
+    };
+
+    const fetchHotels = async () => {
+        const result = await searchPlaces({ destination: searchTerm, type: 'HOTEL' });
+        if (result.success && result.data) {
+            const selectedPlaceNames = places
+                .filter(p => selectedPlaceIds.includes(p.id))
+                .map(p => p.name);
+
+            const filteredHotels = result.data.filter((hotel: any) => {
+                const relatedTo = hotel.metadata?.relatedTo as string[] | undefined;
+                if (!relatedTo) return false;
+                return relatedTo.some(name => selectedPlaceNames.includes(name));
+            });
+
+            setHotels(filteredHotels);
+            setStep(2);
+            setVisibleCount(5);
+            if (filteredHotels.length > 0) {
+                setViewedPlace(filteredHotels[0]);
+            } else {
+                setViewedPlace(null);
             }
         }
     };
 
-    const handleContinue = () => {
-        if (tripId) {
-            router.push(`/trip/${tripId}`);
-        } else {
-            alert("Tính năng tạo lịch trình tùy chỉnh đang được phát triển. Vui lòng thử tìm kiếm 'Nha Trang' để xem lịch trình mẫu!");
+    const handleSearch = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            performSearch(searchTerm || "Đà Lạt");
         }
     };
 
-    const togglePlace = (id: string) => {
-        setSelectedPlaceIds(prev =>
-            prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]
-        );
+    const handleContinue = () => {
+        if (step === 1) {
+            fetchHotels();
+        } else {
+            if (tripId) {
+                router.push(`/trip/${tripId}`);
+            } else {
+                alert("Tính năng chi tiết đang phát triển!");
+            }
+        }
+    };
+
+    const handleBack = () => {
+        if (step === 2) {
+            setStep(1);
+            setHotels([]);
+            if (places.length > 0) setViewedPlace(places[0]);
+        } else if (step === 1) {
+            window.location.href = "/";
+        }
+    };
+
+    const togglePlaceSelection = (place: any) => {
+        const isSelected = selectedPlaceIds.includes(place.id);
+        if (isSelected) {
+            setSelectedPlaceIds(prev => prev.filter(id => id !== place.id));
+        } else {
+            setSelectedPlaceIds(prev => [...prev, place.id]);
+        }
+        setViewedPlace(place);
+    };
+
+    const getMapMarkers = () => {
+        const markers: any[] = [];
+        places.filter(p => selectedPlaceIds.includes(p.id)).forEach(p => {
+            markers.push({ ...p, isViewed: p.id === viewedPlace?.id });
+        });
+        if (viewedPlace && !markers.some(m => m.id === viewedPlace.id)) {
+            markers.push({ ...viewedPlace, isViewed: true });
+        }
+        return markers;
     };
 
     const handleLoadMore = () => {
         setVisibleCount(prev => prev + 3);
     };
 
-    const visiblePlaces = places.slice(0, visibleCount);
+    const displayPlaces = step === 1 ? places : hotels;
+    const visiblePlaces = displayPlaces.slice(0, visibleCount);
 
     return (
         <div className="min-h-screen flex flex-col relative font-sans text-[#1B4D3E] bg-[#BBD9D9]">
-            {/* Standard Header */}
             <div className="sticky top-0 z-50">
                 <Header />
             </div>
 
-            {/* Background Image Area */}
             <div className="relative w-full max-w-7xl mx-auto mt-2 h-24 shrink-0 transition-all duration-500 ease-in-out">
                 <Image src="/assets/plan-trip/rectangle-7.png" alt="Background" fill className="object-cover rounded-2xl shadow-lg" />
-
                 <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-16 bg-black/10 rounded-2xl">
-                    {/* Top Row: Back Arrow, Title, Search */}
                     <div className="flex justify-between items-center w-full">
-                        {/* Back Arrow */}
-                        <div className="cursor-pointer hover:scale-110 transition-transform group" onClick={() => router.push('/')}>
+                        <div className="cursor-pointer hover:scale-110 transition-transform group" onClick={handleBack}>
                             <Image src="/assets/plan-trip/arrow-long.png" alt="Back" width={64} height={38} className="object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                         </div>
-
-                        {/* Center Title Area */}
                         <div className="flex-1 h-12 flex flex-col items-center justify-center px-4">
-                            {hasSearched ? (
+                            {hasSearched && (
                                 <div className="animate-in fade-in slide-in-from-top-4 duration-500 text-center">
                                     <h1 className="text-2xl md:text-3xl font-extrabold text-[#113D38] uppercase drop-shadow-md mb-1 line-clamp-1">
-                                        Các địa điểm tại {searchTerm || "Đà Lạt"}
+                                        {step === 1 ? `Các địa điểm nổi bật tại ${searchTerm || "Đà Lạt"}` : `Các nơi lưu trú tại ${searchTerm || "Đà Lạt"}`}
                                     </h1>
                                     <p className="text-[#2E968C] text-lg font-medium tracking-wide drop-shadow-sm">
-                                        Chọn ít nhất 1 nơi bạn muốn đến
+                                        {step === 1 ? "Chọn ít nhất 1 nơi bạn muốn đến" : "Chọn option bạn thấy tối ưu nhất"}
                                     </p>
                                 </div>
-                            ) : (
-                                <p className="text-2xl md:text-3xl font-extrabold text-[#113D38] tracking-wide drop-shadow-sm">
-                                    Nhập địa điểm nơi bạn muốn tới
-                                </p>
                             )}
                         </div>
-
-                        {/* Search Bar */}
                         <div className="relative w-64 h-12 bg-white rounded-full flex items-center px-5 shadow-lg border border-white/20 focus-within:ring-2 focus-within:ring-[#1B4D3E]/20 transition-all">
                             <input
                                 type="text"
@@ -114,7 +188,6 @@ export default function PlanTripPage() {
                 </div>
             </div>
 
-            {/* Empty State */}
             {!hasSearched && (
                 <div className="flex-1 flex flex-col items-center justify-center p-8 text-center animate-in fade-in zoom-in duration-700">
                     <div className="w-48 h-48 relative mb-6 opacity-40">
@@ -125,106 +198,171 @@ export default function PlanTripPage() {
                 </div>
             )}
 
-            {/* Main Content Area */}
             {hasSearched && (
-                <div className="flex-1 w-full max-w-7xl mx-auto p-4 md:p-6 grid grid-cols-1 md:grid-cols-12 gap-6 pb-24">
+                <div className="flex-1 w-full max-w-7xl mx-auto p-4 md:p-6 grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-8 items-start">
 
-                    {/* LEFT COLUMN: Destination List */}
-                    <div className="md:col-span-5 lg:col-span-4 flex flex-col gap-6">
-                        <div className="space-y-6">
-                            {visiblePlaces.map((place) => {
-                                const isSelected = selectedPlaceIds.includes(place.id);
+                    {/* List Container */}
+                    <div className={clsx(
+                        "md:col-span-12 flex flex-col gap-6 transition-all duration-500 ease-in-out",
+                        viewedPlace ? "lg:col-span-6" : "lg:col-span-12"
+                    )}>
+                        <div className={clsx("w-full transition-all", !viewedPlace ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" : "flex flex-col gap-6")}>
+                            {visiblePlaces.map((place, index) => {
+                                const isSelected = step === 1 ? selectedPlaceIds.includes(place.id) : selectedHotelId === place.id;
+                                const isOptimal = step === 2 && index === 0;
+
                                 return (
                                     <div
                                         key={place.id}
-                                        className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col gap-3 group cursor-pointer"
-                                        onClick={() => setViewedPlace(place)}
+                                        className={clsx(
+                                            "bg-white rounded-[24px] p-4 shadow-sm border border-gray-100/50 hover:shadow-xl transition-all duration-300 flex flex-col gap-4 group cursor-pointer relative animate-in fade-in slide-in-from-left duration-500",
+                                            (step === 1 && viewedPlace?.id === place.id) || (step === 2 && selectedHotelId === place.id) ? "ring-2 ring-[#1B4D3E] scale-[1.01]" : "",
+                                            isOptimal ? "ring-2 ring-orange-400" : ""
+                                        )}
+                                        onClick={() => {
+                                            if (step === 1) {
+                                                setViewedPlace(place);
+                                            } else {
+                                                setSelectedHotelId(place.id);
+                                                setViewedPlace(place);
+                                            }
+                                        }}
+                                        style={{ animationDelay: `${index * 100}ms` }}
                                     >
-                                        {/* Image */}
-                                        <div className="relative w-full h-48 rounded-xl overflow-hidden bg-gray-100">
-                                            <img
-                                                src={place.image || "/placeholder.png"}
+                                        {/* Optimal Label */}
+                                        {isOptimal && (
+                                            <div className="absolute -top-3 -left-3 z-10">
+                                                <div className="bg-orange-400 text-white text-[10px] font-black px-3 py-1.5 rounded-lg rotate-[-10deg] shadow-lg flex flex-col items-center leading-none">
+                                                    <span>TỐI ƯU</span>
+                                                    <span>NHẤT</span>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Image Header */}
+                                        <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-gray-100 shadow-sm">
+                                            <Image
+                                                src={place.image || "/placeholder.jpg"}
                                                 alt={place.name}
-                                                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                                fill
+                                                className="object-cover transition-transform duration-700 group-hover:scale-105"
                                             />
-                                            <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold text-[#1B4D3E] shadow-sm flex items-center gap-1">
-                                                ⭐ {place.rating}
-                                            </div>
-                                        </div>
-
-                                        {/* Content */}
-                                        <div className="flex flex-col gap-1">
-                                            <h3 className="text-lg font-bold text-[#1B4D3E]">{place.name}</h3>
-
-                                            <div className="flex items-start gap-2 text-gray-500 text-sm">
-                                                {/* Google Map Pin Icon style */}
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5 text-red-500"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg>
-                                                <span className="line-clamp-2">{place.address || "Địa chỉ chưa cập nhật"}</span>
-                                            </div>
-
-                                            <div className="flex items-center gap-2 text-gray-500 text-sm mt-1">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-orange-500"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-                                                <span>Dành 3-4 tiếng</span>
-                                            </div>
-                                        </div>
-
-                                        {/* Button */}
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                togglePlace(place.id);
-                                            }}
-                                            className={`w-full py-2.5 rounded-xl font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2
-                                                ${isSelected
-                                                    ? "bg-[#1B4D3E] text-white shadow-lg shadow-[#1B4D3E]/20"
-                                                    : "bg-white border-2 border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
-                                                }`}
-                                        >
-                                            {isSelected ? (
+                                            {step === 1 && (
                                                 <>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                                                    ĐÃ CHỌN
+                                                    <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl text-sm font-black text-[#1B4D3E] shadow-sm flex items-center gap-1.5">
+                                                        <span>⭐ {place.rating}</span>
+                                                    </div>
+                                                    <div className="absolute top-3 right-3 bg-black/40 backdrop-blur-md p-2 rounded-full text-white hover:bg-black/60 transition-colors">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /><polyline points="16 6 12 2 8 6" /><line x1="12" y1="2" x2="12" y2="15" /></svg>
+                                                    </div>
                                                 </>
-                                            ) : "Chọn điểm này"}
-                                        </button>
+                                            )}
+                                        </div>
+
+                                        {/* Content Body */}
+                                        <div className="px-1 flex flex-col gap-2">
+                                            <div className="flex justify-between items-start">
+                                                <h3 className="text-xl font-black text-[#1B4D3E] group-hover:text-[#2E968C] transition-colors">{place.name} {step === 2 && <span className="text-yellow-400">{'⭐'.repeat(Math.round(place.rating))}</span>}</h3>
+                                            </div>
+
+                                            {step === 1 ? (
+                                                <>
+                                                    <div className="flex justify-between items-center">
+                                                        <span className="text-lg font-bold text-[#2E968C]">{place.price || "Miễn phí"}</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 text-gray-500 text-sm font-medium">
+                                                        <span className="bg-[#E8F1F0] text-[#1B4D3E] px-2 py-0.5 rounded-md text-xs font-bold"># Địa điểm tham quan</span>
+                                                        <span className="bg-[#E8F1F0] text-[#1B4D3E] px-2 py-0.5 rounded-md text-xs font-bold"># Ngoài trời</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 text-gray-500 text-sm italic mt-1">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                                                        Dành khoảng {place.duration || "3-4 tiếng"}
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <div className="text-sm text-gray-600 space-y-1">
+                                                    {place.metadata?.distance && <p className="flex items-center gap-1">📍 Khoảng cách đến {place.metadata?.relatedTo?.[0] || "địa điểm tham quan"}: <b>{place.metadata.distance}</b></p>}
+                                                    <p className="flex items-center gap-1">🛏️ Loại phòng: <b>Villa/phòng lớn cho 4 người</b></p>
+                                                    {place.metadata?.note && (
+                                                        <p className="text-orange-500 text-xs font-bold italic mt-2">
+                                                            ✨ {place.metadata.note}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* Action Button */}
+                                        {step === 1 ? (
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    togglePlaceSelection(place);
+                                                }}
+                                                className={clsx(
+                                                    "w-full py-4 rounded-xl font-bold text-base transition-all duration-300 shadow-md flex items-center justify-center gap-2 transform active:scale-[0.98]",
+                                                    isSelected
+                                                        ? "bg-[#1B4D3E] text-white shadow-[#1B4D3E]/30 hover:bg-[#153A2F]"
+                                                        : "bg-white border-2 border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#E8F1F0]"
+                                                )}
+                                            >
+                                                {isSelected ? "ĐÃ CHỌN" : "Chọn điểm này"}
+                                            </button>
+                                        ) : (
+                                            <div className="flex items-center gap-3 mt-2">
+                                                <div className="px-4 py-2 rounded-full border border-[#1B4D3E] text-[#1B4D3E] font-bold text-sm bg-white">
+                                                    {place.price || "1.200.000 VND"}
+                                                </div>
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setSelectedHotelId(place.id);
+                                                    }}
+                                                    className={clsx(
+                                                        "flex-1 py-3 rounded-full font-bold text-sm text-white shadow-lg transition-all active:scale-[0.98]",
+                                                        isSelected ? "bg-[#1B4D3E]" : "bg-[#113D38] hover:bg-[#1B4D3E]"
+                                                    )}
+                                                >
+                                                    {isSelected ? "Đã đặt chỗ" : "Book chỗ này"}
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 );
                             })}
                         </div>
-
-                        {/* View More Button */}
-                        {places.length > visibleCount && (
+                        {displayPlaces.length > visibleCount && (
                             <button
                                 onClick={handleLoadMore}
-                                className="self-center px-6 py-2 text-sm font-semibold text-gray-500 hover:text-[#1B4D3E] hover:bg-white/50 rounded-full transition-colors flex items-center gap-2"
+                                className="w-full py-4 rounded-2xl bg-white border-2 border-dashed border-[#1B4D3E]/20 text-[#1B4D3E] font-bold hover:bg-white/80 transition-all active:scale-[0.98] text-sm opacity-60 hover:opacity-100"
                             >
-                                Xem thêm
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg>
+                                Xem thêm các lựa chọn khác
                             </button>
                         )}
                     </div>
 
                     {/* RIGHT COLUMN: Map */}
-                    <div className="hidden md:block md:col-span-7 lg:col-span-8 h-[600px] sticky top-28">
-                        <div className="w-full h-full bg-gray-200 rounded-3xl overflow-hidden border border-white/50 shadow-inner relative">
-                            <MapComponent
-                                placeName={viewedPlace?.name}
-                                address={viewedPlace?.address}
-                                defaultCenter={[11.9404, 108.4583]}
-                            />
+                    {viewedPlace && (
+                        <div className="hidden lg:block lg:col-span-6 sticky top-28 h-[calc(100vh-160px)] animate-in fade-in slide-in-from-right duration-700">
+                            <div className="w-full h-full bg-white rounded-3xl overflow-hidden border-8 border-white shadow-2xl relative shadow-[#1B4D3E]/10">
+                                <MapComponent
+                                    markers={getMapMarkers()}
+                                    defaultCenter={mapCenter}
+                                    isStatic={false}
+                                    showRoutes={step === 2}
+                                />
+                                <div className="absolute inset-0 pointer-events-none border-t border-t-white/40 border-l border-l-white/40 rounded-[24px]"></div>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             )}
 
-            {/* Sticky Footer */}
+            {/* Footer - Only show if has searched */}
             {hasSearched && (
                 <div className="fixed bottom-0 left-0 right-0 p-4 md:p-6 z-40 pointer-events-none">
                     <div className="max-w-7xl mx-auto flex items-end justify-between">
-                        {/* Left: View More (Already in list flow but user asked for "bottom left") - Keeping it in list flow is better UX for scroll, but let's see. logic above handles it. */}
                         <div className="hidden md:block w-32" />
-
-                        {/* Center/Right: Continue Button */}
                         <div className="pointer-events-auto">
                             <button
                                 onClick={handleContinue}
@@ -238,8 +376,6 @@ export default function PlanTripPage() {
                                 Tiếp tục ({selectedPlaceIds.length})
                             </button>
                         </div>
-
-                        {/* Right: AI Chatbot */}
                         <div
                             className="pointer-events-auto relative w-36 h-36 -mb-4 hover:scale-110 transition-transform cursor-pointer drop-shadow-2xl"
                             onClick={() => alert("Chào bạn! Tôi là trợ lý AI của TravelPath. Hãy đặt câu hỏi nếu bạn cần hỗ trợ lên kế hoạch nhé!")}
@@ -251,5 +387,20 @@ export default function PlanTripPage() {
                 </div>
             )}
         </div>
+    );
+}
+
+export default function PlanTripPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center bg-[#BBD9D9]">
+                <div className="animate-pulse flex flex-col items-center gap-4">
+                    <div className="w-16 h-16 bg-[#1B4D3E]/20 rounded-full"></div>
+                    <p className="text-[#1B4D3E] font-bold">Đang tải...</p>
+                </div>
+            </div>
+        }>
+            <PlanTripContent />
+        </Suspense>
     );
 }

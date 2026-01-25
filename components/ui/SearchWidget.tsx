@@ -15,35 +15,18 @@ export default function SearchWidget() {
     const [budget, setBudget] = useState('');
     const [style, setStyle] = useState('');
 
-    const handleSearch = async () => {
-        console.log("Searching for:", { destination });
+    const handleSearch = () => {
+        console.log("Redirecting to plan-trip with:", { destination });
 
-        try {
-            const result = await searchPlaces({
-                destination,
-                dates,
-                people,
-                budget,
-                style
-            });
+        const params = new URLSearchParams();
+        if (destination) params.set('destination', destination);
+        if (dates) params.set('dates', dates);
+        if (people) params.set('people', people);
+        if (budget) params.set('budget', budget);
+        if (style) params.set('style', style);
 
-            if (result.success) {
-                console.log("Search Results:", result.data);
-                if (result.data && result.data.length > 0) {
-                    // Create a formatted list of names
-                    const names = result.data.map((place: any) => `- ${place.name}`).join('\n');
-                    alert(`Tìm thấy ${result.data.length} địa điểm khớp với '${destination}':\n\n${names}`);
-                } else {
-                    alert(`Không tìm thấy địa điểm nào khớp với '${destination}'`);
-                }
-
-                // Future: Navigate or update state
-            } else {
-                console.error("Search failed");
-            }
-        } catch (error) {
-            console.error("Error calling search action:", error);
-        }
+        const queryString = params.toString();
+        router.push(`/plan-trip${queryString ? `?${queryString}` : ''}`);
     };
 
     return (

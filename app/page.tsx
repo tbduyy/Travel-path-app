@@ -3,6 +3,7 @@ import SearchWidget from "@/components/ui/SearchWidget";
 import WeatherWidget from "@/components/ui/WeatherWidget";
 import CableCarAnimation from "@/components/home/CableCarAnimation";
 import Image from "next/image";
+import { Mail, Phone, Facebook, Instagram } from "lucide-react";
 
 export default function Home() {
   return (
@@ -210,12 +211,32 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-8 md:mt-0 space-y-3 text-sm text-[#1B4D3E] font-medium text-right">
-            <p className="text-xl font-bold mb-4">Liên hệ</p>
-            <p>FPT University</p>
-            <p>090 123 4567</p>
-            <p>travelpath.vn@gmail.com</p>
-            <p className="cursor-pointer hover:underline">www.travelpath.vn</p>
+          <div className="mt-8 md:mt-0 flex flex-col items-end gap-8 text-[#1B4D3E]">
+            {/* Contact Section */}
+            <div className="flex flex-col items-end gap-3">
+              <h3 className="text-lg font-extrabold uppercase tracking-wide">Liên hệ chúng tôi (Contact Us)</h3>
+              <a href="mailto:partnership@travelpath.io.vn" className="flex items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group">
+                <span className="group-hover:translate-x-[-2px] transition-transform">partnership@travelpath.io.vn</span>
+                <Mail size={20} />
+              </a>
+              <a href="tel:+83846427816" className="flex items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group">
+                <span className="group-hover:translate-x-[-2px] transition-transform">+83 846 427 816</span>
+                <Phone size={20} />
+              </a>
+            </div>
+
+            {/* Social Section */}
+            <div className="flex flex-col items-end gap-3">
+              <h3 className="text-lg font-extrabold uppercase tracking-wide">Theo dõi chúng tôi trên</h3>
+              <a href="#" className="flex items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group">
+                <span className="group-hover:translate-x-[-2px] transition-transform">Facebook</span>
+                <Facebook size={20} />
+              </a>
+              <a href="#" className="flex items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group">
+                <span className="group-hover:translate-x-[-2px] transition-transform">Instagram</span>
+                <Instagram size={20} />
+              </a>
+            </div>
           </div>
         </div>
       </footer>
