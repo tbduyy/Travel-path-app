@@ -76,14 +76,14 @@ export default function Header() {
                     </Link>
 
                     {/* Center: Navigation Links */}
-                    <nav className="hidden md:flex items-center gap-16">
+                    <nav className="hidden lg:flex items-center gap-6 xl:gap-10">
                         {navLinks.map((link) => {
                             const isActive = pathname === link.href || (link.href !== "/" && pathname?.startsWith(link.href));
                             return (
                                 <Link
                                     key={link.name}
                                     href={link.href}
-                                    className={`text-base font-bold transition-colors tracking-normal capitalize ${isActive
+                                    className={`text-sm xl:text-base font-bold transition-colors tracking-tight uppercase whitespace-nowrap ${isActive
                                         ? "text-[#00B14F] brightness-125"
                                         : "text-[#1B4D3E] hover:text-[#2C6E5A]"
                                         }`}
