@@ -14,6 +14,7 @@ export default function Header() {
         { name: "Lịch trình chuyến đi", href: "/plan-trip" },
         { name: "Chuyến đi của tôi", href: "#" },
         { name: "Cẩm nang", href: "/blog" },
+        { name: "AI Trip", href: "/ai-trip" },
     ];
 
     return (
