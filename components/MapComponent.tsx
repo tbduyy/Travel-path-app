@@ -234,7 +234,7 @@ export default function MapComponent({
 
                         // User requested to remove the duration tooltip on map
                         // Just extending bounds
-                        routeData.coordinates.forEach(c => bounds.extend(c as L.LatLngExpression));
+                        routeData.coordinates.forEach((c: number[]) => bounds.extend(c as L.LatLngExpression));
                     } else {
                         L.polyline([viewedLatLng, destLatLng], {
                             color: '#3B82F6',
