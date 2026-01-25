@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import WeatherCheck from "@/components/ai-trip/WeatherCheck";
+// import WeatherCheck from "@/components/ai-trip/WeatherCheck";
 import ContextualChat from "@/components/ai-trip/ContextualChat";
-import LocationTracking from "@/components/ai-trip/LocationTracking";
+// import LocationTracking from "@/components/ai-trip/LocationTracking";
 
 type FeatureType = "weather" | "chat" | "tracking";
 
@@ -43,8 +43,37 @@ export default function MyJourneyTab() {
                 <div className={activeFeature === "chat" ? "block" : "hidden"}>
                     <ContextualChat />
                 </div>
-                {activeFeature === "weather" && <WeatherCheck />}
-                {activeFeature === "tracking" && <LocationTracking />}
+
+                {/* {activeFeature === "weather" && <WeatherCheck />} */}
+                {/* {activeFeature === "tracking" && <LocationTracking />} */}
+                
+                {(activeFeature === "weather" || activeFeature === "tracking") && (
+                     <div className="bg-white rounded-3xl p-12 shadow-sm border border-gray-100">
+                        <div className="text-center">
+                            <div className="relative w-48 h-48 mx-auto mb-8 opacity-30">
+                                <svg
+                                    className="w-full h-full"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="1"
+                                >
+                                    <path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16" />
+                                </svg>
+                            </div>
+                            <h2 className="text-3xl font-black text-[#1B4D3E] mb-4">
+                                Tính năng đang phát triển
+                            </h2>
+                            <p className="text-gray-500 text-lg mb-8">
+                                {activeFeature === "weather" 
+                                    ? "Chức năng xem thời tiết chi tiết đang được hoàn thiện." 
+                                    : "Chức năng theo dõi vị trí thực tế đang được hoàn thiện."}
+                                <br />
+                                Vui lòng sử dụng tính năng Chat AI để được hỗ trợ.
+                            </p>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
