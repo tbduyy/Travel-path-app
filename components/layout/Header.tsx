@@ -12,6 +12,7 @@ export default function Header() {
         { name: "About Us", href: "#" },
         { name: "Plan Trip", href: "/plan-trip" },
         { name: "My Journey", href: "#" },
+        { name: "AI Trip", href: "/ai-trip" },
         { name: "Blog", href: "#" },
     ];
 
