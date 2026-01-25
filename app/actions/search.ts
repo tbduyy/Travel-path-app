@@ -59,6 +59,7 @@ export async function searchPlaces(params: SearchParams) {
             const nameLower = p.name.toLowerCase();
             let lat = p.lat;
             let lng = p.lng;
+
             // DA LAT FIXES
             if (nameLower.includes("mountain nest villa")) { lat = 11.9542; lng = 108.444; }
             else if (nameLower.includes("ttc hotel premium")) { lat = 11.9423; lng = 108.4375; }
@@ -71,6 +72,20 @@ export async function searchPlaces(params: SearchParams) {
             else if (nameLower.includes("langbiang")) { lat = 12.0435; lng = 108.4354; }
             else if (nameLower.includes("hồ xuân hương")) { lat = 11.9404; lng = 108.4583; }
             else if (nameLower.includes("chợ đà lạt") || nameLower.includes("night market")) { lat = 11.9416; lng = 108.4367; }
+
+            // NHA TRANG FIXES
+            else if (nameLower.includes("vinwonders")) { lat = 12.2215; lng = 109.2458; }
+            else if (nameLower.includes("tour 3 đảo")) { lat = 12.2023; lng = 109.2140; }
+            else if (nameLower.includes("quảng trường 2/4")) { lat = 12.2388; lng = 109.1967; }
+            else if (nameLower.includes("nem nướng đặng văn quyên")) { lat = 12.2475; lng = 109.1920; }
+            else if (nameLower.includes("hải sản thanh sương")) { lat = 12.2081; lng = 109.2150; }
+            else if (nameLower.includes("bảo tàng hải dương học")) { lat = 12.2078; lng = 109.2144; }
+            else if (nameLower.includes("đập thủy điện am chúa") || nameLower.includes("hồ am chúa")) { lat = 12.2687; lng = 109.0763; }
+            else if (nameLower.includes("nhà hát đó") || nameLower.includes("vega city")) { lat = 12.2959; lng = 109.2135; }
+            else if (nameLower.includes("cơm gà núi một")) { lat = 12.2470; lng = 109.1915; }
+            else if (nameLower.includes("bánh căn 51")) { lat = 12.2380; lng = 109.1930; }
+            else if (nameLower.includes("z beach") || nameLower.includes("z-beach")) { lat = 12.2356; lng = 109.1970; }
+
             return { ...p, lat, lng };
         });
 

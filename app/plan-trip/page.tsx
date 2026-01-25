@@ -61,7 +61,7 @@ function PlanTripContent() {
             setPlaces(result.data);
             setTripId(result.tripId);
             setStep(1);
-            setVisibleCount(5); // User requested 5 places as highlights
+            setVisibleCount(5); // Show top 5 highlighted places
             setViewedPlace(null);
         }
     };
@@ -174,7 +174,7 @@ function PlanTripContent() {
                         <div className="relative w-64 h-12 bg-white rounded-full flex items-center px-5 shadow-lg border border-white/20 focus-within:ring-2 focus-within:ring-[#1B4D3E]/20 transition-all">
                             <input
                                 type="text"
-                                placeholder="Tìm kiếm"
+                                placeholder="Nhập tên thành phố..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 onKeyDown={handleSearch}
@@ -194,7 +194,7 @@ function PlanTripContent() {
                         <Image src="/assets/plan-trip/ai-chatbot.png" alt="Travel" fill className="object-contain grayscale" />
                     </div>
                     <h2 className="text-4xl font-black text-[#1B4D3E]/30 mb-2 uppercase tracking-tighter">Bắt đầu chuyến đi của bạn</h2>
-                    <p className="text-2xl font-medium text-gray-400 tracking-wide">Nhập điểm đến để bắt đầu hành trình...</p>
+                    <p className="text-2xl font-medium text-gray-400 tracking-wide">Nhập tên thành phố nơi bạn muốn đến...</p>
                 </div>
             )}
 
