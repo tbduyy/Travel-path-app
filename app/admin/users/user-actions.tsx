@@ -15,7 +15,7 @@ type UserActionsProps = {
 export default function UserActions({ user }: UserActionsProps) {
     return (
         <div className="flex justify-end gap-2">
-            <form action={toggleLockUser}>
+            <form action={async (formData) => { await toggleLockUser(formData) }}>
                 <input type="hidden" name="email" value={user.email} />
                 <input type="hidden" name="currentStatus" value={String(user.isLocked)} />
                 <button className="p-2 rounded-lg hover:bg-gray-200 text-gray-500 hover:text-[#1B4D3E] transition-colors" title={user.isLocked ? "Mở khóa" : "Khóa tài khoản"}>
@@ -23,7 +23,10 @@ export default function UserActions({ user }: UserActionsProps) {
                 </button>
             </form>
 
-            <form action={deleteUser} onSubmit={(e) => { if (!confirm('Bạn có chắc chắn muốn xóa user này?')) e.preventDefault() }}>
+            <form
+                action={async (formData) => { await deleteUser(formData) }}
+                onSubmit={(e) => { if (!confirm('Bạn có chắc chắn muốn xóa user này?')) e.preventDefault() }}
+            >
                 <input type="hidden" name="email" value={user.email} />
                 <input type="hidden" name="id" value={user.id} />
                 <button className="p-2 rounded-lg hover:bg-red-50 text-gray-500 hover:text-red-600 transition-colors" title="Xóa tài khoản">
