@@ -6,12 +6,16 @@ interface ItineraryGenerationProps {
     selectedHotel: any;
     onItineraryGenerated: (itinerary: any) => void;
     onBack: () => void;
+    itinerary: any;
+    setItinerary: (itinerary: any) => void;
 }
 
 export default function ItineraryGeneration({
     selectedHotel,
     onItineraryGenerated,
     onBack,
+    itinerary,
+    setItinerary,
 }: ItineraryGenerationProps) {
     const [formData, setFormData] = useState({
         startDate: "",
@@ -26,7 +30,6 @@ export default function ItineraryGeneration({
     });
 
     const [loading, setLoading] = useState(false);
-    const [itinerary, setItinerary] = useState<any>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

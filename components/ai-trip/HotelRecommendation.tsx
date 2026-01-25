@@ -4,9 +4,15 @@ import { useState } from "react";
 
 interface HotelRecommendationProps {
     onHotelSelected: (hotel: any) => void;
+    recommendations: any;
+    setRecommendations: (recommendations: any) => void;
 }
 
-export default function HotelRecommendation({ onHotelSelected }: HotelRecommendationProps) {
+export default function HotelRecommendation({ 
+    onHotelSelected, 
+    recommendations,
+    setRecommendations 
+}: HotelRecommendationProps) {
     const [formData, setFormData] = useState({
         destination: "Đà Lạt",
         budget: "2000000",
@@ -18,7 +24,6 @@ export default function HotelRecommendation({ onHotelSelected }: HotelRecommenda
     });
 
     const [loading, setLoading] = useState(false);
-    const [recommendations, setRecommendations] = useState<any>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

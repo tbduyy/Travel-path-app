@@ -7,9 +7,17 @@ import PlanTripTab from "@/components/ai-trip/PlanTripTab";
 import MyJourneyTab from "@/components/ai-trip/MyJourneyTab";
 
 type TabType = "plan" | "journey";
+type StepType = "hotel" | "itinerary" | "simulation";
 
 export default function AITripPage() {
     const [activeTab, setActiveTab] = useState<TabType>("plan");
+    
+    // Plan Trip State - giữ khi chuyển tab, mất khi refresh
+    const [currentStep, setCurrentStep] = useState<StepType>("hotel");
+    const [selectedHotel, setSelectedHotel] = useState<any>(null);
+    const [itinerary, setItinerary] = useState<any>(null);
+    const [hotelRecommendations, setHotelRecommendations] = useState<any>(null);
+    const [itineraryResult, setItineraryResult] = useState<any>(null);
 
     return (
         <div className="min-h-screen flex flex-col bg-[#F8FAF9]">
@@ -75,7 +83,20 @@ export default function AITripPage() {
 
             {/* Tab Content */}
             <div className="flex-1 w-full">
-                {activeTab === "plan" && <PlanTripTab />}
+                {activeTab === "plan" && (
+                    <PlanTripTab
+                        currentStep={currentStep}
+                        setCurrentStep={setCurrentStep}
+                        selectedHotel={selectedHotel}
+                        setSelectedHotel={setSelectedHotel}
+                        itinerary={itinerary}
+                        setItinerary={setItinerary}
+                        hotelRecommendations={hotelRecommendations}
+                        setHotelRecommendations={setHotelRecommendations}
+                        itineraryResult={itineraryResult}
+                        setItineraryResult={setItineraryResult}
+                    />
+                )}
                 {activeTab === "journey" && <MyJourneyTab />}
             </div>
         </div>

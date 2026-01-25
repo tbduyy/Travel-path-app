@@ -1,16 +1,35 @@
 "use client";
 
-import { useState } from "react";
 import HotelRecommendation from "./HotelRecommendation";
 import ItineraryGeneration from "./ItineraryGeneration";
 
 type StepType = "hotel" | "itinerary" | "simulation";
 
-export default function PlanTripTab() {
-    const [currentStep, setCurrentStep] = useState<StepType>("hotel");
-    const [selectedHotel, setSelectedHotel] = useState<any>(null);
-    const [itinerary, setItinerary] = useState<any>(null);
+interface PlanTripTabProps {
+    currentStep: StepType;
+    setCurrentStep: (step: StepType) => void;
+    selectedHotel: any;
+    setSelectedHotel: (hotel: any) => void;
+    itinerary: any;
+    setItinerary: (itinerary: any) => void;
+    hotelRecommendations: any;
+    setHotelRecommendations: (recommendations: any) => void;
+    itineraryResult: any;
+    setItineraryResult: (result: any) => void;
+}
 
+export default function PlanTripTab({
+    currentStep,
+    setCurrentStep,
+    selectedHotel,
+    setSelectedHotel,
+    itinerary,
+    setItinerary,
+    hotelRecommendations,
+    setHotelRecommendations,
+    itineraryResult,
+    setItineraryResult,
+}: PlanTripTabProps) {
     return (
         <div className="max-w-7xl mx-auto px-8 py-12">
             {/* Progress Steps */}
@@ -19,20 +38,22 @@ export default function PlanTripTab() {
                     {/* Step 1: Hotel */}
                     <div className="flex items-center gap-3">
                         <div
-                            className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ${
+                            className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 cursor-pointer hover:scale-105 ${
                                 currentStep === "hotel"
                                     ? "bg-[#1B4D3E] text-white shadow-lg"
                                     : selectedHotel
                                     ? "bg-green-500 text-white"
                                     : "bg-gray-200 text-gray-400"
                             }`}
+                            onClick={() => setCurrentStep("hotel")}
                         >
-                            {selectedHotel ? "✓" : "1"}
+                            {selectedHotel && currentStep !== "hotel" ? "✓" : "1"}
                         </div>
                         <span
-                            className={`font-bold ${
+                            className={`font-bold cursor-pointer ${
                                 currentStep === "hotel" ? "text-[#1B4D3E]" : "text-gray-400"
                             }`}
+                            onClick={() => setCurrentStep("hotel")}
                         >
                             Chọn khách sạn
                         </span>
@@ -44,20 +65,22 @@ export default function PlanTripTab() {
                     {/* Step 2: Itinerary */}
                     <div className="flex items-center gap-3">
                         <div
-                            className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ${
+                            className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 cursor-pointer hover:scale-105 ${
                                 currentStep === "itinerary"
                                     ? "bg-[#1B4D3E] text-white shadow-lg"
                                     : itinerary
                                     ? "bg-green-500 text-white"
                                     : "bg-gray-200 text-gray-400"
                             }`}
+                            onClick={() => selectedHotel && setCurrentStep("itinerary")}
                         >
-                            {itinerary ? "✓" : "2"}
+                            {itinerary && currentStep !== "itinerary" ? "✓" : "2"}
                         </div>
                         <span
-                            className={`font-bold ${
+                            className={`font-bold cursor-pointer ${
                                 currentStep === "itinerary" ? "text-[#1B4D3E]" : "text-gray-400"
                             }`}
+                            onClick={() => selectedHotel && setCurrentStep("itinerary")}
                         >
                             Tạo lịch trình
                         </span>
@@ -69,23 +92,45 @@ export default function PlanTripTab() {
                     {/* Step 3: Simulation */}
                     <div className="flex items-center gap-3">
                         <div
-                            className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ${
+                            className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 cursor-pointer hover:scale-105 ${
                                 currentStep === "simulation"
                                     ? "bg-[#1B4D3E] text-white shadow-lg"
                                     : "bg-gray-200 text-gray-400"
                             }`}
+                            onClick={() => itinerary && setCurrentStep("simulation")}
                         >
                             3
                         </div>
                         <span
-                            className={`font-bold ${
+                            className={`font-bold cursor-pointer ${
                                 currentStep === "simulation" ? "text-[#1B4D3E]" : "text-gray-400"
                             }`}
+                            onClick={() => itinerary && setCurrentStep("simulation")}
                         >
                             Mô phỏng chuyến đi
                         </span>
                     </div>
                 </div>
+
+                {/* Clear Data Button */}
+                {(selectedHotel || itinerary || hotelRecommendations || itineraryResult) && (
+                    <div className="flex justify-center mt-6">
+                        <button
+                            onClick={() => {
+                                if (confirm("Bạn có chắc muốn xóa tất cả dữ liệu và bắt đầu lại?")) {
+                                    setSelectedHotel(null);
+                                    setItinerary(null);
+                                    setHotelRecommendations(null);
+                                    setItineraryResult(null);
+                                    setCurrentStep("hotel");
+                                }
+                            }}
+                            className="px-6 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-xl transition-colors"
+                        >
+                            🗑️ Xóa và bắt đầu lại
+                        </button>
+                    </div>
+                )}
             </div>
 
             {/* Step Content */}
@@ -96,6 +141,8 @@ export default function PlanTripTab() {
                             setSelectedHotel(hotel);
                             setCurrentStep("itinerary");
                         }}
+                        recommendations={hotelRecommendations}
+                        setRecommendations={setHotelRecommendations}
                     />
                 )}
 
@@ -107,6 +154,8 @@ export default function PlanTripTab() {
                             setCurrentStep("simulation");
                         }}
                         onBack={() => setCurrentStep("hotel")}
+                        itinerary={itineraryResult}
+                        setItinerary={setItineraryResult}
                     />
                 )}
 
