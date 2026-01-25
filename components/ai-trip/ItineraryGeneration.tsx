@@ -254,84 +254,99 @@ export default function ItineraryGeneration({
             )}
 
             {itinerary && (
-                <div className="space-y-6">
-                    {/* Summary */}
-                    <div className="bg-[#E0F2F1] rounded-3xl p-6 border border-white/50">
-                        <h3 className="text-lg font-black text-[#1B4D3E] mb-3">Tổng quan</h3>
-                        <p className="text-sm leading-relaxed text-[#1B4D3E]/80 mb-4">
-                            {itinerary.summary}
-                        </p>
-                        <div className="grid grid-cols-2 gap-4 text-sm">
-                            <div>
-                                <p className="text-gray-600">Tổng chi phí</p>
-                                <p className="font-bold text-[#1B4D3E] text-lg">
-                                    {itinerary.total_estimated_cost?.toLocaleString()} đ
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-gray-600">Tổng quãng đường</p>
-                                <p className="font-bold text-[#1B4D3E] text-lg">
-                                    {itinerary.total_distance_km} km
-                                </p>
-                            </div>
+                <div className="space-y-8">
+                    {/* Summary Cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="bg-[#E0F2F1] rounded-2xl p-5 border border-[#1B4D3E]/10">
+                            <p className="text-gray-500 text-sm font-medium mb-1">Tổng chi phí</p>
+                            <p className="text-2xl font-black text-[#1B4D3E]">
+                                {itinerary.total_estimated_cost?.toLocaleString()} đ
+                            </p>
+                        </div>
+                        <div className="bg-[#E0F2F1] rounded-2xl p-5 border border-[#1B4D3E]/10">
+                            <p className="text-gray-500 text-sm font-medium mb-1">Tổng quãng đường</p>
+                            <p className="text-2xl font-black text-[#1B4D3E]">
+                                {itinerary.total_distance_km} km
+                            </p>
+                        </div>
+                        <div className="bg-[#E0F2F1] rounded-2xl p-5 border border-[#1B4D3E]/10 flex flex-col justify-center">
+                             <p className="text-sm text-gray-600 italic line-clamp-3">
+                                "{itinerary.summary}"
+                            </p>
                         </div>
                     </div>
 
-                    {/* Daily Schedule */}
-                    {itinerary.schedule?.map((day: any) => (
-                        <div
-                            key={day.day}
-                            className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100"
-                        >
-                            <div className="flex items-center justify-between mb-4">
-                                <div>
-                                    <h3 className="text-xl font-black text-[#1B4D3E]">
-                                        Ngày {day.day}
-                                    </h3>
-                                    <p className="text-sm text-gray-500">{day.date}</p>
+                    {/* Timeline Schedule */}
+                    <div className="space-y-8">
+                        {itinerary.schedule?.map((day: any) => (
+                            <div key={day.day} className="relative">
+                                {/* Day Header */}
+                                <div className="sticky top-20 z-10 bg-[#F8FAF9] py-4 mb-4 flex items-center justify-between border-b border-gray-200">
+                                    <div className="flex items-center gap-3">
+                                        <div className="bg-[#1B4D3E] text-white px-4 py-1.5 rounded-full font-bold shadow-md">
+                                            Ngày {day.day}
+                                        </div>
+                                        <span className="text-gray-500 font-medium">{day.date}</span>
+                                    </div>
+                                    <div className="text-right">
+                                        <span className="text-xs text-gray-400 block">Chi phí ngày</span>
+                                        <span className="font-bold text-[#1B4D3E]">{day.total_cost_day?.toLocaleString()} đ</span>
+                                    </div>
                                 </div>
-                                <div className="text-right">
-                                    <p className="text-sm text-gray-600">Chi phí</p>
-                                    <p className="font-bold text-[#1B4D3E]">
-                                        {day.total_cost_day?.toLocaleString()} đ
-                                    </p>
-                                </div>
-                            </div>
 
-                            <div className="space-y-3">
-                                {day.activities?.map((activity: any, idx: number) => (
-                                    <div
-                                        key={idx}
-                                        className="flex gap-4 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
-                                    >
-                                        <div className="shrink-0">
-                                            <div className="w-16 h-16 bg-[#1B4D3E] text-white rounded-xl flex items-center justify-center font-bold text-sm">
-                                                {activity.time_slot}
+                                {/* Timeline Items */}
+                                <div className="space-y-0 relative pl-4 md:pl-0">
+                                    {/* Vertical Line (Hidden on mobile for simplicity, or adjusted) */}
+                                    <div className="hidden md:block absolute left-[120px] top-4 bottom-4 w-0.5 bg-gray-200"></div>
+
+                                    {day.activities?.map((activity: any, idx: number) => (
+                                        <div key={idx} className="relative flex flex-col md:flex-row gap-6 group mb-8 last:mb-0">
+                                            
+                                            {/* Time Column */}
+                                            <div className="flex md:flex-col items-center md:items-end md:w-[100px] shrink-0 pt-2 z-10">
+                                                <div className="font-bold text-[#1B4D3E] text-lg bg-[#F8FAF9] md:px-0 pr-4 z-20">
+                                                    {activity.time_slot}
+                                                </div>
+                                            </div>
+
+                                            {/* Dot on Line */}
+                                            <div className="hidden md:block absolute left-[113px] top-3 w-4 h-4 bg-white border-4 border-[#1B4D3E] rounded-full z-20 shadow-sm group-hover:scale-110 transition-transform"></div>
+
+                                            {/* Card Content */}
+                                            <div className="flex-1 bg-white rounded-2xl p-5 shadow-sm border border-gray-100 group-hover:shadow-md transition-all duration-300 relative overflow-hidden">
+                                                 {/* Decorative stripe */}
+                                                <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#1B4D3E] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                                
+                                                <div className="flex justify-between items-start gap-4">
+                                                    <div>
+                                                        <h4 className="text-xl font-bold text-[#1B4D3E] mb-2">
+                                                            {activity.location_name}
+                                                        </h4>
+                                                        <p className="text-gray-600 mb-3 leading-relaxed">
+                                                            {activity.activity}
+                                                        </p>
+                                                        {activity.notes && (
+                                                            <div className="flex items-start gap-2 bg-gray-50 p-3 rounded-lg text-sm text-gray-500 italic">
+                                                                <span className="shrink-0">📝</span>
+                                                                <span>{activity.notes}</span>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    
+                                                    <div className="shrink-0 text-right">
+                                                        <span className="block text-lg font-bold text-[#1B4D3E] text-right">
+                                                            {activity.estimated_cost == 0 ? "Miễn phí" : `${activity.estimated_cost?.toLocaleString()} đ`}
+                                                        </span>
+                                                        <span className="text-xs text-gray-400">Dự kiến</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="flex-1">
-                                            <h4 className="font-bold text-[#1B4D3E] mb-1">
-                                                {activity.location_name}
-                                            </h4>
-                                            <p className="text-sm text-gray-600 mb-2">
-                                                {activity.activity}
-                                            </p>
-                                            {activity.notes && (
-                                                <p className="text-xs text-gray-500 italic">
-                                                    {activity.notes}
-                                                </p>
-                                            )}
-                                        </div>
-                                        <div className="shrink-0 text-right">
-                                            <p className="text-sm font-bold text-[#1B4D3E]">
-                                                {activity.estimated_cost?.toLocaleString()} đ
-                                            </p>
-                                        </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
 
                     {/* Action Button */}
                     <button
