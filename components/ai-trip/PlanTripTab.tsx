@@ -1,7 +1,7 @@
 "use client";
 
-import HotelRecommendation from "./HotelRecommendation";
-import ItineraryGeneration from "./ItineraryGeneration";
+import HotelRecommendation from "@/components/ai-trip/HotelRecommendation";
+import ItineraryGeneration from "@/components/ai-trip/ItineraryGeneration";
 
 type StepType = "hotel" | "itinerary" | "simulation";
 
@@ -119,7 +119,7 @@ export default function PlanTripTab({
             <div className="min-h-[600px]">
                 {currentStep === "hotel" && (
                     <HotelRecommendation
-                        onHotelSelected={(hotel) => {
+                        onHotelSelected={(hotel: any) => {
                             setSelectedHotel(hotel);
                             setCurrentStep("itinerary");
                         }}
@@ -131,7 +131,7 @@ export default function PlanTripTab({
                 {currentStep === "itinerary" && (
                     <ItineraryGeneration
                         selectedHotel={selectedHotel}
-                        onItineraryGenerated={(data) => {
+                        onItineraryGenerated={(data: any) => {
                             setItinerary(data);
                             setCurrentStep("simulation");
                         }}

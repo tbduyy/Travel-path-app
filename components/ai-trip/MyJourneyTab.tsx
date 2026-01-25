@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import WeatherCheck from "./WeatherCheck";
-import ContextualChat from "./ContextualChat";
-import LocationTracking from "./LocationTracking";
+import WeatherCheck from "@/components/ai-trip/WeatherCheck";
+import ContextualChat from "@/components/ai-trip/ContextualChat";
+import LocationTracking from "@/components/ai-trip/LocationTracking";
 
 type FeatureType = "weather" | "chat" | "tracking";
 
