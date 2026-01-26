@@ -48,7 +48,9 @@ export default function FeaturedLocationsStep({
     setVisibleCount((prev) => prev + 6);
   };
 
-  const displayedAttractions = attractions.slice(0, visibleCount);
+  // Ensure we don't exceed the list length
+  const safeVisibleCount = Math.min(visibleCount, attractions.length);
+  const displayedAttractions = attractions.slice(0, safeVisibleCount);
 
   // Helper to render stars
   const renderStars = (rating: number) => {

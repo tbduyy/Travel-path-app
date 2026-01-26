@@ -72,10 +72,49 @@ function BookingFlowContent({ onBack }: { onBack: () => void }) {
   }, [searchParams]);
 
   // Find data for current city
-  const normalizeId = (id: string) => id.replace(/-/g, '_').toLowerCase();
-  
-  const currentCityData = (mockData as CityData[]).find((c: CityData) => c.id === normalizeId(cityId)) || (mockData as CityData[])[0];
+  const normalizeValues = (str: string) => {
+      return str.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/đ/g, "d")
+        .replace(/[^a-z0-9]/g, "");
+  };
 
+  const findCity = (searchId: string) => {
+      if (!searchId) return null;
+      
+      // 0. Direct Mapping for known deviations
+      const MAPPING: Record<string, string> = {
+        "ho-chi-minh": "tp.hcm",
+        "hcm": "tp.hcm",
+        "sai-gon": "tp.hcm",
+      };
+      
+      if (MAPPING[searchId]) {
+          return (mockData as CityData[]).find(c => c.id === MAPPING[searchId]);
+      }
+
+      const searchNorm = normalizeValues(searchId);
+
+      return (mockData as CityData[]).find(c => {
+         // Check direct ID match
+         if (c.id === searchId) return true;
+         // Check normalized match
+         if (normalizeValues(c.id) === searchNorm) return true;
+         // Check if name contains search term
+         if (normalizeValues(c.name).includes(searchNorm)) return true;
+         
+         return false;
+      });
+  }
+
+  const currentCityData = findCity(cityId) || (mockData as CityData[])[0];
+
+  useEffect(() => {
+    if (currentCityData && currentCityData.name) {
+        setCityName(currentCityData.name);
+    }
+  }, [currentCityData]);
+  
   const handleLocationsContinue = (attractions: any[]) => {
       setSelectedAttractions(attractions);
       setStep("accommodations");

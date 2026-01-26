@@ -17,14 +17,11 @@ import { motion, AnimatePresence } from "framer-motion";
 
 // Danh sách điểm đến
 const destinations = [
-  { value: "da-lat", label: "Đà Lạt", icon: "🏔️" },
-  { value: "nha-trang", label: "Nha Trang", icon: "🏖️" },
-  { value: "phu-quoc", label: "Phú Quốc", icon: "🌴" },
-  { value: "ha-noi", label: "Hà Nội", icon: "🏛️" },
-  { value: "ho-chi-minh", label: "TP. Hồ Chí Minh", icon: "🌆" },
-  { value: "da-nang", label: "Đà Nẵng", icon: "🌉" },
-  { value: "hoi-an", label: "Hội An", icon: "🏮" },
-  { value: "sa-pa", label: "Sa Pa", icon: "🌄" },
+  { value: "da-lat", label: "Đà Lạt" },
+  { value: "nha-trang", label: "Nha Trang" },
+  { value: "ha-noi", label: "Hà Nội" },
+  { value: "ho-chi-minh", label: "TP. Hồ Chí Minh" },
+  { value: "da-nang", label: "Đà Nẵng" },
 ];
 
 // Danh sách phong cách
@@ -126,6 +123,11 @@ export default function SearchWidget() {
   };
 
   const handleSearch = (isBooking: boolean = false) => {
+    if (isBooking && !destination) {
+        setIsDropdownOpen(true);
+        return;
+    }
+
     console.log("Redirecting to plan-trip with:", { destination });
 
     const params = new URLSearchParams();
@@ -226,7 +228,6 @@ export default function SearchWidget() {
                                   : "text-gray-700"
                               }`}
                             >
-                              <span className="text-xl">{dest.icon}</span>
                               <span className="text-sm md:text-base">
                                 {dest.label}
                               </span>
