@@ -8,7 +8,6 @@ import { Mail, Phone, Facebook, Instagram } from "lucide-react";
 export default function Home() {
   return (
     <main className="min-h-screen relative flex flex-col items-center bg-[#BBD9D9]">
-
       {/* Hero Background */}
       <div className="absolute top-0 left-0 w-full h-[90vh] z-0 rounded-b-[3rem] overflow-hidden">
         <Image
@@ -26,11 +25,9 @@ export default function Home() {
       <Header />
 
       {/* Hero Content */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-8 flex flex-col justify-center min-h-screen pt-20 pb-10">
-
+      <div className="relative z-10 w-full items-center max-w-7xl mx-auto px-8 flex flex-col justify-center min-h-screen pt-20 pb-10">
         {/* Top Section: Title (Left) and Widget (Right) */}
         <div className="flex flex-col md:flex-row items-center justify-between w-full h-full gap-8">
-
           {/* Left: Title Image */}
           <div className="flex-1 flex justify-start items-center">
             <div className="relative w-full max-w-2xl h-64 md:h-96">
@@ -52,25 +49,20 @@ export default function Home() {
         </div>
 
         {/* Bottom Section: Search Widget & Badges */}
-        <div className="w-full mt-8 md:mt-0 flex flex-col gap-8">
+        <div className="w-[90vw] mt-20 md:mt-0 flex flex-col gap-8">
           <SearchWidget />
-
-          {/* Cable Car Animation */}
-          <div className="w-full pointer-events-none">
-            <CableCarAnimation />
-          </div>
-
           {/* Floating Badges/Partnerships */}
-
         </div>
-
       </div>
 
+      {/* SECTION: Cable Car Animation */}
+      <div className="mx-auto w-full pointer-events-none">
+        <CableCarAnimation />
+      </div>
 
       {/* SECTION: Partnership */}
       <section className="w-full bg-[#E0F2F1] relative z-10 py-16 -mt-10 rounded-t-[3rem]">
         <div className="max-w-6xl mx-auto px-8">
-
           <div className="flex justify-center mb-12">
             <h2 className="bg-[#3A5A40] text-white text-xl font-bold px-8 py-2 rounded-full shadow-md">
               Partnership
@@ -83,34 +75,30 @@ export default function Home() {
               <div className="w-full md:w-1/3 h-48 relative bg-white/30 rounded-2xl overflow-hidden flex items-center justify-center">
                 {/* Placeholder for Grab illustration */}
                 <Image
-                  src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/grab.png"
-                  alt="Grab Service"
+                  src="https://placehold.co/220x220?text=Ảnh"
+                  alt="Placeholder 1"
                   fill
                   className="object-cover"
                   unoptimized
                 />
-                <span className="relative z-10 font-bold text-2xl text-[#00B14F]">Grab</span>
+                <span className="relative z-10 font-bold text-2xl text-[#00B14F]"></span>
               </div>
               <div className="flex-1 text-[#1B4D3E]">
-                <h3 className="text-2xl font-bold mb-2">Grab</h3>
-                <p className="text-sm leading-relaxed font-medium opacity-80">
-                  Grab là ứng dụng đa dịch vụ thuần Việt, cung cấp hệ sinh thái toàn diện từ gọi xe (máy, ô tô), giao đồ ăn, vận chuyển đến vé máy bay và ngân hàng số. Nhờ thấu hiểu người dùng bản địa, Grab mang đến các giải pháp di chuyển và đời sống tiện lợi, an toàn trên một nền tảng duy nhất.
-                </p>
+                <h3 className="text-2xl font-bold mb-2"></h3>
+                <p className="text-sm leading-relaxed font-medium opacity-80"></p>
               </div>
             </div>
 
             {/* Hotel Colline */}
             <div className="bg-[#D8F3DC] rounded-3xl p-6 flex flex-col md:flex-row items-center gap-8 shadow-sm border border-white/50">
               <div className="flex-1 order-2 md:order-1 text-[#1B4D3E]">
-                <h3 className="text-2xl font-bold mb-2">Hotel Colline</h3>
-                <p className="text-sm leading-relaxed font-medium opacity-80">
-                  Hotel Colline là khách sạn 4 sao nổi bật với kiến trúc khối nâu hiện đại ngay trung tâm Đà Lạt. Nhờ vị trí đắc địa gần Hồ Xuân Hương cùng phong cách nội thất tối giản, sang trọng, nơi đây mang đến không gian nghỉ dưỡng tiện nghi và là địa điểm check-in yêu thích của giới trẻ.
-                </p>
+                <h3 className="text-2xl font-bold mb-2"></h3>
+                <p className="text-sm leading-relaxed font-medium opacity-80"></p>
               </div>
               <div className="w-full md:w-1/3 h-48 relative bg-gray-200 rounded-2xl overflow-hidden order-1 md:order-2">
                 <Image
-                  src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/partner-1.png"
-                  alt="Hotel Colline"
+                  src="https://placehold.co/220x220?text=Ảnh"
+                  alt="Placeholder 2"
                   fill
                   className="object-cover"
                   unoptimized
@@ -122,18 +110,16 @@ export default function Home() {
             <div className="bg-[#D8F3DC] rounded-3xl p-6 flex flex-col md:flex-row items-center gap-8 shadow-sm border border-white/50">
               <div className="w-full md:w-1/3 h-48 relative bg-gray-200 rounded-2xl overflow-hidden">
                 <Image
-                  src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/partner-2.png"
-                  alt="Le Rabelais"
+                  src="https://placehold.co/220x220?text=Ảnh"
+                  alt="Placeholder 3"
                   fill
                   className="object-cover"
                   unoptimized
                 />
               </div>
               <div className="flex-1 text-[#1B4D3E]">
-                <h3 className="text-2xl font-bold mb-2">Nhà Hàng Le Rabelais</h3>
-                <p className="text-sm leading-relaxed font-medium opacity-80">
-                  Le Rabelais là nhà hàng mang đậm phong cách kiến trúc Pháp sang trọng, sở hữu không gian thưởng thức ẩm thực tinh tế với tầm nhìn đẹp. Nơi đây chuyên phục vụ các món Âu đa dạng như súp hành tây, beefsteak kết hợp cùng rượu vang, mang đến trải nghiệm ẩm thực thăng hoa cho thực khách.
-                </p>
+                <h3 className="text-2xl font-bold mb-2"></h3>
+                <p className="text-sm leading-relaxed font-medium opacity-80"></p>
               </div>
             </div>
           </div>
@@ -141,13 +127,22 @@ export default function Home() {
           {/* Carousel Arrows (Visual) */}
           <div className="flex justify-center gap-4 mt-8 text-[#1B4D3E]">
             <div className="cursor-pointer hover:scale-110 transition-transform">
-              <Image src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/arrow-left.png" alt="Previous" width={40} height={40} />
+              <Image
+                src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/arrow-left.png"
+                alt="Previous"
+                width={40}
+                height={40}
+              />
             </div>
             <div className="cursor-pointer hover:scale-110 transition-transform">
-              <Image src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/arrow-right.png" alt="Next" width={40} height={40} />
+              <Image
+                src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/arrow-right.png"
+                alt="Next"
+                width={40}
+                height={40}
+              />
             </div>
           </div>
-
         </div>
       </section>
 
@@ -162,17 +157,30 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-[#B7E4C7] h-64 rounded-3xl shadow-sm border border-white/30" />
+              <div
+                key={i}
+                className="bg-[#B7E4C7] h-64 rounded-3xl shadow-sm border border-white/30"
+              />
             ))}
           </div>
 
           {/* Carousel Arrows (Visual) */}
           <div className="flex justify-center gap-4 mt-8 text-[#1B4D3E]">
             <div className="cursor-pointer hover:scale-110 transition-transform">
-              <Image src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/arrow-left.png" alt="Previous" width={40} height={40} />
+              <Image
+                src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/arrow-left.png"
+                alt="Previous"
+                width={40}
+                height={40}
+              />
             </div>
             <div className="cursor-pointer hover:scale-110 transition-transform">
-              <Image src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/arrow-right.png" alt="Next" width={40} height={40} />
+              <Image
+                src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/arrow-right.png"
+                alt="Next"
+                width={40}
+                height={40}
+              />
             </div>
           </div>
         </div>
@@ -214,33 +222,56 @@ export default function Home() {
           <div className="mt-8 md:mt-0 flex flex-col items-end gap-8 text-[#1B4D3E]">
             {/* Contact Section */}
             <div className="flex flex-col items-end gap-3">
-              <h3 className="text-lg font-extrabold uppercase tracking-wide">Liên hệ chúng tôi (Contact Us)</h3>
-              <a href="mailto:partnership@travelpath.io.vn" className="flex items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group">
-                <span className="group-hover:translate-x-[-2px] transition-transform">partnership@travelpath.io.vn</span>
+              <h3 className="text-lg font-extrabold uppercase tracking-wide">
+                Liên hệ chúng tôi (Contact Us)
+              </h3>
+              <a
+                href="mailto:partnership@travelpath.io.vn"
+                className="flex items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group"
+              >
+                <span className="group-hover:translate-x-[-2px] transition-transform">
+                  partnership@travelpath.io.vn
+                </span>
                 <Mail size={20} />
               </a>
-              <a href="tel:+83846427816" className="flex items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group">
-                <span className="group-hover:translate-x-[-2px] transition-transform">+83 846 427 816</span>
+              <a
+                href="tel:+83846427816"
+                className="flex items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group"
+              >
+                <span className="group-hover:translate-x-[-2px] transition-transform">
+                  +83 846 427 816
+                </span>
                 <Phone size={20} />
               </a>
             </div>
 
             {/* Social Section */}
             <div className="flex flex-col items-end gap-3">
-              <h3 className="text-lg font-extrabold uppercase tracking-wide">Theo dõi chúng tôi trên</h3>
-              <a href="#" className="flex items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group">
-                <span className="group-hover:translate-x-[-2px] transition-transform">Facebook</span>
+              <h3 className="text-lg font-extrabold uppercase tracking-wide">
+                Theo dõi chúng tôi trên
+              </h3>
+              <a
+                href="#"
+                className="flex items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group"
+              >
+                <span className="group-hover:translate-x-[-2px] transition-transform">
+                  Facebook
+                </span>
                 <Facebook size={20} />
               </a>
-              <a href="#" className="flex items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group">
-                <span className="group-hover:translate-x-[-2px] transition-transform">Instagram</span>
+              <a
+                href="#"
+                className="flex items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group"
+              >
+                <span className="group-hover:translate-x-[-2px] transition-transform">
+                  Instagram
+                </span>
                 <Instagram size={20} />
               </a>
             </div>
           </div>
         </div>
       </footer>
-
-    </main >
+    </main>
   );
 }

@@ -9,7 +9,7 @@ const quicksand = Quicksand({
 
 export const metadata: Metadata = {
   title: "Travel Path",
-  description: "Make your dream trip",
+  description: "Một cú chạm, vạn hành trình",
 };
 
 export default function RootLayout({
