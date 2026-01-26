@@ -4,9 +4,11 @@ import Image from "next/image";
 import prisma from '@/lib/prisma'
 
 
+
 export default async function AboutPage() {
-    const vision = await prisma.siteContent.findUnique({ where: { key: 'vision' } });
-    const mission = await prisma.siteContent.findUnique({ where: { key: 'mission' } });
+    // Safety check: accessing prisma.siteContent might fail if client isn't generated
+    const vision = prisma.siteContent ? await prisma.siteContent.findUnique({ where: { key: 'vision' } }) : null;
+    const mission = prisma.siteContent ? await prisma.siteContent.findUnique({ where: { key: 'mission' } }) : null;
 
     const visionContent = vision?.content || "Travel Path hướng đến việc trở thành một nền tảng xây dựng hành trình du lịch cá nhân hóa từ những ý tưởng ban đầu đến một lộ trình tối ưu phù hợp với sở thích, nhu cầu và phong cách du lịch cá nhân.";
     const missionContent = mission?.content || "Travel path mang đến một hệ sinh thái thông minh nhằm cung cấp các lựa chọn về địa điểm tham quan, vui chơi giải trí đến nơi lưu trú và tiện ích về phương tiện di chuyển cho người dùng. Không chỉ dừng lại ở việc lên kế hoạch, công nghệ mà Travel Path mang lại còn giúp người dùng tận hưởng trọn vẹn chuyến đi thông qua người bạn đồng hành - Hướng dẫn viên AI hỗ trợ xuyên suốt hành trình của bạn.";

@@ -7,9 +7,10 @@ import prisma from '@/lib/prisma'
 
 
 export default async function BlogPage() {
-    const posts = await prisma.post.findMany({
+    // Safety check for prisma.post
+    const posts = prisma.post ? await prisma.post.findMany({
         orderBy: { createdAt: 'desc' }
-    });
+    }) : [];
 
     return (
         <main className="min-h-screen bg-[#F0F9F9] relative font-sans text-[#1B4D3E]">

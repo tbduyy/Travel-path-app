@@ -176,7 +176,10 @@ export default function WeatherWidget() {
 
   if (loading)
     return (
-      <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-[2.5rem] bg-blue-500 animate-pulse border border-white/20 shadow-2xl flex items-center justify-center text-white font-medium tracking-wider">
+      <div 
+        suppressHydrationWarning 
+        className="relative w-64 h-64 md:w-80 md:h-80 rounded-[2.5rem] bg-blue-500 animate-pulse border border-white/20 shadow-2xl flex items-center justify-center text-white font-medium tracking-wider"
+      >
         Getting Location...
       </div>
     );

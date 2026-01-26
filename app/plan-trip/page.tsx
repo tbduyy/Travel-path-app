@@ -136,15 +136,16 @@ function BookingFlowContent({ onBack }: { onBack: () => void }) {
   };
 
   const handleScheduleFinish = () => {
-      console.log("Trip Planned!", {
+      console.log("Trip Planned! (Fake Save)", {
           city: cityName,
           dates: { start: startDate, end: endDate },
           people,
           attractions: selectedAttractions,
           hotel: selectedHotel
       });
-      alert(`Đã lưu lịch trình đi ${cityName} thành công!`);
-      router.push("/my-journey");
+      // Fake button: No alert, no navigation
+      // alert(`Đã lưu lịch trình đi ${cityName} thành công!`);
+      // router.push("/my-journey");
   };
 
   const handleStepBack = () => {

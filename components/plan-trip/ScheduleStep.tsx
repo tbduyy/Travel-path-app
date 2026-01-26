@@ -60,12 +60,21 @@ export default function ScheduleStep({
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentDayIndex, setCurrentDayIndex] = useState(0);
   
-  // INITIALIZE WITH ONLY 2 ITEMS DISPLAYED (User Request)
+  // INITIALIZE WITH DEFAULT 2 ITEMS (User Request)
   const [displayedAttractions, setDisplayedAttractions] = useState<any[]>(() => {
-       return selectedAttractions.length > 0 ? selectedAttractions.slice(0, 2) : [];
+       if (selectedAttractions.length >= 2) {
+           return selectedAttractions.slice(0, 2);
+       }
+       // If fewer than 2, fill with suggestions from allAttractions
+       const selectedIds = new Set(selectedAttractions.map(a => a.id));
+       const suggestions = allAttractions.filter(a => !selectedIds.has(a.id));
+       return [...selectedAttractions, ...suggestions.slice(0, 2 - selectedAttractions.length)];
   });
   
-  const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
+  // Initialize savedIds with the items selected in previous step
+  const [savedIds, setSavedIds] = useState<Set<string>>(() => {
+      return new Set(selectedAttractions.map(a => a.id));
+  });
   
   // Dining Setup - Use data from props, fallback to default
   const fullDiningList = (allDining && allDining.length > 0) ? allDining : DEFAULT_DINING;

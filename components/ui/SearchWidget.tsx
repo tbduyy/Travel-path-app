@@ -125,19 +125,12 @@ export default function SearchWidget() {
   const handleSearch = (isBooking: boolean = false) => {
     if (isBooking) {
       // Validate required fields for booking flow
-      const missingFields = [];
-      
       if (!destination) {
-        missingFields.push("điểm đến");
         setIsDropdownOpen(true);
+        return;
       }
       if (!startDate || !endDate) {
-        missingFields.push("ngày đi - về");
-        if (!destination) {} else setIsCalendarOpen(true);
-      }
-      
-      if (missingFields.length > 0) {
-        alert(`Vui lòng chọn ${missingFields.join(" và ")} trước khi tạo lịch trình!`);
+        setIsCalendarOpen(true);
         return;
       }
     }
