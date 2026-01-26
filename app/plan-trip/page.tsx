@@ -8,6 +8,9 @@ import { searchPlaces } from "@/app/actions/search";
 import dynamic from "next/dynamic";
 import clsx from "clsx";
 import SearchWidget from "@/components/ui/SearchWidget";
+import FeaturedLocationsStep from "@/components/plan-trip/FeaturedLocationsStep";
+import AccommodationsStep from "@/components/plan-trip/AccommodationsStep";
+import mockData from "@/data/mock_destinations.json"; // Import generated data
 
 // Dynamically import MapComponent
 const MapComponent = dynamic(() => import("@/components/MapComponent"), {
@@ -19,7 +22,128 @@ const MapComponent = dynamic(() => import("@/components/MapComponent"), {
   ),
 });
 
-function PlanTripContent() {
+// --- NEW FLOW: BOOKING / GENERATED DATA ---
+
+interface CityData {
+  id: string;
+  name: string;
+  attractions: any[];
+  hotels: any[];
+}
+
+function BookingFlowContent({ onBack }: { onBack: () => void }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  const [step, setStep] = useState<"featured-locations" | "accommodations">("featured-locations");
+  
+  // State from URL params or defaults
+  const [cityId, setCityId] = useState("");
+  const [cityName, setCityName] = useState("");
+  const [people, setPeople] = useState("2");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
+  // Selection State
+  const [selectedAttractions, setSelectedAttractions] = useState<any[]>([]);
+  const [selectedHotel, setSelectedHotel] = useState<any>(null);
+
+  // Load initial data
+  useEffect(() => {
+    const destParam = searchParams.get("destination");
+    const peopleParam = searchParams.get("people");
+    const startParam = searchParams.get("startDate");
+    const endParam = searchParams.get("endDate");
+
+    if (destParam) {
+       setCityId(destParam);
+       // Find city name from mock data
+       const cityData = (mockData as CityData[]).find((c: CityData) => c.id === destParam);
+       if (cityData) setCityName(cityData.name);
+       else setCityName(destParam);
+    } else {
+        setCityId("da-lat");
+        setCityName("Đà Lạt");
+    }
+
+    if (peopleParam) setPeople(peopleParam);
+    if (startParam) setStartDate(startParam);
+    if (endParam) setEndDate(endParam);
+  }, [searchParams]);
+
+  // Find data for current city
+  const normalizeId = (id: string) => id.replace(/-/g, '_').toLowerCase();
+  
+  const currentCityData = (mockData as CityData[]).find((c: CityData) => c.id === normalizeId(cityId)) || (mockData as CityData[])[0];
+
+  const handleLocationsContinue = (attractions: any[]) => {
+      setSelectedAttractions(attractions);
+      setStep("accommodations");
+      window.scrollTo(0, 0);
+  };
+
+  const handleAccommodationsFinish = (hotel: any) => {
+      setSelectedHotel(hotel);
+      console.log("Trip Planned!", {
+          city: cityName,
+          dates: { start: startDate, end: endDate },
+          people,
+          attractions: selectedAttractions,
+          hotel
+      });
+      alert(`Đã tạo lịch trình đi ${cityName} thành công! \n(Xem console để biết chi tiết)`);
+      router.push("/my-journey");
+  };
+
+  const handleStepBack = () => {
+    if (step === "accommodations") {
+        setStep("featured-locations");
+    } else {
+        // Return to Search
+        onBack();
+    }
+  };
+
+  if (!currentCityData) {
+      return <div className="p-10 text-center">Loading or City Not Found...</div>;
+  }
+
+  return (
+    <div className="min-h-screen bg-[#F8FDFB] font-sans">
+       {/* Use a simple container or reuse Header? The new flow seems to want full page focus or similar to design. 
+           User's prompt implied "FeaturedLocation" step. I'll use the component I built. */}
+      {/* <div className="sticky top-0 z-50 mb-0">
+         <Header /> 
+      </div> */}
+      {/* Kepp it simple as implemented before */}
+      
+      <div className="container mx-auto py-8">
+        {step === "featured-locations" && (
+          <FeaturedLocationsStep
+            city={currentCityData.name}
+            attractions={currentCityData.attractions}
+            onContinue={handleLocationsContinue}
+            onBack={handleStepBack}
+          />
+        )}
+        
+        {step === "accommodations" && (
+          <AccommodationsStep
+            city={currentCityData.name}
+            hotels={currentCityData.hotels}
+            onFinish={handleAccommodationsFinish}
+            onBack={handleStepBack}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+// --- LEGACY FLOW: SEARCH / API ---
+
+function SearchFlowContent() {
   const [step, setStep] = useState(1);
   const [places, setPlaces] = useState<any[]>([]);
   const [hotels, setHotels] = useState<any[]>([]);
@@ -40,6 +164,8 @@ function PlanTripContent() {
 
   useEffect(() => {
     const dest = searchParams.get("destination");
+    // Ensure we are NOT in booking flow (checked by parent, but safe to verify)
+    // If dest exists, SearchFlow performs search
     if (dest) {
       performSearch(dest);
     }
@@ -168,65 +294,6 @@ function PlanTripContent() {
         <SearchWidget />
         {/* Floating Badges/Partnerships */}
       </div>
-
-      {/* <div className="relative w-full max-w-7xl mx-auto mt-2 h-24 shrink-0 transition-all duration-500 ease-in-out">
-        <Image
-          src="/assets/plan-trip/rectangle-7.png"
-          alt="Background"
-          fill
-          className="object-cover rounded-2xl shadow-lg"
-        />
-        <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-16 bg-black/10 rounded-2xl">
-          <div className="flex justify-between items-center w-full">
-            <div
-              className="cursor-pointer hover:scale-110 transition-transform group"
-              onClick={handleBack}
-            >
-              <Image
-                src="/assets/plan-trip/arrow-long.png"
-                alt="Back"
-                width={64}
-                height={38}
-                className="object-contain opacity-80 group-hover:opacity-100 transition-opacity"
-              />
-            </div>
-            <div className="flex-1 h-12 flex flex-col items-center justify-center px-4">
-              {hasSearched && (
-                <div className="animate-in fade-in slide-in-from-top-4 duration-500 text-center">
-                  <h1 className="text-2xl md:text-3xl font-extrabold text-[#113D38] uppercase drop-shadow-md mb-1 line-clamp-1">
-                    {step === 1
-                      ? `Các địa điểm nổi bật tại ${searchTerm || "Đà Lạt"}`
-                      : `Các nơi lưu trú tại ${searchTerm || "Đà Lạt"}`}
-                  </h1>
-                  <p className="text-[#2E968C] text-lg font-medium tracking-wide drop-shadow-sm">
-                    {step === 1
-                      ? "Chọn ít nhất 1 nơi bạn muốn đến"
-                      : "Chọn option bạn thấy tối ưu nhất"}
-                  </p>
-                </div>
-              )}
-            </div>
-            <div className="relative w-64 h-12 bg-white rounded-full flex items-center px-5 shadow-lg border border-white/20 focus-within:ring-2 focus-within:ring-[#1B4D3E]/20 transition-all">
-              <input
-                type="text"
-                placeholder="Nhập tên thành phố..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={handleSearch}
-                className="flex-1 bg-transparent border-none outline-none text-[#1B4D3E] font-medium text-base pr-2 placeholder:text-gray-400 placeholder:font-normal"
-              />
-              <div className="w-6 h-6 relative shrink-0 opacity-60">
-                <Image
-                  src="/assets/plan-trip/step-bg.png"
-                  alt="Search"
-                  fill
-                  className="object-contain grayscale"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
 
       {!hasSearched && (
         <div className="flex-1 flex flex-col items-center justify-center p-8 text-center animate-in fade-in zoom-in duration-700">
@@ -514,7 +581,21 @@ function PlanTripContent() {
   );
 }
 
-export default function PlanTripPage() {
+// --- MAIN PAGE COMPONENT ---
+
+function PlanTripPage() {
+  const searchParams = useSearchParams();
+  const flow = searchParams.get("flow");
+  const router = useRouter();
+
+  if (flow === "booking") {
+      return (
+          <Suspense fallback={<div>Loading Booking Flow...</div>}>
+            <BookingFlowContent onBack={() => router.push("/plan-trip")} />
+          </Suspense>
+      );
+  }
+
   return (
     <Suspense
       fallback={
@@ -526,7 +607,15 @@ export default function PlanTripPage() {
         </div>
       }
     >
-      <PlanTripContent />
+      <SearchFlowContent />
     </Suspense>
   );
+}
+
+export default function Page() {
+    return (
+        <Suspense>
+            <PlanTripPage />
+        </Suspense>
+    )
 }

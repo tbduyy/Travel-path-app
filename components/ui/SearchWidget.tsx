@@ -125,7 +125,7 @@ export default function SearchWidget() {
     return "";
   };
 
-  const handleSearch = () => {
+  const handleSearch = (isBooking: boolean = false) => {
     console.log("Redirecting to plan-trip with:", { destination });
 
     const params = new URLSearchParams();
@@ -135,6 +135,10 @@ export default function SearchWidget() {
     if (people) params.set("people", people.toString());
     if (budget) params.set("budget", budget);
     if (style) params.set("style", style);
+    
+    if (isBooking) {
+        params.set("flow", "booking");
+    }
 
     const queryString = params.toString();
     router.push(`/plan-trip${queryString ? `?${queryString}` : ""}`);
@@ -466,7 +470,7 @@ export default function SearchWidget() {
                 {/* Search Icon */}
                 <div
                   className="relative w-[5%] h-full flex items-center justify-center border-l border-gray-200/50 cursor-pointer hover:scale-110 transition-transform"
-                  onClick={handleSearch}
+                  onClick={() => handleSearch(false)}
                 >
                   <Image
                     src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/search-bar/search-icon.png"
@@ -480,10 +484,11 @@ export default function SearchWidget() {
               </div>
             </div>
 
-            {/* Rectangle 3 (Right Button) - Wrapped in Link to /plan-trip */}
-            <Link
-              href="/plan-trip"
-              className="relative w-[16%] h-[70%] flex-shrink-0 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform"
+            {/* Rectangle 3 (Right Button) - "Tạo lịch trình" */}
+            <button
+              onClick={() => handleSearch(true)}
+              className="relative w-[16%] h-[70%] flex-shrink-0 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform bg-transparent border-none p-0"
+              type="button"
             >
               <Image
                 src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/search-bar/rectangle-3.png"
@@ -501,7 +506,7 @@ export default function SearchWidget() {
                 className="relative z-10 h-[25%] w-auto object-contain"
                 unoptimized
               />
-            </Link>
+            </button>
           </div>
         </div>
       </div>
