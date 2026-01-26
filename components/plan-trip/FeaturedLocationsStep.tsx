@@ -27,6 +27,8 @@ export default function FeaturedLocationsStep({
 }: FeaturedLocationsStepProps) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
+  const [visibleCount, setVisibleCount] = useState(6);
+
   const toggleSelection = (id: string) => {
     const newSelected = new Set(selectedIds);
     if (newSelected.has(id)) {
@@ -41,6 +43,12 @@ export default function FeaturedLocationsStep({
     const selected = attractions.filter((a) => selectedIds.has(a.id));
     onContinue(selected);
   };
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 6);
+  };
+
+  const displayedAttractions = attractions.slice(0, visibleCount);
 
   // Helper to render stars
   const renderStars = (rating: number) => {
@@ -59,42 +67,49 @@ export default function FeaturedLocationsStep({
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 md:p-6 pb-24">
-      <div className="flex items-center gap-4 mb-6">
-        <button onClick={onBack} className="text-[#1B4D3E] font-bold text-2xl">
-          ←
+    <div className="w-full h-full flex flex-col relative pb-24">
+      {/* Header Section */}
+      <div className="flex items-center justify-between mb-2 md:mb-4 px-2">
+        <button onClick={onBack} className="text-[#1B4D3E] hover:bg-[#E0F2F1] p-2 rounded-full transition-colors">
+            {/* Arrow Left Icon */}
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
         </button>
-        <div>
-          <h2 className="text-2xl md:text-3xl font-bold text-[#1B4D3E]">
+        <div className="text-center">
+          <h2 className="text-xl md:text-2xl font-bold text-[#1B4D3E]">
             Các địa điểm nổi bật tại {city}
           </h2>
-          <p className="text-[#1B4D3E]/70 text-sm md:text-base">
+          <p className="text-[#1B4D3E]/70 text-sm">
             Chọn ít nhất 1 nơi mà bạn muốn đến
           </p>
         </div>
-        <div className="ml-auto relative">
-             {/* Search bar placeholder */}
-            <div className="hidden md:flex items-center border border-gray-300 rounded-full px-4 py-1.5 bg-white">
-                <input type="text" placeholder="Tìm kiếm" className="outline-none text-sm text-gray-600 bg-transparent" />
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-search text-gray-400 ml-2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            </div>
-        </div>
+        <div className="w-10"></div> {/* Spacer for alignment */}
       </div>
 
-      {attractions && attractions.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
-          {attractions.map((attraction) => {
+       {/* Search and Map Toggle Row (based on design typically having search here) */}
+       <div className="flex justify-between items-center px-4 mb-4">
+            <div className="relative w-full max-w-xs ml-auto">
+                 <input 
+                    type="text" 
+                    placeholder="Tìm kiếm" 
+                    className="w-full pl-4 pr-10 py-1.5 rounded-full border border-[#1B4D3E]/30 text-sm focus:outline-none focus:border-[#1B4D3E] bg-white text-[#1B4D3E]"
+                 />
+                 <svg className="absolute right-3 top-1/2 -translate-y-1/2 text-[#1B4D3E]/50" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </div>
+       </div>
+
+      {/* Main Content: List of Cards */}
+      <div className="w-full px-4 overflow-y-auto">
+      {displayedAttractions && displayedAttractions.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {displayedAttractions.map((attraction) => {
             const isSelected = selectedIds.has(attraction.id);
             return (
               <div
                 key={attraction.id}
-                className={`bg-white rounded-2xl p-4 shadow-sm border transition-all duration-300 flex flex-col md:flex-row gap-4 ${
-                  isSelected
-                    ? "border-[#1B4D3E] shadow-md ring-1 ring-[#1B4D3E]/20"
-                    : "border-gray-100 hover:border-gray-200"
-                }`}
+                className="bg-white rounded-[24px] p-4 shadow-sm border border-gray-100 flex flex-col gap-3 hover:shadow-md transition-all duration-300"
               >
-                <div className="relative w-full md:w-64 h-48 md:h-40 rounded-xl overflow-hidden flex-shrink-0">
+                {/* Image */}
+                <div className="relative w-full aspect-[16/9] rounded-[20px] overflow-hidden">
                   <Image
                     src={attraction.image}
                     alt={attraction.name}
@@ -102,47 +117,45 @@ export default function FeaturedLocationsStep({
                     className="object-cover"
                     unoptimized
                   />
-                  {isSelected && (
-                    <div className="absolute inset-0 bg-[#1B4D3E]/10 flex items-center justify-center">
-                      <div className="bg-[#1B4D3E] text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
-                        ĐÃ CHỌN
-                      </div>
-                    </div>
-                  )}
                 </div>
 
-                <div className="flex-1 flex flex-col justify-between">
-                  <div>
-                    <div className="flex justify-between items-start">
-                      <h3 className="text-xl font-bold text-[#1B4D3E] mb-1">
+                {/* Content */}
+                <div className="flex flex-col gap-1">
+                    {/* Title Row */}
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-lg font-bold text-[#1B4D3E] truncate">
                         {attraction.name}
                       </h3>
+                      {/* Google G Icon Mock */}
+                      <span className="flex items-center justify-center w-4 h-4 rounded-full bg-white shadow-sm border border-gray-100 text-[10px] font-bold">
+                        <span className="text-blue-500">G</span>
+                      </span>
                       {renderStars(attraction.rating)}
                     </div>
                     
-                    <div className="flex items-center gap-1 text-[#1B4D3E]/70 text-xs mt-1">
-                        <span># Địa điểm tham quan</span>
-                        {/* Mock tags */}
+                    {/* Tags */}
+                    <div className="text-[11px] text-[#1B4D3E]/70 font-medium">
+                        # Địa điểm tham quan, Thiên nhiên, Ngoài trời
                     </div>
-                     <div className="flex items-center gap-1 text-[#1B4D3E]/70 text-xs mt-1">
+                    
+                    {/* Time */}
+                     <div className="flex items-center gap-1.5 text-[11px] text-[#1B4D3E]/80 font-medium">
                          <Clock size={12} />
-                         <span>Dành khoảng 2-3 tiếng</span>
+                         <span>Dành khoảng 3-4 tiếng</span>
                      </div>
-                  </div>
-
-                  <div className="mt-4 md:mt-0 flex justify-end md:justify-start">
-                    <button
-                      onClick={() => toggleSelection(attraction.id)}
-                      className={`w-full md:w-auto px-6 py-2 rounded-full font-medium transition-colors border ${
-                        isSelected
-                          ? "bg-[#1B4D3E] text-white border-[#1B4D3E]"
-                          : "bg-white text-[#1B4D3E] border-[#1B4D3E] hover:bg-[#E0F2F1]"
-                      }`}
-                    >
-                      {isSelected ? "Bỏ chọn" : "Chọn điểm này"}
-                    </button>
-                  </div>
                 </div>
+
+                {/* Button */}
+                <button
+                  onClick={() => toggleSelection(attraction.id)}
+                  className={`w-full py-2.5 rounded-full font-bold text-sm transition-all duration-200 mt-1 ${
+                    isSelected
+                      ? "bg-[#1B4D3E] text-white shadow-lg shadow-[#1B4D3E]/20"
+                      : "bg-white text-[#1B4D3E] border border-[#1B4D3E] hover:bg-[#E0F2F1]"
+                  }`}
+                >
+                  {isSelected ? "ĐÃ CHỌN" : "Chọn điểm này"}
+                </button>
               </div>
             );
           })}
@@ -152,23 +165,37 @@ export default function FeaturedLocationsStep({
               Không tìm thấy địa điểm nào.
           </div>
       )}
+      </div>
 
-      {/* Floating Continue Button */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md p-4 border-t border-gray-200 z-50">
-        <div className="max-w-4xl mx-auto flex justify-between items-center">
-            <span className="text-[#1B4D3E] font-medium hidden md:block">*Xem thêm</span>
+      {/* Floating Continue Footer */}
+      <div className="absolute bottom-0 left-0 right-0 bg-[#F8FDFB]/90 backdrop-blur-sm p-4 z-50 rounded-b-[40px]">
+        <div className="max-w-4xl mx-auto flex items-center justify-between relative">
+            {/* Show "See More" only if there are more items */}
+            <div className="w-24"> 
+                {visibleCount < attractions.length && (
+                    <button 
+                        onClick={handleLoadMore}
+                        className="text-[#2E968C] text-sm font-semibold hover:underline"
+                    >
+                        *Xem thêm
+                    </button>
+                )}
+            </div>
             
-          <button
-            onClick={handleContinue}
-            disabled={selectedIds.size === 0}
-            className={`px-8 py-3 rounded-full font-bold text-lg shadow-lg transition-all mx-auto md:mx-0 ${
-              selectedIds.size > 0
-                ? "bg-[#1B4D3E] text-white hover:bg-[#153a2f] hover:scale-105"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
-          >
-            Tiếp tục
-          </button>
+            <button
+                onClick={handleContinue}
+                disabled={selectedIds.size === 0}
+                className={`absolute left-1/2 -translate-x-1/2 px-12 py-3 rounded-full font-bold text-white text-lg shadow-xl transition-all ${
+                selectedIds.size > 0
+                    ? "bg-[#1B4D3E] hover:bg-[#153a2f] hover:scale-105"
+                    : "bg-gray-300 cursor-not-allowed"
+                }`}
+            >
+                Tiếp tục
+            </button>
+            
+            {/* Empty Spacer to balance layout since we removed chatbot */}
+            <div className="w-24"></div>
         </div>
       </div>
     </div>

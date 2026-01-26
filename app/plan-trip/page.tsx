@@ -109,32 +109,31 @@ function BookingFlowContent({ onBack }: { onBack: () => void }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FDFB] font-sans">
-       {/* Use a simple container or reuse Header? The new flow seems to want full page focus or similar to design. 
-           User's prompt implied "FeaturedLocation" step. I'll use the component I built. */}
-      {/* <div className="sticky top-0 z-50 mb-0">
+    <div className="min-h-screen bg-[#BBD9D9] font-sans relative selection:bg-[#1B4D3E]/20">
+       <div className="sticky top-0 z-[100]">
          <Header /> 
-      </div> */}
-      {/* Kepp it simple as implemented before */}
+       </div>
       
-      <div className="container mx-auto py-8">
-        {step === "featured-locations" && (
-          <FeaturedLocationsStep
-            city={currentCityData.name}
-            attractions={currentCityData.attractions}
-            onContinue={handleLocationsContinue}
-            onBack={handleStepBack}
-          />
-        )}
-        
-        {step === "accommodations" && (
-          <AccommodationsStep
-            city={currentCityData.name}
-            hotels={currentCityData.hotels}
-            onFinish={handleAccommodationsFinish}
-            onBack={handleStepBack}
-          />
-        )}
+      <div className="container mx-auto px-4 md:px-6 mt-6 pb-24 relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <section className="bg-[#F8FDFB] rounded-[40px] p-6 md:p-8 shadow-2xl min-h-[80vh] border-4 border-white/50 relative overflow-hidden">
+            {step === "featured-locations" && (
+            <FeaturedLocationsStep
+                city={currentCityData.name}
+                attractions={currentCityData.attractions}
+                onContinue={handleLocationsContinue}
+                onBack={handleStepBack}
+            />
+            )}
+            
+            {step === "accommodations" && (
+            <AccommodationsStep
+                city={currentCityData.name}
+                hotels={currentCityData.hotels}
+                onFinish={handleAccommodationsFinish}
+                onBack={handleStepBack}
+            />
+            )}
+        </section>
       </div>
     </div>
   );
