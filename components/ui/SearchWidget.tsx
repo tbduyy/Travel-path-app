@@ -26,11 +26,11 @@ const destinations = [
 
 // Danh sách phong cách
 const travelStyles = [
-  { value: "relaxation", label: "Thư giãn", icon: "🧘" },
-  { value: "adventure", label: "Phiêu lưu", icon: "🏄" },
-  { value: "cultural", label: "Văn hóa", icon: "🏛️" },
-  { value: "foodie", label: "Ẩm thực", icon: "🍜" },
-  { value: "romantic", label: "Lãng mạn", icon: "💕" },
+  { value: "relaxation", label: "Thư giãn" },
+  { value: "adventure", label: "Phiêu lưu" },
+  { value: "cultural", label: "Văn hóa" },
+  { value: "foodie", label: "Ẩm thực" },
+  { value: "romantic", label: "Lãng mạn" },
 ];
 
 export default function SearchWidget() {
@@ -463,7 +463,6 @@ export default function SearchWidget() {
                                   : "text-gray-700"
                               }`}
                             >
-                              <span className="text-xl">{s.icon}</span>
                               <span className="text-sm md:text-base">
                                 {s.label}
                               </span>
