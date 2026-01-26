@@ -45,6 +45,8 @@ function BookingFlowContent({ onBack }: { onBack: () => void }) {
   const [people, setPeople] = useState("2");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [budget, setBudget] = useState("");
+  const [travelStyle, setTravelStyle] = useState("");
 
   // Selection State
   const [selectedAttractions, setSelectedAttractions] = useState<any[]>([]);
@@ -56,6 +58,8 @@ function BookingFlowContent({ onBack }: { onBack: () => void }) {
     const peopleParam = searchParams.get("people");
     const startParam = searchParams.get("startDate");
     const endParam = searchParams.get("endDate");
+    const budgetParam = searchParams.get("budget");
+    const styleParam = searchParams.get("style");
 
     if (destParam) {
        setCityId(destParam);
@@ -71,6 +75,8 @@ function BookingFlowContent({ onBack }: { onBack: () => void }) {
     if (peopleParam) setPeople(peopleParam);
     if (startParam) setStartDate(startParam);
     if (endParam) setEndDate(endParam);
+    if (budgetParam) setBudget(budgetParam);
+    if (styleParam) setTravelStyle(styleParam);
   }, [searchParams]);
 
   // Find data for current city
@@ -189,6 +195,11 @@ function BookingFlowContent({ onBack }: { onBack: () => void }) {
                 allAttractions={currentCityData.attractions} // Pass full list for suggestions
                 allDining={currentCityData.dining || []} // Pass dining data from JSON
                 selectedHotel={selectedHotel}
+                startDate={startDate}
+                endDate={endDate}
+                people={people}
+                budget={budget}
+                travelStyle={travelStyle}
                 onFinish={handleScheduleFinish}
                 onBack={handleStepBack}
             />

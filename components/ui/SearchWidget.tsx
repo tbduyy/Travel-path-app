@@ -123,12 +123,26 @@ export default function SearchWidget() {
   };
 
   const handleSearch = (isBooking: boolean = false) => {
-    if (isBooking && !destination) {
+    if (isBooking) {
+      // Validate required fields for booking flow
+      const missingFields = [];
+      
+      if (!destination) {
+        missingFields.push("điểm đến");
         setIsDropdownOpen(true);
+      }
+      if (!startDate || !endDate) {
+        missingFields.push("ngày đi - về");
+        if (!destination) {} else setIsCalendarOpen(true);
+      }
+      
+      if (missingFields.length > 0) {
+        alert(`Vui lòng chọn ${missingFields.join(" và ")} trước khi tạo lịch trình!`);
         return;
+      }
     }
 
-    console.log("Redirecting to plan-trip with:", { destination });
+    console.log("Redirecting to plan-trip with:", { destination, startDate, endDate, people, budget, style });
 
     const params = new URLSearchParams();
     if (destination) params.set("destination", destination);
