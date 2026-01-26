@@ -273,65 +273,29 @@
     "name": "NHA TRANG",
     "attractions": [
       {
-        "id": "banh_canh_co_ha",
-        "name": "BÁNH CANH CÔ HÀ",
-        "image": "/images/destinations/nha_trang/attractions/banh_canh_co_ha.jpg",
-        "description": "Khám phá BÁNH CANH CÔ HÀ",
-        "price": 100000,
-        "rating": 4.5,
-        "type": "Attraction"
-      },
-      {
-        "id": "banh_can_51",
-        "name": "BÁNH CĂN 51",
-        "image": "/images/destinations/nha_trang/attractions/banh_can_51.jpg",
-        "description": "Khám phá BÁNH CĂN 51",
-        "price": 100000,
-        "rating": 4.5,
-        "type": "Attraction"
-      },
-      {
-        "id": "com_ga_nui_mot",
-        "name": "CƠM GÀ NÚI MỘT",
-        "image": "/images/destinations/nha_trang/attractions/com_ga_nui_mot.jpg",
-        "description": "Khám phá CƠM GÀ NÚI MỘT",
-        "price": 100000,
-        "rating": 4.5,
-        "type": "Attraction"
-      },
-      {
-        "id": "hai_san_thanh_suong",
-        "name": "HẢI SẢN THANH SƯƠNG",
-        "image": "/images/destinations/nha_trang/attractions/hai_san_thanh_suong.jpg",
-        "description": "Khám phá HẢI SẢN THANH SƯƠNG",
-        "price": 100000,
-        "rating": 4.5,
-        "type": "Attraction"
-      },
-      {
-        "id": "nem_nuong_đang_van_quyen",
-        "name": "NEM NƯỚNG ĐẶNG VĂN QUYÊN",
-        "image": "/images/destinations/nha_trang/attractions/nem_nuong_đang_van_quyen.jpg",
-        "description": "Khám phá NEM NƯỚNG ĐẶNG VĂN QUYÊN",
-        "price": 100000,
-        "rating": 4.5,
-        "type": "Attraction"
-      },
-      {
         "id": "z_beach",
         "name": "Z BEACH",
         "image": "/images/destinations/nha_trang/attractions/z_beach.jpg",
-        "description": "Khám phá Z BEACH",
-        "price": 100000,
-        "rating": 4.5,
+        "description": "Bãi biển tuyệt đẹp, nổi tiếng với không gian yên bình và nước biển trong xanh",
+        "price": 0,
+        "rating": 4.7,
+        "type": "Attraction"
+      },
+      {
+        "id": "vinwonders_nha_trang",
+        "name": "VINWONDERS NHA TRANG",
+        "image": "/images/destinations/nha_trang/attractions/vinwonders_nha_trang.jpg",
+        "description": "Công viên giải trí hàng đầu Việt Nam với nhiều trò chơi hấp dẫn",
+        "price": 880000,
+        "rating": 4.8,
         "type": "Attraction"
       },
       {
         "id": "bao_tang_hai_duong_hoc",
         "name": "BẢO TÀNG HẢI DƯƠNG HỌC",
         "image": "/images/destinations/nha_trang/attractions/bao_tang_hai_duong_hoc.jpg",
-        "description": "Khám phá BẢO TÀNG HẢI DƯƠNG HỌC",
-        "price": 100000,
+        "description": "Bảo tàng trưng bày sinh vật biển phong phú, địa điểm giáo dục thú vị",
+        "price": 60000,
         "rating": 4.5,
         "type": "Attraction"
       },
@@ -339,26 +303,17 @@
         "id": "chua_long_son",
         "name": "CHÙA LONG SƠN",
         "image": "/images/destinations/nha_trang/attractions/chua_long_son.jpg",
-        "description": "Khám phá CHÙA LONG SƠN",
-        "price": 100000,
-        "rating": 4.5,
-        "type": "Attraction"
-      },
-      {
-        "id": "nha_hat_đo",
-        "name": "NHÀ HÁT ĐÓ",
-        "image": "/images/destinations/nha_trang/attractions/nha_hat_đo.jpg",
-        "description": "Khám phá NHÀ HÁT ĐÓ",
-        "price": 100000,
-        "rating": 4.5,
+        "description": "Ngôi chùa cổ kính với tượng Phật trắng lớn nhất tỉnh Khánh Hòa",
+        "price": 0,
+        "rating": 4.6,
         "type": "Attraction"
       },
       {
         "id": "nha_tho_đa",
         "name": "NHÀ THỜ ĐÁ",
         "image": "/images/destinations/nha_trang/attractions/nha_tho_đa.jpg",
-        "description": "Khám phá NHÀ THỜ ĐÁ",
-        "price": 100000,
+        "description": "Nhà thờ cổ kính xây bằng đá, biểu tượng kiến trúc Pháp tại Nha Trang",
+        "price": 0,
         "rating": 4.5,
         "type": "Attraction"
       },
@@ -366,34 +321,34 @@
         "id": "quang_truong_2-4",
         "name": "QUẢNG TRƯỜNG 2-4",
         "image": "/images/destinations/nha_trang/attractions/quang_truong_2-4.jpg",
-        "description": "Khám phá QUẢNG TRƯỜNG 2-4",
-        "price": 100000,
-        "rating": 4.5,
-        "type": "Attraction"
-      },
-      {
-        "id": "sailing_club",
-        "name": "Sailing Club",
-        "image": "/images/destinations/nha_trang/attractions/sailing_club.jpg",
-        "description": "Khám phá Sailing Club",
-        "price": 100000,
-        "rating": 4.5,
+        "description": "Quảng trường trung tâm, nơi tổ chức các sự kiện lớn của thành phố",
+        "price": 0,
+        "rating": 4.4,
         "type": "Attraction"
       },
       {
         "id": "tour_3_đao",
         "name": "TOUR 3 ĐẢO",
         "image": "/images/destinations/nha_trang/attractions/tour_3_đao.jpg",
-        "description": "Khám phá TOUR 3 ĐẢO",
-        "price": 100000,
-        "rating": 4.5,
+        "description": "Tour khám phá các đảo đẹp: Hòn Mun, Hòn Tằm, Hòn Một",
+        "price": 350000,
+        "rating": 4.7,
         "type": "Attraction"
       },
       {
-        "id": "vinwonders_nha_trang",
-        "name": "VINWONDERS NHA TRANG",
-        "image": "/images/destinations/nha_trang/attractions/vinwonders_nha_trang.jpg",
-        "description": "Khám phá VINWONDERS NHA TRANG",
+        "id": "nha_hat_đo",
+        "name": "NHÀ HÁT ĐÓ",
+        "image": "/images/destinations/nha_trang/attractions/nha_hat_đo.jpg",
+        "description": "Công trình kiến trúc độc đáo, biểu tượng văn hóa nghệ thuật",
+        "price": 0,
+        "rating": 4.3,
+        "type": "Attraction"
+      },
+      {
+        "id": "sailing_club",
+        "name": "Sailing Club",
+        "image": "/images/destinations/nha_trang/attractions/sailing_club.jpg",
+        "description": "Câu lạc bộ bãi biển nổi tiếng với không gian vui chơi sôi động",
         "price": 100000,
         "rating": 4.5,
         "type": "Attraction"
@@ -402,10 +357,62 @@
         "id": "đap_am_chua",
         "name": "ĐẬP AM CHÚA",
         "image": "/images/destinations/nha_trang/attractions/đap_am_chua.jpg",
-        "description": "Khám phá ĐẬP AM CHÚA",
-        "price": 100000,
-        "rating": 4.5,
+        "description": "Hồ nước ngọt tuyệt đẹp, điểm check-in yêu thích của giới trẻ",
+        "price": 0,
+        "rating": 4.4,
         "type": "Attraction"
+      }
+    ],
+    "dining": [
+      {
+        "id": "hai_san_thanh_suong",
+        "name": "HẢI SẢN THANH SƯƠNG",
+        "image": "/images/destinations/nha_trang/attractions/hai_san_thanh_suong.jpg",
+        "description": "Nhà hàng hải sản tươi sống nổi tiếng nhất Nha Trang",
+        "price": "200.000 - 1.000.000 VND",
+        "rating": 4.8,
+        "type": "Dining",
+        "distance": "1 km"
+      },
+      {
+        "id": "nem_nuong_đang_van_quyen",
+        "name": "NEM NƯỚNG ĐẶNG VĂN QUYÊN",
+        "image": "/images/destinations/nha_trang/attractions/nem_nuong_đang_van_quyen.jpg",
+        "description": "Quán nem nướng lâu đời, đặc sản Nha Trang phải thử",
+        "price": "60.000 VND",
+        "rating": 4.7,
+        "type": "Dining",
+        "distance": "1 km"
+      },
+      {
+        "id": "banh_canh_co_ha",
+        "name": "BÁNH CANH CÔ HÀ",
+        "image": "/images/destinations/nha_trang/attractions/banh_canh_co_ha.jpg",
+        "description": "Bánh canh chả cá đặc sản, nước dùng ngọt thanh",
+        "price": "40.000 VND",
+        "rating": 4.5,
+        "type": "Dining",
+        "distance": "2 km"
+      },
+      {
+        "id": "banh_can_51",
+        "name": "BÁNH CĂN 51",
+        "image": "/images/destinations/nha_trang/attractions/banh_can_51.jpg",
+        "description": "Bánh căn trứng cút thơm ngon, ăn kèm mắm nêm đậm đà",
+        "price": "50.000 - 100.000 VND",
+        "rating": 4.3,
+        "type": "Dining",
+        "distance": "1.5 km"
+      },
+      {
+        "id": "com_ga_nui_mot",
+        "name": "CƠM GÀ NÚI MỘT",
+        "image": "/images/destinations/nha_trang/attractions/com_ga_nui_mot.jpg",
+        "description": "Cơm gà xé thơm ngon, cơm dẻo, thịt gà mềm ngọt",
+        "price": "40.000 VND",
+        "rating": 4.6,
+        "type": "Dining",
+        "distance": "1 km"
       }
     ],
     "hotels": [

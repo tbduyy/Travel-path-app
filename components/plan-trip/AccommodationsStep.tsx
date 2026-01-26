@@ -84,15 +84,16 @@ export default function AccommodationsStep({
       </div>
 
       {hotels && hotels.length > 0 ? (
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {hotels.map((hotel, index) => {
-              const isTop = index === 0; // Mock "Tối ưu nhất" badge
+              const isTop = index === 0;
               return (
             <div
               key={hotel.id}
-              className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 hover:border-gray-200 transition-all"
+              className="bg-white rounded-[24px] p-4 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 flex flex-col"
             >
-              <div className="relative w-full h-56 md:h-72 rounded-xl overflow-hidden mb-4">
+              {/* Image Container */}
+              <div className="relative w-full aspect-[4/3] rounded-[20px] overflow-hidden mb-3">
                  <Image
                     src={hotel.image}
                     alt={hotel.name}
@@ -102,45 +103,45 @@ export default function AccommodationsStep({
                  />
                  {isTop && (
                      <div className="absolute top-0 left-0">
-                         {/* Mock badge, assume SVG or image */}
-                         <div className="bg-yellow-400 text-[#1B4D3E] text-xs font-bold px-3 py-1 rounded-br-lg shadow-md">
+                         <div className="bg-yellow-400 text-[#1B4D3E] text-[10px] font-bold px-2 py-1 rounded-br-lg shadow-sm">
                              TỐI ƯU NHẤT
                          </div>
                      </div>
                  )}
-                 <div className="absolute bottom-4 left-4 right-4">
-                      {/* Optional Overlay Info */}
-                 </div>
               </div>
 
-              <div>
-                <div className="flex justify-between items-start mb-2">
-                   <h3 className="text-xl font-bold text-[#1B4D3E]">{hotel.name}</h3>
-                   {renderStars(hotel.rating)}
+              {/* Content Container */}
+              <div className="flex flex-col flex-1 gap-2">
+                <div className="flex justify-between items-start">
+                   <h3 className="text-lg font-bold text-[#1B4D3E] line-clamp-2 leading-tight min-h-[44px]">{hotel.name}</h3>
                 </div>
+                
+                 {/* Rating */}
+                 <div className="flex items-center gap-1 mb-1">
+                    {renderStars(hotel.rating)}
+                    <span className="text-xs text-gray-500">({hotel.rating.toFixed(1)})</span>
+                 </div>
 
-                <div className="space-y-1 mb-4 text-sm text-[#1B4D3E]/80">
-                    <div className="flex items-center gap-2">
-                        <MapPin size={14} />
-                        <span>Khoảng cách đến trung tâm: ~2km</span>
+                {/* Details */}
+                <div className="space-y-1 text-[11px] text-[#1B4D3E]/80 mb-2">
+                    <div className="flex items-center gap-1.5">
+                        <MapPin size={12} className="text-[#1B4D3E]/60"/>
+                        <span className="truncate">Trung tâm ~2km</span>
                     </div>
-                     <div className="flex items-center gap-2">
-                         <Bed size={14} />
-                         <span>Loại phòng: Tiêu chuẩn</span>
-                     </div>
-                     <div className="flex items-start gap-2 text-orange-500 text-xs mt-2">
-                         <Info size={14} className="mt-0.5 flex-shrink-0" />
-                         <span>Phù hợp cho chuyến đi ngắn ngày</span>
+                     <div className="flex items-center gap-1.5">
+                         <Bed size={12} className="text-[#1B4D3E]/60"/>
+                         <span className="truncate">Phòng Tiêu chuẩn</span>
                      </div>
                 </div>
-
-                <div className="flex items-center justify-between mt-4">
-                    <div className="px-4 py-2 border border-[#1B4D3E] rounded-l-full rounded-r-none flex-1 font-bold text-[#1B4D3E] text-center">
-                        {formatPrice(hotel.price)}
-                    </div>
+                
+                {/* Footer: Price & Button */}
+                <div className="mt-auto pt-2 flex flex-col gap-2">
+                     <div className="text-lg font-bold text-[#1B4D3E]">
+                         {formatPrice(hotel.price)}
+                     </div>
                     <button
                         onClick={() => handleSelect(hotel)}
-                        className="bg-[#1B4D3E] text-white px-8 py-2.5 rounded-r-full rounded-l-none font-bold hover:bg-[#153a2f] transition-colors"
+                        className="w-full bg-[#1B4D3E] text-white py-2.5 rounded-full font-bold text-sm hover:bg-[#153a2f] transition-all shadow-md shadow-[#1B4D3E]/20"
                     >
                         Book chỗ này
                     </button>

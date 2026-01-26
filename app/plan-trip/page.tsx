@@ -10,6 +10,7 @@ import clsx from "clsx";
 import SearchWidget from "@/components/ui/SearchWidget";
 import FeaturedLocationsStep from "@/components/plan-trip/FeaturedLocationsStep";
 import AccommodationsStep from "@/components/plan-trip/AccommodationsStep";
+import ScheduleStep from "@/components/plan-trip/ScheduleStep";
 import mockData from "@/data/mock_destinations.json"; // Import generated data
 
 // Dynamically import MapComponent
@@ -29,13 +30,14 @@ interface CityData {
   name: string;
   attractions: any[];
   hotels: any[];
+  dining?: any[]; // Optional dining data
 }
 
 function BookingFlowContent({ onBack }: { onBack: () => void }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   
-  const [step, setStep] = useState<"featured-locations" | "accommodations">("featured-locations");
+  const [step, setStep] = useState<"featured-locations" | "accommodations" | "schedule">("featured-locations");
   
   // State from URL params or defaults
   const [cityId, setCityId] = useState("");
@@ -123,19 +125,26 @@ function BookingFlowContent({ onBack }: { onBack: () => void }) {
 
   const handleAccommodationsFinish = (hotel: any) => {
       setSelectedHotel(hotel);
+      setStep("schedule");
+      window.scrollTo(0, 0);
+  };
+
+  const handleScheduleFinish = () => {
       console.log("Trip Planned!", {
           city: cityName,
           dates: { start: startDate, end: endDate },
           people,
           attractions: selectedAttractions,
-          hotel
+          hotel: selectedHotel
       });
-      alert(`Đã tạo lịch trình đi ${cityName} thành công! \n(Xem console để biết chi tiết)`);
+      alert(`Đã lưu lịch trình đi ${cityName} thành công!`);
       router.push("/my-journey");
   };
 
   const handleStepBack = () => {
-    if (step === "accommodations") {
+    if (step === "schedule") {
+        setStep("accommodations");
+    } else if (step === "accommodations") {
         setStep("featured-locations");
     } else {
         // Return to Search
@@ -169,6 +178,18 @@ function BookingFlowContent({ onBack }: { onBack: () => void }) {
                 city={currentCityData.name}
                 hotels={currentCityData.hotels}
                 onFinish={handleAccommodationsFinish}
+                onBack={handleStepBack}
+            />
+            )}
+
+            {step === "schedule" && (
+            <ScheduleStep
+                city={currentCityData.name}
+                selectedAttractions={selectedAttractions}
+                allAttractions={currentCityData.attractions} // Pass full list for suggestions
+                allDining={currentCityData.dining || []} // Pass dining data from JSON
+                selectedHotel={selectedHotel}
+                onFinish={handleScheduleFinish}
                 onBack={handleStepBack}
             />
             )}
