@@ -91,7 +91,9 @@ function PaymentContent() {
     // Filter out free items for cleaner view or separate them? Let's show all but highlight free.
 
     const handlePay = () => {
-        alert(`Thanh toán thành công ${formattedBudget} VND!`);
+        // Navigate to My Journey page with current params
+        const params = new URLSearchParams(searchParams.toString());
+        router.push(`/my-journey?${params.toString()}`);
     };
 
     return (

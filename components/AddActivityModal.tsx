@@ -14,6 +14,8 @@ interface Activity {
         name: string;
         image: string;
         address: string;
+        lat: number;
+        lng: number;
     };
     startTime?: string;
     endTime?: string;
@@ -73,7 +75,9 @@ export default function AddActivityModal({ isOpen, onClose, onAdd, selectedPlace
                 id: selectedPlace.id,
                 name: selectedPlace.name,
                 image: selectedPlace.image,
-                address: selectedPlace.address
+                address: selectedPlace.address,
+                lat: selectedPlace.lat,
+                lng: selectedPlace.lng
             } : undefined,
             startTime,
             endTime

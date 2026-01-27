@@ -289,6 +289,11 @@ function TripsContent() {
             setStep(2);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
+            // Save current activities to localStorage to persist them to My Journey
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('mytrip_activities', JSON.stringify(activities));
+            }
+
             // Preserve all current params when navigating to demo
             const params = new URLSearchParams(searchParams.toString());
             router.push(`/plan-trip/demo?${params.toString()}`);

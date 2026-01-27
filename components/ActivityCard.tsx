@@ -18,9 +18,10 @@ interface ActivityCardProps {
     };
     onViewDetails?: () => void;
     onDelete?: () => void;
+    readOnly?: boolean;
 }
 
-export default function ActivityCard({ activity, onViewDetails, onDelete }: ActivityCardProps) {
+export default function ActivityCard({ activity, onViewDetails, onDelete, readOnly }: ActivityCardProps) {
     // Calculate mock travel time (in real app, would use distance API)
     const travelTime = activity.place ? `${Math.floor(Math.random() * 20) + 5} mins (${(Math.random() * 10 + 1).toFixed(1)}km)` : null;
 
