@@ -12,9 +12,9 @@ export default function Header() {
   const navLinks = [
     { name: "Về TRAVEL PATH", href: "/about" },
     { name: "Lịch trình chuyến đi", href: "/plan-trip" },
-    { name: "Chuyến đi của tôi", href: "#" },
+    { name: "Chuyến đi của tôi", href: "/my-journey" },
     { name: "Cẩm nang", href: "/blog" },
-    { name: "Thanh toán", href: "/payment" },
+    // { name: "Thanh toán", href: "/payment" },
   ];
 
   return (

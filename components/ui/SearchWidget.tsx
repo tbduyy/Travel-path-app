@@ -17,14 +17,14 @@ import { motion, AnimatePresence } from "framer-motion";
 
 // Danh sách điểm đến
 const destinations = [
-  { value: "da-lat", label: "Đà Lạt", icon: "🏔️" },
-  { value: "nha-trang", label: "Nha Trang", icon: "🏖️" },
-  { value: "phu-quoc", label: "Phú Quốc", icon: "🌴" },
-  { value: "ha-noi", label: "Hà Nội", icon: "🏛️" },
-  { value: "ho-chi-minh", label: "TP. Hồ Chí Minh", icon: "🌆" },
-  { value: "da-nang", label: "Đà Nẵng", icon: "🌉" },
-  { value: "hoi-an", label: "Hội An", icon: "🏮" },
-  { value: "sa-pa", label: "Sa Pa", icon: "🌄" },
+  { value: "Đà Lạt", label: "Đà Lạt", icon: "🏔️" },
+  { value: "Nha Trang", label: "Nha Trang", icon: "🏖️" },
+  { value: "Phú Quốc", label: "Phú Quốc", icon: "🌴" },
+  { value: "Hà Nội", label: "Hà Nội", icon: "🏛️" },
+  { value: "Hồ Chí Minh", label: "TP. Hồ Chí Minh", icon: "🌆" },
+  { value: "Đà Nẵng", label: "Đà Nẵng", icon: "🌉" },
+  { value: "Hội An", label: "Hội An", icon: "🏮" },
+  { value: "Sa Pa", label: "Sa Pa", icon: "🌄" },
 ];
 
 // Danh sách phong cách
@@ -137,7 +137,7 @@ export default function SearchWidget() {
     if (style) params.set("style", style);
 
     const queryString = params.toString();
-    router.push(`/plan-trip${queryString ? `?${queryString}` : ""}`);
+    router.push(`/plan-trip/places${queryString ? `?${queryString}` : ""}`);
   };
 
   return (
@@ -184,19 +184,17 @@ export default function SearchWidget() {
                       className="text-[#1B4D3E]/60 group-hover:text-[#1B4D3E] transition-colors"
                     />
                     <span
-                      className={`font-medium text-sm md:text-base lg:text-lg truncate ${
-                        destinationLabel
-                          ? "text-[#1B4D3E]"
-                          : "text-[#1B4D3E]/60"
-                      }`}
+                      className={`font-medium text-sm md:text-base lg:text-lg truncate ${destinationLabel
+                        ? "text-[#1B4D3E]"
+                        : "text-[#1B4D3E]/60"
+                        }`}
                     >
                       {destinationLabel || "Chọn điểm đến"}
                     </span>
                     <ChevronDown
                       size={16}
-                      className={`text-[#1B4D3E]/60 transition-transform duration-200 ${
-                        isDropdownOpen ? "rotate-180" : ""
-                      }`}
+                      className={`text-[#1B4D3E]/60 transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
 
@@ -216,11 +214,10 @@ export default function SearchWidget() {
                               key={dest.value}
                               type="button"
                               onClick={() => handleSelectDestination(dest)}
-                              className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-[#E0F2F1] transition-colors text-left ${
-                                destination === dest.value
-                                  ? "bg-[#E0F2F1] text-[#1B4D3E] font-semibold"
-                                  : "text-gray-700"
-                              }`}
+                              className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-[#E0F2F1] transition-colors text-left ${destination === dest.value
+                                ? "bg-[#E0F2F1] text-[#1B4D3E] font-semibold"
+                                : "text-gray-700"
+                                }`}
                             >
                               <span className="text-xl">{dest.icon}</span>
                               <span className="text-sm md:text-base">
@@ -258,19 +255,17 @@ export default function SearchWidget() {
                       className="text-[#1B4D3E]/60 group-hover:text-[#1B4D3E] transition-colors"
                     />
                     <span
-                      className={`font-medium text-sm md:text-base lg:text-lg truncate ${
-                        getDateDisplayText()
-                          ? "text-[#1B4D3E]"
-                          : "text-[#1B4D3E]/60"
-                      }`}
+                      className={`font-medium text-sm md:text-base lg:text-lg truncate ${getDateDisplayText()
+                        ? "text-[#1B4D3E]"
+                        : "text-[#1B4D3E]/60"
+                        }`}
                     >
                       {getDateDisplayText() || "Thời gian đi - về"}
                     </span>
                     <ChevronDown
                       size={16}
-                      className={`text-[#1B4D3E]/60 transition-transform duration-200 ${
-                        isCalendarOpen ? "rotate-180" : ""
-                      }`}
+                      className={`text-[#1B4D3E]/60 transition-transform duration-200 ${isCalendarOpen ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
 
@@ -415,17 +410,15 @@ export default function SearchWidget() {
                       className="text-[#1B4D3E]/60 group-hover:text-[#1B4D3E] transition-colors"
                     />
                     <span
-                      className={`font-medium text-sm md:text-base lg:text-lg truncate ${
-                        styleLabel ? "text-[#1B4D3E]" : "text-[#1B4D3E]/60"
-                      }`}
+                      className={`font-medium text-sm md:text-base lg:text-lg truncate ${styleLabel ? "text-[#1B4D3E]" : "text-[#1B4D3E]/60"
+                        }`}
                     >
                       {styleLabel || "Phong cách"}
                     </span>
                     <ChevronDown
                       size={16}
-                      className={`text-[#1B4D3E]/60 transition-transform duration-200 ${
-                        isStyleDropdownOpen ? "rotate-180" : ""
-                      }`}
+                      className={`text-[#1B4D3E]/60 transition-transform duration-200 ${isStyleDropdownOpen ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
 
@@ -445,11 +438,10 @@ export default function SearchWidget() {
                               key={s.value}
                               type="button"
                               onClick={() => handleSelectStyle(s)}
-                              className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-[#E0F2F1] transition-colors text-left ${
-                                style === s.value
-                                  ? "bg-[#E0F2F1] text-[#1B4D3E] font-semibold"
-                                  : "text-gray-700"
-                              }`}
+                              className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-[#E0F2F1] transition-colors text-left ${style === s.value
+                                ? "bg-[#E0F2F1] text-[#1B4D3E] font-semibold"
+                                : "text-gray-700"
+                                }`}
                             >
                               <span className="text-xl">{s.icon}</span>
                               <span className="text-sm md:text-base">
@@ -481,8 +473,9 @@ export default function SearchWidget() {
             </div>
 
             {/* Rectangle 3 (Right Button) - Wrapped in Link to /plan-trip */}
-            <Link
-              href="/plan-trip"
+            {/* Rectangle 3 (Right Button) - Trigger Search */}
+            <div
+              onClick={handleSearch}
               className="relative w-[16%] h-[70%] flex-shrink-0 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform"
             >
               <Image
@@ -501,7 +494,7 @@ export default function SearchWidget() {
                 className="relative z-10 h-[25%] w-auto object-contain"
                 unoptimized
               />
-            </Link>
+            </div>
           </div>
         </div>
       </div>
