@@ -360,7 +360,10 @@ export default function ScheduleStep({
               {/* Next Button - Switch to specific tab */}
               <div className="pt-6 border-t border-gray-200 mt-8">
                 <button 
-                  onClick={() => setActiveTab("specific")}
+                  onClick={() => {
+                    setActiveTab("specific");
+                    handleGenerateItinerary();
+                  }}
                   className="w-full py-4 rounded-full bg-gradient-to-r from-[#1B4D3E] to-[#2E968C] text-white font-bold text-lg flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl transition-all active:scale-[0.98]"
                 >
                   <Sparkles size={22} />
