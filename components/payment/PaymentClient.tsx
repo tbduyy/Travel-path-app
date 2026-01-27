@@ -116,7 +116,7 @@ export default function PaymentClient({
     new Set(),
   );
   const [isProcessing, setIsProcessing] = useState(false);
-  const [countdown, setCountdown] = useState(60);
+  const [countdown, setCountdown] = useState(20);
   const finalExitUrl = exitUrl || "/";
 
   const processingMessages = [
@@ -130,13 +130,13 @@ export default function PaymentClient({
 
   const currentMessage =
     processingMessages[
-      Math.floor((60 - countdown) / 10) % processingMessages.length
+      Math.floor((20 - countdown) / 10) % processingMessages.length
     ];
 
   const handlePayment = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
-    setCountdown(60);
+    setCountdown(20);
   }, []);
 
   // Payment countdown effect
@@ -509,7 +509,7 @@ export default function PaymentClient({
             <div className="w-64 h-2 bg-white/20 rounded-full mx-auto mb-4 overflow-hidden">
               <div
                 className="h-full bg-[#2E968C] rounded-full transition-all duration-1000 ease-linear"
-                style={{ width: `${((60 - countdown) / 60) * 100}%` }}
+                style={{ width: `${((20 - countdown) / 20) * 100}%` }}
               />
             </div>
             <p className="text-sm text-gray-300">

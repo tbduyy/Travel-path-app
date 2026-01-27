@@ -14,6 +14,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTripStore } from "@/lib/store/trip-store";
 
 // Danh sách điểm đến
 const destinations = [
@@ -38,6 +39,7 @@ const travelStyles = [
 
 export default function SearchWidget() {
   const router = useRouter();
+  const { setTripInfo, completeStep } = useTripStore();
 
   // State for filters
   const [destination, setDestination] = useState("");
@@ -128,16 +130,21 @@ export default function SearchWidget() {
   const handleSearch = () => {
     console.log("Redirecting to plan-trip with:", { destination });
 
-    const params = new URLSearchParams();
-    if (destination) params.set("destination", destination);
-    if (startDate) params.set("startDate", startDate);
-    if (endDate) params.set("endDate", endDate);
-    if (people) params.set("people", people.toString());
-    if (budget) params.set("budget", budget);
-    if (style) params.set("style", style);
+    // Save trip info to Zustand store
+    setTripInfo({
+      destination: destination,
+      startDate: startDate || null,
+      endDate: endDate || null,
+      people: parseInt(people) || 2,
+      budget: budget,
+      style: style,
+    });
 
-    const queryString = params.toString();
-    router.push(`/plan-trip/places${queryString ? `?${queryString}` : ""}`);
+    // Mark search step as complete
+    completeStep("search");
+
+    // Navigate without URL params - Zustand handles the state
+    router.push(`/plan-trip/places`);
   };
 
   return (
@@ -184,17 +191,19 @@ export default function SearchWidget() {
                       className="text-[#1B4D3E]/60 group-hover:text-[#1B4D3E] transition-colors"
                     />
                     <span
-                      className={`font-medium text-sm md:text-base lg:text-lg truncate ${destinationLabel
-                        ? "text-[#1B4D3E]"
-                        : "text-[#1B4D3E]/60"
-                        }`}
+                      className={`font-medium text-sm md:text-base lg:text-lg truncate ${
+                        destinationLabel
+                          ? "text-[#1B4D3E]"
+                          : "text-[#1B4D3E]/60"
+                      }`}
                     >
                       {destinationLabel || "Chọn điểm đến"}
                     </span>
                     <ChevronDown
                       size={16}
-                      className={`text-[#1B4D3E]/60 transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""
-                        }`}
+                      className={`text-[#1B4D3E]/60 transition-transform duration-200 ${
+                        isDropdownOpen ? "rotate-180" : ""
+                      }`}
                     />
                   </button>
 
@@ -214,10 +223,11 @@ export default function SearchWidget() {
                               key={dest.value}
                               type="button"
                               onClick={() => handleSelectDestination(dest)}
-                              className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-[#E0F2F1] transition-colors text-left ${destination === dest.value
-                                ? "bg-[#E0F2F1] text-[#1B4D3E] font-semibold"
-                                : "text-gray-700"
-                                }`}
+                              className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-[#E0F2F1] transition-colors text-left ${
+                                destination === dest.value
+                                  ? "bg-[#E0F2F1] text-[#1B4D3E] font-semibold"
+                                  : "text-gray-700"
+                              }`}
                             >
                               <span className="text-xl">{dest.icon}</span>
                               <span className="text-sm md:text-base">
@@ -255,17 +265,19 @@ export default function SearchWidget() {
                       className="text-[#1B4D3E]/60 group-hover:text-[#1B4D3E] transition-colors"
                     />
                     <span
-                      className={`font-medium text-sm md:text-base lg:text-lg truncate ${getDateDisplayText()
-                        ? "text-[#1B4D3E]"
-                        : "text-[#1B4D3E]/60"
-                        }`}
+                      className={`font-medium text-sm md:text-base lg:text-lg truncate ${
+                        getDateDisplayText()
+                          ? "text-[#1B4D3E]"
+                          : "text-[#1B4D3E]/60"
+                      }`}
                     >
                       {getDateDisplayText() || "Thời gian đi - về"}
                     </span>
                     <ChevronDown
                       size={16}
-                      className={`text-[#1B4D3E]/60 transition-transform duration-200 ${isCalendarOpen ? "rotate-180" : ""
-                        }`}
+                      className={`text-[#1B4D3E]/60 transition-transform duration-200 ${
+                        isCalendarOpen ? "rotate-180" : ""
+                      }`}
                     />
                   </button>
 
@@ -371,7 +383,7 @@ export default function SearchWidget() {
                 />
 
                 {/* Section 4: "Ngân sách" */}
-                <div className="flex-[2.5] basis-0 min-w-0 h-full flex items-center justify-center px-2">
+                <div className="flex-[4.5] basis-0 min-w-0 h-full flex items-center justify-center px-2">
                   <div className="relative w-full">
                     <input
                       type="text"
@@ -410,15 +422,17 @@ export default function SearchWidget() {
                       className="text-[#1B4D3E]/60 group-hover:text-[#1B4D3E] transition-colors"
                     />
                     <span
-                      className={`font-medium text-sm md:text-base lg:text-lg truncate ${styleLabel ? "text-[#1B4D3E]" : "text-[#1B4D3E]/60"
-                        }`}
+                      className={`font-medium text-sm md:text-base lg:text-lg truncate ${
+                        styleLabel ? "text-[#1B4D3E]" : "text-[#1B4D3E]/60"
+                      }`}
                     >
                       {styleLabel || "Phong cách"}
                     </span>
                     <ChevronDown
                       size={16}
-                      className={`text-[#1B4D3E]/60 transition-transform duration-200 ${isStyleDropdownOpen ? "rotate-180" : ""
-                        }`}
+                      className={`text-[#1B4D3E]/60 transition-transform duration-200 ${
+                        isStyleDropdownOpen ? "rotate-180" : ""
+                      }`}
                     />
                   </button>
 
@@ -438,10 +452,11 @@ export default function SearchWidget() {
                               key={s.value}
                               type="button"
                               onClick={() => handleSelectStyle(s)}
-                              className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-[#E0F2F1] transition-colors text-left ${style === s.value
-                                ? "bg-[#E0F2F1] text-[#1B4D3E] font-semibold"
-                                : "text-gray-700"
-                                }`}
+                              className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-[#E0F2F1] transition-colors text-left ${
+                                style === s.value
+                                  ? "bg-[#E0F2F1] text-[#1B4D3E] font-semibold"
+                                  : "text-gray-700"
+                              }`}
                             >
                               <span className="text-xl">{s.icon}</span>
                               <span className="text-sm md:text-base">

@@ -21,13 +21,28 @@ export async function searchPlaces(params: SearchParams) {
     const termLower = searchTerm.toLowerCase().trim();
 
     // Auto-map common slugs/variations to DB City Names
-    if (termLower.includes("da lat") || termLower.includes("đà lạt") || termLower.includes("da-lat")) {
+    if (
+      termLower.includes("da lat") ||
+      termLower.includes("đà lạt") ||
+      termLower.includes("da-lat")
+    ) {
       searchTerm = "Đà Lạt";
-    } else if (termLower.includes("nha trang") || termLower.includes("nha-trang")) {
+    } else if (
+      termLower.includes("nha trang") ||
+      termLower.includes("nha-trang")
+    ) {
       searchTerm = "Nha Trang";
-    } else if (termLower.includes("da nang") || termLower.includes("đà nẵng") || termLower.includes("da-nang")) {
+    } else if (
+      termLower.includes("da nang") ||
+      termLower.includes("đà nẵng") ||
+      termLower.includes("da-nang")
+    ) {
       searchTerm = "Đà Nẵng";
-    } else if (termLower.includes("ho chi minh") || termLower.includes("hồ chí minh") || termLower.includes("sai gon")) {
+    } else if (
+      termLower.includes("ho chi minh") ||
+      termLower.includes("hồ chí minh") ||
+      termLower.includes("sai gon")
+    ) {
       searchTerm = "Hồ Chí Minh";
     }
 
@@ -49,13 +64,16 @@ export async function searchPlaces(params: SearchParams) {
     }
 
     // Also try to find by city specifically if mapped
-    if (["Đà Lạt", "Nha Trang", "Đà Nẵng", "Hồ Chí Minh"].includes(searchTerm)) {
+    if (
+      ["Đà Lạt", "Nha Trang", "Đà Nẵng", "Hồ Chí Minh"].includes(searchTerm)
+    ) {
       filters.OR.push({ city: { equals: searchTerm } });
     }
 
     // --- NHA TRANG STATIC DATA OVERRIDE ---
     if (destLower.includes("nha trang")) {
-      const { allNhaTrangPlaces, allNhaTrangHotels } = await import("@/app/data/nhaTrangData");
+      const { allNhaTrangPlaces, allNhaTrangHotels } =
+        await import("@/app/data/nhaTrangData");
 
       if (params.type === "HOTEL") {
         let resultHotels = allNhaTrangHotels;
@@ -66,8 +84,12 @@ export async function searchPlaces(params: SearchParams) {
 
         if (placeIdsString) {
           const placeIds = placeIdsString.split(",");
-          resultHotels = resultHotels.filter(h => h.relatedPlaceId && placeIds.includes(h.relatedPlaceId));
-          relatedPlaces = allNhaTrangPlaces.filter(p => placeIds.includes(p.id));
+          resultHotels = resultHotels.filter(
+            (h) => h.relatedPlaceId && placeIds.includes(h.relatedPlaceId),
+          );
+          relatedPlaces = allNhaTrangPlaces.filter((p) =>
+            placeIds.includes(p.id),
+          );
         }
 
         // 2. SCORING & SORTING (Budget & Style)
@@ -92,9 +114,21 @@ export async function searchPlaces(params: SearchParams) {
 
             // Target Values
             let target = 2; // Default Medium
-            if (budget.includes("cheap") || budget.includes("thấp") || budget.includes("tiết kiệm")) target = 1;
-            if (budget.includes("high") || budget.includes("cao") || budget.includes("luxury") || budget.includes("sang")) target = 4;
-            if (budget.includes("medium") || budget.includes("trung")) target = 2;
+            if (
+              budget.includes("cheap") ||
+              budget.includes("thấp") ||
+              budget.includes("tiết kiệm")
+            )
+              target = 1;
+            if (
+              budget.includes("high") ||
+              budget.includes("cao") ||
+              budget.includes("luxury") ||
+              budget.includes("sang")
+            )
+              target = 4;
+            if (budget.includes("medium") || budget.includes("trung"))
+              target = 2;
 
             // Closer to target is better (smaller diff is better)
             const diffA = Math.abs(valA - target);
@@ -110,7 +144,7 @@ export async function searchPlaces(params: SearchParams) {
         // potentially filter by name if searchTerm is specific
         let resultPlaces = allNhaTrangPlaces;
         if (params.type) {
-          resultPlaces = resultPlaces.filter(p => p.type === params.type);
+          resultPlaces = resultPlaces.filter((p) => p.type === params.type);
         }
         return { success: true, data: resultPlaces };
       }
@@ -245,7 +279,7 @@ export async function searchPlaces(params: SearchParams) {
       fixedPlaces = fixedPlaces.filter(
         (p) =>
           !p.name.toLowerCase().includes("nha trang") &&
-          !p.name.toLowerCase().includes("vinwonders")
+          !p.name.toLowerCase().includes("vinwonders"),
       );
     }
 
@@ -259,9 +293,10 @@ export async function searchPlaces(params: SearchParams) {
 export async function getPlaceById(id: string) {
   try {
     // 1. Static Data Check (Nha Trang)
-    const { allNhaTrangPlaces, allNhaTrangHotels } = await import("@/app/data/nhaTrangData");
+    const { allNhaTrangPlaces, allNhaTrangHotels } =
+      await import("@/app/data/nhaTrangData");
     const allStatic = [...allNhaTrangPlaces, ...allNhaTrangHotels];
-    const staticPlace = allStatic.find(p => p.id === id);
+    const staticPlace = allStatic.find((p) => p.id === id);
     if (staticPlace) return { success: true, data: staticPlace };
 
     // 2. DB Check
@@ -274,5 +309,43 @@ export async function getPlaceById(id: string) {
     return { success: false, error: "Place not found" };
   } catch (error) {
     return { success: false, error };
+  }
+}
+
+export async function getPlacesByIds(ids: string[]) {
+  try {
+    if (!ids || ids.length === 0) {
+      return { success: true, data: [] };
+    }
+
+    // 1. Static Data Check (Nha Trang)
+    const { allNhaTrangPlaces, allNhaTrangHotels } =
+      await import("@/app/data/nhaTrangData");
+    const allStatic = [...allNhaTrangPlaces, ...allNhaTrangHotels];
+
+    const results: any[] = [];
+    const notFoundIds: string[] = [];
+
+    for (const id of ids) {
+      const staticPlace = allStatic.find((p) => p.id === id);
+      if (staticPlace) {
+        results.push(staticPlace);
+      } else {
+        notFoundIds.push(id);
+      }
+    }
+
+    // 2. DB Check for remaining IDs
+    if (notFoundIds.length > 0) {
+      const dbPlaces = await prisma.place.findMany({
+        where: { id: { in: notFoundIds } },
+      });
+      results.push(...dbPlaces);
+    }
+
+    return { success: true, data: results };
+  } catch (error) {
+    console.error("getPlacesByIds error:", error);
+    return { success: false, error: "Internal server error" };
   }
 }

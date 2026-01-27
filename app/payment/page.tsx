@@ -1,55 +1,592 @@
-import { Metadata } from "next";
+"use client";
+
+import React, { Suspense, useEffect, useState, useCallback } from "react";
+import Image from "next/image";
 import Header from "@/components/layout/Header";
-import type { Place } from "@prisma/client";
-import PaymentClient from "@/components/payment/PaymentClient";
-import prisma from "@/lib/prisma";
+import TripMetaBar from "@/components/TripMetaBar";
+import { useRouter, useSearchParams } from "next/navigation";
+import { getPlacesByIds } from "@/app/actions/search";
+import { useTripStore } from "@/lib/store/trip-store";
+import { Loader2, Check } from "lucide-react";
+import {
+  useRequireAuth,
+  AuthRequiredPopup,
+  AuthLoadingScreen,
+} from "@/lib/hooks/useRequireAuth";
 
-export const metadata: Metadata = {
-  title: "Thanh toán",
-};
-
-async function getNhaTrangItinerary() {
-  // Fetch places for Nha Trang from prisma and group into a simple itinerary
-  const places = await prisma.place.findMany({
-    where: { city: "Nha Trang" },
-    orderBy: { name: "asc" },
-    take: 12,
-  });
-
-  // Split into three periods roughly
-  const chunkSize = Math.ceil(places.length / 3) || 1;
-  const chunks: Place[][] = [];
-  for (let i = 0; i < places.length; i += chunkSize) {
-    chunks.push(places.slice(i, i + chunkSize));
-  }
-
-  const periods = ["Buổi sáng", "Buổi trưa", "Buổi tối"];
-
-  return periods.map((p, idx) => ({
-    period: p,
-    icon: idx === 0 ? "sun" : idx === 1 ? "cloud" : "moon",
-    activities: (chunks[idx] || []).map((pl: Place) => {
-      const meta = pl.metadata as unknown as { distance?: string } | null;
-      return {
-        time: undefined,
-        title: pl.name,
-        description: pl.description,
-        image: pl.image || null,
-        distance: meta?.distance || null,
-        price: pl.price || null,
-        type: pl.type || null,
-      };
-    }),
-  }));
+// Types
+interface PlaceData {
+  id: string;
+  name: string;
+  description?: string;
+  type: string;
+  rating?: number;
+  address?: string;
+  image: string;
+  price?: string;
+  duration?: string;
+  priceLevel?: string;
+  lat?: number;
+  lng?: number;
+  metadata?: any;
 }
 
-export default async function Page() {
-  const itineraryData = await getNhaTrangItinerary();
+// Helper to parse price variations
+const parsePrice = (priceStr?: string): number => {
+  if (!priceStr) return 0;
+  if (
+    priceStr.toLowerCase().includes("miễn phí") ||
+    priceStr.toLowerCase().includes("free")
+  )
+    return 0;
+  let clean = priceStr.toLowerCase();
+  if (clean.includes("-")) {
+    clean = clean.split("-")[0];
+  }
+  clean = clean.replace(/[^0-9k]/g, "");
+  if (clean.endsWith("k")) {
+    return parseInt(clean.replace("k", "")) * 1000;
+  }
+  return parseInt(clean) || 0;
+};
+
+function PaymentContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Protected Route - require authentication
+  const {
+    isLoading: authLoading,
+    isAuthenticated,
+    showAuthPopup,
+  } = useRequireAuth();
+
+  // Zustand Store
+  const tripStore = useTripStore();
+
+  // State for fetched data
+  const [loading, setLoading] = useState(true);
+  const [selectedHotel, setSelectedHotel] = useState<PlaceData | null>(null);
+  const [selectedAttractions, setSelectedAttractions] = useState<PlaceData[]>(
+    [],
+  );
+
+  // Selection state - which items user wants to pay for
+  // Key format: "hotel" or "attraction-{id}"
+  const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
+
+  // Toggle selection for an item
+  const toggleItemSelection = useCallback((key: string) => {
+    setSelectedItems((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(key)) {
+        newSet.delete(key);
+      } else {
+        newSet.add(key);
+      }
+      return newSet;
+    });
+  }, []);
+
+  // Payment processing state (60s delay logic)
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [countdown, setCountdown] = useState(60);
+
+  const processingMessages = [
+    "Đang liên hệ với các đối tác để thanh toán...",
+    "Đang xác minh thông tin thanh toán...",
+    "Đang kết nối với cổng thanh toán...",
+    "Đang xử lý giao dịch của bạn...",
+    "Vui lòng không tắt trình duyệt...",
+    "Đang hoàn tất thanh toán...",
+  ];
+
+  const currentMessage =
+    processingMessages[
+      Math.floor((60 - countdown) / 10) % processingMessages.length
+    ];
+
+  // 1. Params - prioritize store, fallback to URL
+  const placeIds =
+    tripStore.selectedPlaceIds.length > 0
+      ? tripStore.selectedPlaceIds
+      : searchParams.get("places")?.split(",").filter(Boolean) || [];
+  const hotelId = tripStore.selectedHotelId || searchParams.get("hotel");
+  const destination =
+    tripStore.destination || searchParams.get("destination") || "Điểm đến";
+  const startDateParam = tripStore.startDate || searchParams.get("startDate");
+  const endDateParam = tripStore.endDate || searchParams.get("endDate");
+  const peopleParam = searchParams.get("people");
+  const peopleCount =
+    tripStore.people || (peopleParam ? parseInt(peopleParam) : 2);
+
+  // 2. Derive Duration
+  let durationString = "2N1Đ";
+  let nights = 1;
+  let days = 2;
+
+  if (startDateParam && endDateParam) {
+    const start = new Date(startDateParam);
+    const end = new Date(endDateParam);
+    const diffTime = Math.abs(end.getTime() - start.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    if (diffDays >= 0) {
+      nights = diffDays;
+      days = diffDays + 1;
+      durationString = `${days}N${nights}Đ`;
+    }
+  }
+
+  // 3. Fetch data on mount
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      try {
+        const allIds = [...placeIds];
+        if (hotelId) allIds.push(hotelId);
+
+        if (allIds.length === 0) {
+          setLoading(false);
+          return;
+        }
+
+        const result = await getPlacesByIds(allIds);
+
+        if (result.success && result.data) {
+          const places = result.data as PlaceData[];
+          const hotel = places.find(
+            (p) => p.id === hotelId && p.type === "HOTEL",
+          );
+          const attractions = places.filter(
+            (p) =>
+              placeIds.includes(p.id) &&
+              p.type !== "RESTAURANT" &&
+              p.type !== "HOTEL",
+          );
+          setSelectedHotel(hotel || null);
+          setSelectedAttractions(attractions);
+        }
+      } catch (error) {
+        console.error("Error fetching payment data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, [placeIds.join(","), hotelId]);
+
+  // 4. Payment countdown effect - redirect to /farewell after 60s
+  useEffect(() => {
+    if (!isProcessing) return;
+
+    if (countdown <= 0) {
+      // Clear the cart after successful payment
+      tripStore.clearTrip();
+      router.push("/farewell");
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setCountdown((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isProcessing, countdown, router]);
+
+  // 5. Calculate prices - ONLY for selected items
+  const hotelPrice = parsePrice(selectedHotel?.price);
+  const hotelTotal = hotelPrice * nights;
+  const isHotelSelected = selectedItems.has("hotel");
+
+  const attractionCosts = selectedAttractions.map((p) => ({
+    ...p,
+    unitPrice: parsePrice(p.price),
+    total: parsePrice(p.price) * peopleCount,
+    isSelected: selectedItems.has(`attraction-${p.id}`),
+  }));
+
+  // Only sum selected items
+  const selectedHotelTotal = isHotelSelected ? hotelTotal : 0;
+  const selectedAttractionsTotal = attractionCosts
+    .filter((item) => item.isSelected)
+    .reduce((acc, curr) => acc + curr.total, 0);
+  const grandTotal = selectedHotelTotal + selectedAttractionsTotal;
+  const formattedBudget = new Intl.NumberFormat("vi-VN").format(grandTotal);
+
+  // Count selected items
+  const selectedCount = selectedItems.size;
+
+  // 6. Handle Payment - starts 60s countdown
+  const handlePay = useCallback(() => {
+    if (selectedCount === 0) {
+      alert("Vui lòng chọn ít nhất một dịch vụ để thanh toán!");
+      return;
+    }
+    setIsProcessing(true);
+    setCountdown(60);
+  }, [selectedCount]);
+
+  // Auth loading state
+  if (authLoading) {
+    return (
+      <>
+        <AuthRequiredPopup show={showAuthPopup} />
+        <AuthLoadingScreen />
+      </>
+    );
+  }
+
+  // Not authenticated - show popup and redirect handled by hook
+  if (!isAuthenticated) {
+    return (
+      <>
+        <AuthRequiredPopup show={showAuthPopup} />
+        <AuthLoadingScreen />
+      </>
+    );
+  }
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col font-sans text-[#1B4D3E] bg-[#BBD9D9]">
+        <div className="sticky top-0 z-50 mb-4 bg-[#BBD9D9] border-b border-[#1B4D3E]/10">
+          <Header />
+        </div>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-12 h-12 border-4 border-[#1B4D3E]/30 border-t-[#1B4D3E] rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-lg font-medium text-[#1B4D3E]/70">
+              Đang tải thông tin thanh toán...
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Empty state
+  if (!selectedHotel && selectedAttractions.length === 0) {
+    return (
+      <div className="min-h-screen flex flex-col font-sans text-[#1B4D3E] bg-[#BBD9D9]">
+        <div className="sticky top-0 z-50 mb-4 bg-[#BBD9D9] border-b border-[#1B4D3E]/10">
+          <Header />
+        </div>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center max-w-md mx-auto p-8">
+            <div className="text-6xl mb-4">🛒</div>
+            <h2 className="text-2xl font-bold mb-2">
+              Nơi này hơi trống trải...
+            </h2>
+            <p className="text-[#1B4D3E]/70 mb-6">
+              Bạn chưa chọn địa điểm hoặc khách sạn nào. Hãy quay lại để chọn
+              các hoạt động cho chuyến đi của bạn.
+            </p>
+            <button
+              onClick={() => router.push("/plan-trip")}
+              className="px-6 py-3 bg-[#1B4D3E] text-white rounded-xl font-bold hover:bg-[#2E968C] transition-colors"
+            >
+              Bắt đầu lên kế hoạch
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Processing state - 60s countdown overlay
+  if (isProcessing) {
+    return (
+      <div className="min-h-screen flex flex-col font-sans text-[#1B4D3E] bg-[#BBD9D9]">
+        <div className="sticky top-0 z-50 mb-4 bg-[#BBD9D9] border-b border-[#1B4D3E]/10">
+          <Header />
+        </div>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center max-w-md mx-auto p-8 bg-white rounded-3xl shadow-2xl">
+            <Loader2 className="w-16 h-16 animate-spin text-[#2E968C] mx-auto mb-6" />
+            <h2 className="text-2xl font-bold mb-2 text-[#1B4D3E]">
+              Đang xử lý thanh toán
+            </h2>
+            <p className="text-[#1B4D3E]/70 mb-4">{currentMessage}</p>
+            <div className="text-5xl font-black text-[#2E968C] mb-4">
+              {countdown}s
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+              <div
+                className="bg-[#2E968C] h-2 rounded-full transition-all duration-1000"
+                style={{ width: `${((60 - countdown) / 60) * 100}%` }}
+              ></div>
+            </div>
+            <p className="text-xs text-gray-400">
+              Vui lòng không đóng trang này
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <Header />
-      <PaymentClient itineraryData={itineraryData} />
-    </>
+    <div className="min-h-screen flex flex-col font-sans text-[#1B4D3E] bg-[#BBD9D9] overflow-hidden">
+      <div className="sticky top-0 z-50 mb-4 bg-[#BBD9D9] border-b border-[#1B4D3E]/10">
+        <Header />
+      </div>
+
+      <div className="flex-1 w-full max-w-[1200px] mx-auto p-4 md:p-6 pb-24 flex flex-col gap-8">
+        {/* Meta Bar */}
+        <div className="bg-white/20 p-4 rounded-2xl backdrop-blur-sm shadow-sm">
+          <TripMetaBar
+            destination={destination}
+            duration={durationString}
+            placeCount={placeIds.length}
+            budget={formattedBudget}
+          />
+        </div>
+
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left: Summary Details */}
+          <div className="lg:col-span-2 flex flex-col gap-6">
+            <h1 className="text-3xl font-black uppercase tracking-wide">
+              Chi tiết thanh toán
+            </h1>
+
+            {/* Hotel Section */}
+            {selectedHotel && (
+              <div
+                className={`bg-white p-6 rounded-[24px] shadow-sm transition-all ${isHotelSelected ? "ring-2 ring-[#2E968C]" : ""}`}
+              >
+                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                  <span className="text-2xl">🏨</span> Lưu trú ({nights} đêm)
+                </h3>
+                <div className="flex gap-4 items-start border-b border-gray-100 pb-4 mb-4">
+                  <div className="w-24 h-24 rounded-xl overflow-hidden relative shrink-0 bg-gray-100">
+                    {selectedHotel.image && (
+                      <Image
+                        src={selectedHotel.image}
+                        alt={selectedHotel.name}
+                        fill
+                        className="object-cover"
+                      />
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-bold text-lg">{selectedHotel.name}</h4>
+                    <p className="text-sm text-gray-500">
+                      {selectedHotel.address}
+                    </p>
+                    <div className="mt-2 text-sm bg-blue-50 text-blue-800 px-3 py-1 rounded-lg inline-block font-medium">
+                      {selectedHotel.price || "Liên hệ"}
+                    </div>
+                  </div>
+                  <div className="text-right flex flex-col items-end gap-2">
+                    <div className="font-bold text-lg text-[#1B4D3E]">
+                      {new Intl.NumberFormat("vi-VN").format(hotelTotal)} ₫
+                    </div>
+                    <div className="text-xs text-gray-400">x {nights} đêm</div>
+                    <button
+                      type="button"
+                      onClick={() => toggleItemSelection("hotel")}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 mt-2 ${
+                        isHotelSelected
+                          ? "bg-[#1B4D3E] text-white"
+                          : "bg-[#E8F5E9] text-[#1B4D3E] hover:bg-[#D0EBD0]"
+                      }`}
+                    >
+                      {isHotelSelected && <Check className="w-4 h-4" />}
+                      {isHotelSelected ? "Đã chọn" : "Book chỗ này"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Attractions Section */}
+            {attractionCosts.length > 0 && (
+              <div className="bg-white p-6 rounded-[24px] shadow-sm">
+                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                  <span className="text-2xl">🎡</span> Hoạt động ({peopleCount}{" "}
+                  người)
+                </h3>
+                <div className="space-y-4">
+                  {attractionCosts.map((item) => {
+                    const itemKey = `attraction-${item.id}`;
+                    const isItemSelected = selectedItems.has(itemKey);
+                    return (
+                      <div
+                        key={item.id}
+                        className={`flex gap-4 items-center p-3 rounded-xl transition-all ${
+                          isItemSelected
+                            ? "bg-[#E8F5E9] ring-2 ring-[#2E968C]"
+                            : "hover:bg-gray-50"
+                        }`}
+                      >
+                        <div className="w-16 h-16 rounded-xl overflow-hidden relative shrink-0 bg-gray-100">
+                          {item.image && (
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              fill
+                              className="object-cover"
+                            />
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-bold text-base">{item.name}</h4>
+                          <p className="text-xs text-gray-400">
+                            {item.price || "Miễn phí"}
+                          </p>
+                        </div>
+                        <div className="text-right flex flex-col items-end gap-2">
+                          {item.total > 0 ? (
+                            <>
+                              <div className="font-bold text-[#1B4D3E]">
+                                {new Intl.NumberFormat("vi-VN").format(
+                                  item.total,
+                                )}{" "}
+                                ₫
+                              </div>
+                              <div className="text-xs text-gray-400">
+                                x {peopleCount} người
+                              </div>
+                            </>
+                          ) : (
+                            <span className="text-green-600 font-bold bg-green-50 px-2 py-1 rounded text-xs">
+                              Miễn phí
+                            </span>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => toggleItemSelection(itemKey)}
+                            className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
+                              isItemSelected
+                                ? "bg-[#1B4D3E] text-white"
+                                : "bg-[#E8F5E9] text-[#1B4D3E] hover:bg-[#D0EBD0]"
+                            }`}
+                          >
+                            {isItemSelected && <Check className="w-3 h-3" />}
+                            {isItemSelected ? "Đã chọn" : "Thêm vào"}
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right: Total Card */}
+          <div className="lg:col-span-1">
+            <div className="bg-[#1B4D3E] text-white p-8 rounded-[32px] shadow-xl sticky top-24">
+              <h3 className="text-xl font-bold mb-2 opacity-90">Thanh toán</h3>
+              <p className="text-sm opacity-60 mb-6">
+                Đã chọn: {selectedCount} /{" "}
+                {(selectedHotel ? 1 : 0) + attractionCosts.length} mục
+              </p>
+
+              <div className="space-y-4 mb-8">
+                {selectedHotel && isHotelSelected && (
+                  <div className="flex justify-between items-center text-white/80">
+                    <span className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-green-400" />
+                      Lưu trú
+                    </span>
+                    <span>
+                      {new Intl.NumberFormat("vi-VN").format(hotelTotal)} ₫
+                    </span>
+                  </div>
+                )}
+                {attractionCosts.filter((item) =>
+                  selectedItems.has(`attraction-${item.id}`),
+                ).length > 0 && (
+                  <div className="flex justify-between items-center text-white/80">
+                    <span className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-green-400" />
+                      Vé tham quan (
+                      {
+                        attractionCosts.filter((item) =>
+                          selectedItems.has(`attraction-${item.id}`),
+                        ).length
+                      }
+                      )
+                    </span>
+                    <span>
+                      {new Intl.NumberFormat("vi-VN").format(
+                        selectedAttractionsTotal,
+                      )}{" "}
+                      ₫
+                    </span>
+                  </div>
+                )}
+                {selectedCount === 0 && (
+                  <p className="text-white/50 text-sm text-center py-4">
+                    Chưa chọn dịch vụ nào
+                  </p>
+                )}
+                <div className="flex justify-between items-center text-white/80">
+                  <span>Phí dịch vụ</span>
+                  <span>0 ₫</span>
+                </div>
+                <div className="h-px bg-white/20 my-4"></div>
+                <div className="flex justify-between items-center text-2xl font-black">
+                  <span>Tổng</span>
+                  <span>
+                    {new Intl.NumberFormat("vi-VN").format(grandTotal)} ₫
+                  </span>
+                </div>
+              </div>
+
+              <button
+                onClick={handlePay}
+                disabled={selectedCount === 0}
+                className={`w-full py-4 rounded-2xl font-bold text-lg transition-all shadow-lg flex justify-center items-center gap-2 ${
+                  selectedCount === 0
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-[#EF4444] hover:bg-[#DC2626] hover:shadow-2xl hover:-translate-y-1"
+                }`}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect width="20" height="14" x="2" y="5" rx="2" />
+                  <line x1="2" y1="10" x2="22" y2="10" />
+                </svg>
+                {selectedCount === 0
+                  ? "Vui lòng chọn dịch vụ"
+                  : "Thanh toán ngay"}
+              </button>
+
+              <p className="text-center text-xs mt-4 opacity-60">
+                Thanh toán an toàn và bảo mật bởi TravelPath Secure
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function PaymentPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-[#BBD9D9]">
+          <div className="w-12 h-12 border-4 border-[#1B4D3E]/30 border-t-[#1B4D3E] rounded-full animate-spin"></div>
+        </div>
+      }
+    >
+      <PaymentContent />
+    </Suspense>
   );
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
+import { useTripStore } from "@/lib/store/trip-store";
 import {
   LogOut,
   User as UserIcon,
@@ -17,6 +18,7 @@ export default function UserDropdown() {
   const [profile, setProfile] = useState<{ role: string } | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const supabase = createClient();
+  const { clearTrip } = useTripStore();
 
   useEffect(() => {
     const getUser = async () => {
@@ -49,6 +51,7 @@ export default function UserDropdown() {
   }, [supabase]);
 
   const handleLogout = async () => {
+    clearTrip(); // Clear Zustand store state on logout
     await supabase.auth.signOut();
     window.location.reload(); // Refresh to clear server state if any
   };

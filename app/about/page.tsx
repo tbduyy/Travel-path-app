@@ -16,7 +16,7 @@ export default async function AboutPage() {
     "Travel Path hướng đến việc trở thành một nền tảng xây dựng hành trình du lịch cá nhân hóa từ những ý tưởng ban đầu đến một lộ trình tối ưu phù hợp với sở thích, nhu cầu và phong cách du lịch cá nhân.";
   const missionContent =
     mission?.content ||
-    "Travel path mang đến một hệ sinh thái thông minh nhằm cung cấp các lựa chọn về địa điểm tham quan, vui chơi giải trí đến nơi lưu trú và tiện ích về phương tiện di chuyển cho người dùng. Không chỉ dừng lại ở việc lên kế hoạch, công nghệ mà Travel Path mang lại còn giúp người dùng tận hưởng trọn vẹn chuyến đi thông qua người bạn đồng hành - Hướng dẫn viên AI hỗ trợ xuyên suốt hành trình của bạn.";
+    "Travel Path mang đến một hệ sinh thái thông minh nhằm cung cấp các lựa chọn về địa điểm tham quan, vui chơi giải trí đến nơi lưu trú và tiện ích về phương tiện di chuyển cho người dùng. Không chỉ dừng lại ở việc lên kế hoạch, công nghệ mà Travel Path mang lại còn giúp người dùng tận hưởng trọn vẹn chuyến đi thông qua người bạn đồng hành - Hướng dẫn viên AI hỗ trợ xuyên suốt hành trình của bạn.";
 
   return (
     <main className="min-h-screen bg-[#BBD9D9] relative font-sans text-[#1B4D3E]">
@@ -107,9 +107,9 @@ export default async function AboutPage() {
                 “Một cú chạm, vạn hành trình”
               </h3>
               <p className="text-lg md:text-xl font-medium text-white/90 max-w-2xl mx-auto leading-relaxed">
-                Travel Path cam kết giúp mỗi chuyến đi không chỉ là một hành
-                trình, mà còn là trải nghiệm được thiết kế riêng, đúng với nhu
-                cầu và cảm xúc của bạn.
+                Travel Path là cầu nối giúp mỗi chuyến đi không chỉ là một hành
+                trình thông thường, mà còn là trải nghiệm được thiết kế riêng,
+                đúng với nhu cầu và chạm đến cảm xúc của bạn.
               </p>
             </div>
           </div>
