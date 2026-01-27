@@ -318,27 +318,63 @@ export default function ItineraryGeneration({
                                                  {/* Decorative stripe */}
                                                 <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#1B4D3E] opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                                 
-                                                <div className="flex justify-between items-start gap-4">
-                                                    <div>
-                                                        <h4 className="text-xl font-bold text-[#1B4D3E] mb-2">
-                                                            {activity.location_name}
-                                                        </h4>
-                                                        <p className="text-gray-600 mb-3 leading-relaxed">
-                                                            {activity.activity}
-                                                        </p>
+                                                <div className="flex gap-4">
+                                                    {/* Activity Image */}
+                                                    {activity.image && (
+                                                        <div className="shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-xl overflow-hidden">
+                                                            <img 
+                                                                src={activity.image} 
+                                                                alt={activity.location_name}
+                                                                className="w-full h-full object-cover"
+                                                            />
+                                                        </div>
+                                                    )}
+                                                    
+                                                    <div className="flex-1 flex flex-col justify-between">
+                                                        <div>
+                                                            <div className="flex items-start justify-between gap-2 mb-2">
+                                                                <h4 className="text-lg md:text-xl font-bold text-[#1B4D3E]">
+                                                                    {activity.location_name}
+                                                                </h4>
+                                                                <div className="shrink-0 text-right">
+                                                                    <span className="block text-lg font-bold text-[#1B4D3E]">
+                                                                        {activity.estimated_cost == 0 ? "Miễn phí" : `${activity.estimated_cost?.toLocaleString()} đ`}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <p className="text-gray-600 text-sm mb-2 leading-relaxed line-clamp-2">
+                                                                {activity.activity}
+                                                            </p>
+                                                        </div>
+                                                        
+                                                        {/* Duration and Distance Badges */}
+                                                        <div className="flex flex-wrap gap-2 mt-2">
+                                                            {activity.duration_minutes && (
+                                                                <span className="inline-flex items-center gap-1 px-3 py-1 bg-[#E0F2F1] text-[#1B4D3E] rounded-full text-xs font-medium">
+                                                                    🕐 {activity.duration_minutes} phút
+                                                                </span>
+                                                            )}
+                                                            {activity.distance_km && activity.distance_km > 0 && (
+                                                                <span className="inline-flex items-center gap-1 px-3 py-1 bg-[#E0F2F1] text-[#1B4D3E] rounded-full text-xs font-medium">
+                                                                    📍 {activity.distance_km} km
+                                                                </span>
+                                                            )}
+                                                            {activity.location_type && (
+                                                                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-medium">
+                                                                    {activity.location_type === "Attraction" ? "🏛️" : activity.location_type === "Dining" ? "🍜" : "🏨"} {activity.location_type}
+                                                                </span>
+                                                            )}
+                                                            <button className="inline-flex items-center gap-1 px-3 py-1 bg-[#1B4D3E]/10 text-[#1B4D3E] rounded-full text-xs font-medium hover:bg-[#1B4D3E]/20 transition-colors">
+                                                                Xem chi tiết
+                                                            </button>
+                                                        </div>
+                                                        
                                                         {activity.notes && (
-                                                            <div className="flex items-start gap-2 bg-gray-50 p-3 rounded-lg text-sm text-gray-500 italic">
+                                                            <div className="flex items-start gap-2 bg-gray-50 p-2 rounded-lg text-xs text-gray-500 italic mt-2">
                                                                 <span className="shrink-0">📝</span>
-                                                                <span>{activity.notes}</span>
+                                                                <span className="line-clamp-1">{activity.notes}</span>
                                                             </div>
                                                         )}
-                                                    </div>
-                                                    
-                                                    <div className="shrink-0 text-right">
-                                                        <span className="block text-lg font-bold text-[#1B4D3E] text-right">
-                                                            {activity.estimated_cost == 0 ? "Miễn phí" : `${activity.estimated_cost?.toLocaleString()} đ`}
-                                                        </span>
-                                                        <span className="text-xs text-gray-400">Dự kiến</span>
                                                     </div>
                                                 </div>
                                             </div>

@@ -1,0 +1,1118 @@
+[
+  {
+    "id": "ha_noi",
+    "name": "HÀ NỘI",
+    "attractions": [
+      {
+        "id": "chua_1_cot",
+        "name": "Chùa 1 cột",
+        "image": "/images/destinations/ha_noi/attractions/chua_1_cot.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Chùa 1 cột",
+        "price": 120290,
+        "rating": 4.046189743028572,
+        "type": "Attraction"
+      },
+      {
+        "id": "chua_mot_cot",
+        "name": "Chùa một cột",
+        "image": "/images/destinations/ha_noi/attractions/chua_mot_cot.webp",
+        "description": "Trải nghiệm tuyệt vời tại Chùa một cột",
+        "price": 97175,
+        "rating": 4.3373201287965,
+        "type": "Attraction"
+      },
+      {
+        "id": "hoang_thanh_thang_long",
+        "name": "Hoàng Thành Thăng Long",
+        "image": "/images/destinations/ha_noi/attractions/hoang_thanh_thang_long.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Hoàng Thành Thăng Long",
+        "price": 75599,
+        "rating": 4.918785338912344,
+        "type": "Attraction"
+      },
+      {
+        "id": "ho_guom",
+        "name": "Hồ gươm",
+        "image": "/images/destinations/ha_noi/attractions/ho_guom.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Hồ gươm",
+        "price": 50329,
+        "rating": 4.386593740518099,
+        "type": "Attraction"
+      },
+      {
+        "id": "ho_hoan_kiem",
+        "name": "Hồ hoàn kiếm",
+        "image": "/images/destinations/ha_noi/attractions/ho_hoan_kiem.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Hồ hoàn kiếm",
+        "price": 114608,
+        "rating": 4.622772019821954,
+        "type": "Attraction"
+      },
+      {
+        "id": "ho_tay",
+        "name": "Hồ tây",
+        "image": "/images/destinations/ha_noi/attractions/ho_tay.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Hồ tây",
+        "price": 65374,
+        "rating": 4.886605248739565,
+        "type": "Attraction"
+      },
+      {
+        "id": "lang_bac_-_quang_truong_ba_đinh",
+        "name": "Lăng Bác - Quảng trường Ba Đình",
+        "image": "/images/destinations/ha_noi/attractions/lang_bac_-_quang_truong_ba_đinh.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Lăng Bác - Quảng trường Ba Đình",
+        "price": 91644,
+        "rating": 4.097562207404179,
+        "type": "Attraction"
+      },
+      {
+        "id": "lang_bac",
+        "name": "Lăng Bác",
+        "image": "/images/destinations/ha_noi/attractions/lang_bac.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Lăng Bác",
+        "price": 128373,
+        "rating": 4.804690375157459,
+        "type": "Attraction"
+      },
+      {
+        "id": "quang_truong_ba_đinh",
+        "name": "Quảng trường Ba Đình",
+        "image": "/images/destinations/ha_noi/attractions/quang_truong_ba_đinh.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Quảng trường Ba Đình",
+        "price": 87176,
+        "rating": 4.237359199597849,
+        "type": "Attraction"
+      },
+      {
+        "id": "nha_tho_lon_ha_noi",
+        "name": "Nhà thờ lớn Hà Nội",
+        "image": "/images/destinations/ha_noi/attractions/nha_tho_lon_ha_noi.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Nhà thờ lớn Hà Nội",
+        "price": 121710,
+        "rating": 4.312002479493865,
+        "type": "Attraction"
+      },
+      {
+        "id": "di_tich_lich_su_hoa_lo",
+        "name": "Di tích lịch sử Hỏa lò",
+        "image": "/images/destinations/ha_noi/attractions/di_tich_lich_su_hoa_lo.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Di tích lịch sử Hỏa lò",
+        "price": 105560,
+        "rating": 4.741148410526636,
+        "type": "Attraction"
+      },
+      {
+        "id": "nha_tu_hoa_lo",
+        "name": "Nhà tù Hỏa Lò",
+        "image": "/images/destinations/ha_noi/attractions/nha_tu_hoa_lo.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Nhà tù Hỏa Lò",
+        "price": 123196,
+        "rating": 4.617186260943993,
+        "type": "Attraction"
+      },
+      {
+        "id": "pho_co_hn",
+        "name": "Phố cổ HN",
+        "image": "/images/destinations/ha_noi/attractions/pho_co_hn.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Phố cổ HN",
+        "price": 55099,
+        "rating": 4.047684322851146,
+        "type": "Attraction"
+      },
+      {
+        "id": "van_mieu_",
+        "name": "Văn Miếu ",
+        "image": "/images/destinations/ha_noi/attractions/van_mieu_.webp",
+        "description": "Trải nghiệm tuyệt vời tại Văn Miếu ",
+        "price": 93816,
+        "rating": 4.977624478916239,
+        "type": "Attraction"
+      },
+      {
+        "id": "van_mieu_quoc_tu_giam",
+        "name": "Văn Miếu Quốc Tử Giám",
+        "image": "/images/destinations/ha_noi/attractions/van_mieu_quoc_tu_giam.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Văn Miếu Quốc Tử Giám",
+        "price": 76166,
+        "rating": 4.599072340755243,
+        "type": "Attraction"
+      }
+    ],
+    "hotels": [
+      {
+        "id": "dahlia_hotel",
+        "name": "Dahlia Hotel",
+        "image": "/images/destinations/ha_noi/hotels/dahlia_hotel.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Dahlia Hotel",
+        "price": 1443782,
+        "rating": 4.149354575218487,
+        "type": "Hotel"
+      },
+      {
+        "id": "gm_preminum",
+        "name": "GM Preminum",
+        "image": "/images/destinations/ha_noi/hotels/gm_preminum.jpg",
+        "description": "Trải nghiệm tuyệt vời tại GM Preminum",
+        "price": 2536010,
+        "rating": 4.838594521172162,
+        "type": "Hotel"
+      },
+      {
+        "id": "grand_du_lac",
+        "name": "Grand du Lac",
+        "image": "/images/destinations/ha_noi/hotels/grand_du_lac.webp",
+        "description": "Trải nghiệm tuyệt vời tại Grand du Lac",
+        "price": 1572162,
+        "rating": 4.035107015515779,
+        "type": "Hotel"
+      },
+      {
+        "id": "hanoi_boutique_hotel",
+        "name": "Hanoi Boutique Hotel",
+        "image": "/images/destinations/ha_noi/hotels/hanoi_boutique_hotel.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Hanoi Boutique Hotel",
+        "price": 2291775,
+        "rating": 4.691405548414885,
+        "type": "Hotel"
+      },
+      {
+        "id": "hilton_garden",
+        "name": "Hilton Garden",
+        "image": "/images/destinations/ha_noi/hotels/hilton_garden.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Hilton Garden",
+        "price": 1420082,
+        "rating": 4.143394307028868,
+        "type": "Hotel"
+      },
+      {
+        "id": "jm_marvel",
+        "name": "JM Marvel",
+        "image": "/images/destinations/ha_noi/hotels/jm_marvel.jpg",
+        "description": "Trải nghiệm tuyệt vời tại JM Marvel",
+        "price": 1400150,
+        "rating": 4.906105034277354,
+        "type": "Hotel"
+      },
+      {
+        "id": "la_nueva_boutique_hotel_hanoi",
+        "name": "La Nueva Boutique Hotel Hanoi",
+        "image": "/images/destinations/ha_noi/hotels/la_nueva_boutique_hotel_hanoi.jpg",
+        "description": "Trải nghiệm tuyệt vời tại La Nueva Boutique Hotel Hanoi",
+        "price": 2828696,
+        "rating": 4.50319523234363,
+        "type": "Hotel"
+      },
+      {
+        "id": "mayflower",
+        "name": "Mayflower",
+        "image": "/images/destinations/ha_noi/hotels/mayflower.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Mayflower",
+        "price": 1360942,
+        "rating": 4.528025288976968,
+        "type": "Hotel"
+      },
+      {
+        "id": "melia_hanoi",
+        "name": "Melia HaNoi",
+        "image": "/images/destinations/ha_noi/hotels/melia_hanoi.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Melia HaNoi",
+        "price": 2403461,
+        "rating": 4.673584174816037,
+        "type": "Hotel"
+      },
+      {
+        "id": "melia",
+        "name": "Melia",
+        "image": "/images/destinations/ha_noi/hotels/melia.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Melia",
+        "price": 1569845,
+        "rating": 4.242491466260905,
+        "type": "Hotel"
+      },
+      {
+        "id": "meritel",
+        "name": "Meritel",
+        "image": "/images/destinations/ha_noi/hotels/meritel.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Meritel",
+        "price": 1732778,
+        "rating": 4.411668782463096,
+        "type": "Hotel"
+      },
+      {
+        "id": "old_quarter_view_hanoi",
+        "name": "Old Quarter View Hanoi",
+        "image": "/images/destinations/ha_noi/hotels/old_quarter_view_hanoi.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Old Quarter View Hanoi",
+        "price": 2167027,
+        "rating": 4.745856600935346,
+        "type": "Hotel"
+      },
+      {
+        "id": "tripist-grand-hotel-du-lac-hanoi-7",
+        "name": "Tripist-Grand-Hotel-Du-LAC-Hanoi-7",
+        "image": "/images/destinations/ha_noi/hotels/tripist-grand-hotel-du-lac-hanoi-7.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Tripist-Grand-Hotel-Du-LAC-Hanoi-7",
+        "price": 2283856,
+        "rating": 4.875349638379624,
+        "type": "Hotel"
+      },
+      {
+        "id": "vacanza",
+        "name": "Vacanza",
+        "image": "/images/destinations/ha_noi/hotels/vacanza.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Vacanza",
+        "price": 2768519,
+        "rating": 4.435390523281878,
+        "type": "Hotel"
+      }
+    ]
+  },
+  {
+    "id": "nha_trang",
+    "name": "NHA TRANG",
+    "attractions": [
+      {
+        "id": "z_beach",
+        "name": "Z BEACH",
+        "image": "/images/destinations/nha_trang/attractions/z_beach.jpg",
+        "description": "Bãi biển tuyệt đẹp, nổi tiếng với không gian yên bình và nước biển trong xanh",
+        "price": 0,
+        "rating": 4.7,
+        "type": "Attraction"
+      },
+      {
+        "id": "vinwonders_nha_trang",
+        "name": "VINWONDERS NHA TRANG",
+        "image": "/images/destinations/nha_trang/attractions/vinwonders_nha_trang.jpg",
+        "description": "Công viên giải trí hàng đầu Việt Nam với nhiều trò chơi hấp dẫn",
+        "price": 880000,
+        "rating": 4.8,
+        "type": "Attraction"
+      },
+      {
+        "id": "bao_tang_hai_duong_hoc",
+        "name": "BẢO TÀNG HẢI DƯƠNG HỌC",
+        "image": "/images/destinations/nha_trang/attractions/bao_tang_hai_duong_hoc.jpg",
+        "description": "Bảo tàng trưng bày sinh vật biển phong phú, địa điểm giáo dục thú vị",
+        "price": 60000,
+        "rating": 4.5,
+        "type": "Attraction"
+      },
+      {
+        "id": "chua_long_son",
+        "name": "CHÙA LONG SƠN",
+        "image": "/images/destinations/nha_trang/attractions/chua_long_son.jpg",
+        "description": "Ngôi chùa cổ kính với tượng Phật trắng lớn nhất tỉnh Khánh Hòa",
+        "price": 0,
+        "rating": 4.6,
+        "type": "Attraction"
+      },
+      {
+        "id": "nha_tho_đa",
+        "name": "NHÀ THỜ ĐÁ",
+        "image": "/images/destinations/nha_trang/attractions/nha_tho_đa.jpg",
+        "description": "Nhà thờ cổ kính xây bằng đá, biểu tượng kiến trúc Pháp tại Nha Trang",
+        "price": 0,
+        "rating": 4.5,
+        "type": "Attraction"
+      },
+      {
+        "id": "quang_truong_2-4",
+        "name": "QUẢNG TRƯỜNG 2-4",
+        "image": "/images/destinations/nha_trang/attractions/quang_truong_2-4.jpg",
+        "description": "Quảng trường trung tâm, nơi tổ chức các sự kiện lớn của thành phố",
+        "price": 0,
+        "rating": 4.4,
+        "type": "Attraction"
+      },
+      {
+        "id": "tour_3_đao",
+        "name": "TOUR 3 ĐẢO",
+        "image": "/images/destinations/nha_trang/attractions/tour_3_đao.jpg",
+        "description": "Tour khám phá các đảo đẹp: Hòn Mun, Hòn Tằm, Hòn Một",
+        "price": 350000,
+        "rating": 4.7,
+        "type": "Attraction"
+      },
+      {
+        "id": "nha_hat_đo",
+        "name": "NHÀ HÁT ĐÓ",
+        "image": "/images/destinations/nha_trang/attractions/nha_hat_đo.jpg",
+        "description": "Công trình kiến trúc độc đáo, biểu tượng văn hóa nghệ thuật",
+        "price": 0,
+        "rating": 4.3,
+        "type": "Attraction"
+      },
+      {
+        "id": "sailing_club",
+        "name": "Sailing Club",
+        "image": "/images/destinations/nha_trang/attractions/sailing_club.jpg",
+        "description": "Câu lạc bộ bãi biển nổi tiếng với không gian vui chơi sôi động",
+        "price": 100000,
+        "rating": 4.5,
+        "type": "Attraction"
+      },
+      {
+        "id": "đap_am_chua",
+        "name": "ĐẬP AM CHÚA",
+        "image": "/images/destinations/nha_trang/attractions/đap_am_chua.jpg",
+        "description": "Hồ nước ngọt tuyệt đẹp, điểm check-in yêu thích của giới trẻ",
+        "price": 0,
+        "rating": 4.4,
+        "type": "Attraction"
+      }
+    ],
+    "dining": [
+      {
+        "id": "hai_san_thanh_suong",
+        "name": "HẢI SẢN THANH SƯƠNG",
+        "image": "/images/destinations/nha_trang/attractions/hai_san_thanh_suong.jpg",
+        "description": "Nhà hàng hải sản tươi sống nổi tiếng nhất Nha Trang",
+        "price": "200.000 - 1.000.000 VND",
+        "rating": 4.8,
+        "type": "Dining",
+        "distance": "1 km"
+      },
+      {
+        "id": "nem_nuong_đang_van_quyen",
+        "name": "NEM NƯỚNG ĐẶNG VĂN QUYÊN",
+        "image": "/images/destinations/nha_trang/attractions/nem_nuong_đang_van_quyen.jpg",
+        "description": "Quán nem nướng lâu đời, đặc sản Nha Trang phải thử",
+        "price": "60.000 VND",
+        "rating": 4.7,
+        "type": "Dining",
+        "distance": "1 km"
+      },
+      {
+        "id": "banh_canh_co_ha",
+        "name": "BÁNH CANH CÔ HÀ",
+        "image": "/images/destinations/nha_trang/attractions/banh_canh_co_ha.jpg",
+        "description": "Bánh canh chả cá đặc sản, nước dùng ngọt thanh",
+        "price": "40.000 VND",
+        "rating": 4.5,
+        "type": "Dining",
+        "distance": "2 km"
+      },
+      {
+        "id": "banh_can_51",
+        "name": "BÁNH CĂN 51",
+        "image": "/images/destinations/nha_trang/attractions/banh_can_51.jpg",
+        "description": "Bánh căn trứng cút thơm ngon, ăn kèm mắm nêm đậm đà",
+        "price": "50.000 - 100.000 VND",
+        "rating": 4.3,
+        "type": "Dining",
+        "distance": "1.5 km"
+      },
+      {
+        "id": "com_ga_nui_mot",
+        "name": "CƠM GÀ NÚI MỘT",
+        "image": "/images/destinations/nha_trang/attractions/com_ga_nui_mot.jpg",
+        "description": "Cơm gà xé thơm ngon, cơm dẻo, thịt gà mềm ngọt",
+        "price": "40.000 VND",
+        "rating": 4.6,
+        "type": "Dining",
+        "distance": "1 km"
+      }
+    ],
+    "hotels": [
+      {
+        "id": "brilliant_bay",
+        "name": "Brilliant Bay",
+        "image": "/images/destinations/nha_trang/hotels/brilliant_bay.jpg",
+        "description": "Khám phá Brilliant Bay",
+        "price": 1200000,
+        "rating": 4.5,
+        "type": "Hotel"
+      },
+      {
+        "id": "ckd_nha_trang",
+        "name": "CKD Nha Trang",
+        "image": "/images/destinations/nha_trang/hotels/ckd_nha_trang.jpg",
+        "description": "Khám phá CKD Nha Trang",
+        "price": 1200000,
+        "rating": 4.5,
+        "type": "Hotel"
+      },
+      {
+        "id": "dendro",
+        "name": "DENDRO",
+        "image": "/images/destinations/nha_trang/hotels/dendro.jpg",
+        "description": "Khám phá DENDRO",
+        "price": 1200000,
+        "rating": 4.5,
+        "type": "Hotel"
+      },
+      {
+        "id": "dolphin_bay",
+        "name": "DOLPHIN BAY",
+        "image": "/images/destinations/nha_trang/hotels/dolphin_bay.jpg",
+        "description": "Khám phá DOLPHIN BAY",
+        "price": 1200000,
+        "rating": 4.5,
+        "type": "Hotel"
+      },
+      {
+        "id": "dubai_hotel",
+        "name": "DUBAI HOTEL",
+        "image": "/images/destinations/nha_trang/hotels/dubai_hotel.jpg",
+        "description": "Khám phá DUBAI HOTEL",
+        "price": 1200000,
+        "rating": 4.5,
+        "type": "Hotel"
+      },
+      {
+        "id": "le_soleil",
+        "name": "LE SOLEIL",
+        "image": "/images/destinations/nha_trang/hotels/le_soleil.jpg",
+        "description": "Khám phá LE SOLEIL",
+        "price": 1200000,
+        "rating": 4.5,
+        "type": "Hotel"
+      },
+      {
+        "id": "maika",
+        "name": "MAIKA",
+        "image": "/images/destinations/nha_trang/hotels/maika.jpg",
+        "description": "Khám phá MAIKA",
+        "price": 1200000,
+        "rating": 4.5,
+        "type": "Hotel"
+      },
+      {
+        "id": "mangolia",
+        "name": "Mangolia",
+        "image": "/images/destinations/nha_trang/hotels/mangolia.jpg",
+        "description": "Khám phá Mangolia",
+        "price": 1200000,
+        "rating": 4.5,
+        "type": "Hotel"
+      },
+      {
+        "id": "nang_bien_sunny_sea",
+        "name": "NẮNG BIỂN SUNNY SEA",
+        "image": "/images/destinations/nha_trang/hotels/nang_bien_sunny_sea.jpg",
+        "description": "Khám phá NẮNG BIỂN SUNNY SEA",
+        "price": 1200000,
+        "rating": 4.5,
+        "type": "Hotel"
+      },
+      {
+        "id": "palm_beach",
+        "name": "PALM BEACH",
+        "image": "/images/destinations/nha_trang/hotels/palm_beach.jpg",
+        "description": "Khám phá PALM BEACH",
+        "price": 1200000,
+        "rating": 4.5,
+        "type": "Hotel"
+      },
+      {
+        "id": "pearl_city",
+        "name": "Pearl City",
+        "image": "/images/destinations/nha_trang/hotels/pearl_city.jpg",
+        "description": "Khám phá Pearl City",
+        "price": 1200000,
+        "rating": 4.5,
+        "type": "Hotel"
+      },
+      {
+        "id": "ruby_luxury",
+        "name": "Ruby Luxury",
+        "image": "/images/destinations/nha_trang/hotels/ruby_luxury.jpg",
+        "description": "Khám phá Ruby Luxury",
+        "price": 1200000,
+        "rating": 4.5,
+        "type": "Hotel"
+      },
+      {
+        "id": "sun_city",
+        "name": "SUN CITY",
+        "image": "/images/destinations/nha_trang/hotels/sun_city.jpg",
+        "description": "Khám phá SUN CITY",
+        "price": 1200000,
+        "rating": 4.5,
+        "type": "Hotel"
+      },
+      {
+        "id": "vinpearl_beachfront",
+        "name": "Vinpearl Beachfront",
+        "image": "/images/destinations/nha_trang/hotels/vinpearl_beachfront.jpg",
+        "description": "Khám phá Vinpearl Beachfront",
+        "price": 1200000,
+        "rating": 4.5,
+        "type": "Hotel"
+      },
+      {
+        "id": "van_kim",
+        "name": "VẠN KIM",
+        "image": "/images/destinations/nha_trang/hotels/van_kim.jpg",
+        "description": "Khám phá VẠN KIM",
+        "price": 1200000,
+        "rating": 4.5,
+        "type": "Hotel"
+      }
+    ]
+  },
+  {
+    "id": "tp.hcm",
+    "name": "TP.HCM",
+    "attractions": [
+      {
+        "id": "bui_vien",
+        "name": "BÙI VIỆN",
+        "image": "/images/destinations/tp.hcm/attractions/bui_vien.jpg",
+        "description": "Trải nghiệm tuyệt vời tại BÙI VIỆN",
+        "price": 70315,
+        "rating": 4.179236556440577,
+        "type": "Attraction"
+      },
+      {
+        "id": "bao_tang",
+        "name": "BẢO TÀNG",
+        "image": "/images/destinations/tp.hcm/attractions/bao_tang.jpg",
+        "description": "Trải nghiệm tuyệt vời tại BẢO TÀNG",
+        "price": 58641,
+        "rating": 4.745492505700471,
+        "type": "Attraction"
+      },
+      {
+        "id": "cho_ben_thanh",
+        "name": "CHỢ BẾN THÀNH",
+        "image": "/images/destinations/tp.hcm/attractions/cho_ben_thanh.jpg",
+        "description": "Trải nghiệm tuyệt vời tại CHỢ BẾN THÀNH",
+        "price": 50488,
+        "rating": 4.32992952952534,
+        "type": "Attraction"
+      },
+      {
+        "id": "dinh",
+        "name": "dinh",
+        "image": "/images/destinations/tp.hcm/attractions/dinh.webp",
+        "description": "Trải nghiệm tuyệt vời tại dinh",
+        "price": 121656,
+        "rating": 4.080438600171896,
+        "type": "Attraction"
+      },
+      {
+        "id": "landmark-81-banner",
+        "name": "landmark-81-banner",
+        "image": "/images/destinations/tp.hcm/attractions/landmark-81-banner.jpg",
+        "description": "Trải nghiệm tuyệt vời tại landmark-81-banner",
+        "price": 71283,
+        "rating": 4.159294371573932,
+        "type": "Attraction"
+      },
+      {
+        "id": "landmark81saigonskyviewticketinhochiminhcity",
+        "name": "Landmark81SaigonSkyviewTicketinHoChiMinhCity",
+        "image": "/images/destinations/tp.hcm/attractions/landmark81saigonskyviewticketinhochiminhcity.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Landmark81SaigonSkyviewTicketinHoChiMinhCity",
+        "price": 145710,
+        "rating": 4.8029127196800605,
+        "type": "Attraction"
+      },
+      {
+        "id": "landmark_81_skyview",
+        "name": "Landmark_81_SkyView",
+        "image": "/images/destinations/tp.hcm/attractions/landmark_81_skyview.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Landmark_81_SkyView",
+        "price": 136831,
+        "rating": 4.8531831249859865,
+        "type": "Attraction"
+      },
+      {
+        "id": "vi-sai-gon",
+        "name": "vi-sai-gon",
+        "image": "/images/destinations/tp.hcm/attractions/vi-sai-gon.jpg",
+        "description": "Trải nghiệm tuyệt vời tại vi-sai-gon",
+        "price": 113837,
+        "rating": 4.341926000340593,
+        "type": "Attraction"
+      },
+      {
+        "id": "vi_sai_gonnn",
+        "name": "VỊ SÀI GONNN",
+        "image": "/images/destinations/tp.hcm/attractions/vi_sai_gonnn.jpg",
+        "description": "Trải nghiệm tuyệt vời tại VỊ SÀI GONNN",
+        "price": 64610,
+        "rating": 4.663917285901414,
+        "type": "Attraction"
+      },
+      {
+        "id": "nahf_tho_2",
+        "name": "NAHF THỜ 2",
+        "image": "/images/destinations/tp.hcm/attractions/nahf_tho_2.jpg",
+        "description": "Trải nghiệm tuyệt vời tại NAHF THỜ 2",
+        "price": 52283,
+        "rating": 4.623574996156213,
+        "type": "Attraction"
+      },
+      {
+        "id": "nha_tho_đuc_ba",
+        "name": "NHÀ THỜ ĐỨC BÀ",
+        "image": "/images/destinations/tp.hcm/attractions/nha_tho_đuc_ba.jpg",
+        "description": "Trải nghiệm tuyệt vời tại NHÀ THỜ ĐỨC BÀ",
+        "price": 84645,
+        "rating": 4.442686642637206,
+        "type": "Attraction"
+      },
+      {
+        "id": "suoi_tien",
+        "name": "SUỐI TIÊN",
+        "image": "/images/destinations/tp.hcm/attractions/suoi_tien.jpg",
+        "description": "Trải nghiệm tuyệt vời tại SUỐI TIÊN",
+        "price": 67346,
+        "rating": 4.933117056539401,
+        "type": "Attraction"
+      },
+      {
+        "id": "the_rixx",
+        "name": "the rixx",
+        "image": "/images/destinations/tp.hcm/attractions/the_rixx.jpg",
+        "description": "Trải nghiệm tuyệt vời tại the rixx",
+        "price": 141162,
+        "rating": 4.325143257498733,
+        "type": "Attraction"
+      },
+      {
+        "id": "the_rixx2",
+        "name": "the rixx2",
+        "image": "/images/destinations/tp.hcm/attractions/the_rixx2.jpg",
+        "description": "Trải nghiệm tuyệt vời tại the rixx2",
+        "price": 74597,
+        "rating": 4.18418982761119,
+        "type": "Attraction"
+      }
+    ],
+    "hotels": []
+  },
+  {
+    "id": "đa_lat",
+    "name": "ĐÀ LẠT",
+    "attractions": [
+      {
+        "id": "cho_đem_đa_lat",
+        "name": "Chợ Đêm Đà Lạt",
+        "image": "/images/destinations/đa_lat/attractions/cho_đem_đa_lat.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Chợ Đêm Đà Lạt",
+        "price": 113550,
+        "rating": 4.924918689451762,
+        "type": "Attraction"
+      },
+      {
+        "id": "ga_đa_lat_",
+        "name": "Ga Đà Lạt ",
+        "image": "/images/destinations/đa_lat/attractions/ga_đa_lat_.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Ga Đà Lạt ",
+        "price": 114546,
+        "rating": 4.5627642692624875,
+        "type": "Attraction"
+      },
+      {
+        "id": "khu_du_lich_thac_datanla",
+        "name": "Khu du lịch Thác Datanla",
+        "image": "/images/destinations/đa_lat/attractions/khu_du_lich_thac_datanla.png",
+        "description": "Trải nghiệm tuyệt vời tại Khu du lịch Thác Datanla",
+        "price": 144336,
+        "rating": 4.192994155443247,
+        "type": "Attraction"
+      },
+      {
+        "id": "quan_lau_ga_la_e_tao_ngo",
+        "name": "Quán Lẩu Gà Lá É Tao Ngộ",
+        "image": "/images/destinations/đa_lat/attractions/quan_lau_ga_la_e_tao_ngo.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Quán Lẩu Gà Lá É Tao Ngộ",
+        "price": 137895,
+        "rating": 4.384638511627795,
+        "type": "Attraction"
+      },
+      {
+        "id": "quang_truong_lam_vien",
+        "name": "Quảng trường Lâm Viên",
+        "image": "/images/destinations/đa_lat/attractions/quang_truong_lam_vien.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Quảng trường Lâm Viên",
+        "price": 117906,
+        "rating": 4.672023527811126,
+        "type": "Attraction"
+      },
+      {
+        "id": "tiem_ca_phe_tui_mo_to",
+        "name": "Tiệm Cà Phê Túi Mơ To",
+        "image": "/images/destinations/đa_lat/attractions/tiem_ca_phe_tui_mo_to.jpg",
+        "description": "Trải nghiệm tuyệt vời tại Tiệm Cà Phê Túi Mơ To",
+        "price": 145043,
+        "rating": 4.219111967514744,
+        "type": "Attraction"
+      },
+      {
+        "id": "đoi_che_cau_đat_(cau_đat_farm)",
+        "name": "Đồi Chè Cầu Đất (Cầu Đất Farm)",
+        "image": "/images/destinations/đa_lat/attractions/đoi_che_cau_đat_(cau_đat_farm).jpg",
+        "description": "Trải nghiệm tuyệt vời tại Đồi Chè Cầu Đất (Cầu Đất Farm)",
+        "price": 81699,
+        "rating": 4.814518633060123,
+        "type": "Attraction"
+      }
+    ],
+    "hotels": [
+      {
+        "id": "1.1._s79_khai_ngoc_hotel",
+        "name": "1.1. S79 Khai Ngọc Hotel",
+        "image": "/images/destinations/đa_lat/hotels/1.1._s79_khai_ngoc_hotel.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 1.1. S79 Khai Ngọc Hotel",
+        "price": 2573221,
+        "rating": 4.100798606737724,
+        "type": "Hotel"
+      },
+      {
+        "id": "1.2_khach_san_anna_suong",
+        "name": "1.2 Khách sạn Anna Sương",
+        "image": "/images/destinations/đa_lat/hotels/1.2_khach_san_anna_suong.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 1.2 Khách sạn Anna Sương",
+        "price": 2121186,
+        "rating": 4.117093985768301,
+        "type": "Hotel"
+      },
+      {
+        "id": "1.2._khach_san_anna_suong",
+        "name": "1.2. Khách sạn Anna Sương",
+        "image": "/images/destinations/đa_lat/hotels/1.2._khach_san_anna_suong.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 1.2. Khách sạn Anna Sương",
+        "price": 1012350,
+        "rating": 4.622254693806251,
+        "type": "Hotel"
+      },
+      {
+        "id": "2.1_happy_day_2_guesthouse",
+        "name": "2.1 Happy Day 2 Guesthouse",
+        "image": "/images/destinations/đa_lat/hotels/2.1_happy_day_2_guesthouse.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 2.1 Happy Day 2 Guesthouse",
+        "price": 1274692,
+        "rating": 4.564523598590245,
+        "type": "Hotel"
+      },
+      {
+        "id": "2.1._happy_day_2_guesthouse",
+        "name": "2.1. Happy Day 2 Guesthouse",
+        "image": "/images/destinations/đa_lat/hotels/2.1._happy_day_2_guesthouse.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 2.1. Happy Day 2 Guesthouse",
+        "price": 1200667,
+        "rating": 4.755588565148862,
+        "type": "Hotel"
+      },
+      {
+        "id": "2.2_qa_hotel",
+        "name": "2.2 QA Hotel",
+        "image": "/images/destinations/đa_lat/hotels/2.2_qa_hotel.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 2.2 QA Hotel",
+        "price": 2633858,
+        "rating": 4.489030054532337,
+        "type": "Hotel"
+      },
+      {
+        "id": "2.2._qa_hotel",
+        "name": "2.2. QA Hotel",
+        "image": "/images/destinations/đa_lat/hotels/2.2._qa_hotel.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 2.2. QA Hotel",
+        "price": 2924876,
+        "rating": 4.678100365572304,
+        "type": "Hotel"
+      },
+      {
+        "id": "3.1_winterfell_hotel",
+        "name": "3.1 Winterfell Hotel",
+        "image": "/images/destinations/đa_lat/hotels/3.1_winterfell_hotel.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 3.1 Winterfell Hotel",
+        "price": 2970759,
+        "rating": 4.970064242137841,
+        "type": "Hotel"
+      },
+      {
+        "id": "3.1._winterfell_hotel",
+        "name": "3.1. Winterfell Hotel",
+        "image": "/images/destinations/đa_lat/hotels/3.1._winterfell_hotel.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 3.1. Winterfell Hotel",
+        "price": 1532280,
+        "rating": 4.037924731970339,
+        "type": "Hotel"
+      },
+      {
+        "id": "3.2_windy_hill_homestay",
+        "name": "3.2 Windy Hill Homestay",
+        "image": "/images/destinations/đa_lat/hotels/3.2_windy_hill_homestay.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 3.2 Windy Hill Homestay",
+        "price": 1619325,
+        "rating": 4.955708825193308,
+        "type": "Hotel"
+      },
+      {
+        "id": "3.2._windy_hill_homestay",
+        "name": "3.2. Windy Hill Homestay",
+        "image": "/images/destinations/đa_lat/hotels/3.2._windy_hill_homestay.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 3.2. Windy Hill Homestay",
+        "price": 2845605,
+        "rating": 4.150199681009253,
+        "type": "Hotel"
+      },
+      {
+        "id": "4.1_pontus_hotel",
+        "name": "4.1 Pontus Hotel",
+        "image": "/images/destinations/đa_lat/hotels/4.1_pontus_hotel.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 4.1 Pontus Hotel",
+        "price": 2127562,
+        "rating": 4.085126595531667,
+        "type": "Hotel"
+      },
+      {
+        "id": "4.1._pontus_hotel",
+        "name": "4.1. Pontus Hotel",
+        "image": "/images/destinations/đa_lat/hotels/4.1._pontus_hotel.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 4.1. Pontus Hotel",
+        "price": 1126076,
+        "rating": 4.626315313274359,
+        "type": "Hotel"
+      },
+      {
+        "id": "4.2_the_manor_villas",
+        "name": "4.2 The Manor Villas",
+        "image": "/images/destinations/đa_lat/hotels/4.2_the_manor_villas.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 4.2 The Manor Villas",
+        "price": 1124625,
+        "rating": 4.17001599266215,
+        "type": "Hotel"
+      },
+      {
+        "id": "4.2._the_manor_villas",
+        "name": "4.2. The Manor Villas",
+        "image": "/images/destinations/đa_lat/hotels/4.2._the_manor_villas.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 4.2. The Manor Villas",
+        "price": 2330831,
+        "rating": 4.121982529244447,
+        "type": "Hotel"
+      },
+      {
+        "id": "5.1_rainbow_homestay_cau_đat",
+        "name": "5.1 Rainbow Homestay Cầu Đất",
+        "image": "/images/destinations/đa_lat/hotels/5.1_rainbow_homestay_cau_đat.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 5.1 Rainbow Homestay Cầu Đất",
+        "price": 2377178,
+        "rating": 4.902810845705206,
+        "type": "Hotel"
+      },
+      {
+        "id": "5.1._rainbow_homestay_cau_đat",
+        "name": "5.1. Rainbow Homestay Cầu Đất",
+        "image": "/images/destinations/đa_lat/hotels/5.1._rainbow_homestay_cau_đat.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 5.1. Rainbow Homestay Cầu Đất",
+        "price": 2452137,
+        "rating": 4.2185137761727045,
+        "type": "Hotel"
+      },
+      {
+        "id": "5.2_moc_tra_farm",
+        "name": "5.2 Mộc Trà Farm",
+        "image": "/images/destinations/đa_lat/hotels/5.2_moc_tra_farm.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 5.2 Mộc Trà Farm",
+        "price": 1846437,
+        "rating": 4.5771013237905525,
+        "type": "Hotel"
+      },
+      {
+        "id": "5.2._moc_tra_farm",
+        "name": "5.2. Mộc Trà Farm",
+        "image": "/images/destinations/đa_lat/hotels/5.2._moc_tra_farm.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 5.2. Mộc Trà Farm",
+        "price": 2301425,
+        "rating": 4.869073977377953,
+        "type": "Hotel"
+      },
+      {
+        "id": "6.1_hoang_gia_trang_(homestay)",
+        "name": "6.1 Hoàng Gia Trang (Homestay)",
+        "image": "/images/destinations/đa_lat/hotels/6.1_hoang_gia_trang_(homestay).jpg",
+        "description": "Trải nghiệm tuyệt vời tại 6.1 Hoàng Gia Trang (Homestay)",
+        "price": 2687749,
+        "rating": 4.491906104431162,
+        "type": "Hotel"
+      },
+      {
+        "id": "6.1._hoang_gia_trang_(homestay)",
+        "name": "6.1. Hoàng Gia Trang (Homestay)",
+        "image": "/images/destinations/đa_lat/hotels/6.1._hoang_gia_trang_(homestay).jpg",
+        "description": "Trải nghiệm tuyệt vời tại 6.1. Hoàng Gia Trang (Homestay)",
+        "price": 1097648,
+        "rating": 4.258719110703872,
+        "type": "Hotel"
+      },
+      {
+        "id": "6.2_nature_hotel",
+        "name": "6.2 Nature Hotel",
+        "image": "/images/destinations/đa_lat/hotels/6.2_nature_hotel.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 6.2 Nature Hotel",
+        "price": 2451506,
+        "rating": 4.139336567536573,
+        "type": "Hotel"
+      },
+      {
+        "id": "6.2._nature_hotel",
+        "name": "6.2. Nature Hotel",
+        "image": "/images/destinations/đa_lat/hotels/6.2._nature_hotel.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 6.2. Nature Hotel",
+        "price": 1330450,
+        "rating": 4.545266927425723,
+        "type": "Hotel"
+      },
+      {
+        "id": "7.1_may_bach_đa_lat",
+        "name": "7.1 Mây Bách Đà Lạt",
+        "image": "/images/destinations/đa_lat/hotels/7.1_may_bach_đa_lat.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 7.1 Mây Bách Đà Lạt",
+        "price": 2666614,
+        "rating": 4.9973632849689835,
+        "type": "Hotel"
+      },
+      {
+        "id": "7.1._may_bach_đa_lat",
+        "name": "7.1. Mây Bách Đà Lạt",
+        "image": "/images/destinations/đa_lat/hotels/7.1._may_bach_đa_lat.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 7.1. Mây Bách Đà Lạt",
+        "price": 1471236,
+        "rating": 4.877329008469222,
+        "type": "Hotel"
+      },
+      {
+        "id": "7.2_le_homestay",
+        "name": "7.2 Lê Homestay",
+        "image": "/images/destinations/đa_lat/hotels/7.2_le_homestay.jpg",
+        "description": "Trải nghiệm tuyệt vời tại 7.2 Lê Homestay",
+        "price": 1014064,
+        "rating": 4.804552099032982,
+        "type": "Hotel"
+      },
+      {
+        "id": "7.2._le_homestay",
+        "name": "7.2. Lê Homestay",
+        "image": "/images/destinations/đa_lat/hotels/7.2._le_homestay.jpeg",
+        "description": "Trải nghiệm tuyệt vời tại 7.2. Lê Homestay",
+        "price": 2635354,
+        "rating": 4.121649862965683,
+        "type": "Hotel"
+      }
+    ]
+  },
+  {
+    "id": "đa_nang",
+    "name": "ĐÀ NẴNG",
+    "attractions": [
+      {
+        "id": "anh_chup_man_hinh_2026-01-25_185839",
+        "name": "Ảnh chụp màn hình 2026-01-25 185839",
+        "image": "/images/destinations/đa_nang/attractions/anh_chup_man_hinh_2026-01-25_185839.png",
+        "description": "Trải nghiệm tuyệt vời tại Ảnh chụp màn hình 2026-01-25 185839",
+        "price": 127645,
+        "rating": 4.727039059796494,
+        "type": "Attraction"
+      },
+      {
+        "id": "anh_chup_man_hinh_2026-01-25_185903",
+        "name": "Ảnh chụp màn hình 2026-01-25 185903",
+        "image": "/images/destinations/đa_nang/attractions/anh_chup_man_hinh_2026-01-25_185903.png",
+        "description": "Trải nghiệm tuyệt vời tại Ảnh chụp màn hình 2026-01-25 185903",
+        "price": 93643,
+        "rating": 4.190254914140642,
+        "type": "Attraction"
+      },
+      {
+        "id": "anh_chup_man_hinh_2026-01-25_190347",
+        "name": "Ảnh chụp màn hình 2026-01-25 190347",
+        "image": "/images/destinations/đa_nang/attractions/anh_chup_man_hinh_2026-01-25_190347.png",
+        "description": "Trải nghiệm tuyệt vời tại Ảnh chụp màn hình 2026-01-25 190347",
+        "price": 125000,
+        "rating": 4.117809049138993,
+        "type": "Attraction"
+      },
+      {
+        "id": "anh_chup_man_hinh_2026-01-25_190406",
+        "name": "Ảnh chụp màn hình 2026-01-25 190406",
+        "image": "/images/destinations/đa_nang/attractions/anh_chup_man_hinh_2026-01-25_190406.png",
+        "description": "Trải nghiệm tuyệt vời tại Ảnh chụp màn hình 2026-01-25 190406",
+        "price": 102599,
+        "rating": 4.455067864125274,
+        "type": "Attraction"
+      },
+      {
+        "id": "anh_chup_man_hinh_2026-01-25_190231",
+        "name": "Ảnh chụp màn hình 2026-01-25 190231",
+        "image": "/images/destinations/đa_nang/attractions/anh_chup_man_hinh_2026-01-25_190231.png",
+        "description": "Trải nghiệm tuyệt vời tại Ảnh chụp màn hình 2026-01-25 190231",
+        "price": 72357,
+        "rating": 4.090504569191241,
+        "type": "Attraction"
+      },
+      {
+        "id": "anh_chup_man_hinh_2026-01-25_190258",
+        "name": "Ảnh chụp màn hình 2026-01-25 190258",
+        "image": "/images/destinations/đa_nang/attractions/anh_chup_man_hinh_2026-01-25_190258.png",
+        "description": "Trải nghiệm tuyệt vời tại Ảnh chụp màn hình 2026-01-25 190258",
+        "price": 108986,
+        "rating": 4.044795697260091,
+        "type": "Attraction"
+      },
+      {
+        "id": "anh_chup_man_hinh_2026-01-25_190006",
+        "name": "Ảnh chụp màn hình 2026-01-25 190006",
+        "image": "/images/destinations/đa_nang/attractions/anh_chup_man_hinh_2026-01-25_190006.png",
+        "description": "Trải nghiệm tuyệt vời tại Ảnh chụp màn hình 2026-01-25 190006",
+        "price": 99731,
+        "rating": 4.857182345949791,
+        "type": "Attraction"
+      },
+      {
+        "id": "anh_chup_man_hinh_2026-01-25_190020",
+        "name": "Ảnh chụp màn hình 2026-01-25 190020",
+        "image": "/images/destinations/đa_nang/attractions/anh_chup_man_hinh_2026-01-25_190020.png",
+        "description": "Trải nghiệm tuyệt vời tại Ảnh chụp màn hình 2026-01-25 190020",
+        "price": 59541,
+        "rating": 4.967330361134001,
+        "type": "Attraction"
+      },
+      {
+        "id": "anh_chup_man_hinh_2026-01-25_190454",
+        "name": "Ảnh chụp màn hình 2026-01-25 190454",
+        "image": "/images/destinations/đa_nang/attractions/anh_chup_man_hinh_2026-01-25_190454.png",
+        "description": "Trải nghiệm tuyệt vời tại Ảnh chụp màn hình 2026-01-25 190454",
+        "price": 108061,
+        "rating": 4.867672769876565,
+        "type": "Attraction"
+      },
+      {
+        "id": "anh_chup_man_hinh_2026-01-25_190526",
+        "name": "Ảnh chụp màn hình 2026-01-25 190526",
+        "image": "/images/destinations/đa_nang/attractions/anh_chup_man_hinh_2026-01-25_190526.png",
+        "description": "Trải nghiệm tuyệt vời tại Ảnh chụp màn hình 2026-01-25 190526",
+        "price": 92376,
+        "rating": 4.741905696475143,
+        "type": "Attraction"
+      },
+      {
+        "id": "anh_chup_man_hinh_2026-01-25_190620",
+        "name": "Ảnh chụp màn hình 2026-01-25 190620",
+        "image": "/images/destinations/đa_nang/attractions/anh_chup_man_hinh_2026-01-25_190620.png",
+        "description": "Trải nghiệm tuyệt vời tại Ảnh chụp màn hình 2026-01-25 190620",
+        "price": 100733,
+        "rating": 4.950452543500369,
+        "type": "Attraction"
+      },
+      {
+        "id": "anh_chup_man_hinh_2026-01-25_190638",
+        "name": "Ảnh chụp màn hình 2026-01-25 190638",
+        "image": "/images/destinations/đa_nang/attractions/anh_chup_man_hinh_2026-01-25_190638.png",
+        "description": "Trải nghiệm tuyệt vời tại Ảnh chụp màn hình 2026-01-25 190638",
+        "price": 73067,
+        "rating": 4.156921252823742,
+        "type": "Attraction"
+      }
+    ],
+    "hotels": []
+  }
+]

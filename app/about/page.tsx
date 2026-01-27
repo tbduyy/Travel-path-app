@@ -4,12 +4,13 @@ import Image from "next/image";
 import prisma from "@/lib/prisma";
 
 export default async function AboutPage() {
-  const vision = await prisma.siteContent.findUnique({
-    where: { key: "vision" },
-  });
-  const mission = await prisma.siteContent.findUnique({
-    where: { key: "mission" },
-  });
+  // Safety check: accessing prisma.siteContent might fail if client isn't generated
+  const vision = prisma.siteContent
+    ? await prisma.siteContent.findUnique({ where: { key: "vision" } })
+    : null;
+  const mission = prisma.siteContent
+    ? await prisma.siteContent.findUnique({ where: { key: "mission" } })
+    : null;
 
   const visionContent =
     vision?.content ||

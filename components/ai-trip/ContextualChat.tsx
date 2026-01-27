@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import { API_BASE_URL } from "@/lib/api-config";
 
 type Message = {
@@ -102,170 +103,113 @@ export default function ContextualChat() {
     ];
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Left: Chat */}
-            <div className="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-gray-100 flex flex-col h-[700px]">
-                {/* Header */}
-                <div className="p-6 border-b border-gray-100">
-                    <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-[#1B4D3E] rounded-full flex items-center justify-center text-white text-xl">
-                            🤖
-                        </div>
-                        <div>
-                            <h3 className="font-bold text-[#1B4D3E]">AI Travel Assistant</h3>
-                            <p className="text-xs text-green-500 flex items-center gap-1">
-                                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                                Đang hoạt động
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Messages */}
-                <div className="flex-1 overflow-y-auto p-6 space-y-4">
-                    {messages.map((msg, idx) => (
-                        <div
-                            key={idx}
-                            className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-                        >
-                            <div
-                                className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                                    msg.role === "user"
-                                        ? "bg-[#1B4D3E] text-white"
-                                        : "bg-gray-100 text-gray-800"
-                                }`}
-                            >
-                                <p className="text-sm leading-relaxed">{msg.content}</p>
-                                <p
-                                    className={`text-xs mt-1 ${
-                                        msg.role === "user" ? "text-white/60" : "text-gray-400"
-                                    }`}
-                                >
-                                    {msg.timestamp.toLocaleTimeString("vi-VN", {
-                                        hour: "2-digit",
-                                        minute: "2-digit",
-                                    })}
-                                </p>
-                            </div>
-                        </div>
-                    ))}
-
-                    {loading && (
-                        <div className="flex justify-start">
-                            <div className="bg-gray-100 rounded-2xl px-4 py-3">
-                                <div className="flex gap-1">
-                                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                                    <span
-                                        className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                                        style={{ animationDelay: "0.1s" }}
-                                    />
-                                    <span
-                                        className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                                        style={{ animationDelay: "0.2s" }}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    <div ref={messagesEndRef} />
-                </div>
-
-                {/* Quick Actions */}
-                <div className="px-6 pb-3">
-                    <div className="flex gap-2 flex-wrap">
-                        {quickActions.map((action, idx) => (
-                            <button
-                                key={idx}
-                                onClick={() => setInputMessage(action)}
-                                className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-full text-xs font-medium text-gray-600 transition-colors"
-                            >
-                                {action}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Input */}
-                <div className="p-6 border-t border-gray-100">
-                    <div className="flex gap-3">
-                        <input
-                            type="text"
-                            value={inputMessage}
-                            onChange={(e) => setInputMessage(e.target.value)}
-                            onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                            placeholder="Nhập tin nhắn..."
-                            className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B4D3E]/20"
+        <div className="flex flex-col h-full bg-white rounded-3xl overflow-hidden">
+            {/* Header */}
+            <div className="p-4 border-b border-gray-100 bg-[#1B4D3E] text-white">
+                <div className="flex items-center gap-3">
+                    <div className="relative w-10 h-10 rounded-full border border-white/20 overflow-hidden">
+                        <Image 
+                            src="/assets/plan-trip/new_ai-chatbot.png" 
+                            alt="AI Avatar" 
+                            fill 
+                            className="object-cover"
                         />
-                        <button
-                            onClick={handleSend}
-                            disabled={loading || !inputMessage.trim()}
-                            className="px-6 py-3 bg-[#1B4D3E] text-white rounded-xl font-bold hover:bg-[#2C6E5A] transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
-                        >
-                            Gửi
-                        </button>
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-sm">AI Travel Assistant</h3>
+                        <p className="text-[10px] text-white/80 flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+                            Đang hoạt động
+                        </p>
                     </div>
                 </div>
             </div>
 
-            {/* Right: Context Panel */}
-            <div className="space-y-6">
-                {/* Trip Status */}
-                <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-                    <h3 className="text-sm font-bold text-[#1B4D3E] mb-4">Trạng thái chuyến đi</h3>
-                    <select
-                        value={tripStatus}
-                        onChange={(e) => setTripStatus(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B4D3E]/20 text-sm"
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
+                {messages.map((msg, idx) => (
+                    <div
+                        key={idx}
+                        className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                     >
-                        <option value="Đang khám phá">Đang khám phá</option>
-                        <option value="Tại khách sạn">Tại khách sạn</option>
-                        <option value="Di chuyển">Di chuyển</option>
-                        <option value="Dùng bữa">Dùng bữa</option>
-                        <option value="Nghỉ ngơi">Nghỉ ngơi</option>
-                    </select>
-                </div>
+                        <div
+                            className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm ${
+                                msg.role === "user"
+                                    ? "bg-[#1B4D3E] text-white"
+                                    : "bg-white text-gray-800 border border-gray-100 shadow-sm"
+                            }`}
+                        >
+                            <p className="leading-relaxed">{msg.content}</p>
+                            <p
+                                className={`text-[10px] mt-1 text-right ${
+                                    msg.role === "user" ? "text-white/60" : "text-gray-400"
+                                }`}
+                            >
+                                {msg.timestamp.toLocaleTimeString("vi-VN", {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                })}
+                            </p>
+                        </div>
+                    </div>
+                ))}
 
-                {/* Current Location */}
-                <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-                    <h3 className="text-sm font-bold text-[#1B4D3E] mb-4">Vị trí hiện tại</h3>
+                {loading && (
+                    <div className="flex justify-start">
+                        <div className="bg-white border border-gray-100 shadow-sm rounded-2xl px-4 py-3">
+                            <div className="flex gap-1">
+                                <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" />
+                                <span
+                                    className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"
+                                    style={{ animationDelay: "0.1s" }}
+                                />
+                                <span
+                                    className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"
+                                    style={{ animationDelay: "0.2s" }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                <div ref={messagesEndRef} />
+            </div>
+
+            {/* Quick Actions */}
+            <div className="px-4 pt-2 bg-white">
+                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                    {quickActions.map((action, idx) => (
+                        <button
+                            key={idx}
+                            onClick={() => setInputMessage(action)}
+                            className="whitespace-nowrap px-3 py-1.5 bg-gray-50 hover:bg-gray-100 border border-gray-100 rounded-full text-xs font-medium text-gray-600 transition-colors flex-shrink-0"
+                        >
+                            {action}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Input */}
+            <div className="p-4 bg-white border-t border-gray-100">
+                <div className="flex gap-2">
                     <input
                         type="text"
-                        value={currentLocation}
-                        onChange={(e) => setCurrentLocation(e.target.value)}
-                        placeholder="VD: Hồ Xuân Hương"
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B4D3E]/20 text-sm"
+                        value={inputMessage}
+                        onChange={(e) => setInputMessage(e.target.value)}
+                        onKeyDown={(e) => e.key === "Enter" && handleSend()}
+                        placeholder="Hỏi tôi bất cứ điều gì..."
+                        className="flex-1 px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B4D3E]/20 text-sm"
                     />
-                </div>
-
-                {/* Feeling */}
-                <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-                    <h3 className="text-sm font-bold text-[#1B4D3E] mb-4">Cảm xúc hiện tại</h3>
-                    <div className="grid grid-cols-2 gap-2">
-                        {["😊 Vui vẻ", "😌 Thư giãn", "😫 Mệt mỏi", "🤩 Phấn khích"].map(
-                            (emoji) => (
-                                <button
-                                    key={emoji}
-                                    onClick={() => setFeeling(emoji)}
-                                    className={`py-2 px-3 rounded-xl text-sm font-medium transition-all ${
-                                        feeling === emoji
-                                            ? "bg-[#1B4D3E] text-white"
-                                            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                                    }`}
-                                >
-                                    {emoji}
-                                </button>
-                            )
-                        )}
-                    </div>
-                </div>
-
-                {/* Info */}
-                <div className="bg-[#E0F2F1] rounded-3xl p-6 border border-white/50">
-                    <p className="text-xs text-[#1B4D3E]/70 leading-relaxed">
-                        💡 <strong>Mẹo:</strong> Cập nhật vị trí và cảm xúc để AI có thể hỗ trợ bạn
-                        tốt hơn. AI sẽ tự động đề xuất thay đổi lịch trình nếu cần thiết.
-                    </p>
+                    <button
+                        onClick={handleSend}
+                        disabled={loading || !inputMessage.trim()}
+                        className="px-3 py-2 bg-[#1B4D3E] text-white rounded-xl font-bold hover:bg-[#2C6E5A] transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed text-sm"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                            <path d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z" />
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>

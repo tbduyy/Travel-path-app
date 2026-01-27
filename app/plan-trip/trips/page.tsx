@@ -13,6 +13,7 @@ import AddActivityModal from "@/components/AddActivityModal";
 import ActivityCard from "@/components/ActivityCard";
 import TripMetaBar from "@/components/TripMetaBar";
 import { useTripStore, type ActivitiesMap } from "@/lib/store/trip-store";
+import { API_BASE_URL } from "@/lib/api-config";
 
 // Dynamically import MapComponent
 const MapComponent = dynamic(() => import("@/components/MapComponent"), {
@@ -155,6 +156,7 @@ function TripsContent() {
     "morning" | "afternoon" | "evening"
   >("morning");
   const [editingActivity, setEditingActivity] = useState<any>(null); // New state for editing
+  const [isGenerating, setIsGenerating] = useState(false); // AI generation loading state
 
   // Activity form state
   const [activityName, setActivityName] = useState("");
@@ -355,10 +357,100 @@ function TripsContent() {
     setShowAddActivityModal(true);
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (viewStep === 1) {
       setViewStep(2);
       window.scrollTo({ top: 0, behavior: "smooth" });
+
+      // Call AI to generate itinerary
+      setIsGenerating(true);
+      try {
+        const selectedPlacesData = selectedPlaces.map((p) => ({
+          name: p.name,
+          address: p.address || destination || "",
+        }));
+
+        const requestBody = {
+          hotel_location: {
+            name: selectedHotel?.name || "Khách sạn trung tâm",
+            address: selectedHotel?.address || destination || "",
+          },
+          mandatory_spots: selectedPlacesData,
+          wishlist_spots: [],
+          budget: budgetParam
+            ? parseFloat(budgetParam.replace(/[^0-9]/g, ""))
+            : 5000000,
+          num_people: parseInt(people || "2"),
+          travel_style: "cultural",
+          start_date: startDateParam || new Date().toISOString().split("T")[0],
+          end_date:
+            endDateParam ||
+            new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
+              .toISOString()
+              .split("T")[0],
+          start_time: "08:00",
+          end_time: "21:00",
+          destination: destination || "",
+        };
+
+        console.log("AI Itinerary Request:", requestBody);
+
+        const response = await fetch(
+          `${API_BASE_URL}/api/v1/planning/itinerary/generate`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestBody),
+          },
+        );
+
+        if (!response.ok) throw new Error("Failed to generate itinerary");
+
+        const aiData = await response.json();
+        console.log("AI Itinerary Response:", aiData);
+
+        // Convert AI response to activities format
+        const newActivities: Record<number, Record<string, any[]>> = {};
+
+        aiData.schedule?.forEach((daySchedule: any, dayIdx: number) => {
+          const dayNum = dayIdx + 1;
+          newActivities[dayNum] = { morning: [], afternoon: [], evening: [] };
+
+          daySchedule.activities?.forEach((act: any) => {
+            const hour = parseInt(act.time_slot?.split(":")[0] || "12");
+            let period: "morning" | "afternoon" | "evening" = "morning";
+            if (hour >= 17) period = "evening";
+            else if (hour >= 12) period = "afternoon";
+
+            newActivities[dayNum][period].push({
+              id:
+                Date.now().toString() + Math.random().toString(36).substr(2, 9),
+              type: "ACTIVITY",
+              title: act.activity || act.location_name,
+              time: act.time_slot,
+              cost: act.estimated_cost
+                ? `${act.estimated_cost.toLocaleString()} VND`
+                : undefined,
+              period,
+              place: {
+                id: act.location_name,
+                name: act.location_name,
+                image: act.image || null,
+                address: destination || null,
+              },
+            });
+          });
+        });
+
+        setActivities(newActivities);
+      } catch (error) {
+        console.error("Error generating AI itinerary:", error);
+        alert(
+          "Có lỗi khi tạo lịch trình AI. Bạn có thể thêm hoạt động thủ công!",
+        );
+      } finally {
+        setIsGenerating(false);
+      }
     } else {
       completeStep("trips"); // Mark trips step as complete
 
@@ -990,6 +1082,19 @@ function TripsContent() {
                     </button>
                   </div>
                 </div>
+
+                {/* AI Loading Indicator */}
+                {isGenerating && (
+                  <div className="flex flex-col items-center justify-center py-12 bg-white rounded-2xl shadow-sm">
+                    <div className="w-16 h-16 border-4 border-[#1B4D3E]/20 border-t-[#1B4D3E] rounded-full animate-spin mb-4"></div>
+                    <p className="text-[#1B4D3E] font-bold text-lg">
+                      AI đang tạo lịch trình...
+                    </p>
+                    <p className="text-gray-500 text-sm mt-1">
+                      Vui lòng chờ trong giây lát
+                    </p>
+                  </div>
+                )}
 
                 {/* Schedule Content - Scrollable */}
                 <div className="flex-1 overflow-y-auto bg-white/40 p-6 rounded-[32px] border border-[#1B4D3E]/5 shadow-sm space-y-6">

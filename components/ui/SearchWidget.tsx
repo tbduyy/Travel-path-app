@@ -128,7 +128,14 @@ export default function SearchWidget() {
   };
 
   const handleSearch = () => {
-    console.log("Redirecting to plan-trip with:", { destination });
+    console.log("Redirecting to plan-trip with:", {
+      destination,
+      startDate,
+      endDate,
+      people,
+      budget,
+      style,
+    });
 
     // Save trip info to Zustand store
     setTripInfo({
@@ -229,7 +236,6 @@ export default function SearchWidget() {
                                   : "text-gray-700"
                               }`}
                             >
-                              <span className="text-xl">{dest.icon}</span>
                               <span className="text-sm md:text-base">
                                 {dest.label}
                               </span>
@@ -458,7 +464,6 @@ export default function SearchWidget() {
                                   : "text-gray-700"
                               }`}
                             >
-                              <span className="text-xl">{s.icon}</span>
                               <span className="text-sm md:text-base">
                                 {s.label}
                               </span>
