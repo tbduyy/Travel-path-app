@@ -128,8 +128,8 @@ function DemoContent() {
   const formattedBudget = budgetParam
     ? new Intl.NumberFormat("vi-VN").format(parseInt(budgetParam))
     : destination?.includes("Nha Trang")
-      ? "2.500.000"
-      : "8.000.000";
+      ? "2.500.000 VND"
+      : "8.000.000 VND";
 
   const handleComplete = () => {
     // Show validation modal instead of direct checkout
@@ -205,18 +205,22 @@ function DemoContent() {
             ) : (
               <>
                 <p className="text-red-600 text-sm mb-6 text-center leading-relaxed bg-red-50 p-4 rounded-xl border border-red-100">
-                  <strong>Chú ý:</strong> Thời gian đến ngày khởi hành chỉ còn{" "}
+                  Thời gian đến ngày khởi hành chỉ còn{" "}
                   <strong>{daysUntilTrip} ngày</strong> (dưới 5 ngày).
                   <br />
-                  Bạn <strong>bắt buộc phải thanh toán ngay</strong> để giữ chỗ
-                  và lưu lịch trình này.
+                  Vui lòng thanh toán ngay để giữ chỗ và trải nghiệm đầy đủ các
+                  tính năng nâng cao.{" "}
+                  <strong>
+                    Sau thời hạn này, booking sẽ tự động hủy và hệ thống chỉ hỗ
+                    trợ lập lịch trình cơ bản.
+                  </strong>{" "}
                 </p>
                 <div className="flex flex-col gap-3">
                   <button
                     onClick={handleProceedToPayment}
                     className="w-full py-3 bg-[#1B4D3E] text-white rounded-xl font-bold hover:bg-[#113D38] transition-colors shadow-lg"
                   >
-                    Thanh toán ngay để lưu Trip
+                    Thanh toán ngay để lưu Lịch trình
                   </button>
                   <button
                     onClick={handleCancelTrip}

@@ -2,6 +2,19 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  experimental: {
+    serverActions: {
+      // Khi chạy qua Port Forwarding, bạn cần thêm hostname vào đây để tránh lỗi "Invalid Server Actions request"
+      // LƯU Ý: Chỉ điền hostname (ví dụ: 'abc-123.app.github.dev'), KHÔNG điền 'https://'
+      allowedOrigins: [
+        "localhost:3000",
+        // Thêm các domain forwarding phổ biến hoặc domain cụ thể của bạn vào dưới đây:
+        // "*.app.github.dev",
+        "*.devtunnels.ms",
+        "travelpath.lt.id.vn",
+      ],
+    },
+  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },

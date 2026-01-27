@@ -62,7 +62,7 @@ export default async function AboutPage() {
               <h2 className="text-2xl font-extrabold uppercase text-[#1B4D3E]">
                 Tầm nhìn
               </h2>
-              <p className="text-lg leading-relaxed text-gray-700 font-medium whitespace-pre-line">
+              <p className="text-lg leading-relaxed text-gray-700 font-medium whitespace-pre-line text-justify">
                 {visionContent}
               </p>
             </div>

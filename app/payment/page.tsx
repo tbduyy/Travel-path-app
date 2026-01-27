@@ -88,9 +88,9 @@ function PaymentContent() {
     });
   }, []);
 
-  // Payment processing state (60s delay logic)
+  // Payment processing state (20s delay logic)
   const [isProcessing, setIsProcessing] = useState(false);
-  const [countdown, setCountdown] = useState(60);
+  const [countdown, setCountdown] = useState(20);
 
   const processingMessages = [
     "Đang liên hệ với các đối tác để thanh toán...",
@@ -103,7 +103,7 @@ function PaymentContent() {
 
   const currentMessage =
     processingMessages[
-      Math.floor((60 - countdown) / 10) % processingMessages.length
+      Math.floor((20 - countdown) / 10) % processingMessages.length
     ];
 
   // 1. Params - prioritize store, fallback to URL
@@ -175,7 +175,7 @@ function PaymentContent() {
     fetchData();
   }, [placeIds.join(","), hotelId]);
 
-  // 4. Payment countdown effect - redirect to /farewell after 60s
+  // 4. Payment countdown effect - redirect to /farewell after 20s
   useEffect(() => {
     if (!isProcessing) return;
 
@@ -217,14 +217,14 @@ function PaymentContent() {
   // Count selected items
   const selectedCount = selectedItems.size;
 
-  // 6. Handle Payment - starts 60s countdown
+  // 6. Handle Payment - starts 20s countdown
   const handlePay = useCallback(() => {
     if (selectedCount === 0) {
       alert("Vui lòng chọn ít nhất một dịch vụ để thanh toán!");
       return;
     }
     setIsProcessing(true);
-    setCountdown(60);
+    setCountdown(20);
   }, [selectedCount]);
 
   // Auth loading state
@@ -295,7 +295,7 @@ function PaymentContent() {
     );
   }
 
-  // Processing state - 60s countdown overlay
+  // Processing state - 20s countdown overlay
   if (isProcessing) {
     return (
       <div className="min-h-screen flex flex-col font-sans text-[#1B4D3E] bg-[#BBD9D9]">
@@ -315,7 +315,7 @@ function PaymentContent() {
             <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
               <div
                 className="bg-[#2E968C] h-2 rounded-full transition-all duration-1000"
-                style={{ width: `${((60 - countdown) / 60) * 100}%` }}
+                style={{ width: `${((20 - countdown) / 20) * 100}%` }}
               ></div>
             </div>
             <p className="text-xs text-gray-400">
