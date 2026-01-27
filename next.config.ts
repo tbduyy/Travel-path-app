@@ -43,6 +43,9 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "tuyendaikhanhhoa.vn" },
       { protocol: "https", hostname: "cdn.justfly.vn" },
       { protocol: "https", hostname: "example.com" },
+      { protocol: "https", hostname: "cdn.mediacdn.vn" },
+      { protocol: "https", hostname: "cdn.daynauan.info.vn" },
+      { protocol: "https", hostname: "dulichkhampha24.com" },
     ],
   },
 };
