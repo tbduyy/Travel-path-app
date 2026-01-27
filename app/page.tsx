@@ -25,14 +25,14 @@ export default function Home() {
       <Header />
 
       {/* Hero Content */}
-      <div className="relative z-10 w-full items-center max-w-7xl mx-auto px-8 flex flex-col justify-center min-h-screen pt-20 pb-10">
+      <div className="relative z-10 w-full items-center max-w-7xl mx-auto px-8 flex flex-col justify-center min-h-screen pb-10">
         {/* Top Section: Title (Left) and Widget (Right) */}
         <div className="flex flex-col md:flex-row items-center justify-between w-full h-full gap-8">
           {/* Left: Title Image */}
           <div className="flex-1 flex justify-start items-center">
-            <div className="relative w-full max-w-2xl h-64 md:h-96">
+            <div className="relative w-full max-w-6xl h-[70vh]">
               <Image
-                src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/hero-title.png"
+                src="hero-title.png"
                 alt="Make Your Dream Trip"
                 fill
                 className="object-contain object-left"
@@ -43,13 +43,13 @@ export default function Home() {
           </div>
 
           {/* Right: Weather Widget */}
-          <div className="flex-1 flex justify-end items-start md:-mt-20">
+          <div className="flex-1 flex justify-end items-start md:-mt-12">
             <WeatherWidget />
           </div>
         </div>
 
         {/* Bottom Section: Search Widget & Badges */}
-        <div className="w-[90vw] mt-20 md:mt-0 flex flex-col gap-8">
+        <div className="w-[85vw] -translate-y-1/2 flex flex-col gap-8">
           <SearchWidget />
           {/* Floating Badges/Partnerships */}
         </div>
@@ -188,17 +188,19 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer className="w-full bg-white relative z-20 py-12 border-t border-gray-100">
-        <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-start">
-          <div className="space-y-4">
-            <div className="flex items-center gap-4">
+        <div className="max-w-7xl mx-auto pl-2 px-8 flex flex-col md:flex-row justify-between items-start">
+          <div className="space-y-6 flex items-center">
+            <div className="pl-4 mt-4">
               {/* Logo Icon */}
               <Image
                 src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/logo.png"
                 alt="Travel Path Logo"
-                width={50}
-                height={50}
+                width={100}
+                height={100}
                 className="object-contain"
               />
+            </div>
+            <div className="flex flex-col items-start gap-4">
               {/* Logo Name */}
               <Image
                 src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/logo-name.png"
@@ -207,13 +209,11 @@ export default function Home() {
                 height={50}
                 className="object-contain"
               />
-            </div>
-            <div className="pl-2 mt-2">
               <Image
                 src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/tagline.png"
                 alt="Your real adventures start here"
-                width={300}
-                height={30}
+                width={200}
+                height={20}
                 className="object-contain"
               />
             </div>
@@ -227,7 +227,7 @@ export default function Home() {
               </h3>
               <a
                 href="mailto:partnership@travelpath.io.vn"
-                className="flex items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group"
+                className="flex flex-row-reverse items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group"
               >
                 <span className="group-hover:translate-x-[-2px] transition-transform">
                   partnership@travelpath.io.vn
@@ -236,7 +236,7 @@ export default function Home() {
               </a>
               <a
                 href="tel:+83846427816"
-                className="flex items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group"
+                className="flex flex-row-reverse items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group"
               >
                 <span className="group-hover:translate-x-[-2px] transition-transform">
                   +83 846 427 816
@@ -252,7 +252,7 @@ export default function Home() {
               </h3>
               <a
                 href="#"
-                className="flex items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group"
+                className="flex flex-row-reverse items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group"
               >
                 <span className="group-hover:translate-x-[-2px] transition-transform">
                   Facebook
@@ -261,7 +261,7 @@ export default function Home() {
               </a>
               <a
                 href="#"
-                className="flex items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group"
+                className="flex flex-row-reverse items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group"
               >
                 <span className="group-hover:translate-x-[-2px] transition-transform">
                   Instagram

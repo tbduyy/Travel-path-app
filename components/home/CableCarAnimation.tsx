@@ -60,7 +60,7 @@ const CableCarAnimation = () => {
   // M -200,35: Start off-screen left, Y=35
   // Q 680,210: Control point at center X=680, Y=210 (pulling down)
   // 1560,105: End off-screen right, Y=105
-  const pathDefinition = "M -200,35 Q 680,210 1560,105";
+  const pathDefinition = "M -200,15 Q 680,190 1560,105";
 
   return (
     <div className="relative w-full mx-auto max-w-[90vw] h-[550px] overflow-hidden z-0 pointer-events-none">

@@ -1,10 +1,55 @@
 "use client";
 
+import { useEffect } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import Header from "@/components/layout/Header";
 import SearchWidget from "@/components/ui/SearchWidget";
+import { useTripStore } from "@/lib/store/trip-store";
 
 export default function PlanTripLandingPage() {
+  const router = useRouter();
+  const { currentStep, destination, selectedPlaceIds, selectedHotelId } =
+    useTripStore();
+
+  // Auto-redirect to last progress step
+  useEffect(() => {
+    // Only redirect if user has started a trip (has destination)
+    if (!destination) return;
+
+    // Map step to route
+    const stepRoutes: Record<string, string> = {
+      search: "/plan-trip", // stay here
+      places: "/plan-trip/places",
+      hotels: "/plan-trip/hotels",
+      trips: "/plan-trip/trips",
+      demo: "/plan-trip/demo",
+      payment: "/payment",
+    };
+
+    // Determine actual step based on progress
+    let targetStep = currentStep;
+
+    // If step is "search" but has places selected, move to next logical step
+    if (currentStep === "search" && selectedPlaceIds.length > 0) {
+      targetStep = "hotels";
+    }
+    // If has hotel selected, should be at trips or beyond
+    if (
+      selectedHotelId &&
+      (currentStep === "places" || currentStep === "hotels")
+    ) {
+      targetStep = "trips";
+    }
+
+    const targetRoute = stepRoutes[targetStep];
+
+    // Only redirect if not staying on current page
+    if (targetRoute && targetRoute !== "/plan-trip") {
+      router.replace(targetRoute);
+    }
+  }, [currentStep, destination, selectedPlaceIds, selectedHotelId, router]);
+
   return (
     <div className="min-h-screen flex flex-col font-sans text-[#1B4D3E] bg-[#BBD9D9] relative overflow-hidden">
       {/* Background Decorative Elements */}
@@ -29,14 +74,15 @@ export default function PlanTripLandingPage() {
               alt="AI Travel"
               fill
               className="object-contain drop-shadow-2xl animate-bounce"
-              style={{ animationDuration: '3s' }}
+              style={{ animationDuration: "3s" }}
             />
           </div>
           <h1 className="text-3xl md:text-5xl font-black text-[#1B4D3E] uppercase tracking-tighter mb-2">
             Bắt đầu chuyến đi
           </h1>
           <p className="text-lg md:text-xl text-[#1B4D3E]/70 font-medium max-w-2xl mx-auto">
-            Nhập điểm đến và sở thích của bạn, TravelPath sẽ giúp bạn lên lịch trình hoàn hảo trong vài giây.
+            Nhập điểm đến và sở thích của bạn, TravelPath sẽ giúp bạn lên lịch
+            trình hoàn hảo trong vài giây.
           </p>
         </div>
       </div>
