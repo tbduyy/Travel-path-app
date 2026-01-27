@@ -14,13 +14,13 @@ export default function Header() {
     { name: "Lịch trình chuyến đi", href: "/plan-trip" },
     { name: "Chuyến đi của tôi", href: "#" },
     { name: "Cẩm nang", href: "/blog" },
-    { name: "AI Trip", href: "/ai-trip" },
+    { name: "Thanh toán", href: "/payment" },
   ];
 
   return (
     <header className="sticky top-0 z-50 w-full flex justify-center mt-4 px-4 pointer-events-none">
       {/* Background Image Container (Rectangle 4) */}
-      <div className="relative w-full max-w-7xl h-24 flex items-center justify-between px-8 pointer-events-auto filter drop-shadow-xl">
+      <div className="relative w-full max-w-7xl h-24 flex items-center justify-center px-8 pointer-events-auto filter drop-shadow-xl">
         {/* The Background Shape */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -73,7 +73,7 @@ export default function Header() {
           </Link>
 
           {/* Center: Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-10">
+          <nav className="hidden lg:flex items-center gap-6">
             {navLinks.map((link) => {
               const isActive =
                 pathname === link.href ||

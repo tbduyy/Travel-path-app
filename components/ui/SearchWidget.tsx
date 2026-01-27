@@ -29,11 +29,11 @@ const destinations = [
 
 // Danh sách phong cách
 const travelStyles = [
-  { value: "relaxation", label: "Thư giãn", icon: "🧘" },
-  { value: "adventure", label: "Phiêu lưu", icon: "🏄" },
+  { value: "relaxation", label: "Thư giãn - Nghỉ dưỡng", icon: "🧘" },
+  { value: "adventure", label: "Khám phá - Trải nghiệm", icon: "🏄" },
   { value: "cultural", label: "Văn hóa", icon: "🏛️" },
   { value: "foodie", label: "Ẩm thực", icon: "🍜" },
-  { value: "romantic", label: "Lãng mạn", icon: "💕" },
+  { value: "romantic", label: "Mua sắm - Giải trí", icon: "💕" },
 ];
 
 export default function SearchWidget() {
