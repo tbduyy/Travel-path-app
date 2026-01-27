@@ -12,7 +12,7 @@ export default function Header() {
   const navLinks = [
     { name: "Về TRAVEL PATH", href: "/about" },
     { name: "Lịch trình chuyến đi", href: "/plan-trip" },
-    { name: "Chuyến đi của tôi", href: "#" },
+    { name: "Chuyến đi của tôi", href: "/my-journey" },
     { name: "Cẩm nang", href: "/blog" },
     // { name: "AI Trip", href: "/ai-trip" },
   ];
@@ -82,11 +82,10 @@ export default function Header() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`text-sm xl:text-base font-bold transition-colors tracking-tight uppercase whitespace-nowrap ${
-                    isActive
-                      ? "text-[#439B91] brightness-125"
-                      : "text-[#1B4D3E] hover:text-[#2C6E5A]"
-                  }`}
+                  className={`text-sm xl:text-base font-bold transition-colors tracking-tight uppercase whitespace-nowrap ${isActive
+                    ? "text-[#439B91] brightness-125"
+                    : "text-[#1B4D3E] hover:text-[#2C6E5A]"
+                    }`}
                 >
                   {link.name}
                 </Link>

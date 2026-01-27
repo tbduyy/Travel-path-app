@@ -16,27 +16,107 @@ export type SearchParams = {
 
 export async function searchPlaces(params: SearchParams) {
   try {
-    const filters: any = {};
-    const destLower = params.destination
-      ? params.destination.toLowerCase()
-      : "";
+    // Normalize destination
+    let searchTerm = params.destination || "";
+    const termLower = searchTerm.toLowerCase().trim();
 
-    // --- NHA TRANG LOGIC REMOVED (Migrated to DB) ---
+    // Auto-map common slugs/variations to DB City Names
+    if (termLower.includes("da lat") || termLower.includes("đà lạt") || termLower.includes("da-lat")) {
+      searchTerm = "Đà Lạt";
+    } else if (termLower.includes("nha trang") || termLower.includes("nha-trang")) {
+      searchTerm = "Nha Trang";
+    } else if (termLower.includes("da nang") || termLower.includes("đà nẵng") || termLower.includes("da-nang")) {
+      searchTerm = "Đà Nẵng";
+    } else if (termLower.includes("ho chi minh") || termLower.includes("hồ chí minh") || termLower.includes("sai gon")) {
+      searchTerm = "Hồ Chí Minh";
+    }
+
+    const destLower = searchTerm.toLowerCase();
+    const filters: any = {};
 
     // --- STANDARD LOGIC (DA LAT & OTHERS) ---
     if (params.type) {
       filters.type = params.type;
     }
 
-    if (params.destination && params.destination.trim() !== "") {
+    if (searchTerm !== "") {
       filters.OR = [
-        { name: { contains: params.destination, mode: "insensitive" } },
-        { description: { contains: params.destination, mode: "insensitive" } },
-        { address: { contains: params.destination, mode: "insensitive" } },
-        { city: { contains: params.destination, mode: "insensitive" } },
+        { name: { contains: searchTerm, mode: "insensitive" } },
+        { description: { contains: searchTerm, mode: "insensitive" } },
+        { address: { contains: searchTerm, mode: "insensitive" } },
+        { city: { contains: searchTerm, mode: "insensitive" } },
       ];
     }
 
+    // Also try to find by city specifically if mapped
+    if (["Đà Lạt", "Nha Trang", "Đà Nẵng", "Hồ Chí Minh"].includes(searchTerm)) {
+      filters.OR.push({ city: { equals: searchTerm } });
+    }
+
+    // --- NHA TRANG STATIC DATA OVERRIDE ---
+    if (destLower.includes("nha trang")) {
+      const { allNhaTrangPlaces, allNhaTrangHotels } = await import("@/app/data/nhaTrangData");
+
+      if (params.type === "HOTEL") {
+        let resultHotels = allNhaTrangHotels;
+
+        // 1. FILTER BY SELECTED PLACES (Context-Aware)
+        const placeIdsString = (params as any).places;
+        let relatedPlaces: any[] = [];
+
+        if (placeIdsString) {
+          const placeIds = placeIdsString.split(",");
+          resultHotels = resultHotels.filter(h => h.relatedPlaceId && placeIds.includes(h.relatedPlaceId));
+          relatedPlaces = allNhaTrangPlaces.filter(p => placeIds.includes(p.id));
+        }
+
+        // 2. SCORING & SORTING (Budget & Style)
+        const budget = params.budget?.toLowerCase() || "";
+        // const style = params.style?.toLowerCase() || "";
+
+        if (budget) {
+          resultHotels = resultHotels.sort((a, b) => {
+            let scoreA = 0;
+            let scoreB = 0;
+
+            const priceToScore = (pLevel: string) => {
+              if (pLevel === "$") return 1;
+              if (pLevel === "$$") return 2;
+              if (pLevel === "$$$") return 3;
+              if (pLevel === "$$$$") return 4;
+              return 2;
+            };
+
+            const valA = priceToScore(a.priceLevel);
+            const valB = priceToScore(b.priceLevel);
+
+            // Target Values
+            let target = 2; // Default Medium
+            if (budget.includes("cheap") || budget.includes("thấp") || budget.includes("tiết kiệm")) target = 1;
+            if (budget.includes("high") || budget.includes("cao") || budget.includes("luxury") || budget.includes("sang")) target = 4;
+            if (budget.includes("medium") || budget.includes("trung")) target = 2;
+
+            // Closer to target is better (smaller diff is better)
+            const diffA = Math.abs(valA - target);
+            const diffB = Math.abs(valB - target);
+
+            return diffA - diffB; // Ascending diff (0 is best)
+          });
+        }
+
+        return { success: true, data: resultHotels, relatedPlaces };
+      } else {
+        // Return Places (Attractions + Restaurants)
+        // potentially filter by name if searchTerm is specific
+        let resultPlaces = allNhaTrangPlaces;
+        if (params.type) {
+          resultPlaces = resultPlaces.filter(p => p.type === params.type);
+        }
+        return { success: true, data: resultPlaces };
+      }
+    }
+
+    // --- DB FALLBACK FOR OTHER CITIES ---
     const places = await prisma.place.findMany({
       where: filters,
       select: {
@@ -173,5 +253,26 @@ export async function searchPlaces(params: SearchParams) {
   } catch (error) {
     console.error("Search error:", error);
     return { success: false, error: "Internal server error" };
+  }
+}
+
+export async function getPlaceById(id: string) {
+  try {
+    // 1. Static Data Check (Nha Trang)
+    const { allNhaTrangPlaces, allNhaTrangHotels } = await import("@/app/data/nhaTrangData");
+    const allStatic = [...allNhaTrangPlaces, ...allNhaTrangHotels];
+    const staticPlace = allStatic.find(p => p.id === id);
+    if (staticPlace) return { success: true, data: staticPlace };
+
+    // 2. DB Check
+    const dbPlace = await prisma.place.findUnique({
+      where: { id },
+    });
+
+    if (dbPlace) return { success: true, data: dbPlace };
+
+    return { success: false, error: "Place not found" };
+  } catch (error) {
+    return { success: false, error };
   }
 }
