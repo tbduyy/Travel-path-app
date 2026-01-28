@@ -55,9 +55,8 @@ function TypeBadge({ type }: { type: string | null | undefined }) {
   };
   return (
     <span
-      className={`text-sm px-2 py-0.5 rounded-full font-medium ${
-        colors[type] || "bg-gray-100 text-gray-600"
-      }`}
+      className={`text-sm px-2 py-0.5 rounded-full font-medium ${colors[type] || "bg-gray-100 text-gray-600"
+        }`}
     >
       {labels[type] || type}
     </span>
@@ -130,7 +129,7 @@ export default function PaymentClient({
 
   const currentMessage =
     processingMessages[
-      Math.floor((20 - countdown) / 10) % processingMessages.length
+    Math.floor((20 - countdown) / 10) % processingMessages.length
     ];
 
   const handlePayment = useCallback((e: React.FormEvent) => {
@@ -324,16 +323,15 @@ export default function PaymentClient({
                                     onClick={() =>
                                       toggleActivity(periodIdx, actIdx)
                                     }
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                                      isSelected
+                                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${isSelected
                                         ? "bg-[#1B4D3E] text-white"
                                         : "bg-[#E8F5E9] text-[#1B4D3E] hover:bg-[#D0EBD0]"
-                                    }`}
+                                      }`}
                                   >
                                     {isSelected && (
                                       <Check className="w-4 h-4" />
                                     )}
-                                    {isSelected ? "Đã chọn" : "Book chỗ này"}
+                                    {isSelected ? "Đã chọn" : "Chọn chỗ này"}
                                   </button>
                                 </div>
                               )}
@@ -397,6 +395,21 @@ export default function PaymentClient({
                       Thanh toán MoMo
                     </label>
                   </div>
+                  <div className="flex items-center">
+                    <input
+                      id="vnpay"
+                      name="payment-method"
+                      type="radio"
+                      className="h-4 w-4 text-[#2E968C] focus:ring-[#2E968C] border-gray-300"
+                      onChange={() => setPaymentMethod("vnpay")}
+                    />
+                    <label
+                      htmlFor="vnpay"
+                      className="ml-3 block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Thanh toán VNPay
+                    </label>
+                  </div>
                 </div>
               </div>
 
@@ -426,7 +439,7 @@ export default function PaymentClient({
                       />
                     </div>
                   </div>
-                ) : (
+                ) : paymentMethod === "momo" ? (
                   <div className="py-4 animate-in zoom-in-95 duration-300">
                     <button
                       type="button"
@@ -437,6 +450,18 @@ export default function PaymentClient({
                     <p className="text-center text-xs text-gray-500 mt-2 italic">
                       Hệ thống sẽ chuyển hướng bạn sang đối tác MoMo để xác nhận
                       thanh toán.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="py-4 animate-in zoom-in-95 duration-300">
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-center gap-3 rounded-xl bg-[#005BAA] px-3 py-4 text-white hover:bg-[#004B8C] transition-all shadow-md"
+                    >
+                      <span className="font-bold">Thanh toán với VNPay</span>
+                    </button>
+                    <p className="text-center text-xs text-gray-500 mt-2 italic">
+                      Hệ thống sẽ chuyển hướng bạn sang cổng thanh toán VNPay.
                     </p>
                   </div>
                 )}

@@ -116,9 +116,9 @@ function HotelsContent() {
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(deg2rad(lat1)) *
-        Math.cos(deg2rad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
+      Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const d = R * c; // Distance in km
     return d.toFixed(1);
@@ -446,7 +446,7 @@ function HotelsContent() {
                             : "bg-[#2E968C] text-white hover:bg-[#1B4D3E]",
                         )}
                       >
-                        {isSelected ? "✓ Đã chọn" : "Book chỗ này"}
+                        {isSelected ? "✓ Đã chọn" : "Chọn chỗ này"}
                       </button>
                     </div>
                   </motion.div>
@@ -611,7 +611,7 @@ function HotelsContent() {
                           <span>Đã chọn khách sạn này</span>
                         </>
                       ) : (
-                        <span>Book chỗ này</span>
+                        <span>Chọn chỗ này</span>
                       )}
                     </button>
                   </div>

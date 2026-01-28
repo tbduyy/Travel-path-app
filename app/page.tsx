@@ -65,7 +65,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-8">
           <div className="flex justify-center mb-12">
             <h2 className="bg-[#3A5A40] text-white text-xl font-bold px-8 py-2 rounded-full shadow-md">
-              Partnership
+              Đối tác
             </h2>
           </div>
 
@@ -151,7 +151,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-8">
           <div className="flex justify-center mb-12">
             <h2 className="bg-[#3A5A40] text-white text-xl font-bold px-8 py-2 rounded-full shadow-md">
-              Feedback
+              Phản hồi
             </h2>
           </div>
 

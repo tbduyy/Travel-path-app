@@ -7,7 +7,7 @@ import TripMetaBar from "@/components/TripMetaBar";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getPlacesByIds } from "@/app/actions/search";
 import { useTripStore } from "@/lib/store/trip-store";
-import { Loader2, Check } from "lucide-react";
+import { Loader2, Check, CreditCard, Wallet, QrCode } from "lucide-react";
 import {
   useRequireAuth,
   AuthRequiredPopup,
@@ -88,6 +88,8 @@ function PaymentContent() {
     });
   }, []);
 
+  const [paymentMethod, setPaymentMethod] = useState("momo");
+
   // Payment processing state (20s delay logic)
   const [isProcessing, setIsProcessing] = useState(false);
   const [countdown, setCountdown] = useState(20);
@@ -103,7 +105,7 @@ function PaymentContent() {
 
   const currentMessage =
     processingMessages[
-      Math.floor((20 - countdown) / 10) % processingMessages.length
+    Math.floor((20 - countdown) / 10) % processingMessages.length
     ];
 
   // 1. Params - prioritize store, fallback to URL
@@ -388,14 +390,13 @@ function PaymentContent() {
                     <button
                       type="button"
                       onClick={() => toggleItemSelection("hotel")}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 mt-2 ${
-                        isHotelSelected
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 mt-2 ${isHotelSelected
                           ? "bg-[#1B4D3E] text-white"
                           : "bg-[#E8F5E9] text-[#1B4D3E] hover:bg-[#D0EBD0]"
-                      }`}
+                        }`}
                     >
                       {isHotelSelected && <Check className="w-4 h-4" />}
-                      {isHotelSelected ? "Đã chọn" : "Book chỗ này"}
+                      {isHotelSelected ? "Đã chọn" : "Chọn chỗ này"}
                     </button>
                   </div>
                 </div>
@@ -416,11 +417,10 @@ function PaymentContent() {
                     return (
                       <div
                         key={item.id}
-                        className={`flex gap-4 items-center p-3 rounded-xl transition-all ${
-                          isItemSelected
+                        className={`flex gap-4 items-center p-3 rounded-xl transition-all ${isItemSelected
                             ? "bg-[#E8F5E9] ring-2 ring-[#2E968C]"
                             : "hover:bg-gray-50"
-                        }`}
+                          }`}
                       >
                         <div className="w-16 h-16 rounded-xl overflow-hidden relative shrink-0 bg-gray-100">
                           {item.image && (
@@ -459,11 +459,10 @@ function PaymentContent() {
                           <button
                             type="button"
                             onClick={() => toggleItemSelection(itemKey)}
-                            className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
-                              isItemSelected
+                            className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${isItemSelected
                                 ? "bg-[#1B4D3E] text-white"
                                 : "bg-[#E8F5E9] text-[#1B4D3E] hover:bg-[#D0EBD0]"
-                            }`}
+                              }`}
                           >
                             {isItemSelected && <Check className="w-3 h-3" />}
                             {isItemSelected ? "Đã chọn" : "Thêm vào"}
@@ -501,25 +500,25 @@ function PaymentContent() {
                 {attractionCosts.filter((item) =>
                   selectedItems.has(`attraction-${item.id}`),
                 ).length > 0 && (
-                  <div className="flex justify-between items-center text-white/80">
-                    <span className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-green-400" />
-                      Vé tham quan (
-                      {
-                        attractionCosts.filter((item) =>
-                          selectedItems.has(`attraction-${item.id}`),
-                        ).length
-                      }
-                      )
-                    </span>
-                    <span>
-                      {new Intl.NumberFormat("vi-VN").format(
-                        selectedAttractionsTotal,
-                      )}{" "}
-                      ₫
-                    </span>
-                  </div>
-                )}
+                    <div className="flex justify-between items-center text-white/80">
+                      <span className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-green-400" />
+                        Vé tham quan (
+                        {
+                          attractionCosts.filter((item) =>
+                            selectedItems.has(`attraction-${item.id}`),
+                          ).length
+                        }
+                        )
+                      </span>
+                      <span>
+                        {new Intl.NumberFormat("vi-VN").format(
+                          selectedAttractionsTotal,
+                        )}{" "}
+                        ₫
+                      </span>
+                    </div>
+                  )}
                 {selectedCount === 0 && (
                   <p className="text-white/50 text-sm text-center py-4">
                     Chưa chọn dịch vụ nào
@@ -538,14 +537,67 @@ function PaymentContent() {
                 </div>
               </div>
 
+              {/* Payment Methods */}
+              <div className="bg-white/10 rounded-xl p-4 mb-6">
+                <h4 className="font-bold text-sm mb-3">Phương thức thanh toán</h4>
+                <div className="space-y-2">
+                  <label
+                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${paymentMethod === "momo"
+                        ? "bg-white text-[#A50064] border-[#A50064]"
+                        : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
+                      }`}
+                    onClick={() => setPaymentMethod("momo")}
+                  >
+                    <div className="w-5 h-5 rounded-full border border-current flex items-center justify-center">
+                      {paymentMethod === "momo" && (
+                        <div className="w-3 h-3 rounded-full bg-[#A50064]" />
+                      )}
+                    </div>
+                    <Wallet className="w-5 h-5" />
+                    <span className="font-bold text-sm">Ví MoMo</span>
+                  </label>
+
+                  <label
+                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${paymentMethod === "vnpay"
+                        ? "bg-white text-[#005BAA] border-[#005BAA]"
+                        : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
+                      }`}
+                    onClick={() => setPaymentMethod("vnpay")}
+                  >
+                    <div className="w-5 h-5 rounded-full border border-current flex items-center justify-center">
+                      {paymentMethod === "vnpay" && (
+                        <div className="w-3 h-3 rounded-full bg-[#005BAA]" />
+                      )}
+                    </div>
+                    <QrCode className="w-5 h-5" />
+                    <span className="font-bold text-sm">VNPay QR</span>
+                  </label>
+
+                  <label
+                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${paymentMethod === "card"
+                        ? "bg-white text-[#1B4D3E] border-[#1B4D3E]"
+                        : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
+                      }`}
+                    onClick={() => setPaymentMethod("card")}
+                  >
+                    <div className="w-5 h-5 rounded-full border border-current flex items-center justify-center">
+                      {paymentMethod === "card" && (
+                        <div className="w-3 h-3 rounded-full bg-[#1B4D3E]" />
+                      )}
+                    </div>
+                    <CreditCard className="w-5 h-5" />
+                    <span className="font-bold text-sm">Thẻ Quốc tế</span>
+                  </label>
+                </div>
+              </div>
+
               <button
                 onClick={handlePay}
                 disabled={selectedCount === 0}
-                className={`w-full py-4 rounded-2xl font-bold text-lg transition-all shadow-lg flex justify-center items-center gap-2 ${
-                  selectedCount === 0
+                className={`w-full py-4 rounded-2xl font-bold text-lg transition-all shadow-lg flex justify-center items-center gap-2 ${selectedCount === 0
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-[#EF4444] hover:bg-[#DC2626] hover:shadow-2xl hover:-translate-y-1"
-                }`}
+                  }`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -563,7 +615,11 @@ function PaymentContent() {
                 </svg>
                 {selectedCount === 0
                   ? "Vui lòng chọn dịch vụ"
-                  : "Thanh toán ngay"}
+                  : paymentMethod === "momo"
+                    ? "Thanh toán qua MoMo"
+                    : paymentMethod === "vnpay"
+                      ? "Thanh toán qua VNPay"
+                      : "Thanh toán ngay"}
               </button>
 
               <p className="text-center text-xs mt-4 opacity-60">

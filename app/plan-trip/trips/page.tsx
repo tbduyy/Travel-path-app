@@ -703,21 +703,19 @@ function TripsContent() {
           <div className="flex items-center gap-4">
             <button
               onClick={() => setViewStep(1)}
-              className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 ${
-                viewStep === 1
+              className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 ${viewStep === 1
                   ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
                   : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
-              }`}
+                }`}
             >
               Danh sách du lịch
             </button>
             <button
               onClick={() => setViewStep(2)}
-              className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 hidden ${
-                viewStep === 2
+              className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 hidden ${viewStep === 2
                   ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
                   : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
-              }`}
+                }`}
             >
               Lịch trình cụ thể
             </button>
@@ -833,7 +831,7 @@ function TripsContent() {
                                       Cách Khách sạn:{" "}
                                       {place.metadata?.distance ||
                                         (Math.random() * 5 + 1).toFixed(1) +
-                                          " km"}
+                                        " km"}
                                     </span>
                                   </div>
                                   <div className="inline-flex items-center gap-2 bg-[#CFE0E0] px-3 py-1.5 rounded-full w-fit">
@@ -989,7 +987,7 @@ function TripsContent() {
                                       Cách Khách sạn:{" "}
                                       {place.metadata?.distance ||
                                         (Math.random() * 5 + 1).toFixed(1) +
-                                          " km"}
+                                        " km"}
                                     </span>
                                   </div>
                                   <div className="inline-flex items-center gap-2 bg-[#CFE0E0] px-3 py-1.5 rounded-full w-fit">
@@ -1216,7 +1214,7 @@ function TripsContent() {
                     </div>
 
                     {(activities[selectedDay]?.["afternoon"] || []).length >
-                    0 ? (
+                      0 ? (
                       <div className="space-y-4">
                         {activities[selectedDay]["afternoon"].map(
                           (item, idx) => (
@@ -1466,7 +1464,7 @@ function TripsContent() {
 
         {/* Floating Action Bar */}
         <div className="fixed bottom-0 left-0 right-0 p-6 z-40 bg-gradient-to-t from-[#BBD9D9] to-transparent pointer-events-none">
-          <div className="max-w-[1400px] mx-auto flex justify-end pointer-events-auto">
+          <div className="max-w-[1400px] mx-auto flex justify-center pointer-events-auto">
             <button
               onClick={handleNext}
               className="bg-[#1B4D3E] text-white px-10 py-4 rounded-full font-black text-lg hover:bg-[#113D38] transition-colors shadow-2xl active:scale-95 transform flex items-center gap-2"

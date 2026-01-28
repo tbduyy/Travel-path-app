@@ -294,7 +294,7 @@ function DemoContent() {
         </div>
 
         {/* Simulation Video Placeholder */}
-        <div className="w-full aspect-video bg-black/20 rounded-[32px] overflow-hidden relative shadow-2xl group cursor-pointer border-4 border-white/50">
+        <div className="w-[80%] mx-auto aspect-video bg-black/20 rounded-[32px] overflow-hidden relative shadow-2xl group cursor-pointer border-4 border-white/50">
           {/* Background Image (Static fallback) */}
           <Image
             src="/placeholder.jpg"
@@ -328,19 +328,10 @@ function DemoContent() {
             </p>
           </div>
 
-          {/* Chatbot Icon Overlay */}
-          <div className="absolute bottom-6 right-6 w-16 h-16 bg-white rounded-full shadow-xl border-4 border-[#41C7D6] overflow-hidden flex items-center justify-center">
-            <Image
-              src="/chatbot-icon.png"
-              alt="Bot"
-              fill
-              className="object-cover scale-150 object-right"
-            />
-          </div>
         </div>
 
         {/* Footer Action */}
-        <div className="flex justify-end mt-4">
+        <div className="flex justify-center mt-4">
           <button
             onClick={handleComplete}
             className="bg-[#EF4444] text-white px-10 py-4 rounded-full font-black text-xl hover:bg-[#DC2626] transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1 flex items-center gap-3"
