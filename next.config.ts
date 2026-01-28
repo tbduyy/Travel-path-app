@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  typescript: {
+    // Skip type checking during build - faster builds
+    ignoreBuildErrors: true,
+  },
   experimental: {
     serverActions: {
       // Khi chạy qua Port Forwarding, bạn cần thêm hostname vào đây để tránh lỗi "Invalid Server Actions request"

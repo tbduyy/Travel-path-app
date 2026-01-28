@@ -47,7 +47,9 @@ export function AuthStateListener() {
       if (event === "SIGNED_IN") {
         // User just logged in
         if (previousUserId !== currentUserId) {
-          console.log("[AuthStateListener] User changed on login, clearing trip store");
+          console.log(
+            "[AuthStateListener] User changed on login, clearing trip store",
+          );
           clearTrip();
         }
       } else if (event === "SIGNED_OUT") {

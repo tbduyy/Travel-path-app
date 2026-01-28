@@ -3,6 +3,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Header from "@/components/layout/Header";
+import ItineraryView from "@/components/ItineraryView";
 import { useRouter, useSearchParams } from "next/navigation";
 import { searchPlaces } from "@/app/actions/search";
 import { extraPlaces, allNhaTrangHotels } from "@/app/data/nhaTrangData";

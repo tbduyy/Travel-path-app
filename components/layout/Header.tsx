@@ -36,9 +36,9 @@ export default function Header() {
         {/* Content Layer (z-10) */}
         <div className="relative z-10 flex items-center justify-between w-full h-full">
           {/* Left: Logo + Name + Tagline */}
-          <Link href="/" className="flex items-center gap-3 flex-shrink-0">
+          <Link href="/" className="flex items-center flex-shrink-0">
             {/* Icon */}
-            <div className="relative w-12 h-12">
+            <div className="relative w-20 h-20">
               <Image
                 src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/logo.png"
                 alt="Logo"
