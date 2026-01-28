@@ -63,8 +63,15 @@ function PaymentContent() {
     showAuthPopup,
   } = useRequireAuth();
 
-  // Zustand Store
-  const tripStore = useTripStore();
+  // Zustand Store - SELECTIVE subscriptions to avoid unnecessary re-renders
+  const selectedPlaceIds = useTripStore((state) => state.selectedPlaceIds);
+  const selectedHotelId = useTripStore((state) => state.selectedHotelId);
+  const storeDestination = useTripStore((state) => state.destination);
+  const storeStartDate = useTripStore((state) => state.startDate);
+  const storeEndDate = useTripStore((state) => state.endDate);
+  const storePeople = useTripStore((state) => state.people);
+  const storeActivities = useTripStore((state) => state.activities);
+  const clearTrip = useTripStore((state) => state.clearTrip);
 
   // State for fetched data
   const [loading, setLoading] = useState(true);
@@ -132,17 +139,19 @@ function PaymentContent() {
 
   // 1. Params - prioritize store, fallback to URL
   const placeIds =
-    tripStore.selectedPlaceIds.length > 0
-      ? tripStore.selectedPlaceIds
+    selectedPlaceIds.length > 0
+      ? selectedPlaceIds
       : searchParams.get("places")?.split(",").filter(Boolean) || [];
-  const hotelId = tripStore.selectedHotelId || searchParams.get("hotel");
+  const hotelId = selectedHotelId || searchParams.get("hotel");
   const destination =
-    tripStore.destination || searchParams.get("destination") || "Điểm đến";
-  const startDateParam = tripStore.startDate || searchParams.get("startDate");
-  const endDateParam = tripStore.endDate || searchParams.get("endDate");
+    storeDestination || searchParams.get("destination") || "Điểm đến";
+  const startDateParam = storeStartDate || searchParams.get("startDate");
+  const endDateParam = storeEndDate || searchParams.get("endDate");
   const peopleParam = searchParams.get("people");
-  const peopleCount =
-    tripStore.people || (peopleParam ? parseInt(peopleParam) : 2);
+  const peopleCount = storePeople || (peopleParam ? parseInt(peopleParam) : 2);
+
+  // Memoize placeIds key to prevent unnecessary useEffect re-runs
+  const placeIdsKey = placeIds.join(",");
 
   // 2. Derive Duration
   let durationString = "2N1Đ";
@@ -197,7 +206,7 @@ function PaymentContent() {
       }
     }
     fetchData();
-  }, [placeIds.join(","), hotelId]);
+  }, [placeIdsKey, hotelId]);
 
   // 4. Payment countdown effect - redirect to /farewell after 20s + send email
   useEffect(() => {
@@ -208,7 +217,7 @@ function PaymentContent() {
       const sendEmailWithPDF = async () => {
         if (!userInfo.email) {
           console.log("No user email, skipping email send");
-          tripStore.clearTrip();
+          clearTrip();
           router.push("/farewell");
           return;
         }
@@ -224,7 +233,7 @@ function PaymentContent() {
             duration: durationString,
             budget: formattedBudget,
             people: peopleCount,
-            activities: tripStore.activities as ActivitiesMap,
+            activities: storeActivities as ActivitiesMap,
             hotelData: selectedHotel,
           });
 
@@ -272,7 +281,7 @@ function PaymentContent() {
         }
 
         // Clear and redirect regardless of email status
-        tripStore.clearTrip();
+        clearTrip();
         router.push("/farewell");
       };
 
