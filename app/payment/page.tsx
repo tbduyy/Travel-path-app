@@ -6,13 +6,15 @@ import Header from "@/components/layout/Header";
 import TripMetaBar from "@/components/TripMetaBar";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getPlacesByIds } from "@/app/actions/search";
-import { useTripStore } from "@/lib/store/trip-store";
+import { useTripStore, type ActivitiesMap } from "@/lib/store/trip-store";
 import { Loader2, Check, CreditCard, Wallet, QrCode } from "lucide-react";
 import {
   useRequireAuth,
   AuthRequiredPopup,
   AuthLoadingScreen,
 } from "@/lib/hooks/useRequireAuth";
+import { exportTripToPDF } from "@/lib/export-pdf";
+import { sendTripConfirmationEmail, getUserInfo } from "@/app/actions/email";
 
 // Types
 interface PlaceData {
@@ -61,8 +63,15 @@ function PaymentContent() {
     showAuthPopup,
   } = useRequireAuth();
 
-  // Zustand Store
-  const tripStore = useTripStore();
+  // Zustand Store - SELECTIVE subscriptions to avoid unnecessary re-renders
+  const selectedPlaceIds = useTripStore((state) => state.selectedPlaceIds);
+  const selectedHotelId = useTripStore((state) => state.selectedHotelId);
+  const storeDestination = useTripStore((state) => state.destination);
+  const storeStartDate = useTripStore((state) => state.startDate);
+  const storeEndDate = useTripStore((state) => state.endDate);
+  const storePeople = useTripStore((state) => state.people);
+  const storeActivities = useTripStore((state) => state.activities);
+  const clearTrip = useTripStore((state) => state.clearTrip);
 
   // State for fetched data
   const [loading, setLoading] = useState(true);
@@ -93,6 +102,26 @@ function PaymentContent() {
   // Payment processing state (20s delay logic)
   const [isProcessing, setIsProcessing] = useState(false);
   const [countdown, setCountdown] = useState(20);
+  const [emailStatus, setEmailStatus] = useState<
+    "pending" | "sending" | "sent" | "failed"
+  >("pending");
+
+  // User info for email
+  const [userInfo, setUserInfo] = useState<{
+    email: string | null;
+    name: string | null;
+  }>({ email: null, name: null });
+
+  // Fetch user info on mount
+  useEffect(() => {
+    async function fetchUserInfo() {
+      const info = await getUserInfo();
+      setUserInfo(info);
+    }
+    if (isAuthenticated) {
+      fetchUserInfo();
+    }
+  }, [isAuthenticated]);
 
   const processingMessages = [
     "Đang liên hệ với các đối tác để thanh toán...",
@@ -105,22 +134,24 @@ function PaymentContent() {
 
   const currentMessage =
     processingMessages[
-    Math.floor((20 - countdown) / 10) % processingMessages.length
+      Math.floor((20 - countdown) / 10) % processingMessages.length
     ];
 
   // 1. Params - prioritize store, fallback to URL
   const placeIds =
-    tripStore.selectedPlaceIds.length > 0
-      ? tripStore.selectedPlaceIds
+    selectedPlaceIds.length > 0
+      ? selectedPlaceIds
       : searchParams.get("places")?.split(",").filter(Boolean) || [];
-  const hotelId = tripStore.selectedHotelId || searchParams.get("hotel");
+  const hotelId = selectedHotelId || searchParams.get("hotel");
   const destination =
-    tripStore.destination || searchParams.get("destination") || "Điểm đến";
-  const startDateParam = tripStore.startDate || searchParams.get("startDate");
-  const endDateParam = tripStore.endDate || searchParams.get("endDate");
+    storeDestination || searchParams.get("destination") || "Điểm đến";
+  const startDateParam = storeStartDate || searchParams.get("startDate");
+  const endDateParam = storeEndDate || searchParams.get("endDate");
   const peopleParam = searchParams.get("people");
-  const peopleCount =
-    tripStore.people || (peopleParam ? parseInt(peopleParam) : 2);
+  const peopleCount = storePeople || (peopleParam ? parseInt(peopleParam) : 2);
+
+  // Memoize placeIds key to prevent unnecessary useEffect re-runs
+  const placeIdsKey = placeIds.join(",");
 
   // 2. Derive Duration
   let durationString = "2N1Đ";
@@ -175,16 +206,86 @@ function PaymentContent() {
       }
     }
     fetchData();
-  }, [placeIds.join(","), hotelId]);
+  }, [placeIdsKey, hotelId]);
 
-  // 4. Payment countdown effect - redirect to /farewell after 20s
+  // 4. Payment countdown effect - redirect to /farewell after 20s + send email
   useEffect(() => {
     if (!isProcessing) return;
 
     if (countdown <= 0) {
-      // Clear the cart after successful payment
-      tripStore.clearTrip();
-      router.push("/farewell");
+      // Send email with PDF before redirecting
+      const sendEmailWithPDF = async () => {
+        if (!userInfo.email) {
+          console.log("No user email, skipping email send");
+          clearTrip();
+          router.push("/farewell");
+          return;
+        }
+
+        setEmailStatus("sending");
+
+        try {
+          // Generate PDF
+          const pdfBlob = await exportTripToPDF({
+            destination: destination,
+            startDate: startDateParam,
+            endDate: endDateParam,
+            duration: durationString,
+            budget: formattedBudget,
+            people: peopleCount,
+            activities: storeActivities as ActivitiesMap,
+            hotelData: selectedHotel,
+          });
+
+          // Convert blob to base64
+          const arrayBuffer = await pdfBlob.arrayBuffer();
+          const pdfBase64 = Buffer.from(arrayBuffer).toString("base64");
+
+          // Format dates for email
+          const formatDate = (dateStr: string | null) => {
+            if (!dateStr) return "Chưa xác định";
+            return new Date(dateStr).toLocaleDateString("vi-VN", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            });
+          };
+
+          // Send email
+          const result = await sendTripConfirmationEmail({
+            to: userInfo.email,
+            userName: userInfo.name || "Quý khách",
+            destination: destination,
+            startDate: formatDate(startDateParam),
+            endDate: formatDate(endDateParam),
+            duration: durationString,
+            totalAmount: new Intl.NumberFormat("vi-VN").format(grandTotal),
+            hotelName: selectedHotel?.name,
+            attractionsCount: selectedAttractions.filter((a) =>
+              selectedItems.has(`attraction-${a.id}`),
+            ).length,
+            pdfBase64,
+            pdfFilename: `Lich-trinh-${destination.replace(/\s+/g, "-")}.pdf`,
+          });
+
+          if (result.success) {
+            setEmailStatus("sent");
+            console.log("Email sent successfully!");
+          } else {
+            setEmailStatus("failed");
+            console.error("Email failed:", result.error);
+          }
+        } catch (error) {
+          console.error("Error sending email:", error);
+          setEmailStatus("failed");
+        }
+
+        // Clear and redirect regardless of email status
+        clearTrip();
+        router.push("/farewell");
+      };
+
+      sendEmailWithPDF();
       return;
     }
 
@@ -306,23 +407,43 @@ function PaymentContent() {
         </div>
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center max-w-md mx-auto p-8 bg-white rounded-3xl shadow-2xl">
-            <Loader2 className="w-16 h-16 animate-spin text-[#2E968C] mx-auto mb-6" />
-            <h2 className="text-2xl font-bold mb-2 text-[#1B4D3E]">
-              Đang xử lý thanh toán
-            </h2>
-            <p className="text-[#1B4D3E]/70 mb-4">{currentMessage}</p>
-            <div className="text-5xl font-black text-[#2E968C] mb-4">
-              {countdown}s
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-              <div
-                className="bg-[#2E968C] h-2 rounded-full transition-all duration-1000"
-                style={{ width: `${((20 - countdown) / 20) * 100}%` }}
-              ></div>
-            </div>
-            <p className="text-xs text-gray-400">
-              Vui lòng không đóng trang này
-            </p>
+            {emailStatus === "sending" ? (
+              <>
+                <div className="text-6xl mb-4">📧</div>
+                <h2 className="text-2xl font-bold mb-2 text-[#1B4D3E]">
+                  Đang gửi email xác nhận
+                </h2>
+                <p className="text-[#1B4D3E]/70 mb-4">
+                  Lịch trình PDF đang được gửi đến {userInfo.email}
+                </p>
+                <Loader2 className="w-8 h-8 animate-spin text-[#2E968C] mx-auto" />
+              </>
+            ) : (
+              <>
+                <Loader2 className="w-16 h-16 animate-spin text-[#2E968C] mx-auto mb-6" />
+                <h2 className="text-2xl font-bold mb-2 text-[#1B4D3E]">
+                  Đang xử lý thanh toán
+                </h2>
+                <p className="text-[#1B4D3E]/70 mb-4">{currentMessage}</p>
+                <div className="text-5xl font-black text-[#2E968C] mb-4">
+                  {countdown}s
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+                  <div
+                    className="bg-[#2E968C] h-2 rounded-full transition-all duration-1000"
+                    style={{ width: `${((20 - countdown) / 20) * 100}%` }}
+                  ></div>
+                </div>
+                {userInfo.email && (
+                  <p className="text-xs text-[#2E968C] mb-2">
+                    📧 Email xác nhận sẽ được gửi đến: {userInfo.email}
+                  </p>
+                )}
+                <p className="text-xs text-gray-400">
+                  Vui lòng không đóng trang này
+                </p>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -390,10 +511,11 @@ function PaymentContent() {
                     <button
                       type="button"
                       onClick={() => toggleItemSelection("hotel")}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 mt-2 ${isHotelSelected
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 mt-2 ${
+                        isHotelSelected
                           ? "bg-[#1B4D3E] text-white"
                           : "bg-[#E8F5E9] text-[#1B4D3E] hover:bg-[#D0EBD0]"
-                        }`}
+                      }`}
                     >
                       {isHotelSelected && <Check className="w-4 h-4" />}
                       {isHotelSelected ? "Đã chọn" : "Chọn chỗ này"}
@@ -417,10 +539,11 @@ function PaymentContent() {
                     return (
                       <div
                         key={item.id}
-                        className={`flex gap-4 items-center p-3 rounded-xl transition-all ${isItemSelected
+                        className={`flex gap-4 items-center p-3 rounded-xl transition-all ${
+                          isItemSelected
                             ? "bg-[#E8F5E9] ring-2 ring-[#2E968C]"
                             : "hover:bg-gray-50"
-                          }`}
+                        }`}
                       >
                         <div className="w-16 h-16 rounded-xl overflow-hidden relative shrink-0 bg-gray-100">
                           {item.image && (
@@ -459,10 +582,11 @@ function PaymentContent() {
                           <button
                             type="button"
                             onClick={() => toggleItemSelection(itemKey)}
-                            className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${isItemSelected
+                            className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
+                              isItemSelected
                                 ? "bg-[#1B4D3E] text-white"
                                 : "bg-[#E8F5E9] text-[#1B4D3E] hover:bg-[#D0EBD0]"
-                              }`}
+                            }`}
                           >
                             {isItemSelected && <Check className="w-3 h-3" />}
                             {isItemSelected ? "Đã chọn" : "Thêm vào"}
@@ -500,25 +624,25 @@ function PaymentContent() {
                 {attractionCosts.filter((item) =>
                   selectedItems.has(`attraction-${item.id}`),
                 ).length > 0 && (
-                    <div className="flex justify-between items-center text-white/80">
-                      <span className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-green-400" />
-                        Vé tham quan (
-                        {
-                          attractionCosts.filter((item) =>
-                            selectedItems.has(`attraction-${item.id}`),
-                          ).length
-                        }
-                        )
-                      </span>
-                      <span>
-                        {new Intl.NumberFormat("vi-VN").format(
-                          selectedAttractionsTotal,
-                        )}{" "}
-                        ₫
-                      </span>
-                    </div>
-                  )}
+                  <div className="flex justify-between items-center text-white/80">
+                    <span className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-green-400" />
+                      Vé tham quan (
+                      {
+                        attractionCosts.filter((item) =>
+                          selectedItems.has(`attraction-${item.id}`),
+                        ).length
+                      }
+                      )
+                    </span>
+                    <span>
+                      {new Intl.NumberFormat("vi-VN").format(
+                        selectedAttractionsTotal,
+                      )}{" "}
+                      ₫
+                    </span>
+                  </div>
+                )}
                 {selectedCount === 0 && (
                   <p className="text-white/50 text-sm text-center py-4">
                     Chưa chọn dịch vụ nào
@@ -539,13 +663,16 @@ function PaymentContent() {
 
               {/* Payment Methods */}
               <div className="bg-white/10 rounded-xl p-4 mb-6">
-                <h4 className="font-bold text-sm mb-3">Phương thức thanh toán</h4>
+                <h4 className="font-bold text-sm mb-3">
+                  Phương thức thanh toán
+                </h4>
                 <div className="space-y-2">
                   <label
-                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${paymentMethod === "momo"
+                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${
+                      paymentMethod === "momo"
                         ? "bg-white text-[#A50064] border-[#A50064]"
                         : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
-                      }`}
+                    }`}
                     onClick={() => setPaymentMethod("momo")}
                   >
                     <div className="w-5 h-5 rounded-full border border-current flex items-center justify-center">
@@ -558,10 +685,11 @@ function PaymentContent() {
                   </label>
 
                   <label
-                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${paymentMethod === "vnpay"
+                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${
+                      paymentMethod === "vnpay"
                         ? "bg-white text-[#005BAA] border-[#005BAA]"
                         : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
-                      }`}
+                    }`}
                     onClick={() => setPaymentMethod("vnpay")}
                   >
                     <div className="w-5 h-5 rounded-full border border-current flex items-center justify-center">
@@ -574,10 +702,11 @@ function PaymentContent() {
                   </label>
 
                   <label
-                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${paymentMethod === "card"
+                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${
+                      paymentMethod === "card"
                         ? "bg-white text-[#1B4D3E] border-[#1B4D3E]"
                         : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
-                      }`}
+                    }`}
                     onClick={() => setPaymentMethod("card")}
                   >
                     <div className="w-5 h-5 rounded-full border border-current flex items-center justify-center">
@@ -594,10 +723,11 @@ function PaymentContent() {
               <button
                 onClick={handlePay}
                 disabled={selectedCount === 0}
-                className={`w-full py-4 rounded-2xl font-bold text-lg transition-all shadow-lg flex justify-center items-center gap-2 ${selectedCount === 0
+                className={`w-full py-4 rounded-2xl font-bold text-lg transition-all shadow-lg flex justify-center items-center gap-2 ${
+                  selectedCount === 0
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-[#EF4444] hover:bg-[#DC2626] hover:shadow-2xl hover:-translate-y-1"
-                  }`}
+                }`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -24,7 +24,7 @@ export default function TripStepper() {
   const pathname = usePathname();
 
   return (
-    <div className="w-full bg-white/80 backdrop-blur-sm border-b border-[#1B4D3E]/10 py-3 px-4 sticky top-16 z-40">
+    <div className="w-full bg-white/80 backdrop-blur-sm border-b border-[#1B4D3E]/10 py-3 px-4 mt-4 sticky top-16 z-40">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between gap-2">
           {STEPS.map((step, index) => {

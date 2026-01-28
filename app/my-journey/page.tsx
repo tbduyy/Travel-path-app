@@ -6,7 +6,6 @@ import Header from "@/components/layout/Header";
 import { useRouter, useSearchParams } from "next/navigation";
 import { searchPlaces } from "@/app/actions/search";
 import { extraPlaces, allNhaTrangHotels } from "@/app/data/nhaTrangData";
-import ItineraryView from "@/components/ItineraryView";
 import {
   useRequireAuth,
   AuthRequiredPopup,
@@ -45,13 +44,6 @@ const getWeather = (dateStr: string, destination: string = "") => {
 function MyJourneyContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  // Protected Route - require authentication
-  const {
-    isLoading: authLoading,
-    isAuthenticated,
-    showAuthPopup,
-  } = useRequireAuth();
 
   // --- State ---
   const [mainTab, setMainTab] = useState<"my_trips" | "my_plans">("my_trips");
@@ -225,16 +217,6 @@ function MyJourneyContent() {
     </button>
   );
 
-  // Auth loading state
-  if (authLoading || !isAuthenticated) {
-    return (
-      <>
-        <AuthRequiredPopup show={showAuthPopup} />
-        <AuthLoadingScreen />
-      </>
-    );
-  }
-
   return (
     <div className="min-h-screen flex flex-col font-sans text-[#1B4D3E] bg-[#F0FDFD]">
       <Header />
@@ -391,6 +373,18 @@ function MyJourneyContent() {
 }
 
 export default function MyJourneyPage() {
+  const { isLoading, isAuthenticated, showAuthPopup } = useRequireAuth();
+
+  // Show loading while checking auth
+  if (isLoading) {
+    return <AuthLoadingScreen />;
+  }
+
+  // Show auth popup if not authenticated
+  if (!isAuthenticated) {
+    return <AuthRequiredPopup show={showAuthPopup} />;
+  }
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <MyJourneyContent />

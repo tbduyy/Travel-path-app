@@ -48,7 +48,7 @@ const infoBoards = [
 
 const CableCarAnimation = () => {
   // Configuration for the animation
-  const duration = 15; // Time for one cabin to cross (increased for 4 cabins)
+  const duration = 30; // Time for one cabin to cross (increased for 4 cabins)
   const numberOfCabins = 4; // 4 cabins to match 4 boards
   const delayBetweenCabins = duration / numberOfCabins;
 
