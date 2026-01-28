@@ -143,28 +143,28 @@ export async function exportTripToPDF(data: TripPDFData): Promise<Blob> {
   const colWidth = (pageWidth - margin * 2) / 4;
 
   // Destination
-  doc.text("Diem den:", margin + 5, infoY);
+  doc.text("Điểm đến:", margin + 5, infoY);
   doc.setFont("Roboto", "normal"); // ĐỔI FONT
   doc.text(data.destination, margin + 5, infoY + 6);
 
   // Duration
   doc.setFont("Roboto", "bold"); // ĐỔI FONT
-  doc.text("Thoi gian:", margin + colWidth + 5, infoY);
+  doc.text("Thời gian:", margin + colWidth + 5, infoY);
   doc.setFont("Roboto", "normal"); // ĐỔI FONT
   doc.text(data.duration, margin + colWidth + 5, infoY + 6);
 
   // People
   doc.setFont("Roboto", "bold"); // ĐỔI FONT
-  doc.text("So nguoi:", margin + colWidth * 2 + 5, infoY);
+  doc.text("Số người:", margin + colWidth * 2 + 5, infoY);
   doc.setFont("Roboto", "normal"); // ĐỔI FONT
-  doc.text(`${data.people} nguoi`, margin + colWidth * 2 + 5, infoY + 6);
+  doc.text(`${data.people} người`, margin + colWidth * 2 + 5, infoY + 6);
 
   // Budget
   doc.setFont("Roboto", "bold"); // ĐỔI FONT
-  doc.text("Ngan sach:", margin + colWidth * 3 + 5, infoY);
+  doc.text("Ngân sách:", margin + colWidth * 3 + 5, infoY);
   doc.setFont("Roboto", "normal"); // ĐỔI FONT
   doc.text(
-    data.budget || "Chua xac dinh",
+    data.budget || "Chưa xác định",
     margin + colWidth * 3 + 5,
     infoY + 6,
   );
@@ -178,7 +178,7 @@ export async function exportTripToPDF(data: TripPDFData): Promise<Blob> {
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(11);
     doc.setFont("Roboto", "bold"); // ĐỔI FONT
-    doc.text("KHACH SAN LUU TRU", margin + 5, yPos + 5.5);
+    doc.text("KHÁCH SẠN LƯU TRÚ", margin + 5, yPos + 5.5);
 
     yPos += 10;
 
@@ -191,7 +191,7 @@ export async function exportTripToPDF(data: TripPDFData): Promise<Blob> {
     doc.setFont("Roboto", "normal"); // ĐỔI FONT
     doc.setTextColor(100, 100, 100);
     doc.text(
-      data.hotelData.address || "Dia chi: Chua cap nhat",
+      data.hotelData.address || "Địa chỉ: Chưa cập nhật",
       margin + 5,
       yPos + 11,
     );
@@ -266,14 +266,14 @@ export async function exportTripToPDF(data: TripPDFData): Promise<Blob> {
       // Activities table
       const tableData = activities.map((act) => [
         act.time || act.startTime || "-",
-        act.title || act.place?.name || "Hoat dong",
+        act.title || act.place?.name || "Hoạt động",
         act.place?.address || act.place?.name || "-",
         formatCurrency(act.cost || act.place?.price),
       ]);
 
       autoTable(doc, {
         startY: yPos,
-        head: [["Gio", "Hoat dong", "Dia diem", "Chi phi"]],
+        head: [["Giờ", "Hoạt động", "Địa điểm", "Chi phí"]],
         body: tableData,
         margin: { left: margin, right: margin },
         styles: {
@@ -310,7 +310,7 @@ export async function exportTripToPDF(data: TripPDFData): Promise<Blob> {
     doc.setFont("Roboto", "normal"); // ĐỔI FONT
     doc.setTextColor(150, 150, 150);
     doc.text(
-      `Tao boi Travel Path | Trang ${i}/${totalPages}`,
+      `Tạo bởi Travel Path | Trang ${i}/${totalPages}`,
       pageWidth / 2,
       pageHeight - 10,
       { align: "center" },
