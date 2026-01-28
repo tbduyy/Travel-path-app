@@ -63,42 +63,60 @@ export default function Home() {
       {/* SECTION: Partnership */}
       <section className="w-full bg-[#E0F2F1] relative z-10 py-16 -mt-10 rounded-t-[3rem]">
         <div className="max-w-6xl mx-auto px-8">
-          <div className="flex justify-center mb-12">
+          <div className="flex justify-center mb-6">
             <h2 className="bg-[#3A5A40] text-white text-xl font-bold px-8 py-2 rounded-full shadow-md">
               Đối tác
             </h2>
           </div>
 
           <div className="grid grid-cols-1 gap-8">
-            {/* Grab Card */}
+            {/* Card 1: Hệ thống khách sạn uy tín (Image Left - Text Right) */}
             <div className="bg-[#D8F3DC] rounded-3xl p-6 flex flex-col md:flex-row items-center gap-8 shadow-sm border border-white/50">
               <div className="w-full md:w-1/3 h-48 relative bg-white/30 rounded-2xl overflow-hidden flex items-center justify-center">
-                {/* Placeholder for Grab illustration */}
                 <Image
-                  src="https://placehold.co/220x220?text=Ảnh"
-                  alt="Placeholder 1"
+                  src="https://placehold.co/600x400?text=Hotel+System"
+                  alt="Hệ thống khách sạn"
                   fill
                   className="object-cover"
                   unoptimized
                 />
-                <span className="relative z-10 font-bold text-2xl text-[#00B14F]"></span>
               </div>
+
               <div className="flex-1 text-[#1B4D3E]">
-                <h3 className="text-2xl font-bold mb-2"></h3>
-                <p className="text-sm leading-relaxed font-medium opacity-80"></p>
+                <h3 className="text-2xl font-bold mb-3">
+                  Hệ thống khách sạn uy tín
+                </h3>
+
+                <p className="text-sm leading-relaxed font-medium opacity-80 text-justify">
+                  Travel Path hợp tác với hệ thống khách sạn uy tín trên khắp
+                  Việt Nam, từ khách sạn trung tâm thành phố đến khu nghỉ dưỡng
+                  tại các điểm du lịch nổi tiếng, mang đến lựa chọn lưu trú đa
+                  dạng, tiện nghi và đáng tin cậy cho mọi hành trình.
+                </p>
               </div>
             </div>
 
-            {/* Hotel Colline */}
+            {/* Card 2: Địa điểm du lịch nổi tiếng (Text Left - Image Right) */}
             <div className="bg-[#D8F3DC] rounded-3xl p-6 flex flex-col md:flex-row items-center gap-8 shadow-sm border border-white/50">
               <div className="flex-1 order-2 md:order-1 text-[#1B4D3E]">
-                <h3 className="text-2xl font-bold mb-2"></h3>
-                <p className="text-sm leading-relaxed font-medium opacity-80"></p>
+                <h3 className="text-2xl font-bold mb-3">
+                  Địa điểm du lịch nổi tiếng
+                </h3>
+
+                <p className="text-sm leading-relaxed font-medium opacity-80 text-justify">
+                  Travel Path hợp tác với hệ thống khách sạn uy tín trên khắp cả
+                  nước, hiện diện tại nhiều điểm du lịch nổi tiếng như Đà Lạt,
+                  Đà Nẵng, Nha Trang, Phú Quốc, Hội An hay Hà Nội và TP.HCM. Các
+                  đối tác được chọn lọc kỹ lưỡng dựa trên chất lượng dịch vụ và
+                  độ tin cậy, giúp người dùng dễ dàng đặt phòng, an tâm lưu trú
+                  và tận hưởng trọn vẹn hành trình du lịch của mình.
+                </p>
               </div>
+
               <div className="w-full md:w-1/3 h-48 relative bg-gray-200 rounded-2xl overflow-hidden order-1 md:order-2">
                 <Image
-                  src="https://placehold.co/220x220?text=Ảnh"
-                  alt="Placeholder 2"
+                  src="https://placehold.co/600x400?text=Tourist+Spots"
+                  alt="Địa điểm du lịch"
                   fill
                   className="object-cover"
                   unoptimized
@@ -106,41 +124,26 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Le Rabelais */}
-            <div className="bg-[#D8F3DC] rounded-3xl p-6 flex flex-col md:flex-row items-center gap-8 shadow-sm border border-white/50">
-              <div className="w-full md:w-1/3 h-48 relative bg-gray-200 rounded-2xl overflow-hidden">
+            {/* Carousel Arrows (Visual) */}
+
+            <div className="flex justify-center gap-4 mt-8 text-[#1B4D3E]">
+              <div className="cursor-pointer hover:scale-110 transition-transform">
                 <Image
-                  src="https://placehold.co/220x220?text=Ảnh"
-                  alt="Placeholder 3"
-                  fill
-                  className="object-cover"
-                  unoptimized
+                  src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/arrow-left.png"
+                  alt="Previous"
+                  width={40}
+                  height={40}
                 />
               </div>
-              <div className="flex-1 text-[#1B4D3E]">
-                <h3 className="text-2xl font-bold mb-2"></h3>
-                <p className="text-sm leading-relaxed font-medium opacity-80"></p>
-              </div>
-            </div>
-          </div>
 
-          {/* Carousel Arrows (Visual) */}
-          <div className="flex justify-center gap-4 mt-8 text-[#1B4D3E]">
-            <div className="cursor-pointer hover:scale-110 transition-transform">
-              <Image
-                src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/arrow-left.png"
-                alt="Previous"
-                width={40}
-                height={40}
-              />
-            </div>
-            <div className="cursor-pointer hover:scale-110 transition-transform">
-              <Image
-                src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/arrow-right.png"
-                alt="Next"
-                width={40}
-                height={40}
-              />
+              <div className="cursor-pointer hover:scale-110 transition-transform">
+                <Image
+                  src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/arrow-right.png"
+                  alt="Next"
+                  width={40}
+                  height={40}
+                />
+              </div>
             </div>
           </div>
         </div>

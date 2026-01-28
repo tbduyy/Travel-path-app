@@ -61,10 +61,13 @@ function DemoContent() {
     }
   }
 
-  // Server Action Import (Dynamic to avoid build issues if not set up yet, but we just made it)
-  // We'll import it at top level in real code, but here inside I'll add the import line or assume it's added.
-  // Wait, I need to add the import to the top of the file.
-
+  // Server Action Import (Dynamic to avoid build issues)
+  // Performance Note: saveTrip() can take 3-5s for ~30+ activities because:
+  // 1. Upserts all places into DB (1 query per place = N queries)
+  // 2. Creates trip + all trip items in single transaction
+  // 3. Network latency to Supabase + Prisma execution
+  // Optimization done: Places are now deduplicated before upsert (reduces DB calls)
+  // Further optimization: Add DB indexes on (Place.id, Trip.userId)
   const saveTripToSupabase = async (redirectPath: string) => {
     setIsSaving(true);
     try {
@@ -83,8 +86,7 @@ function DemoContent() {
           });
 
           if (result.success) {
-            // Clear local storage after successful save?
-            // Maybe keep it for backup or if user navigates back?
+            // Trip saved successfully - keep localStorage as backup
             // localStorage.removeItem('mytrip_activities');
             router.push(redirectPath);
           } else {
@@ -158,8 +160,12 @@ function DemoContent() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginFeature, setLoginFeature] = useState("xuất lịch trình PDF");
 
+  // Login handler - preserves Zustand store state automatically
+  // HOW: useTripStore uses persist middleware (localStorage) so state survives page reload/redirect
+  // When user logs in and redirects back, store will hydrate from localStorage automatically
   const handleLoginRedirect = () => {
     const currentPath = window.location.pathname + window.location.search;
+    // Redirect to login with callback path - store state is PRESERVED via persist middleware
     router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
   };
 

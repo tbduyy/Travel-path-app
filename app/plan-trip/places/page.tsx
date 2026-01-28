@@ -34,6 +34,7 @@ function PlacesContent() {
     destination: storeDestination,
     setStep,
     completeStep,
+    clearTrip,
   } = useTripStore();
 
   // Track current step on mount
@@ -125,12 +126,22 @@ function PlacesContent() {
   };
 
   const handleBack = () => {
+    handleClearTrip();
     // If in view mode, maybe go back to grid?
     if (viewedPlace) {
       setViewedPlace(null);
     } else {
       router.push("/");
     }
+  };
+
+  const handleClearTrip = () => {
+    try {
+      clearTrip();
+    } catch (err) {
+      console.error("Error clearing trip store:", err);
+    }
+    router.push("/plan-trip");
   };
 
   // Derived
@@ -179,6 +190,7 @@ function PlacesContent() {
                 <path d="m15 18-6-6 6-6" />
               </svg>
             </button>
+
             <div>
               <h1 className="text-2xl md:text-3xl font-black text-[#1B4D3E] uppercase flex items-center gap-2">
                 Các địa điểm nổi bật tại {destinationName || "Đà Lạt"}

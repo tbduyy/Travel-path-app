@@ -12,6 +12,7 @@ import {
   AuthRequiredPopup,
   AuthLoadingScreen,
 } from "@/lib/hooks/useRequireAuth";
+import { useTripStore, type ActivitiesMap } from "@/lib/store/trip-store";
 
 // Mock Weather Generator (Reused)
 const getWeather = (dateStr: string, destination: string = "") => {
@@ -42,20 +43,168 @@ const getWeather = (dateStr: string, destination: string = "") => {
   };
 };
 
+// Empty Trip Popup Component
+function EmptyTripPopup({
+  isOpen,
+  onClose,
+  onNavigate,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onNavigate: () => void;
+}) {
+  const [shouldShow, setShouldShow] = useState(false);
+
+  // Logic tối ưu: Không cần "else { setShouldShow(false) }" trong Effect
+  useEffect(() => {
+    if (!isOpen) return; // Nếu không mở thì không làm gì cả
+
+    const timer = setTimeout(() => setShouldShow(true), 10000);
+    return () => clearTimeout(timer);
+  }, [isOpen]);
+
+  // Khi render, check cả 2 biến
+  const actuallyShow = isOpen && shouldShow;
+
+  if (!actuallyShow) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-white rounded-[32px] p-8 max-w-md w-full shadow-2xl relative animate-in zoom-in-95">
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+
+        {/* Icon */}
+        <div className="w-24 h-24 bg-gradient-to-br from-[#2E968C] to-[#1B4D3E] rounded-full flex items-center justify-center mb-6 mx-auto shadow-lg">
+          <span className="text-5xl">✈️</span>
+        </div>
+
+        {/* Content */}
+        <h3 className="text-2xl font-black text-[#1B4D3E] mb-3 text-center">
+          Bắt đầu lên kế hoạch nào!
+        </h3>
+
+        <p className="text-gray-600 text-center mb-6 leading-relaxed">
+          Bạn chưa có lịch trình nào. Hãy để{" "}
+          <strong className="text-[#2E968C]">TravelPath AI</strong> giúp bạn lên
+          kế hoạch cho chuyến đi hoàn hảo!
+        </p>
+
+        {/* Features */}
+        <div className="bg-[#E8F5F3] rounded-2xl p-4 mb-6 space-y-2">
+          <div className="flex items-center gap-2 text-sm text-[#1B4D3E]">
+            <span className="text-green-500">✓</span>
+            <span>AI gợi ý địa điểm phù hợp với bạn</span>
+          </div>
+          <div className="flex items-center gap-2 text-sm text-[#1B4D3E]">
+            <span className="text-green-500">✓</span>
+            <span>Tự động sắp xếp lịch trình tối ưu</span>
+          </div>
+          <div className="flex items-center gap-2 text-sm text-[#1B4D3E]">
+            <span className="text-green-500">✓</span>
+            <span>Đề xuất khách sạn & nhà hàng</span>
+          </div>
+          <div className="flex items-center gap-2 text-sm text-[#1B4D3E]">
+            <span className="text-green-500">✓</span>
+            <span>Ước tính chi phí chuyến đi</span>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="flex flex-col gap-3">
+          <button
+            onClick={onNavigate}
+            className="w-full py-4 bg-[#1B4D3E] text-white rounded-xl font-bold text-lg hover:bg-[#113D38] transition-colors shadow-lg flex items-center justify-center gap-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+            Lên lịch trình ngay
+          </button>
+          <button
+            onClick={onClose}
+            className="w-full py-3 bg-gray-100 text-gray-600 rounded-xl font-medium hover:bg-gray-200 transition-colors"
+          >
+            Để sau
+          </button>
+        </div>
+
+        <p className="text-center text-xs text-gray-400 mt-4">
+          Chỉ mất 5 phút để có lịch trình hoàn hảo! 🚀
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function MyJourneyContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // --- Zustand Store ---
+  const {
+    destination: storeDestination,
+    startDate: storeStartDate,
+    endDate: storeEndDate,
+    activities: storeActivities,
+    placesData: storePlacesData,
+    hotelData: storeHotelData,
+    selectedPlaceIds: storeSelectedPlaceIds,
+    selectedHotelId: storeSelectedHotelId,
+  } = useTripStore();
+
   // --- State ---
   const [mainTab, setMainTab] = useState<"my_trips" | "my_plans">("my_trips");
   const [subTab, setSubTab] = useState<string>("upcoming"); // upcoming, past, favorite, reference
+  const [showEmptyTripPopup, setShowEmptyTripPopup] = useState(false);
 
-  // --- Data Loading ---
-  const placeIds = searchParams.get("places")?.split(",") || [];
-  const hotelId = searchParams.get("hotel");
-  const destination = searchParams.get("destination");
-  const startDateParam = searchParams.get("startDate");
-  const endDateParam = searchParams.get("endDate");
+  // --- Data: Prioritize Store, fallback to URL params ---
+  const placeIds =
+    storeSelectedPlaceIds.length > 0
+      ? storeSelectedPlaceIds
+      : searchParams.get("places")?.split(",") || [];
+  const hotelId = storeSelectedHotelId || searchParams.get("hotel");
+  const destination = storeDestination || searchParams.get("destination");
+  const startDateParam = storeStartDate || searchParams.get("startDate");
+  const endDateParam = storeEndDate || searchParams.get("endDate");
+
+  // Check if store has any trip data
+  const hasStoreActivities =
+    Object.keys(storeActivities).length > 0 &&
+    Object.values(storeActivities).some((day) =>
+      Object.values(day).some((period) => period.length > 0),
+    );
+  const hasStoreTripData =
+    storeDestination || hasStoreActivities || storeSelectedPlaceIds.length > 0;
 
   // Derived Dates
   const tripDays = React.useMemo(() => {
@@ -92,10 +241,29 @@ function MyJourneyContent() {
     Record<number, Record<string, any[]>>
   >({});
 
-  // Load User Trips from DB
+  // Show popup if store is empty (no trip planned) - only on initial load for 'upcoming' tab
+  useEffect(() => {
+    if (mainTab === "my_trips" && subTab === "upcoming" && !hasStoreTripData) {
+      // Delay popup to let page render first
+      const timer = setTimeout(() => {
+        setShowEmptyTripPopup(true);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  // Sync store activities to local state when available
+  useEffect(() => {
+    if (hasStoreActivities) {
+      setActivities(storeActivities as Record<number, Record<string, any[]>>);
+    }
+  }, [storeActivities, hasStoreActivities]);
+
+  // Load User Trips from DB (only if store is empty)
   useEffect(() => {
     const fetchMyTrips = async () => {
-      if (Object.keys(activities).length > 0) return;
+      // Skip if store already has activities or local state has activities
+      if (hasStoreActivities || Object.keys(activities).length > 0) return;
 
       try {
         const { getUserTrips } = await import("@/app/actions/trip");
@@ -204,6 +372,12 @@ function MyJourneyContent() {
       }));
   }, [activities, selectedDay]);
 
+  // Handle navigate to plan-trip
+  const handleNavigateToPlanTrip = () => {
+    setShowEmptyTripPopup(false);
+    router.push("/plan-trip");
+  };
+
   // Render Helpers
   const renderSubTabButton = (value: string, label: string) => (
     <button
@@ -293,29 +467,86 @@ function MyJourneyContent() {
           {/* 1. Upcoming Trips */}
           {mainTab === "my_trips" && subTab === "upcoming" && (
             <div className="h-[800px] p-4">
-              {" "}
-              {/* Fixed height for scroll area */}
-              <ItineraryView
-                destination={destination || "Đà Lạt"}
-                selectedDay={selectedDay}
-                tripDays={tripDays}
-                selectedDayDate={selectedDayDate}
-                activities={activities}
-                currentWeather={currentWeather}
-                mapMarkers={mapMarkers}
-                onPreviousDay={() =>
-                  selectedDay > 1 && setSelectedDay((d) => d - 1)
-                }
-                onNextDay={() =>
-                  selectedDay < tripDays && setSelectedDay((d) => d + 1)
-                }
-                onEditActivity={() => {}}
-                onDeleteActivity={() => {}}
-                onAddActivity={() => {}}
-                isReadOnly={false}
-              />
+              {Object.keys(activities).length > 0 ? (
+                <ItineraryView
+                  destination={destination || "Đà Lạt"}
+                  selectedDay={selectedDay}
+                  tripDays={tripDays}
+                  selectedDayDate={selectedDayDate}
+                  activities={activities}
+                  currentWeather={currentWeather}
+                  mapMarkers={mapMarkers}
+                  onPreviousDay={() =>
+                    selectedDay > 1 && setSelectedDay((d) => d - 1)
+                  }
+                  onNextDay={() =>
+                    selectedDay < tripDays && setSelectedDay((d) => d + 1)
+                  }
+                  onEditActivity={() => {}}
+                  onDeleteActivity={() => {}}
+                  onAddActivity={() => {}}
+                  isReadOnly={false}
+                />
+              ) : (
+                /* Empty State */
+                <div className="flex flex-col items-center justify-center h-full">
+                  <div className="text-center max-w-md">
+                    {/* Animated Icon */}
+                    <div className="relative w-32 h-32 mx-auto mb-6">
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#2E968C]/20 to-[#1B4D3E]/20 rounded-full animate-pulse"></div>
+                      <div
+                        className="absolute inset-2 bg-gradient-to-br from-[#2E968C]/30 to-[#1B4D3E]/30 rounded-full animate-pulse"
+                        style={{ animationDelay: "150ms" }}
+                      ></div>
+                      <div className="absolute inset-4 bg-white rounded-full flex items-center justify-center shadow-lg">
+                        <span className="text-5xl">🗺️</span>
+                      </div>
+                    </div>
+
+                    <h2 className="text-2xl font-black text-[#1B4D3E] mb-3">
+                      Chưa có lịch trình sắp tới
+                    </h2>
+                    <p className="text-gray-500 mb-6 leading-relaxed">
+                      Bạn chưa lên kế hoạch cho chuyến đi nào. Hãy bắt đầu khám
+                      phá và tạo lịch trình đầu tiên của bạn!
+                    </p>
+
+                    <button
+                      onClick={handleNavigateToPlanTrip}
+                      className="inline-flex items-center gap-2 px-8 py-4 bg-[#1B4D3E] text-white rounded-2xl font-bold text-lg hover:bg-[#113D38] transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                      </svg>
+                      Lên lịch trình ngay
+                    </button>
+
+                    <p className="text-xs text-gray-400 mt-4">
+                      Sử dụng AI để tạo lịch trình trong vài phút ✨
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           )}
+
+          {/* Empty Trip Popup */}
+          <EmptyTripPopup
+            isOpen={showEmptyTripPopup}
+            onClose={() => setShowEmptyTripPopup(false)}
+            onNavigate={handleNavigateToPlanTrip}
+          />
 
           {/* 2. Past Trips */}
           {mainTab === "my_trips" && subTab === "past" && (

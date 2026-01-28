@@ -303,6 +303,9 @@ export const useTripStore = create<TripState>()(
     }),
     {
       name: "trip-cart-storage",
+      // Persist middleware: Automatically saves state to localStorage & restores on page load
+      // WHY: Keeps user's trip data when they redirect to login, navigate away, or refresh
+      // WHAT: Persisted fields are defined below in partialize()
       // Only persist certain fields
       partialize: (state) => ({
         destination: state.destination,

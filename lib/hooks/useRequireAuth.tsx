@@ -214,6 +214,7 @@ export function LoginPromptModal({
           <button
             onClick={onLogin}
             className="w-full py-4 bg-[#1B4D3E] text-white rounded-xl font-bold text-lg hover:bg-[#113D38] transition-colors shadow-lg flex items-center justify-center gap-2"
+            title="Zustand store state sẽ tự động được giữ lại (persist middleware)"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
