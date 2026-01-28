@@ -778,8 +778,8 @@ function TripsContent() {
             <button
               onClick={() => setViewStep(1)}
               className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 ${viewStep === 1
-                  ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
-                  : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
+                ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
+                : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
                 }`}
             >
               Danh sách du lịch
@@ -787,8 +787,8 @@ function TripsContent() {
             <button
               onClick={() => setViewStep(2)}
               className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 hidden ${viewStep === 2
-                  ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
-                  : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
+                ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
+                : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
                 }`}
             >
               Lịch trình cụ thể
@@ -1543,7 +1543,7 @@ function TripsContent() {
               onClick={handleNext}
               className="bg-[#1B4D3E] text-white px-10 py-4 rounded-full font-black text-lg hover:bg-[#113D38] transition-colors shadow-2xl active:scale-95 transform flex items-center gap-2"
             >
-              <span>{viewStep === 1 ? "Tiếp tục" : "Hoàn tất"}</span>
+              <span>{viewStep === 1 ? "Tạo lịch trình" : "Hoàn tất"}</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
