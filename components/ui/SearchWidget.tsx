@@ -12,6 +12,7 @@ import {
   Calendar,
   Users,
   Sparkles,
+  Wallet,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTripStore } from "@/lib/store/trip-store";
@@ -48,15 +49,31 @@ export default function SearchWidget() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [people, setPeople] = useState("2");
+  const [adults, setAdults] = useState(2);
+  const [children, setChildren] = useState(0);
   const [budget, setBudget] = useState("");
   const [style, setStyle] = useState("");
   const [styleLabel, setStyleLabel] = useState("");
   const [isStyleDropdownOpen, setIsStyleDropdownOpen] = useState(false);
+  const [isPeopleExpanded, setIsPeopleExpanded] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
   const styleDropdownRef = useRef<HTMLDivElement>(null);
+  const peopleDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Chuyển số thành chuỗi có dấu chấm: 4000000 -> "4.000.000"
+  const formatNumber = (val) => {
+    if (!val) return "";
+    const number = val.replace(/\D/g, ""); // Loại bỏ tất cả ký tự không phải số
+    return new Intl.NumberFormat("vi-VN").format(number);
+  };
+
+  // Chuyển chuỗi định dạng ngược lại số để lưu state: "4.000.000" -> "4000000"
+  const rawNumber = (val) => val.replace(/\./g, "");
+
+  // Derived total people count
+  const totalPeople = adults + children;
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -79,6 +96,12 @@ export default function SearchWidget() {
       ) {
         setIsStyleDropdownOpen(false);
       }
+      if (
+        peopleDropdownRef.current &&
+        !peopleDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsPeopleExpanded(false);
+      }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -96,13 +119,19 @@ export default function SearchWidget() {
     setIsStyleDropdownOpen(false);
   };
 
-  const incrementPeople = () => {
-    const n = parseInt(String(people)) || 0;
-    setPeople(String(n + 1));
+  const incrementAdults = () => {
+    setAdults(adults + 1);
   };
-  const decrementPeople = () => {
-    const n = parseInt(String(people)) || 0;
-    setPeople(String(Math.max(n - 1, 0)));
+  const decrementAdults = () => {
+    setAdults(Math.max(adults - 1, 0));
+  };
+
+  const incrementChildren = () => {
+    setChildren(children + 1);
+  };
+
+  const decrementChildren = () => {
+    setChildren(Math.max(children - 1, 0));
   };
 
   // Format date range for display
@@ -132,7 +161,7 @@ export default function SearchWidget() {
       destination,
       startDate,
       endDate,
-      people,
+      people: totalPeople,
       budget,
       style,
     });
@@ -142,7 +171,7 @@ export default function SearchWidget() {
       destination: destination,
       startDate: startDate || null,
       endDate: endDate || null,
-      people: parseInt(people) || 2,
+      people: totalPeople,
       budget: budget,
       style: style,
     });
@@ -198,7 +227,7 @@ export default function SearchWidget() {
                       className="text-[#1B4D3E]/60 group-hover:text-[#1B4D3E] transition-colors"
                     />
                     <span
-                      className={`font-medium text-sm md:text-base lg:text-lg truncate ${
+                      className={`font-medium text-xs md:text-sm lg:text-base truncate ${
                         destinationLabel
                           ? "text-[#1B4D3E]"
                           : "text-[#1B4D3E]/60"
@@ -271,7 +300,7 @@ export default function SearchWidget() {
                       className="text-[#1B4D3E]/60 group-hover:text-[#1B4D3E] transition-colors"
                     />
                     <span
-                      className={`font-medium text-sm md:text-base lg:text-lg truncate ${
+                      className={`font-medium text-xs md:text-sm lg:text-base truncate ${
                         getDateDisplayText()
                           ? "text-[#1B4D3E]"
                           : "text-[#1B4D3E]/60"
@@ -343,12 +372,15 @@ export default function SearchWidget() {
                   unoptimized
                 />
 
-                {/* Section 3: "Số người" - WITH UP/DOWN ARROWS */}
-                <div className="flex-[1.5] basis-0 h-full flex items-center justify-center px-2">
+                {/* Section 3: "Số người" - UI cũ + nút expand */}
+                <div
+                  className="flex-[1.5] basis-0 h-full flex items-center justify-center px-2 relative"
+                  ref={peopleDropdownRef}
+                >
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
-                      onClick={decrementPeople}
+                      onClick={() => setAdults(Math.max(adults - 1, 1))}
                       className="p-1 rounded-full hover:bg-[#E0F2F1] transition-colors group"
                     >
                       <ChevronDown
@@ -356,19 +388,15 @@ export default function SearchWidget() {
                         className="text-[#1B4D3E]/60 group-hover:text-[#1B4D3E] transition-colors"
                       />
                     </button>
-                    <div className="flex max-w-16 items-center gap-1">
+                    <div className="flex items-center gap-1">
                       <Users size={16} className="text-[#1B4D3E]/60" />
-                      <input
-                        type="text"
-                        inputMode="numeric"
-                        value={people}
-                        onChange={(e) => setPeople(e.target.value)}
-                        className="bg-transparent outline-none border-none text-center font-medium text-sm md:text-base lg:text-lg text-[#1B4D3E] w-8"
-                      />
+                      <span className="font-medium text-[#1B4D3E] text-sm lg:text-base min-w-[20px] text-center">
+                        {totalPeople}
+                      </span>
                     </div>
                     <button
                       type="button"
-                      onClick={incrementPeople}
+                      onClick={() => setAdults(adults + 1)}
                       className="p-1 rounded-full hover:bg-[#E0F2F1] transition-colors group"
                     >
                       <ChevronUp
@@ -376,7 +404,101 @@ export default function SearchWidget() {
                         className="text-[#1B4D3E]/60 group-hover:text-[#1B4D3E] transition-colors"
                       />
                     </button>
+                    {/* Nút "+" để mở rộng chọn Người lớn / Trẻ em */}
+                    <button
+                      type="button"
+                      onClick={() => setIsPeopleExpanded(!isPeopleExpanded)}
+                      className="ml-1 w-6 h-6 rounded-full bg-[#1B4D3E]/10 hover:bg-[#1B4D3E]/20 flex items-center justify-center transition-colors"
+                      title="Chi tiết số người"
+                    >
+                      <span className="text-[#1B4D3E] font-bold text-sm">
+                        {isPeopleExpanded ? "−" : "+"}
+                      </span>
+                    </button>
                   </div>
+
+                  {/* Dropdown: Người lớn & Trẻ em */}
+                  <AnimatePresence>
+                    {isPeopleExpanded && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 p-4 min-w-[200px]"
+                      >
+                        <div className="space-y-4">
+                          {/* Người lớn */}
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium text-[#1B4D3E]">
+                              Người lớn
+                            </span>
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={decrementAdults}
+                                className="w-8 h-8 rounded-full bg-[#E0F2F1] hover:bg-[#c8e6e3] flex items-center justify-center transition-colors"
+                              >
+                                <span className="text-[#1B4D3E] font-bold">
+                                  −
+                                </span>
+                              </button>
+                              <span className="font-semibold text-[#1B4D3E] min-w-[24px] text-center">
+                                {adults}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={incrementAdults}
+                                className="w-8 h-8 rounded-full bg-[#E0F2F1] hover:bg-[#c8e6e3] flex items-center justify-center transition-colors"
+                              >
+                                <span className="text-[#1B4D3E] font-bold">
+                                  +
+                                </span>
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Trẻ em */}
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium text-[#1B4D3E]">
+                              Trẻ em
+                            </span>
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={decrementChildren}
+                                className="w-8 h-8 rounded-full bg-[#E0F2F1] hover:bg-[#c8e6e3] flex items-center justify-center transition-colors"
+                              >
+                                <span className="text-[#1B4D3E] font-bold">
+                                  −
+                                </span>
+                              </button>
+                              <span className="font-semibold text-[#1B4D3E] min-w-[24px] text-center">
+                                {children}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={incrementChildren}
+                                className="w-8 h-8 rounded-full bg-[#E0F2F1] hover:bg-[#c8e6e3] flex items-center justify-center transition-colors"
+                              >
+                                <span className="text-[#1B4D3E] font-bold">
+                                  +
+                                </span>
+                              </button>
+                            </div>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => setIsPeopleExpanded(false)}
+                            className="w-full py-2 bg-[#1B4D3E] text-white rounded-xl font-medium hover:bg-[#153a2f] transition-colors text-sm"
+                          >
+                            Xác nhận
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 <Image
@@ -390,13 +512,20 @@ export default function SearchWidget() {
 
                 {/* Section 4: "Ngân sách" */}
                 <div className="flex-[4.5] basis-0 min-w-0 h-full flex items-center justify-center px-2">
+                  {/* Icon mới ở đây */}
+                  <Wallet size={18} className="text-[#1B4D3E]/60 shrink-0" />
                   <div className="relative w-full">
                     <input
                       type="text"
                       placeholder="Ngân sách"
-                      value={budget}
-                      onChange={(e) => setBudget(e.target.value)}
-                      className="w-full pr-14 text-right bg-transparent border-none outline-none placeholder-[#1B4D3E]/60 text-[#1B4D3E] font-medium text-sm md:text-base lg:text-lg truncate"
+                      value={formatNumber(budget)}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        // Chỉ lưu các ký tự số vào state để dễ tính toán sau này
+                        const onlyNums = value.replace(/\D/g, "");
+                        setBudget(onlyNums);
+                      }}
+                      className="w-full pr-16 text-right bg-transparent border-none outline-none placeholder-[#1B4D3E]/60 text-[#1B4D3E] font-medium text-xs md:text-sm lg:text-base truncate"
                     />
                     <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-[#1B4D3E]/80 font-semibold">
                       VND
@@ -428,7 +557,7 @@ export default function SearchWidget() {
                       className="text-[#1B4D3E]/60 group-hover:text-[#1B4D3E] transition-colors"
                     />
                     <span
-                      className={`font-medium text-sm md:text-base lg:text-lg truncate ${
+                      className={`font-medium text-xs md:text-sm lg:text-base truncate ${
                         styleLabel ? "text-[#1B4D3E]" : "text-[#1B4D3E]/60"
                       }`}
                     >

@@ -18,6 +18,8 @@ import {
   type PlaceData,
 } from "@/lib/store/trip-store";
 import { API_BASE_URL } from "@/lib/api-config";
+import { exportAndDownloadTripPDF } from "@/lib/export-pdf";
+import { useAuthStatus, LoginPromptModal } from "@/lib/hooks/useRequireAuth";
 
 // Dynamically import MapComponent
 const MapComponent = dynamic(() => import("@/components/MapComponent"), {
@@ -200,6 +202,45 @@ function TripsContent() {
   const handleRejectAiItinerary = () => {
     setActivities({});
     setIsAiSuggestion(false);
+  };
+
+  // Auth status for PDF export gate
+  const { isAuthenticated } = useAuthStatus();
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  // PDF Export handler - requires authentication
+  const [isExportingPDF, setIsExportingPDF] = useState(false);
+  const handleExportPDF = async () => {
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      setShowLoginModal(true);
+      return;
+    }
+
+    setIsExportingPDF(true);
+    try {
+      await exportAndDownloadTripPDF({
+        destination: destination || "Chuyến đi",
+        startDate: startDateParam,
+        endDate: endDateParam,
+        duration: durationString,
+        budget: formattedBudget,
+        people: people,
+        activities: activities as ActivitiesMap,
+        hotelData: selectedHotel,
+      });
+    } catch (error) {
+      console.error("Error exporting PDF:", error);
+      alert("Có lỗi khi xuất PDF. Vui lòng thử lại.");
+    } finally {
+      setIsExportingPDF(false);
+    }
+  };
+
+  const handleLoginRedirect = () => {
+    // Save current URL to redirect back after login
+    const currentPath = window.location.pathname + window.location.search;
+    router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
   };
 
   // Calculate date for selected day
@@ -633,6 +674,14 @@ function TripsContent() {
 
   return (
     <div className="min-h-screen flex flex-col font-sans text-[#1B4D3E] bg-[#BBD9D9] overflow-hidden">
+      {/* Login Prompt Modal for PDF Export */}
+      <LoginPromptModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onLogin={handleLoginRedirect}
+        feature="xuất lịch trình PDF"
+      />
+
       <div className="sticky top-0 z-50 mb-0 md:mb-4 bg-[#BBD9D9] border-b border-[#1B4D3E]/10">
         <Header />
         <TripStepper />
@@ -679,22 +728,47 @@ function TripsContent() {
                 </svg>
               </button>
 
-              {/* Save Button (Solid) */}
-              <button className="flex items-center gap-2 px-6 py-3 bg-[#113D38] text-white rounded-full font-bold hover:bg-[#0D2F2B] transition-colors shadow-sm">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="white"
-                  stroke="currentColor"
-                  strokeWidth="0"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
-                </svg>
-                Lưu lịch trình
+              {/* Save Button (Solid) - Export PDF */}
+              <button
+                onClick={handleExportPDF}
+                disabled={isExportingPDF}
+                className="flex items-center gap-2 px-6 py-3 bg-[#113D38] text-white rounded-full font-bold hover:bg-[#0D2F2B] transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isExportingPDF ? (
+                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                )}
+                {isExportingPDF ? "Đang xuất..." : "Xuất PDF"}
               </button>
             </div>
           </div>

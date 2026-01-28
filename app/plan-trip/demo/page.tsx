@@ -7,6 +7,8 @@ import TripStepper from "@/components/ui/TripStepper";
 import TripMetaBar from "@/components/TripMetaBar";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTripStore } from "@/lib/store/trip-store";
+import { exportAndDownloadTripPDF } from "@/lib/export-pdf";
+import { useAuthStatus, LoginPromptModal } from "@/lib/hooks/useRequireAuth";
 
 function DemoContent() {
   const router = useRouter();
@@ -22,6 +24,8 @@ function DemoContent() {
     selectedPlaceIds: storePlaceIds,
     budget: storeBudget,
     activities: storeActivities,
+    people: storePeople,
+    hotelData: storeHotelData,
   } = useTripStore();
 
   // Track current step on mount
@@ -43,6 +47,7 @@ function DemoContent() {
     useState(false);
   const [daysUntilTrip, setDaysUntilTrip] = useState<number>(10); // Default safe buffer
   const [isSaving, setIsSaving] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   // Calculate duration string
   let durationString = "2N1Đ";
@@ -132,6 +137,12 @@ function DemoContent() {
       : "8.000.000 VND";
 
   const handleComplete = () => {
+    // Check if user is authenticated first
+    if (!isAuthenticated) {
+      setLoginFeature("lưu và thanh toán lịch trình");
+      setShowLoginModal(true);
+      return;
+    }
     // Show validation modal instead of direct checkout
     setShowPaymentRequirementModal(true);
   };
@@ -142,8 +153,56 @@ function DemoContent() {
     }
   };
 
+  // Auth status for feature gates (PDF export, save trip)
+  const { isAuthenticated } = useAuthStatus();
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [loginFeature, setLoginFeature] = useState("xuất lịch trình PDF");
+
+  const handleLoginRedirect = () => {
+    const currentPath = window.location.pathname + window.location.search;
+    router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
+  };
+
+  // Export PDF handler - requires authentication
+  const [isExporting, setIsExporting] = useState(false);
+  const handleExportPDF = async () => {
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      setLoginFeature("xuất lịch trình PDF");
+      setShowLoginModal(true);
+      return;
+    }
+
+    setIsExporting(true);
+    try {
+      await exportAndDownloadTripPDF({
+        destination,
+        startDate: startDateParam,
+        endDate: endDateParam,
+        duration: durationString,
+        budget: formattedBudget,
+        people: storePeople || 2,
+        activities: storeActivities,
+        hotelData: storeHotelData,
+      });
+    } catch (error) {
+      console.error("Error exporting PDF:", error);
+      alert("Có lỗi khi xuất PDF. Vui lòng thử lại.");
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col font-sans text-[#1B4D3E] bg-[#BBD9D9] overflow-hidden">
+      {/* Login Prompt Modal for feature gates */}
+      <LoginPromptModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onLogin={handleLoginRedirect}
+        feature={loginFeature}
+      />
+
       <div className="sticky top-0 z-50 mb-4 bg-[#BBD9D9] border-b border-[#1B4D3E]/10">
         <Header />
         <TripStepper />
@@ -273,61 +332,103 @@ function DemoContent() {
                   <line x1="12" y1="2" x2="12" y2="15" />
                 </svg>
               </button>
-              <button className="bg-[#113D38] text-white px-6 py-2 rounded-full font-bold flex items-center gap-2 hover:bg-[#0D2F2B] shadow-sm transition-all">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="white"
-                  stroke="currentColor"
-                  strokeWidth="0"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
-                </svg>
-                <span>Lưu lịch trình</span>
+              <button
+                onClick={handleExportPDF}
+                disabled={isExporting}
+                className="bg-[#113D38] text-white px-6 py-2 rounded-full font-bold flex items-center gap-2 hover:bg-[#0D2F2B] shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isExporting ? (
+                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                )}
+                <span>{isExporting ? "Đang xuất..." : "Xuất PDF"}</span>
               </button>
             </div>
           </div>
         </div>
 
-        {/* Simulation Video Placeholder */}
-        <div className="w-[80%] mx-auto aspect-video bg-black/20 rounded-[32px] overflow-hidden relative shadow-2xl group cursor-pointer border-4 border-white/50">
-          {/* Background Image (Static fallback) */}
-          <Image
-            src="/placeholder.jpg"
-            alt="Background"
-            fill
-            className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
-          />
+        {/* Simulation Video Placeholder (click to play) */}
+        <div
+          className="w-full aspect-video bg-black/20 rounded-[32px] overflow-hidden relative shadow-2xl group cursor-pointer border-4 border-white/50"
+          onClick={() => setIsPlaying(true)}
+        >
+          {isPlaying ? (
+            // Embedded streamable iframe (autoplay)
+            <iframe
+              src="https://streamable.com/e/9uuspf?autoplay=1&muted=1"
+              frameBorder="0"
+              width="100%"
+              height="100%"
+              allow="autoplay; fullscreen"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+            ></iframe>
+          ) : (
+            <>
+              {/* Background Image (Static fallback) */}
+              <Image
+                src="/placeholder.jpg"
+                alt="Background"
+                fill
+                className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
+              />
 
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center">
-            <div className="w-24 h-24 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center pl-2 border border-white/40 group-hover:scale-110 transition-transform duration-300">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="white"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polygon points="5 3 19 12 5 21 5 3" />
-              </svg>
-            </div>
-            <h2 className="text-white text-3xl font-black mt-6 uppercase tracking-widest drop-shadow-lg">
-              Xem mô phỏng chuyến đi
-            </h2>
-            <p className="text-white/80 mt-2 font-medium">
-              Thời lượng ước tính: 1:30
-            </p>
-          </div>
+              {/* Overlay with play button */}
+              <div className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center">
+                <div className="w-24 h-24 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center pl-2 border border-white/40 group-hover:scale-110 transition-transform duration-300">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="white">
+                    <polygon points="5 3 19 12 5 21 5 3" />
+                  </svg>
+                </div>
+                <h2 className="text-white text-3xl font-black mt-6 uppercase tracking-widest drop-shadow-lg">
+                  Xem mô phỏng chuyến đi
+                </h2>
+                <p className="text-white/80 mt-2 font-medium">
+                  Thời lượng: 0:08
+                </p>
+              </div>
 
+              {/* Chatbot Icon */}
+              <div className="absolute bottom-6 right-6 w-16 h-16 bg-white rounded-full shadow-xl border-4 border-[#41C7D6] overflow-hidden flex items-center justify-center">
+                <Image
+                  src="/chatbot-icon.png"
+                  alt="Bot"
+                  fill
+                  className="object-cover scale-150 object-right"
+                />
+              </div>
+            </>
+          )}
         </div>
 
         {/* Footer Action */}

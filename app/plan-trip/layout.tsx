@@ -1,20 +1,7 @@
-import { redirect } from 'next/navigation'
-import { createClient } from '@/utils/supabase/server'
-
 export default async function PlanTripLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode
+  children: React.ReactNode;
 }) {
-    const supabase = await createClient()
-
-    const {
-        data: { user },
-    } = await supabase.auth.getUser()
-
-    if (!user) {
-        redirect('/login?reason=auth_required')
-    }
-
-    return <>{children}</>
+  return <>{children}</>;
 }
