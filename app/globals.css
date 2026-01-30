@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -16,6 +17,17 @@
 
   --radius-xl: 1.5rem;
   --radius-2xl: 2rem;
+
+  --font-yeseva: 'Yeseva One', serif;
+}
+
+@keyframes movePath {
+  from {
+    offset-distance: 0%;
+  }
+  to {
+    offset-distance: 100%;
+  }
 }
 
 :root {

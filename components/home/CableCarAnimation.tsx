@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 
 // Info boards data - matching the 4 stages from the images
 const infoBoards = [
@@ -47,97 +46,77 @@ const infoBoards = [
 ];
 
 const CableCarAnimation = () => {
+  const [isPaused, setIsPaused] = useState(false);
+
   // Configuration for the animation
-  const duration = 30; // Time for one cabin to cross (increased for 4 cabins)
-  const numberOfCabins = 4; // 4 cabins to match 4 boards
+  const duration = 30;
+  const numberOfCabins = 4;
   const delayBetweenCabins = duration / numberOfCabins;
 
-  // Boards appear EXACTLY at the midpoint between cabins
-  // Cabin[i] delay = i * delayBetweenCabins
-  // Board[i] delay = (i + 0.5) * delayBetweenCabins (exactly halfway)
-
-  // Define the path exactly once to ensure visual line and motion path match perfectly
-  // M -200,35: Start off-screen left, Y=35
-  // Q 680,210: Control point at center X=680, Y=210 (pulling down)
-  // 1560,105: End off-screen right, Y=105
   const pathDefinition = "M -200,15 Q 680,190 1560,105";
 
+  const animationStyle = (delay: number) => ({
+    offsetPath: `path('${pathDefinition}')`,
+    offsetRotate: "0deg" as const,
+    animation: `movePath ${duration}s linear infinite`,
+    animationDelay: `${delay}s`,
+    animationPlayState: isPaused ? ("paused" as const) : ("running" as const),
+  });
+
   return (
-    <div className="relative w-full mx-auto max-w-[90vw] h-[550px] overflow-hidden z-0 pointer-events-none">
+    <div className="relative w-full mx-auto max-w-[90vw] h-[550px] overflow-hidden z-30">
       {/* The Cable/Wire (SVG drawn) */}
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <path
           d={pathDefinition}
           fill="transparent"
-          stroke="rgba(0,0,0,0.3)" // Semi-transparent black like a real cable
+          stroke="rgba(0,0,0,0.3)"
           strokeWidth="2"
-          // Optional: dashed line if desired, but solid is more realistic for cable car
         />
       </svg>
 
       {/* The Cabins */}
       {[...Array(numberOfCabins)].map((_, index) => (
-        <motion.div
+        <div
           key={index}
-          className="absolute left-0 top-0"
+          className="absolute left-0 top-0 cursor-pointer"
           style={{
-            offsetPath: `path('${pathDefinition}')`, // Use exact same constant string
-            offsetRotate: "0deg",
+            ...animationStyle(index * delayBetweenCabins),
             offsetAnchor: "50% 16%",
           }}
-          initial={{ offsetDistance: "0%" }}
-          animate={{
-            offsetDistance: "100%",
-          }}
-          transition={{
-            duration: duration,
-            repeat: Infinity,
-            ease: "linear",
-            delay: index * delayBetweenCabins,
-          }}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
         >
           <Image
             src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/home/TRAVEL%20PATH%20(1)%202.png"
             alt="Cable Car Cabin"
             width={220}
             height={220}
-            className="object-contain"
+            className="object-contain pointer-events-none"
           />
-        </motion.div>
+        </div>
       ))}
 
-      {/* The Info Boards - traveling along the same path */}
+      {/* The Info Boards */}
       {infoBoards.map((board, index) => (
-        <motion.div
+        <div
           key={`board-${index}`}
           className="absolute left-0 top-0"
           style={{
-            offsetPath: `path('${pathDefinition}')`,
-            offsetRotate: "0deg",
+            ...animationStyle((index + 0.5) * delayBetweenCabins),
             offsetAnchor: "50% 0%",
           }}
-          initial={{ offsetDistance: "0%" }}
-          animate={{
-            offsetDistance: "100%",
-          }}
-          transition={{
-            duration: duration,
-            repeat: Infinity,
-            ease: "linear",
-            // EXACTLY at midpoint: (index + 0.5) * delayBetweenCabins
-            delay: (index + 0.5) * delayBetweenCabins,
-          }}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
         >
           {/* Info Board Card */}
-          <div className="w-[210px] bg-[#F5F5F5]/95 backdrop-blur-sm rounded-3xl p-5 shadow-lg border border-white/50 pointer-events-auto">
-            {/* Title */}
+          <div className="w-[210px] bg-[#F5F5F5]/95 backdrop-blur-sm rounded-3xl p-5 shadow-lg border border-white/50 hover:scale-105 transition-transform">
             <h3 className="text-[#8B4513] font-bold text-base mb-1">
               {board.title}
             </h3>
             <p className="text-[#CC7A5C] font-semibold text-sm mb-3 border-b border-[#CC7A5C]/30 pb-2">
               {board.subtitle}
             </p>
-            {/* Items */}
             <ul className="space-y-1.5">
               {board.items.map((item, i) => (
                 <li
@@ -150,7 +129,7 @@ const CableCarAnimation = () => {
               ))}
             </ul>
           </div>
-        </motion.div>
+        </div>
       ))}
     </div>
   );

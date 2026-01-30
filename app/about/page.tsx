@@ -32,9 +32,9 @@ export default async function AboutPage() {
         <div className="bg-white/80 backdrop-blur-md rounded-[3rem] p-8 md:p-16 shadow-xl border border-white/50 animate-in fade-in slide-in-from-bottom-8 duration-700">
           <div className="text-center mb-16">
             <span className="text-[#2E968C] font-bold tracking-widest uppercase text-sm mb-2 block">
-              Our Story
+              Câu chuyện của chúng tôi
             </span>
-            <h1 className="text-4xl md:text-5xl font-black mb-6 uppercase text-[#1B4D3E]">
+            <h1 className="text-4xl font-yeseva md:text-5xl font-black mb-6 uppercase text-[#1B4D3E]">
               Về Travel Path
             </h1>
             <div className="w-24 h-1.5 bg-[#F4A261] mx-auto rounded-full"></div>

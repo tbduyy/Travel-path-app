@@ -19,7 +19,7 @@ export default async function BlogPage() {
             <div className="w-full max-w-7xl mx-auto px-6 py-12">
                 <div className="text-center mb-16 space-y-4">
                     <span className="text-[#2E968C] font-bold tracking-widest uppercase text-sm">Travel Path Blog</span>
-                    <h1 className="text-4xl md:text-5xl font-black uppercase text-[#1B4D3E]">Cẩm Nang Du Lịch</h1>
+                    <h1 className="text-4xl md:text-5xl font-yeseva font-black uppercase text-[#1B4D3E]">Cẩm Nang Du Lịch</h1>
                     <p className="text-gray-500 max-w-2xl mx-auto">
                         Nơi chia sẻ những kinh nghiệm, câu chuyện và những hành trình đầy cảm hứng.
                     </p>

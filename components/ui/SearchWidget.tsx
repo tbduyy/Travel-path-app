@@ -13,7 +13,10 @@ import {
   Users,
   Sparkles,
   Wallet,
+  AlertCircle,
+  X,
 } from "lucide-react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTripStore } from "@/lib/store/trip-store";
 
@@ -44,6 +47,7 @@ export default function SearchWidget() {
 
   // State for filters
   const [destination, setDestination] = useState("");
+  const [showError, setShowError] = useState(false);
   const [destinationLabel, setDestinationLabel] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [startDate, setStartDate] = useState("");
@@ -56,6 +60,11 @@ export default function SearchWidget() {
   const [styleLabel, setStyleLabel] = useState("");
   const [isStyleDropdownOpen, setIsStyleDropdownOpen] = useState(false);
   const [isPeopleExpanded, setIsPeopleExpanded] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
@@ -63,14 +72,14 @@ export default function SearchWidget() {
   const peopleDropdownRef = useRef<HTMLDivElement>(null);
 
   // Chuyển số thành chuỗi có dấu chấm: 4000000 -> "4.000.000"
-  const formatNumber = (val) => {
+  const formatNumber = (val: string) => {
     if (!val) return "";
     const number = val.replace(/\D/g, ""); // Loại bỏ tất cả ký tự không phải số
-    return new Intl.NumberFormat("vi-VN").format(number);
+    return new Intl.NumberFormat("vi-VN").format(Number(number));
   };
 
   // Chuyển chuỗi định dạng ngược lại số để lưu state: "4.000.000" -> "4000000"
-  const rawNumber = (val) => val.replace(/\./g, "");
+  const rawNumber = (val: string) => val.replace(/\./g, "");
 
   // Derived total people count
   const totalPeople = adults + children;
@@ -111,6 +120,7 @@ export default function SearchWidget() {
     setDestination(dest.value);
     setDestinationLabel(dest.label);
     setIsDropdownOpen(false);
+    setShowError(false);
   };
 
   const handleSelectStyle = (s: (typeof travelStyles)[0]) => {
@@ -157,6 +167,11 @@ export default function SearchWidget() {
   };
 
   const handleSearch = () => {
+    if (!destination) {
+      setShowError(true);
+      return;
+    }
+
     console.log("Redirecting to plan-trip with:", {
       destination,
       startDate,
@@ -184,9 +199,9 @@ export default function SearchWidget() {
   };
 
   return (
-    <div className="w-[94.44%] mx-auto relative z-20">
+    <div className="w-full mx-auto relative z-20">
       {/* Aspect Ratio 1360/173 */}
-      <div className="w-full aspect-[1360/173] flex items-center justify-center relative font-sans">
+      <div className="w-full aspect-[1360/150] flex items-center justify-center relative font-sans">
         {/* 1. Container Wrapper (Rec 1) */}
         <div className="relative w-full h-full flex items-center px-[2%] py-[1%]">
           <Image
@@ -224,20 +239,20 @@ export default function SearchWidget() {
                   >
                     <MapPin
                       size={16}
-                      className="text-[#1B4D3E]/60 group-hover:text-[#1B4D3E] transition-colors"
+                      className="text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors"
                     />
                     <span
                       className={`font-medium text-xs md:text-sm lg:text-base truncate ${
                         destinationLabel
-                          ? "text-[#1B4D3E]"
-                          : "text-[#1B4D3E]/60"
+                          ? "text-[#003F3E]"
+                          : "text-[#003F3E]/60"
                       }`}
                     >
                       {destinationLabel || "Chọn điểm đến"}
                     </span>
                     <ChevronDown
                       size={16}
-                      className={`text-[#1B4D3E]/60 transition-transform duration-200 ${
+                      className={`text-[#003F3E]/60 transition-transform duration-200 ${
                         isDropdownOpen ? "rotate-180" : ""
                       }`}
                     />
@@ -261,7 +276,7 @@ export default function SearchWidget() {
                               onClick={() => handleSelectDestination(dest)}
                               className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-[#E0F2F1] transition-colors text-left ${
                                 destination === dest.value
-                                  ? "bg-[#E0F2F1] text-[#1B4D3E] font-semibold"
+                                  ? "bg-[#E0F2F1] text-[#003F3E] font-semibold"
                                   : "text-gray-700"
                               }`}
                             >
@@ -275,7 +290,7 @@ export default function SearchWidget() {
                     )}
                   </AnimatePresence>
                 </div>
-
+                
                 <Image
                   src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/search-bar/line-4.png"
                   alt="|"
@@ -297,20 +312,20 @@ export default function SearchWidget() {
                   >
                     <Calendar
                       size={16}
-                      className="text-[#1B4D3E]/60 group-hover:text-[#1B4D3E] transition-colors"
+                      className="text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors"
                     />
                     <span
                       className={`font-medium text-xs md:text-sm lg:text-base truncate ${
                         getDateDisplayText()
-                          ? "text-[#1B4D3E]"
-                          : "text-[#1B4D3E]/60"
+                          ? "text-[#003F3E]"
+                          : "text-[#003F3E]/60"
                       }`}
                     >
                       {getDateDisplayText() || "Thời gian đi - về"}
                     </span>
                     <ChevronDown
                       size={16}
-                      className={`text-[#1B4D3E]/60 transition-transform duration-200 ${
+                      className={`text-[#003F3E]/60 transition-transform duration-200 ${
                         isCalendarOpen ? "rotate-180" : ""
                       }`}
                     />
@@ -324,22 +339,22 @@ export default function SearchWidget() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 p-4"
+                        className="absolute top-full right-0 w-52 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 p-4"
                       >
                         <div className="space-y-4">
                           <div>
-                            <label className="block text-sm font-medium text-[#1B4D3E] mb-1">
+                            <label className="block text-sm font-medium text-[#003F3E] mb-1">
                               Ngày đi
                             </label>
                             <input
                               type="date"
                               value={startDate}
                               onChange={(e) => setStartDate(e.target.value)}
-                              className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B4D3E]/20 text-[#1B4D3E]"
+                              className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#003F3E]/20 text-[#003F3E]"
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-[#1B4D3E] mb-1">
+                            <label className="block text-sm font-medium text-[#003F3E] mb-1">
                               Ngày về
                             </label>
                             <input
@@ -347,13 +362,13 @@ export default function SearchWidget() {
                               value={endDate}
                               onChange={(e) => setEndDate(e.target.value)}
                               min={startDate}
-                              className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B4D3E]/20 text-[#1B4D3E]"
+                              className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#003F3E]/20 text-[#003F3E]"
                             />
                           </div>
                           <button
                             type="button"
                             onClick={() => setIsCalendarOpen(false)}
-                            className="w-full py-2 bg-[#1B4D3E] text-white rounded-xl font-medium hover:bg-[#153a2f] transition-colors"
+                            className="w-full py-2 bg-[#003F3E] text-white rounded-xl font-medium hover:bg-[#153a2f] transition-colors"
                           >
                             Xác nhận
                           </button>
@@ -385,12 +400,12 @@ export default function SearchWidget() {
                     >
                       <ChevronDown
                         size={18}
-                        className="text-[#1B4D3E]/60 group-hover:text-[#1B4D3E] transition-colors"
+                        className="text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors"
                       />
                     </button>
                     <div className="flex items-center gap-1">
-                      <Users size={16} className="text-[#1B4D3E]/60" />
-                      <span className="font-medium text-[#1B4D3E] text-sm lg:text-base min-w-[20px] text-center">
+                      <Users size={16} className="text-[#003F3E]/60" />
+                      <span className="font-medium text-[#003F3E] text-sm lg:text-base min-w-[20px] text-center">
                         {totalPeople}
                       </span>
                     </div>
@@ -401,17 +416,17 @@ export default function SearchWidget() {
                     >
                       <ChevronUp
                         size={18}
-                        className="text-[#1B4D3E]/60 group-hover:text-[#1B4D3E] transition-colors"
+                        className="text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors"
                       />
                     </button>
                     {/* Nút "+" để mở rộng chọn Người lớn / Trẻ em */}
                     <button
                       type="button"
                       onClick={() => setIsPeopleExpanded(!isPeopleExpanded)}
-                      className="ml-1 w-6 h-6 rounded-full bg-[#1B4D3E]/10 hover:bg-[#1B4D3E]/20 flex items-center justify-center transition-colors"
+                      className="ml-1 w-6 h-6 rounded-full bg-[#003F3E]/10 hover:bg-[#003F3E]/20 flex items-center justify-center transition-colors"
                       title="Chi tiết số người"
                     >
-                      <span className="text-[#1B4D3E] font-bold text-sm">
+                      <span className="text-[#003F3E] font-bold text-sm">
                         {isPeopleExpanded ? "−" : "+"}
                       </span>
                     </button>
@@ -425,12 +440,12 @@ export default function SearchWidget() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 p-4 min-w-[200px]"
+                        className="absolute top-full w-52 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 p-4 min-w-[200px]"
                       >
                         <div className="space-y-4">
                           {/* Người lớn */}
                           <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium text-[#1B4D3E]">
+                            <span className="text-sm font-medium text-[#003F3E]">
                               Người lớn
                             </span>
                             <div className="flex items-center gap-2">
@@ -439,11 +454,11 @@ export default function SearchWidget() {
                                 onClick={decrementAdults}
                                 className="w-8 h-8 rounded-full bg-[#E0F2F1] hover:bg-[#c8e6e3] flex items-center justify-center transition-colors"
                               >
-                                <span className="text-[#1B4D3E] font-bold">
+                                <span className="text-[#003F3E] font-bold">
                                   −
                                 </span>
                               </button>
-                              <span className="font-semibold text-[#1B4D3E] min-w-[24px] text-center">
+                              <span className="font-semibold text-[#003F3E] min-w-[24px] text-center">
                                 {adults}
                               </span>
                               <button
@@ -451,7 +466,7 @@ export default function SearchWidget() {
                                 onClick={incrementAdults}
                                 className="w-8 h-8 rounded-full bg-[#E0F2F1] hover:bg-[#c8e6e3] flex items-center justify-center transition-colors"
                               >
-                                <span className="text-[#1B4D3E] font-bold">
+                                <span className="text-[#003F3E] font-bold">
                                   +
                                 </span>
                               </button>
@@ -460,7 +475,7 @@ export default function SearchWidget() {
 
                           {/* Trẻ em */}
                           <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium text-[#1B4D3E]">
+                            <span className="text-sm font-medium text-[#003F3E]">
                               Trẻ em
                             </span>
                             <div className="flex items-center gap-2">
@@ -469,11 +484,11 @@ export default function SearchWidget() {
                                 onClick={decrementChildren}
                                 className="w-8 h-8 rounded-full bg-[#E0F2F1] hover:bg-[#c8e6e3] flex items-center justify-center transition-colors"
                               >
-                                <span className="text-[#1B4D3E] font-bold">
+                                <span className="text-[#003F3E] font-bold">
                                   −
                                 </span>
                               </button>
-                              <span className="font-semibold text-[#1B4D3E] min-w-[24px] text-center">
+                              <span className="font-semibold text-[#003F3E] min-w-[24px] text-center">
                                 {children}
                               </span>
                               <button
@@ -481,7 +496,7 @@ export default function SearchWidget() {
                                 onClick={incrementChildren}
                                 className="w-8 h-8 rounded-full bg-[#E0F2F1] hover:bg-[#c8e6e3] flex items-center justify-center transition-colors"
                               >
-                                <span className="text-[#1B4D3E] font-bold">
+                                <span className="text-[#003F3E] font-bold">
                                   +
                                 </span>
                               </button>
@@ -491,7 +506,7 @@ export default function SearchWidget() {
                           <button
                             type="button"
                             onClick={() => setIsPeopleExpanded(false)}
-                            className="w-full py-2 bg-[#1B4D3E] text-white rounded-xl font-medium hover:bg-[#153a2f] transition-colors text-sm"
+                            className="w-full py-2 bg-[#003F3E] text-white rounded-xl font-medium hover:bg-[#153a2f] transition-colors text-sm"
                           >
                             Xác nhận
                           </button>
@@ -511,23 +526,31 @@ export default function SearchWidget() {
                 />
 
                 {/* Section 4: "Ngân sách" */}
-                <div className="flex-[4.5] basis-0 min-w-0 h-full flex items-center justify-center px-2">
-                  {/* Icon mới ở đây */}
-                  <Wallet size={18} className="text-[#1B4D3E]/60 shrink-0" />
-                  <div className="relative w-full">
-                    <input
-                      type="text"
-                      placeholder="Ngân sách"
-                      value={formatNumber(budget)}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        // Chỉ lưu các ký tự số vào state để dễ tính toán sau này
-                        const onlyNums = value.replace(/\D/g, "");
-                        setBudget(onlyNums);
-                      }}
-                      className="w-full pr-16 text-right bg-transparent border-none outline-none placeholder-[#1B4D3E]/60 text-[#1B4D3E] font-medium text-xs md:text-sm lg:text-base truncate"
-                    />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-[#1B4D3E]/80 font-semibold">
+                <div className="flex-[4.5] shrink-0 min-w-0 h-full flex items-center px-4 border-l border-gray-100">
+                  <div className="relative w-full group">
+                    <div className="flex items-center gap-2">
+                      {/* Icon ví tiền */}
+                      <Wallet
+                        size={18}
+                        className="text-[#003F3E]/60 shrink-0"
+                      />
+
+                      <input
+                        type="text"
+                        placeholder={`Ngân sách/${totalPeople} người`}
+                        value={formatNumber(budget)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          const onlyNums = value.replace(/\D/g, "");
+                          setBudget(onlyNums);
+                        }}
+                        // Giải thích: pr-12 để chừa chỗ cho chữ VND không bị đè
+                        className="w-full bg-transparent border-none outline-none font-medium placeholder-[#003F3E]/60 text-[#003F3E] text-base pr-12 transition-all"
+                      />
+                    </div>
+
+                    {/* Đơn vị tiền tệ - Cố định ở góc phải */}
+                    <span className="absolute right-0 top-1/2 -translate-y-1/2 text-base font-medium text-[#003F3E] tracking-wider">
                       VND
                     </span>
                   </div>
@@ -554,18 +577,18 @@ export default function SearchWidget() {
                   >
                     <Sparkles
                       size={16}
-                      className="text-[#1B4D3E]/60 group-hover:text-[#1B4D3E] transition-colors"
+                      className="text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors"
                     />
                     <span
                       className={`font-medium text-xs md:text-sm lg:text-base truncate ${
-                        styleLabel ? "text-[#1B4D3E]" : "text-[#1B4D3E]/60"
+                        styleLabel ? "text-[#003F3E]" : "text-[#003F3E]/60"
                       }`}
                     >
                       {styleLabel || "Phong cách"}
                     </span>
                     <ChevronDown
                       size={16}
-                      className={`text-[#1B4D3E]/60 transition-transform duration-200 ${
+                      className={`text-[#003F3E]/60 transition-transform duration-200 ${
                         isStyleDropdownOpen ? "rotate-180" : ""
                       }`}
                     />
@@ -589,7 +612,7 @@ export default function SearchWidget() {
                               onClick={() => handleSelectStyle(s)}
                               className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-[#E0F2F1] transition-colors text-left ${
                                 style === s.value
-                                  ? "bg-[#E0F2F1] text-[#1B4D3E] font-semibold"
+                                  ? "bg-[#E0F2F1] text-[#003F3E] font-semibold"
                                   : "text-gray-700"
                               }`}
                             >
@@ -647,6 +670,72 @@ export default function SearchWidget() {
           </div>
         </div>
       </div>
+      
+      {/* Portal for Warning Modal to ensure it covers Header */}
+      {mounted && createPortal(
+        <AnimatePresence>
+          {showError && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[9999] flex items-center justify-center px-4 font-sans"
+            >
+              {/* Backdrop */}
+              <div 
+                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                onClick={() => setShowError(false)}
+              />
+              
+              {/* Modal Content */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                transition={{ duration: 0.3, delay: 0.1, ease: "easeOut" }}
+                className="relative bg-white rounded-3xl shadow-2xl p-6 w-full max-w-sm overflow-hidden"
+              >
+                 {/* Decorative background circle */}
+                 <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#06424a]/5 rounded-full blur-2xl" />
+                 <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-[#E0F2F1] rounded-full blur-2xl" />
+
+                <button 
+                  onClick={() => setShowError(false)}
+                  className="absolute top-4 right-4 p-1 rounded-full hover:bg-gray-100 transition-colors z-10"
+                >
+                  <X size={20} className="text-gray-400" />
+                </button>
+
+                <div className="relative flex flex-col items-center text-center gap-4 pt-2">
+                  <div className="w-16 h-16 rounded-full bg-[#E0F2F1] flex items-center justify-center mb-1">
+                    <MapPin size={32} className="text-[#06424a]" />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-bold text-[#06424a]">
+                      Chưa chọn điểm đến
+                    </h3>
+                    <p className="text-gray-600 leading-relaxed font-medium">
+                      Bạn cần chọn điểm đến trước khi lập lịch trình!
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Vui lòng chọn một địa điểm từ danh sách để chúng tôi có thể gợi ý lịch trình phù hợp nhất cho bạn.
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => setShowError(false)}
+                    className="w-full mt-4 py-3 bg-[#06424a] text-white rounded-xl font-semibold hover:bg-[#05363d] transition-all active:scale-[0.98] shadow-lg shadow-[#06424a]/20"
+                  >
+                    Đã hiểu
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 }

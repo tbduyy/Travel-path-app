@@ -115,7 +115,7 @@ export async function exportTripToPDF(data: TripPDFData): Promise<Blob> {
   doc.setFontSize(24);
   // ĐỔI FONT: thay "helvetica" thành "Roboto"
   doc.setFont("Roboto", "bold");
-  doc.text(`LICH TRINH ${data.destination.toUpperCase()}`, pageWidth / 2, 20, {
+  doc.text(`LỊCH TRÌNH ${data.destination.toUpperCase()}`, pageWidth / 2, 20, {
     align: "center",
   });
 
@@ -164,7 +164,7 @@ export async function exportTripToPDF(data: TripPDFData): Promise<Blob> {
   doc.text("Ngân sách:", margin + colWidth * 3 + 5, infoY);
   doc.setFont("Roboto", "normal"); // ĐỔI FONT
   doc.text(
-    data.budget || "Chưa xác định",
+    `${data.budget} VND` || "Chưa xác định",
     margin + colWidth * 3 + 5,
     infoY + 6,
   );

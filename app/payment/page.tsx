@@ -463,7 +463,7 @@ function PaymentContent() {
             destination={destination}
             duration={durationString}
             placeCount={placeIds.length}
-            budget={formattedBudget}
+            budget={`${new Intl.NumberFormat("vi-VN").format(4000000 - grandTotal)} ₫`}
           />
         </div>
 

@@ -50,20 +50,10 @@ export default function Header() {
             {/* Name & Tagline Column */}
             <div className="flex flex-col justify-center gap-1">
               {/* Name Text (Larger Ratio) */}
-              <div className="relative w-40 h-7">
+              <div className="relative aspect-[4/1] h-12">
                 <Image
                   src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/logo-name.png"
                   alt="Travel Path"
-                  fill
-                  className="object-contain object-left"
-                  unoptimized
-                />
-              </div>
-              {/* Tagline Text */}
-              <div className="relative w-44 h-4">
-                <Image
-                  src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/tagline.png"
-                  alt="Your next adventures start here"
                   fill
                   className="object-contain object-left"
                   unoptimized

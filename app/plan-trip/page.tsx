@@ -62,18 +62,18 @@ export default function PlanTripLandingPage() {
         <Header />
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-start pt-12 relative z-10 px-4 pb-20 gap-12">
-        <div className="w-[90vw] md:w-[85vw] max-w-7xl animate-in fade-in slide-in-from-top-4 duration-700 z-20">
+      <div className="flex-1 flex flex-col items-center justify-start pt-5 relative z-10 px-4 pb-20 gap-12">
+        <div className="w-[90vw] animate-in fade-in slide-in-from-top-4 duration-700 z-20">
           <SearchWidget />
         </div>
 
         <div className="text-center animate-in fade-in slide-in-from-bottom-8 duration-700 delay-100">
-          <div className="relative w-28 h-28 mx-auto mb-4">
+          <div className="relative w-22 h-22 mx-auto mb-4">
             <Image
-              src="/assets/plan-trip/ai-chatbot.png"
+              src="/assets/plan-trip/new_ai-chatbot-ver2.png"
               alt="AI Travel"
               fill
-              className="object-contain drop-shadow-2xl animate-bounce"
+              className="object-cover drop-shadow-2xl animate-bounce rounded-full overflow-hidden"
               style={{ animationDuration: "3s" }}
             />
           </div>
@@ -81,7 +81,7 @@ export default function PlanTripLandingPage() {
             Bắt đầu chuyến đi
           </h1>
           <p className="text-lg md:text-xl text-[#1B4D3E]/70 font-medium max-w-2xl mx-auto">
-            Nhập điểm đến và sở thích của bạn, TravelPath sẽ giúp bạn lên lịch
+            Nhập điểm đến và sở thích của bạn, Travel Path sẽ giúp bạn lên lịch
             trình hoàn hảo trong vài giây.
           </p>
         </div>
