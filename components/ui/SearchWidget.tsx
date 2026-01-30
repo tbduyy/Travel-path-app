@@ -167,36 +167,37 @@ export default function SearchWidget() {
   };
 
   const handleSearch = () => {
-    if (!destination) {
-      setShowError(true);
-      return;
-    }
+  if (!destination) {
+    setShowError(true);
+    return;
+  }
 
-    console.log("Redirecting to plan-trip with:", {
-      destination,
-      startDate,
-      endDate,
-      people: totalPeople,
-      budget,
-      style,
-    });
+  // Tính toán tổng ngân sách trước khi lưu vào store
+  const totalBudgetCalculated = (Number(budget) || 0) * totalPeople;
 
-    // Save trip info to Zustand store
-    setTripInfo({
-      destination: destination,
-      startDate: startDate || null,
-      endDate: endDate || null,
-      people: totalPeople,
-      budget: budget,
-      style: style,
-    });
+  console.log("Redirecting to plan-trip with:", {
+    destination,
+    startDate,
+    endDate,
+    people: totalPeople,
+    totalBudget: totalBudgetCalculated, // Kiểm tra console thấy số tổng
+    style,
+  });
 
-    // Mark search step as complete
-    completeStep("search");
+  // Save trip info to Zustand store
+  setTripInfo({
+    destination: destination,
+    startDate: startDate || null,
+    endDate: endDate || null,
+    people: totalPeople,
+    // LƯU TỔNG VÀO ĐÂY
+    budget: totalBudgetCalculated.toString(), 
+    style: style,
+  });
 
-    // Navigate without URL params - Zustand handles the state
-    router.push(`/plan-trip/places`);
-  };
+  completeStep("search");
+  router.push(`/plan-trip/places`);
+};
 
   return (
     <div className="w-full mx-auto relative z-20">

@@ -72,6 +72,7 @@ function PaymentContent() {
   const storePeople = useTripStore((state) => state.people);
   const storeActivities = useTripStore((state) => state.activities);
   const clearTrip = useTripStore((state) => state.clearTrip);
+  const storeBudget = useTripStore((state) => state.budget);
 
   // State for fetched data
   const [loading, setLoading] = useState(true);
@@ -79,6 +80,7 @@ function PaymentContent() {
   const [selectedAttractions, setSelectedAttractions] = useState<PlaceData[]>(
     [],
   );
+  const budgetParam = searchParams.get("budget") || storeBudget;
 
   // Selection state - which items user wants to pay for
   // Key format: "hotel" or "attraction-{id}"
@@ -231,7 +233,7 @@ function PaymentContent() {
             startDate: startDateParam,
             endDate: endDateParam,
             duration: durationString,
-            budget: formattedBudget,
+            budget: formattedBudget_forPDF,
             people: peopleCount,
             activities: storeActivities as ActivitiesMap,
             hotelData: selectedHotel,
@@ -315,7 +317,7 @@ function PaymentContent() {
     .filter((item) => item.isSelected)
     .reduce((acc, curr) => acc + curr.total, 0);
   const grandTotal = selectedHotelTotal + selectedAttractionsTotal;
-  const formattedBudget = new Intl.NumberFormat("vi-VN").format(grandTotal);
+  const formattedBudget_forPDF = new Intl.NumberFormat("vi-VN").format(grandTotal);
 
   // Count selected items
   const selectedCount = selectedItems.size;
@@ -463,7 +465,7 @@ function PaymentContent() {
             destination={destination}
             duration={durationString}
             placeCount={placeIds.length}
-            budget={`${new Intl.NumberFormat("vi-VN").format(4000000 - grandTotal)} ₫`}
+            budget={new Intl.NumberFormat("vi-VN").format(parseInt(budgetParam || "0") - grandTotal)}
           />
         </div>
 

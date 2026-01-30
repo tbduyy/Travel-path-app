@@ -56,7 +56,7 @@ export async function sendTripConfirmationEmail(
 
     // Send email with Resend
     const { data, error } = await resend.emails.send({
-      from: "Travel Path <no-reply@friendwithbooks.id.vn>", // Update with your verified domain
+      from: "Travel Path <no-reply@travelpath.io.vn>", // Update with your verified domain
       to: params.to,
       subject: `Xác nhận thanh toán - Chuyến đi ${params.destination}`,
       react: createElement(TripConfirmationEmail, emailProps),

@@ -256,8 +256,8 @@ export function TripConfirmationEmail({
         >
           Nếu bạn có bất kỳ câu hỏi nào, đừng ngần ngại liên hệ với đội ngũ hỗ
           trợ của chúng tôi qua email{" "}
-          <a href="mailto:support@travelpath.vn" style={{ color: "#2E968C" }}>
-            support@travelpath.vn
+          <a href="mailto:support@travelpath.io.vn" style={{ color: "#2E968C" }}>
+            support@travelpath.io.vn
           </a>
           .
         </p>
