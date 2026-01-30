@@ -183,7 +183,11 @@ export default function ItineraryView({
                     selectedDayDate={selectedDayDate}
                     currentWeather={currentWeather}
                     mapMarkers={mapMarkers}
-                    activities={[]} // Can pass real activities for context analysis if needed
+                    activities={[
+                        ...(activities[selectedDay]?.morning || []),
+                        ...(activities[selectedDay]?.afternoon || []),
+                        ...(activities[selectedDay]?.evening || [])
+                    ]}
                     onUpdateSchedule={onUpdateSchedule || (() => {})}
                  />
             </div>

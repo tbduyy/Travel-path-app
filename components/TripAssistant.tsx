@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { journeyService } from "@/lib/services/ai-journey";
 
 const MapComponent = dynamic(() => import("@/components/MapComponent"), {
   ssr: false,
@@ -74,56 +75,54 @@ export default function TripAssistant({
     }, 1000);
   };
 
-  const processUserMessage = (text: string) => {
-    const lowerText = text.toLowerCase();
-    let aiResponse: Message;
 
-    if (lowerText.includes("mệt") || lowerText.includes("nghỉ")) {
-      // Suggesting a break
-      aiResponse = {
-        id: Date.now().toString(),
-        sender: "ai",
-        text: "Bạn có vẻ đang mệt. Hay mình đổi địa điểm tiếp theo sang một quán Cafe thư giãn nhé?",
-        type: "suggestion",
-        data: {
-          suggestionType: "relax",
-          targetActivityIndex: findNextActivityIndex(),
-          suggestedPlace: {
-            id: "coffee-1",
-            name: "Highlands Coffee & Chill",
-            type: "CAFE",
-            address: "Trung tâm thành phố",
-            image: "/placeholder.jpg" // In real app, fetch real data
-          }
-        }
-      };
-    } else if (lowerText.includes("thời tiết")) {
-      aiResponse = {
-        id: Date.now().toString(),
-        sender: "ai",
-        text: `Dự báo thời tiết ${selectedDayDate} tại ${destination}: ${currentWeather?.condition || "Đẹp"}, ${currentWeather?.temp || 25}°C.`,
-        type: "weather",
-      };
-    } else {
-      aiResponse = {
-        id: Date.now().toString(),
-        sender: "ai",
-        text: "Tôi chưa hiểu rõ ý bạn. Bạn có thể nói rõ hơn về cảm xúc hoặc nhu cầu hiện tại không?",
-        type: "text",
-      };
+
+  const processUserMessage = async (text: string) => {
+    try {
+        // Prepare context
+        const currentLocation = {
+            lat: 12.2388,
+            lng: 109.1967,
+            name: destination || "Unknown Location"
+        };
+
+        // Call API
+        const response = await journeyService.chatWithAI({
+            user_message: text,
+            session_id: "demo-session-" + destination, // Simple session key
+            current_location: currentLocation,
+            trip_status: "Exploring",
+            recent_feelings: text,
+            current_schedule: activities // Pass the real activities
+        });
+
+        // Construct AI Message
+        const aiMsg: Message = {
+            id: Date.now().toString(),
+            sender: "ai",
+            text: response.ai_message,
+            type: (response.suggested_place || response.new_itinerary) ? "suggestion" : "text",
+            data: {
+                suggestedPlace: response.suggested_place,
+                newItinerary: response.new_itinerary 
+            }
+        };
+
+        setMessages((prev) => [...prev, aiMsg]);
+
+    } catch (error) {
+        setMessages((prev) => [...prev, {
+            id: Date.now().toString(),
+            sender: "ai",
+            text: "Xin lỗi, tôi đang gặp sự cố kết nối. Vui lòng thử lại sau.",
+            type: "text"
+        }]);
     }
-
-    setMessages((prev) => [...prev, aiResponse]);
-  };
-
-  const findNextActivityIndex = () => {
-    // Logic to find the next pending activity
-    // For now, just return 0 or the first one available
-    return 0; 
   };
 
   const handleAcceptSuggestion = (msg: Message) => {
       console.log("DEBUG: handleAcceptSuggestion triggered", msg);
+      
       // Call parent to update schedule
       if (onUpdateSchedule) {
           onUpdateSchedule(msg.data);
@@ -135,7 +134,9 @@ export default function TripAssistant({
       setMessages(prev => [...prev, {
           id: Date.now().toString(),
           sender: "ai",
-          text: "Đã cập nhật lịch trình! Bạn nhớ nghỉ ngơi nhé.",
+          text: msg.data.newItinerary 
+             ? "Đã cập nhật toàn bộ lịch trình mới! Bạn cứ tận hưởng nhé." 
+             : "Đã cập nhật lịch trình! Bạn nhớ nghỉ ngơi nhé.",
           type: "text"
       }]);
   };
@@ -228,19 +229,18 @@ export default function TripAssistant({
                   >
                     {msg.text}
 
-                    {/* Suggestion Action */}
-                    {msg.type === "suggestion" && msg.data && (
+                    {/* Suggestion Action: Single Place */}
+                    {msg.type === "suggestion" && msg.data?.suggestedPlace && (
                        <div className="mt-3 bg-[#F0FDFD] p-3 rounded-xl border border-[#2E968C]/20">
                            <div className="flex items-start gap-3 mb-2">
                                <div className="w-12 h-12 bg-gray-200 rounded-lg overflow-hidden shrink-0">
-                                   {/* Placeholder image for suggestion */}
                                    <div className="w-full h-full bg-[#2E968C]/20 flex items-center justify-center text-[#2E968C]">
                                        ☕
                                    </div>
                                </div>
                                <div>
                                    <p className="font-bold text-[#1B4D3E]">{msg.data.suggestedPlace.name}</p>
-                                   <p className="text-xs text-gray-500">{msg.data.suggestedPlace.address}</p>
+                                   <p className="text-xs text-gray-500">{msg.data.suggestedPlace.address || "Chi tiết trong lịch trình"}</p>
                                </div>
                            </div>
                            <button 
@@ -250,6 +250,27 @@ export default function TripAssistant({
                                Đồng ý thay đổi lịch trình
                            </button>
                        </div>
+                    )}
+
+                    {/* Suggestion Action: Full Itinerary Replan */}
+                    {msg.type === "suggestion" && msg.data?.newItinerary && (
+                        <div className="mt-3 bg-[#FFF8E1] p-3 rounded-xl border border-amber-200">
+                             <p className="text-xs font-bold text-amber-800 mb-2 uppercase">Kế hoạch thay thế</p>
+                             <div className="space-y-2 mb-3 max-h-[200px] overflow-y-auto pr-1 custom-scrollbar">
+                                 {msg.data.newItinerary.activities.map((act: any, idx: number) => (
+                                     <div key={idx} className="flex gap-2 text-xs border-b border-amber-100 last:border-0 pb-1 last:pb-0">
+                                         <span className="font-bold text-amber-700 min-w-[40px] whitespace-nowrap">{act.time_slot}</span>
+                                         <span className="text-gray-700 truncate">{act.location_name}</span>
+                                     </div>
+                                 ))}
+                             </div>
+                             <button 
+                                  onClick={() => handleAcceptSuggestion(msg)}
+                                  className="w-full py-2 bg-amber-500 text-white rounded-lg font-bold text-xs hover:bg-amber-600 transition-colors shadow-sm"
+                             >
+                                 Áp dụng lịch trình mới này
+                             </button>
+                        </div>
                     )}
                   </div>
                 </div>
