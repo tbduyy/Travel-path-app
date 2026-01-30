@@ -485,6 +485,67 @@ function MyJourneyContent() {
                   onEditActivity={() => {}}
                   onDeleteActivity={() => {}}
                   onAddActivity={() => {}}
+                  onUpdateSchedule={(suggestion) => {
+                      if (!suggestion || !suggestion.suggestedPlace) return;
+                      
+                      const newPlace = suggestion.suggestedPlace;
+                      
+                      setActivities(prev => {
+                          const currentDayActs = prev[selectedDay] || { morning: [], afternoon: [], evening: [] };
+                          
+                          // Simple logic: Replace the first available activity of the day, 
+                          // or append if empty.
+                          // Ideally, AI should tell us WHICH period or activity ID to replace.
+                          // For this demo: We replace the first item in 'afternoon' if it exists, else 'morning'.
+                          
+                          let targetPeriod = 'morning';
+                          if (currentDayActs.morning.length === 0 && currentDayActs.afternoon.length > 0) {
+                              targetPeriod = 'afternoon';
+                          } else if (currentDayActs.morning.length > 0) {
+                              targetPeriod = 'morning';
+                          }
+                          
+                          const list = [...(currentDayActs[targetPeriod] || [])];
+                          
+                          if (list.length > 0) {
+                              // Replace first item
+                              list[0] = {
+                                  ...list[0],
+                                  title: newPlace.name, // Update title
+                                  place: {
+                                      ...list[0].place,
+                                      id: newPlace.id,
+                                      name: newPlace.name,
+                                      address: newPlace.address
+                                  }
+                              };
+                          } else {
+                              // Add new if empty
+                              list.push({
+                                  id: Date.now().toString(),
+                                  title: newPlace.name,
+                                  time: "14:00",
+                                  period: targetPeriod,
+                                  place: newPlace
+                              });
+                          }
+                          
+                          const newActivities = {
+                              ...prev,
+                              [selectedDay]: {
+                                  ...currentDayActs,
+                                  [targetPeriod]: list
+                              }
+                          };
+                          
+                          // Update Store/Local Storage here if needed
+                           if (typeof window !== "undefined") {
+                              localStorage.setItem("mytrip_activities", JSON.stringify(newActivities));
+                           }
+                          
+                          return newActivities;
+                      });
+                  }}
                   isReadOnly={false}
                 />
               ) : (
