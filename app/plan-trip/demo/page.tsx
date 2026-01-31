@@ -398,7 +398,7 @@ function DemoContent() {
           {isPlaying ? (
             // Embedded streamable iframe (autoplay)
             <iframe
-              src="https://streamable.com/p6n49a?autoplay=1&muted=1"
+              src="https://streamable.com/e/p6n49a?autoplay=1&muted=1&nocontrols=1&loop=1"
               frameBorder="0"
               width="100%"
               height="100%"

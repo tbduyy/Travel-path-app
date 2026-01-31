@@ -128,6 +128,8 @@ function LoginForm() {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" action={formAction}>
+            {/* Hidden field to pass redirect URL to server action */}
+            <input type="hidden" name="redirectTo" value={redirectTo} />
             <div>
               <label
                 htmlFor="email"

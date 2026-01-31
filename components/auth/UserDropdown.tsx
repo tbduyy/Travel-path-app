@@ -27,7 +27,7 @@ export default function UserDropdown() {
   const handleLogout = async () => {
     clearTrip(); // Clear Zustand store state on logout
     await signOut();
-    window.location.reload(); // Refresh to clear server state if any
+    window.location.href = "/"; // Redirect to home and refresh
   };
 
   if (!user) {

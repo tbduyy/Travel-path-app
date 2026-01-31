@@ -151,7 +151,7 @@ export function useAuth() {
  * useRequireAuthFromContext - Protected route hook using shared context
  * Eliminates duplicate auth calls by reusing AuthProvider state
  */
-export function useRequireAuthFromContext(options: { redirectTo?: string } = {}) {
+export function useRequireAuthFromContext(options: { redirectTo?: string; returnTo?: string } = {}) {
   const { redirectTo = "/login" } = options;
   const { isLoading, isAuthenticated, user } = useAuth();
   const [showAuthPopup, setShowAuthPopup] = useState(false);
@@ -163,17 +163,21 @@ export function useRequireAuthFromContext(options: { redirectTo?: string } = {})
       hasRedirectedRef.current = true;
       setShowAuthPopup(true);
       
-      console.log("[useRequireAuthFromContext] Not authenticated, redirecting in 1.5s...");
+      // Build redirect URL with returnTo param so login knows where to redirect back
+      const currentPath = typeof window !== 'undefined' ? window.location.pathname : '/';
+      const returnTo = options.returnTo || currentPath;
+      const loginUrl = `${redirectTo}?redirect=${encodeURIComponent(returnTo)}`;
+      
+      console.log("[useRequireAuthFromContext] Not authenticated, redirecting in 1.5s to:", loginUrl);
       
       // Delay redirect to show popup
       const timer = setTimeout(() => {
-        console.log("[useRequireAuthFromContext] Redirecting now to:", redirectTo);
-        window.location.href = redirectTo;
+        window.location.href = loginUrl;
       }, 1500);
 
       return () => clearTimeout(timer);
     }
-  }, [isLoading, isAuthenticated, redirectTo]);
+  }, [isLoading, isAuthenticated, redirectTo, options.returnTo]);
 
   return { 
     isLoading, 
