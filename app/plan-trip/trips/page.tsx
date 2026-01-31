@@ -162,6 +162,8 @@ function TripsContent() {
     "morning" | "afternoon" | "evening"
   >("morning");
   const [editingActivity, setEditingActivity] = useState<any>(null); // New state for editing
+  const [viewingActivityDetails, setViewingActivityDetails] =
+    useState<any>(null); // State for viewing activity details
   const [isGenerating, setIsGenerating] = useState(false); // AI generation loading state
   const [isAiSuggestion, setIsAiSuggestion] = useState(false); // Track if current activities are AI-generated (not yet confirmed)
   const [budgetAnalysis, setBudgetAnalysis] = useState<any>(null); // Budget analysis from AI
@@ -413,6 +415,10 @@ function TripsContent() {
     setShowAddActivityModal(true);
   };
 
+  const handleViewActivityDetails = (activity: any) => {
+    setViewingActivityDetails(activity);
+  };
+
   // Handler to generate AI itinerary
   const generateAiItinerary = async () => {
     setIsGenerating(true);
@@ -494,6 +500,8 @@ function TripsContent() {
             transportation: act.transportation || null,
             distance_km: act.distance_km || 0,
             duration_minutes: act.duration_minutes || 0,
+            description: act.description || null, // Add description from AI
+            notes: act.notes || null,
           });
         });
       });
@@ -1358,7 +1366,9 @@ function TripsContent() {
                           <ActivityCard
                             key={item.id}
                             activity={item}
-                            onViewDetails={() => handleEditActivity(item)}
+                            onViewDetails={() =>
+                              handleViewActivityDetails(item)
+                            }
                             onDelete={() => {
                               const newActivities = { ...activities };
                               newActivities[selectedDay]["morning"] =
@@ -1394,7 +1404,9 @@ function TripsContent() {
                             <ActivityCard
                               key={item.id}
                               activity={item}
-                              onViewDetails={() => handleEditActivity(item)}
+                              onViewDetails={() =>
+                                handleViewActivityDetails(item)
+                              }
                               onDelete={() => {
                                 const newActivities = { ...activities };
                                 newActivities[selectedDay]["afternoon"] =
@@ -1429,7 +1441,9 @@ function TripsContent() {
                           <ActivityCard
                             key={item.id}
                             activity={item}
-                            onViewDetails={() => handleEditActivity(item)}
+                            onViewDetails={() =>
+                              handleViewActivityDetails(item)
+                            }
                             onDelete={() => {
                               const newActivities = { ...activities };
                               newActivities[selectedDay]["evening"] =
@@ -1670,6 +1684,154 @@ function TripsContent() {
           selectedPlaces={selectedPlaces}
           initialData={editingActivity}
         />
+
+        {/* Activity Details Modal */}
+        {viewingActivityDetails && (
+          <div
+            className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+            onClick={() => setViewingActivityDetails(null)}
+          >
+            <div
+              className="bg-white m-0 max-h-[85vh] rounded-[32px] overflow-y-auto p-6 scrollbar-thin shadow-2xl w-[90%] md:w-[60%] lg:w-[50%] border border-[#1B4D3E]/10 relative animate-in zoom-in-95 duration-200"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setViewingActivityDetails(null)}
+                className="absolute top-4 right-4 p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors z-10"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+
+              {/* Image */}
+              {viewingActivityDetails.place?.image && (
+                <div className="w-full aspect-video rounded-2xl overflow-hidden relative mb-4">
+                  <Image
+                    src={viewingActivityDetails.place.image}
+                    alt={
+                      viewingActivityDetails.place.name ||
+                      viewingActivityDetails.title
+                    }
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              )}
+
+              {/* Title */}
+              <h2 className="text-2xl font-black text-[#1B4D3E] mb-2">
+                {viewingActivityDetails.place?.name ||
+                  viewingActivityDetails.title}
+              </h2>
+
+              {/* Time & Cost */}
+              <div className="flex items-center gap-3 mb-4">
+                <span className="px-3 py-1 bg-[#1B4D3E] text-white text-sm font-bold rounded-full">
+                  🕐 {viewingActivityDetails.time}
+                </span>
+                {viewingActivityDetails.cost && (
+                  <span className="px-3 py-1 bg-amber-100 text-amber-700 text-sm font-semibold rounded-full">
+                    💰 {viewingActivityDetails.cost}
+                  </span>
+                )}
+                {viewingActivityDetails.duration_minutes && (
+                  <span className="px-3 py-1 bg-blue-50 text-blue-700 text-sm font-semibold rounded-full">
+                    ⏱️ {viewingActivityDetails.duration_minutes} phút
+                  </span>
+                )}
+              </div>
+
+              {/* Description */}
+              {viewingActivityDetails.description && (
+                <div className="mb-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                  <h3 className="font-bold text-[#1B4D3E] mb-2 flex items-center gap-2">
+                    📖 Giới thiệu
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed text-sm">
+                    {viewingActivityDetails.description}
+                  </p>
+                </div>
+              )}
+
+              {/* Activity Description */}
+              {viewingActivityDetails.title && (
+                <div className="mb-4">
+                  <h3 className="font-bold text-[#1B4D3E] mb-2 flex items-center gap-2">
+                    ✨ Hoạt động
+                  </h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {viewingActivityDetails.title}
+                  </p>
+                </div>
+              )}
+
+              {/* Transportation Info */}
+              {viewingActivityDetails.transportation && (
+                <div className="mb-4 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200">
+                  <h3 className="font-bold text-[#1B4D3E] mb-3 flex items-center gap-2">
+                    🚗 Di chuyển đến đây
+                  </h3>
+                  <div className="grid grid-cols-2 gap-3 text-sm">
+                    <div>
+                      <p className="text-gray-600 text-xs mb-1">Phương tiện</p>
+                      <p className="font-semibold text-[#1B4D3E]">
+                        {viewingActivityDetails.transportation.icon}{" "}
+                        {viewingActivityDetails.transportation.vehicle_type}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600 text-xs mb-1">Khoảng cách</p>
+                      <p className="font-semibold text-[#1B4D3E]">
+                        {viewingActivityDetails.transportation.distance_km.toFixed(
+                          1,
+                        )}{" "}
+                        km
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600 text-xs mb-1">Thời gian</p>
+                      <p className="font-semibold text-[#1B4D3E]">
+                        {viewingActivityDetails.transportation.duration_minutes}{" "}
+                        phút
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600 text-xs mb-1">Chi phí</p>
+                      <p className="font-semibold text-[#1B4D3E]">
+                        {viewingActivityDetails.transportation.estimated_cost >
+                        0
+                          ? `${viewingActivityDetails.transportation.estimated_cost.toLocaleString()} đ`
+                          : "Miễn phí"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Notes */}
+              {viewingActivityDetails.notes && (
+                <div className="p-3 bg-yellow-50 rounded-xl border border-yellow-200">
+                  <p className="text-sm text-gray-700">
+                    💡 <strong>Lưu ý:</strong> {viewingActivityDetails.notes}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
