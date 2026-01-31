@@ -197,7 +197,7 @@ export default function Home() {
                 <Facebook size={20} />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/travelpath.io.vn/"
                 className="flex flex-row-reverse items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group"
               >
                 <span className="group-hover:translate-x-[-2px] transition-transform">
