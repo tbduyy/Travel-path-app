@@ -5,11 +5,12 @@ import { createClient } from "@/utils/supabase/client";
 import { useTripStore } from "@/lib/store/trip-store";
 
 /**
- * AuthStateListener - Clears Zustand trip store when user changes
- * This handles both login and logout scenarios:
- * - When user logs out: store is cleared (also handled in UserDropdown)
- * - When user logs in: store is cleared to prevent seeing previous user's data
- * - When user switches accounts: store is cleared
+ * AuthStateListener - Manages Zustand trip store based on auth changes
+ * 
+ * Behavior:
+ * - Login from guest (null → user): KEEP store (preserve trip data created as guest)
+ * - Switch accounts (userA → userB): CLEAR store (prevent data leakage)
+ * - Logout: CLEAR store (also handled in UserDropdown for immediate feedback)
  */
 export function AuthStateListener() {
   const clearTrip = useTripStore((state) => state.clearTrip);
@@ -41,16 +42,21 @@ export function AuthStateListener() {
       const previousUserId = previousUserIdRef.current;
 
       // Clear store when:
-      // 1. User signs in (and it's a different user or no previous user was tracked)
-      // 2. User signs out
-      // 3. User switches accounts
+      // 1. User switches accounts (userA → userB) - CLEAR
+      // 2. User signs out - CLEAR
+      // 3. User logs in from guest (null → user) - KEEP (preserve trip data)
       if (event === "SIGNED_IN") {
-        // User just logged in
-        if (previousUserId !== currentUserId) {
+        // Only clear if switching between authenticated users (userA → userB)
+        // Keep store when logging in from guest state (null → user)
+        if (previousUserId !== null && previousUserId !== currentUserId) {
           console.log(
-            "[AuthStateListener] User changed on login, clearing trip store",
+            "[AuthStateListener] User switched accounts, clearing trip store",
           );
           clearTrip();
+        } else if (previousUserId === null) {
+          console.log(
+            "[AuthStateListener] User logged in from guest, keeping trip store",
+          );
         }
       } else if (event === "SIGNED_OUT") {
         // User logged out - clear store

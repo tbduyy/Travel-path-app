@@ -7,14 +7,22 @@ import TripMetaBar from "@/components/TripMetaBar";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getPlacesByIds } from "@/app/actions/search";
 import { useTripStore, type ActivitiesMap } from "@/lib/store/trip-store";
+import { useShallow } from "zustand/react/shallow";
 import { Loader2, Check, CreditCard, Wallet, QrCode } from "lucide-react";
 import {
-  useRequireAuth,
+  useAuth,
+  useRequireAuthFromContext,
+} from "@/lib/context/AuthContext";
+import {
   AuthRequiredPopup,
   AuthLoadingScreen,
 } from "@/lib/hooks/useRequireAuth";
 import { exportTripToPDF } from "@/lib/export-pdf";
-import { sendTripConfirmationEmail, getUserInfo } from "@/app/actions/email";
+import { sendTripConfirmationEmail } from "@/app/actions/email";
+import { 
+  getPrefetchedPaymentData, 
+  clearPrefetchedPaymentData 
+} from "@/lib/utils/prefetch-payment";
 
 // Types
 interface PlaceData {
@@ -56,23 +64,41 @@ function PaymentContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Protected Route - require authentication
+  // Protected Route - uses shared AuthContext (no duplicate auth calls!)
   const {
     isLoading: authLoading,
     isAuthenticated,
     showAuthPopup,
-  } = useRequireAuth();
+  } = useRequireAuthFromContext();
+  
+  // Get user info from shared AuthContext (no extra server action call!)
+  const { userEmail, userName } = useAuth();
 
-  // Zustand Store - SELECTIVE subscriptions to avoid unnecessary re-renders
-  const selectedPlaceIds = useTripStore((state) => state.selectedPlaceIds);
-  const selectedHotelId = useTripStore((state) => state.selectedHotelId);
-  const storeDestination = useTripStore((state) => state.destination);
-  const storeStartDate = useTripStore((state) => state.startDate);
-  const storeEndDate = useTripStore((state) => state.endDate);
-  const storePeople = useTripStore((state) => state.people);
-  const storeActivities = useTripStore((state) => state.activities);
-  const clearTrip = useTripStore((state) => state.clearTrip);
-  const storeBudget = useTripStore((state) => state.budget);
+  // Zustand Store - SINGLE subscription with useShallow to prevent re-renders
+  // Previously: 9 separate subscriptions causing multiple re-renders
+  const {
+    selectedPlaceIds,
+    selectedHotelId,
+    destination: storeDestination,
+    startDate: storeStartDate,
+    endDate: storeEndDate,
+    people: storePeople,
+    activities: storeActivities,
+    clearTrip,
+    budget: storeBudget,
+  } = useTripStore(
+    useShallow((state) => ({
+      selectedPlaceIds: state.selectedPlaceIds,
+      selectedHotelId: state.selectedHotelId,
+      destination: state.destination,
+      startDate: state.startDate,
+      endDate: state.endDate,
+      people: state.people,
+      activities: state.activities,
+      clearTrip: state.clearTrip,
+      budget: state.budget,
+    }))
+  );
 
   // State for fetched data
   const [loading, setLoading] = useState(true);
@@ -108,22 +134,8 @@ function PaymentContent() {
     "pending" | "sending" | "sent" | "failed"
   >("pending");
 
-  // User info for email
-  const [userInfo, setUserInfo] = useState<{
-    email: string | null;
-    name: string | null;
-  }>({ email: null, name: null });
-
-  // Fetch user info on mount
-  useEffect(() => {
-    async function fetchUserInfo() {
-      const info = await getUserInfo();
-      setUserInfo(info);
-    }
-    if (isAuthenticated) {
-      fetchUserInfo();
-    }
-  }, [isAuthenticated]);
+  // User info is now from AuthContext - no server action call needed!
+  const userInfo = { email: userEmail, name: userName };
 
   const processingMessages = [
     "Đang liên hệ với các đối tác để thanh toán...",
@@ -172,11 +184,32 @@ function PaymentContent() {
     }
   }
 
-  // 3. Fetch data on mount
+  // 3. Fetch data on mount - USE PREFETCHED DATA IF AVAILABLE
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
       try {
+        // PERFORMANCE: Check for prefetched data first (set by demo page before navigation)
+        const prefetched = getPrefetchedPaymentData();
+        
+        if (prefetched) {
+          console.log("[Payment] Using prefetched data - INSTANT load");
+          const hotel = prefetched.hotelData;
+          const attractions = prefetched.attractionsData.filter(
+            (p: PlaceData) =>
+              placeIds.includes(p.id) &&
+              p.type !== "RESTAURANT" &&
+              p.type !== "HOTEL",
+          );
+          setSelectedHotel(hotel || null);
+          setSelectedAttractions(attractions);
+          clearPrefetchedPaymentData(); // Clear after use
+          setLoading(false);
+          return;
+        }
+
+        // FALLBACK: Fetch from server if no prefetched data
+        console.log("[Payment] No prefetch, fetching from server");
         const allIds = [...placeIds];
         if (hotelId) allIds.push(hotelId);
 
@@ -332,23 +365,17 @@ function PaymentContent() {
     setCountdown(20);
   }, [selectedCount]);
 
-  // Auth loading state
+  // Auth loading state - only while actually checking auth
   if (authLoading) {
-    return (
-      <>
-        <AuthRequiredPopup show={showAuthPopup} />
-        <AuthLoadingScreen />
-      </>
-    );
+    return <AuthLoadingScreen />;
   }
 
-  // Not authenticated - show popup and redirect handled by hook
+  // Not authenticated - show popup and redirect (hook handles redirect)
   if (!isAuthenticated) {
     return (
-      <>
-        <AuthRequiredPopup show={showAuthPopup} />
-        <AuthLoadingScreen />
-      </>
+      <div className="min-h-screen flex items-center justify-center bg-[#BBD9D9]">
+        <AuthRequiredPopup show={true} />
+      </div>
     );
   }
 
@@ -493,6 +520,7 @@ function PaymentContent() {
                         alt={selectedHotel.name}
                         fill
                         className="object-cover"
+                        priority
                       />
                     )}
                   </div>
@@ -554,6 +582,7 @@ function PaymentContent() {
                               alt={item.name}
                               fill
                               className="object-cover"
+                              loading="lazy"
                             />
                           )}
                         </div>

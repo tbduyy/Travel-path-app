@@ -9,6 +9,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useTripStore } from "@/lib/store/trip-store";
 import { exportAndDownloadTripPDF } from "@/lib/export-pdf";
 import { useAuthStatus, LoginPromptModal } from "@/lib/hooks/useRequireAuth";
+import { prefetchPaymentData } from "@/lib/utils/prefetch-payment";
 
 function DemoContent() {
   const router = useRouter();
@@ -22,6 +23,7 @@ function DemoContent() {
     startDate: storeStartDate,
     endDate: storeEndDate,
     selectedPlaceIds: storePlaceIds,
+    selectedHotelId: storeHotelId,
     budget: storeBudget,
     activities: storeActivities,
     people: storePeople,
@@ -107,6 +109,11 @@ function DemoContent() {
 
   const handleProceedToPayment = () => {
     completeStep("demo"); // Mark demo step as complete
+    
+    // PERFORMANCE: Prefetch payment data in background while saveTrip runs
+    // This eliminates the data fetching waterfall on payment page load
+    prefetchPaymentData(storePlaceIds, storeHotelId);
+    
     // Navigate using Zustand store - no URL params needed
     saveTripToSupabase(`/payment`);
   };
@@ -391,7 +398,7 @@ function DemoContent() {
           {isPlaying ? (
             // Embedded streamable iframe (autoplay)
             <iframe
-              src="https://streamable.com/e/9uuspf?autoplay=1&muted=1"
+              src="https://streamable.com/p6n49a?autoplay=1&muted=1"
               frameBorder="0"
               width="100%"
               height="100%"

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Quicksand } from "next/font/google"; // Rounded sans-serif from design
 import GlobalChatBubble from "@/components/layout/GlobalChatBubble";
 import { AuthStateListener } from "@/components/auth/AuthStateListener";
+import { AuthProvider } from "@/lib/context/AuthContext";
 import "./globals.css";
 
 const quicksand = Quicksand({
@@ -21,13 +22,32 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Preload fonts for PDF generation - removes CDN fetch delay */}
+        <link
+          rel="preload"
+          href="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body
         className={`${quicksand.variable} antialiased`}
         suppressHydrationWarning
       >
-        <AuthStateListener />
-        {children}
-        <GlobalChatBubble />
+        <AuthProvider>
+          <AuthStateListener />
+          {children}
+          <GlobalChatBubble />
+        </AuthProvider>
       </body>
     </html>
   );

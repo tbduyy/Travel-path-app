@@ -229,7 +229,7 @@ export async function exportTripToPDF(data: TripPDFData): Promise<Blob> {
     doc.setFontSize(12);
     doc.setFont("Roboto", "bold"); // ĐỔI FONT
     doc.text(
-      `NGAY ${day}${dayDateStr} | ${data.destination}`,
+      `NGÀY ${day}${dayDateStr} | ${data.destination}`,
       margin + 5,
       yPos + 7,
     );
