@@ -172,11 +172,11 @@ export default function Home() {
                 <Mail size={20} />
               </a>
               <a
-                href="tel:+83846427816"
+                href="tel:+84836427816"
                 className="flex flex-row-reverse items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group"
               >
                 <span className="group-hover:translate-x-[-2px] transition-transform">
-                  +83 846 427 816
+                  +84 836 427 816
                 </span>
                 <Phone size={20} />
               </a>
@@ -188,7 +188,7 @@ export default function Home() {
                 Theo dõi chúng tôi trên
               </h3>
               <a
-                href="#"
+                href="https://www.facebook.com/travelpath.io.vn/"
                 className="flex flex-row-reverse items-center gap-3 font-medium hover:text-[#00B14F] transition-colors group"
               >
                 <span className="group-hover:translate-x-[-2px] transition-transform">
