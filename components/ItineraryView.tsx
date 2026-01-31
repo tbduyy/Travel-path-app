@@ -1,6 +1,7 @@
 import ActivityCard from "@/components/ActivityCard";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import TripAssistant from "./TripAssistant";
 
 const MapComponent = dynamic(() => import("@/components/MapComponent"), {
     ssr: false,
@@ -36,8 +37,9 @@ export default function ItineraryView({
     onEditActivity,
     onDeleteActivity,
     onAddActivity,
+    onUpdateSchedule, // New Prop
     isReadOnly = false
-}: ItineraryViewProps) {
+}: ItineraryViewProps & { onUpdateSchedule?: (data: any) => void }) {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-6 h-full">
             {/* Left: Schedule Editor */}
@@ -174,56 +176,23 @@ export default function ItineraryView({
                 </div>
             </div>
 
-            {/* Right: Widgets */}
-            <div className="hidden lg:flex flex-col gap-6 h-full">
-                {/* Weather Widget */}
-                {currentWeather && (
-                    <div className="bg-gradient-to-br from-blue-400 to-blue-600 rounded-[32px] p-6 text-white shadow-lg transition-all duration-500">
-                        <div className="flex justify-between items-start mb-4">
-                            <div>
-                                <h3 className="text-xl font-bold">{destination || "Đà Lạt"}</h3>
-                                <p className="text-sm opacity-90 font-medium">{selectedDayDate} - {currentWeather.condition}</p>
-                            </div>
-                            <div className="text-right">
-                                <div className="text-5xl font-black flex items-center justify-end gap-2">
-                                    <span>{currentWeather.icon}</span>
-                                    {currentWeather.temp}°
-                                </div>
-                                <p className="text-xs opacity-75 font-bold">H:{currentWeather.high}° L:{currentWeather.low}°</p>
-                            </div>
-                        </div>
-
-                        <div className="mt-8 bg-white/10 rounded-2xl p-4 backdrop-blur-sm border border-white/10">
-                            <p className="text-xs font-bold mb-3 uppercase tracking-wider opacity-80">Dự báo hôm nay</p>
-                            <div className="flex justify-between text-center">
-                                {[
-                                    { time: "Bây giờ", icon: currentWeather.icon, temp: currentWeather.temp },
-                                    { time: "11", icon: "☀️", temp: currentWeather.temp + 1 },
-                                    { time: "12", icon: "⛅", temp: currentWeather.temp + 2 },
-                                    { time: "13", icon: "⛅", temp: currentWeather.temp + 1 },
-                                    { time: "14", icon: "🌧️", temp: currentWeather.temp - 1 },
-                                    { time: "15", icon: "⛅", temp: currentWeather.temp - 2 },
-                                ].map((h, i) => (
-                                    <div key={i} className="flex flex-col items-center gap-1 group cursor-pointer hover:bg-white/10 p-1.5 rounded-lg transition-colors">
-                                        <span className="text-[10px] opacity-70 font-medium">{h.time}</span>
-                                        <span className="text-lg group-hover:scale-110 transition-transform">{h.icon}</span>
-                                        <span className="text-sm font-bold">{h.temp}°</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {/* Map Widget */}
-                <div className="flex-1 rounded-[32px] overflow-hidden shadow-lg border border-[#1B4D3E]/10 bg-[#E0E8E8] relative z-10">
-                    <MapComponent
-                        markers={mapMarkers}
-                        showRoutes={true}
-                        sequentialRoute={true}
-                    />
-                </div>
+            {/* Right: AI Trip Assistant (Replaces Widgets) */}
+            <div className="hidden lg:block h-full">
+                 <TripAssistant
+                    destination={destination}
+                    selectedDayDate={selectedDayDate}
+                    currentWeather={currentWeather}
+                    mapMarkers={mapMarkers}
+                    activities={[
+                        ...(activities[selectedDay]?.morning || []),
+                        ...(activities[selectedDay]?.afternoon || []),
+                        ...(activities[selectedDay]?.evening || [])
+                    ]}
+                    onUpdateSchedule={onUpdateSchedule || (() => {})}
+                 />
             </div>
         </div>
     );
 }
+
+

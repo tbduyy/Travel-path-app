@@ -180,6 +180,7 @@ function MyJourneyContent() {
     hotelData: storeHotelData,
     selectedPlaceIds: storeSelectedPlaceIds,
     selectedHotelId: storeSelectedHotelId,
+    setActivities: setStoreActivities,
   } = useTripStore();
 
   // --- State ---
@@ -485,6 +486,119 @@ function MyJourneyContent() {
                   onEditActivity={() => {}}
                   onDeleteActivity={() => {}}
                   onAddActivity={() => {}}
+                  onUpdateSchedule={(suggestion) => {
+                      console.log("DEBUG: onUpdateSchedule called", suggestion);
+                      // Handle Full Itinerary Replacement (Re-plan)
+                      if (suggestion.newItinerary) {
+                          const newDaySchedule = suggestion.newItinerary;
+                          // Convert backend 'DailyActivity' to frontend structure (morning/afternoon/evening)
+                          // Simplified classification based on time
+                          const morning: any[] = [];
+                          const afternoon: any[] = [];
+                          const evening: any[] = [];
+                          
+                          newDaySchedule.activities.forEach((act: any) => {
+                             const hour = parseInt(act.time_slot.split(':')[0]);
+                             const item = {
+                                 id: Date.now().toString() + Math.random(),
+                                 title: act.activity,
+                                 time: act.time_slot,
+                                 cost: act.estimated_cost ? `${(act.estimated_cost > 1000 ? act.estimated_cost / 1000 : act.estimated_cost).toLocaleString()}k` : undefined,
+                                 place: {
+                                     id: "ai-" + Math.random(),
+                                     name: act.location_name,
+                                     address: act.location_name + " (AI Suggestion)" 
+                                 }
+                             };
+                             
+                             if (hour < 12) morning.push({...item, period: 'morning'});
+                             else if (hour < 18) afternoon.push({...item, period: 'afternoon'});
+                             else evening.push({...item, period: 'evening'});
+                          });
+                          
+                          setActivities(prev => {
+                              const newActivities = {
+                                  ...prev,
+                                  [selectedDay]: {
+                                      morning,
+                                      afternoon,
+                                      evening
+                                  }
+                              };
+                              // Persist
+                              if (typeof window !== "undefined") {
+                                  localStorage.setItem("mytrip_activities", JSON.stringify(newActivities));
+                              }
+                              setStoreActivities(newActivities);
+                              return newActivities;
+                          });
+                          return;
+                      }
+
+                      // Handle Single Place Suggestion (Old logic)
+                      if (!suggestion.suggestedPlace) {
+                          console.log("DEBUG: Invalid suggestion data");
+                          return;
+                      }
+                      
+                      const newPlace = suggestion.suggestedPlace;
+                      
+                      setActivities(prev => {
+                          const currentDayActs = prev[selectedDay] || { morning: [], afternoon: [], evening: [] };
+                          
+                          let targetPeriod = 'morning';
+                          if (currentDayActs.morning.length === 0 && currentDayActs.afternoon.length > 0) {
+                              targetPeriod = 'afternoon';
+                          } else if (currentDayActs.morning.length > 0) {
+                              targetPeriod = 'morning';
+                          }
+                          
+                          const list = [...(currentDayActs[targetPeriod] || [])];
+                          console.log("DEBUG: Target period", targetPeriod, "List length:", list.length);
+                          
+                          if (list.length > 0) {
+                              // Replace first item
+                              list[0] = {
+                                  ...list[0],
+                                  title: newPlace.name, 
+                                  place: {
+                                      ...list[0].place,
+                                      id: newPlace.id,
+                                      name: newPlace.name,
+                                      address: newPlace.address
+                                  }
+                              };
+                          } else {
+                              // Add new if empty
+                              list.push({
+                                  id: Date.now().toString(),
+                                  title: newPlace.name,
+                                  time: "14:00",
+                                  period: targetPeriod,
+                                  place: newPlace
+                              });
+                          }
+                          
+                          const newActivities = {
+                              ...prev,
+                              [selectedDay]: {
+                                  ...currentDayActs,
+                                  [targetPeriod]: list
+                              }
+                          };
+                          
+                          console.log("DEBUG: New activities state", newActivities);
+                          
+                           if (typeof window !== "undefined") {
+                              localStorage.setItem("mytrip_activities", JSON.stringify(newActivities));
+                           }
+
+                           // Also sync to global store
+                           setStoreActivities(newActivities);
+                          
+                          return newActivities;
+                      });
+                  }}
                   isReadOnly={false}
                 />
               ) : (

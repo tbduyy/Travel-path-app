@@ -15,7 +15,7 @@ export default function ContextualChat() {
     {
       role: "ai",
       content:
-        "Xin chào! Tôi là người đồng hành của bạn. Hãy cho tôi biết bạn đang ở đâu và cảm thấy thế nào trong chuyến đi nhé! 😊",
+        "👋 Chào bạn! Mình là hướng dẫn viên AI của Travel Path, sẵn sàng giúp bạn biến mọi cú chạm thành một hành trình đáng nhớ",
       timestamp: new Date(),
     },
   ]);
