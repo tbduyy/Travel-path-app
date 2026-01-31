@@ -164,6 +164,7 @@ function TripsContent() {
   const [editingActivity, setEditingActivity] = useState<any>(null); // New state for editing
   const [isGenerating, setIsGenerating] = useState(false); // AI generation loading state
   const [isAiSuggestion, setIsAiSuggestion] = useState(false); // Track if current activities are AI-generated (not yet confirmed)
+  const [budgetAnalysis, setBudgetAnalysis] = useState<any>(null); // Budget analysis from AI
 
   // Activity form state
   const [activityName, setActivityName] = useState("");
@@ -196,12 +197,6 @@ function TripsContent() {
   const handleConfirmAiItinerary = () => {
     setIsAiSuggestion(false); // Mark as confirmed
     setStoreActivities(activities as ActivitiesMap); // Sync to store now
-  };
-
-  // Handler to reject AI suggestion and clear activities
-  const handleRejectAiItinerary = () => {
-    setActivities({});
-    setIsAiSuggestion(false);
   };
 
   // Auth status for PDF export gate
@@ -418,102 +413,124 @@ function TripsContent() {
     setShowAddActivityModal(true);
   };
 
+  // Handler to generate AI itinerary
+  const generateAiItinerary = async () => {
+    setIsGenerating(true);
+    try {
+      const selectedPlacesData = selectedPlaces.map((p) => ({
+        name: p.name,
+        address: p.address || destination || "",
+      }));
+
+      const requestBody = {
+        hotel_location: {
+          name: selectedHotel?.name || "Khách sạn trung tâm",
+          address: selectedHotel?.address || destination || "",
+        },
+        mandatory_spots: selectedPlacesData,
+        wishlist_spots: [],
+        budget: budgetParam
+          ? parseFloat(budgetParam.replace(/[^0-9]/g, ""))
+          : 5000000,
+        num_people:
+          typeof people === "number" ? people : parseInt(people || "2"),
+        travel_style: "cultural",
+        start_date: startDateParam || new Date().toISOString().split("T")[0],
+        end_date:
+          endDateParam ||
+          new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
+            .toISOString()
+            .split("T")[0],
+        start_time: "08:00",
+        end_time: "21:00",
+        destination: destination || "",
+      };
+
+      console.log("AI Itinerary Request:", requestBody);
+
+      const response = await fetch(
+        `${API_BASE_URL}/api/v1/planning/itinerary/generate`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestBody),
+        },
+      );
+
+      if (!response.ok) throw new Error("Failed to generate itinerary");
+
+      const aiData = await response.json();
+      console.log("AI Itinerary Response:", aiData);
+
+      // Convert AI response to activities format
+      const newActivities: Record<number, Record<string, any[]>> = {};
+
+      aiData.schedule?.forEach((daySchedule: any, dayIdx: number) => {
+        const dayNum = dayIdx + 1;
+        newActivities[dayNum] = { morning: [], afternoon: [], evening: [] };
+
+        daySchedule.activities?.forEach((act: any) => {
+          const hour = parseInt(act.time_slot?.split(":")[0] || "12");
+          let period: "morning" | "afternoon" | "evening" = "morning";
+          if (hour >= 17) period = "evening";
+          else if (hour >= 12) period = "afternoon";
+
+          newActivities[dayNum][period].push({
+            id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+            type: "ACTIVITY",
+            title: act.activity || act.location_name,
+            time: act.time_slot,
+            cost: act.estimated_cost
+              ? `${act.estimated_cost.toLocaleString()} VND`
+              : undefined,
+            period,
+            place: {
+              id: act.location_name,
+              name: act.location_name,
+              image: act.image || null,
+              address: destination || null,
+            },
+            // Add transportation info
+            transportation: act.transportation || null,
+            distance_km: act.distance_km || 0,
+            duration_minutes: act.duration_minutes || 0,
+          });
+        });
+      });
+
+      setActivities(newActivities);
+      setIsAiSuggestion(true); // Mark as AI suggestion - waiting for user confirmation
+
+      // Store budget analysis for display
+      if (aiData.budget_analysis) {
+        setBudgetAnalysis(aiData.budget_analysis);
+      }
+    } catch (error) {
+      console.error("Error generating AI itinerary:", error);
+      alert(
+        "Có lỗi khi tạo lịch trình AI. Bạn có thể thêm hoạt động thủ công!",
+      );
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  // Handler to reject AI suggestion and regenerate
+  const handleRejectAiItinerary = async () => {
+    setActivities({});
+    setBudgetAnalysis(null);
+    setIsAiSuggestion(false);
+    // Regenerate itinerary
+    await generateAiItinerary();
+  };
+
   const handleNext = async () => {
     if (viewStep === 1) {
       setViewStep(2);
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       // Call AI to generate itinerary
-      setIsGenerating(true);
-      try {
-        const selectedPlacesData = selectedPlaces.map((p) => ({
-          name: p.name,
-          address: p.address || destination || "",
-        }));
-
-        const requestBody = {
-          hotel_location: {
-            name: selectedHotel?.name || "Khách sạn trung tâm",
-            address: selectedHotel?.address || destination || "",
-          },
-          mandatory_spots: selectedPlacesData,
-          wishlist_spots: [],
-          budget: budgetParam
-            ? parseFloat(budgetParam.replace(/[^0-9]/g, ""))
-            : 5000000,
-          num_people:
-            typeof people === "number" ? people : parseInt(people || "2"),
-          travel_style: "cultural",
-          start_date: startDateParam || new Date().toISOString().split("T")[0],
-          end_date:
-            endDateParam ||
-            new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
-              .toISOString()
-              .split("T")[0],
-          start_time: "08:00",
-          end_time: "21:00",
-          destination: destination || "",
-        };
-
-        console.log("AI Itinerary Request:", requestBody);
-
-        const response = await fetch(
-          `${API_BASE_URL}/api/v1/planning/itinerary/generate`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(requestBody),
-          },
-        );
-
-        if (!response.ok) throw new Error("Failed to generate itinerary");
-
-        const aiData = await response.json();
-        console.log("AI Itinerary Response:", aiData);
-
-        // Convert AI response to activities format
-        const newActivities: Record<number, Record<string, any[]>> = {};
-
-        aiData.schedule?.forEach((daySchedule: any, dayIdx: number) => {
-          const dayNum = dayIdx + 1;
-          newActivities[dayNum] = { morning: [], afternoon: [], evening: [] };
-
-          daySchedule.activities?.forEach((act: any) => {
-            const hour = parseInt(act.time_slot?.split(":")[0] || "12");
-            let period: "morning" | "afternoon" | "evening" = "morning";
-            if (hour >= 17) period = "evening";
-            else if (hour >= 12) period = "afternoon";
-
-            newActivities[dayNum][period].push({
-              id:
-                Date.now().toString() + Math.random().toString(36).substr(2, 9),
-              type: "ACTIVITY",
-              title: act.activity || act.location_name,
-              time: act.time_slot,
-              cost: act.estimated_cost
-                ? `${act.estimated_cost.toLocaleString()} VND`
-                : undefined,
-              period,
-              place: {
-                id: act.location_name,
-                name: act.location_name,
-                image: act.image || null,
-                address: destination || null,
-              },
-            });
-          });
-        });
-
-        setActivities(newActivities);
-        setIsAiSuggestion(true); // Mark as AI suggestion - waiting for user confirmation
-      } catch (error) {
-        console.error("Error generating AI itinerary:", error);
-        alert(
-          "Có lỗi khi tạo lịch trình AI. Bạn có thể thêm hoạt động thủ công!",
-        );
-      } finally {
-        setIsGenerating(false);
-      }
+      await generateAiItinerary();
     } else {
       // User confirmed - ensure isAiSuggestion is false before proceeding
       if (isAiSuggestion) {
@@ -777,19 +794,21 @@ function TripsContent() {
           <div className="flex items-center gap-4">
             <button
               onClick={() => setViewStep(1)}
-              className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 ${viewStep === 1
-                ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
-                : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
-                }`}
+              className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 ${
+                viewStep === 1
+                  ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
+                  : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
+              }`}
             >
               Danh sách du lịch
             </button>
             <button
               onClick={() => setViewStep(2)}
-              className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 hidden ${viewStep === 2
-                ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
-                : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
-                }`}
+              className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 hidden ${
+                viewStep === 2
+                  ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
+                  : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
+              }`}
             >
               Lịch trình cụ thể
             </button>
@@ -905,7 +924,7 @@ function TripsContent() {
                                       Cách Khách sạn:{" "}
                                       {place.metadata?.distance ||
                                         (Math.random() * 5 + 1).toFixed(1) +
-                                        " km"}
+                                          " km"}
                                     </span>
                                   </div>
                                   <div className="inline-flex items-center gap-2 bg-[#CFE0E0] px-3 py-1.5 rounded-full w-fit">
@@ -1061,7 +1080,7 @@ function TripsContent() {
                                       Cách Khách sạn:{" "}
                                       {place.metadata?.distance ||
                                         (Math.random() * 5 + 1).toFixed(1) +
-                                        " km"}
+                                          " km"}
                                     </span>
                                   </div>
                                   <div className="inline-flex items-center gap-2 bg-[#CFE0E0] px-3 py-1.5 rounded-full w-fit">
@@ -1212,6 +1231,86 @@ function TripsContent() {
                           </p>
                         </div>
                       </div>
+
+                      {/* Budget Analysis */}
+                      {budgetAnalysis && (
+                        <div
+                          className={`mb-3 p-4 rounded-xl ${budgetAnalysis.is_within_budget ? "bg-green-50 border border-green-200" : "bg-red-50 border border-red-200"}`}
+                        >
+                          {/* Header - Note about number of people */}
+                          <div className="mb-3 pb-2 border-b border-gray-300">
+                            <p className="text-xs font-bold text-gray-700 flex items-center gap-2">
+                              👥 Chi phí dưới đây đã tính cho{" "}
+                              <span className="text-[#1B4D3E] text-sm">
+                                {people} người
+                              </span>
+                            </p>
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-2 text-sm">
+                            <div>
+                              <p className="text-gray-600">Ngân sách:</p>
+                              <p className="font-bold text-[#1B4D3E]">
+                                {budgetAnalysis.total_budget?.toLocaleString()}{" "}
+                                VND
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-gray-600">Tổng chi phí:</p>
+                              <p
+                                className={`font-bold ${budgetAnalysis.is_within_budget ? "text-green-600" : "text-red-600"}`}
+                              >
+                                {budgetAnalysis.total_estimated_cost?.toLocaleString()}{" "}
+                                VND
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-gray-600">
+                                Chi phí hoạt động:
+                              </p>
+                              <p className="font-semibold">
+                                {budgetAnalysis.total_activities_cost?.toLocaleString()}{" "}
+                                VND
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-gray-600">
+                                Chi phí di chuyển:
+                              </p>
+                              <p className="font-semibold">
+                                {budgetAnalysis.total_transportation_cost?.toLocaleString()}{" "}
+                                VND
+                              </p>
+                            </div>
+                          </div>
+                          <div className="mt-2 pt-2 border-t border-gray-200">
+                            {budgetAnalysis.is_within_budget ? (
+                              <p className="text-green-700 font-semibold flex items-center gap-2">
+                                ✅ Còn thừa{" "}
+                                {budgetAnalysis.budget_difference?.toLocaleString()}{" "}
+                                VND (
+                                {(
+                                  100 - budgetAnalysis.budget_percentage_used
+                                ).toFixed(1)}
+                                %)
+                              </p>
+                            ) : (
+                              <p className="text-red-700 font-semibold flex items-center gap-2">
+                                ⚠️ Vượt{" "}
+                                {Math.abs(
+                                  budgetAnalysis.budget_difference,
+                                )?.toLocaleString()}{" "}
+                                VND (
+                                {(
+                                  budgetAnalysis.budget_percentage_used - 100
+                                ).toFixed(1)}
+                                %)
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
                       <div className="flex gap-3">
                         <button
                           onClick={handleConfirmAiItinerary}
@@ -1288,7 +1387,7 @@ function TripsContent() {
                     </div>
 
                     {(activities[selectedDay]?.["afternoon"] || []).length >
-                      0 ? (
+                    0 ? (
                       <div className="space-y-4">
                         {activities[selectedDay]["afternoon"].map(
                           (item, idx) => (
