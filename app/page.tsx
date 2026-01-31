@@ -75,7 +75,7 @@ export default function Home() {
             <div className="bg-[#D8F3DC] rounded-3xl p-6 flex flex-col md:flex-row items-center gap-8 shadow-sm border border-white/50">
               <div className="w-full md:w-1/3 h-48 relative bg-white/30 rounded-2xl overflow-hidden flex items-center justify-center">
                 <Image
-                  src="https://i.ibb.co/dswcFXGW/diem-du-lich-011632671030-11661249974-1711972079747417895017-1711973176462-1711973176683120802850.jpg"
+                  src="https://i.ibb.co/fYq4Bpn9/296817374-1015897554.jpg"
                   alt="Hệ thống khách sạn"
                   fill
                   className="object-cover"
@@ -116,7 +116,7 @@ export default function Home() {
 
               <div className="w-full md:w-1/3 h-48 relative bg-gray-200 rounded-2xl overflow-hidden order-1 md:order-2">
                 <Image
-                  src="https://i.ibb.co/fYq4Bpn9/296817374-1015897554.jpg"
+                  src="https://i.ibb.co/dswcFXGW/diem-du-lich-011632671030-11661249974-1711972079747417895017-1711973176462-1711973176683120802850.jpg"
                   alt="Địa điểm du lịch"
                   fill
                   className="object-cover"
