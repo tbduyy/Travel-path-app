@@ -200,46 +200,49 @@ export default function SearchWidget() {
 
   return (
     <div className="w-full mx-auto relative z-20">
-      {/* Aspect Ratio 1360/173 */}
-      <div className="w-full aspect-[1360/150] flex items-center justify-center relative font-sans">
+      {/* Aspect Ratio 1360/173 - Responsive height */}
+      <div className="w-full aspect-auto md:aspect-[1360/150] flex items-center justify-center relative font-sans min-h-[80px] md:min-h-auto">
         {/* 1. Container Wrapper (Rec 1) */}
-        <div className="relative w-full h-full flex items-center px-[2%] py-[1%]">
+        <div className="relative w-full h-full flex items-center px-2 md:px-[2%] py-2 md:py-[1%]">
           <Image
             src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/search-bar/rectangle-1.png"
             alt="Background"
             fill
-            className="object-fill pointer-events-none"
+            className="object-fill pointer-events-none hidden md:block"
             unoptimized
           />
+          {/* Mobile background fallback */}
+          <div className="absolute inset-0 md:hidden bg-gradient-to-r from-[#E0F2F1] to-[#D8F3DC] rounded-2xl" />
 
           {/* Inner Content */}
-          <div className="relative z-10 w-full h-full flex items-center justify-between gap-[1.5%]">
-            {/* Rectangle 2 (Input Area container) */}
-            <div className="relative flex-1 h-[70%] flex items-center">
-              {/* Rec 2 Background */}
+          <div className="relative z-10 w-full h-full flex flex-col md:flex-row items-center justify-between gap-2 md:gap-[1.5%]">
+            {/* Rectangle 2 (Input Area container) - Mobile: Stack layout */}
+            <div className="relative flex-1 w-full h-auto md:h-[70%] flex flex-col md:flex-row items-center gap-2 md:gap-0">
               <Image
                 src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/search-bar/rectangle-2.png"
                 alt="Input Area"
                 fill
-                className="object-fill pointer-events-none"
+                className="object-fill pointer-events-none hidden md:block"
                 unoptimized
               />
+              {/* Mobile background fallback */}
+              <div className="absolute inset-0 md:hidden bg-white rounded-xl" />
 
               {/* Content Overlay */}
-              <div className="relative z-10 w-full h-full flex items-center px-[2%] justify-between">
+              <div className="relative z-10 w-full h-full flex flex-col md:flex-row items-center px-2 md:px-[2%] justify-between gap-2 md:gap-0">
                 {/* Section 1: "Chọn điểm đến" - DROPDOWN */}
                 <div
-                  className="flex-[2.5] basis-0 h-full flex items-center justify-center px-2 relative"
+                  className="flex-1 md:flex-[2.5] md:basis-0 h-10 md:h-full flex items-center justify-center px-2 relative w-full md:w-auto"
                   ref={dropdownRef}
                 >
                   <button
                     type="button"
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="w-full h-full flex items-center justify-center gap-2 bg-transparent border-none outline-none cursor-pointer group"
+                    className="w-full h-full flex items-center justify-center gap-1 md:gap-2 bg-transparent border border-[#E0F2F1] md:border-none rounded-lg md:rounded-none outline-none cursor-pointer group"
                   >
                     <MapPin
-                      size={16}
-                      className="text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors"
+                      size={14}
+                      className="hidden md:block text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors flex-shrink-0"
                     />
                     <span
                       className={`font-medium text-xs md:text-sm lg:text-base truncate ${
@@ -248,11 +251,11 @@ export default function SearchWidget() {
                           : "text-[#003F3E]/60"
                       }`}
                     >
-                      {destinationLabel || "Chọn điểm đến"}
+                      {destinationLabel || "Chọn điểm"}
                     </span>
                     <ChevronDown
-                      size={16}
-                      className={`text-[#003F3E]/60 transition-transform duration-200 ${
+                      size={14}
+                      className={`text-[#003F3E]/60 transition-transform duration-200 flex-shrink-0 ${
                         isDropdownOpen ? "rotate-180" : ""
                       }`}
                     />
@@ -266,7 +269,7 @@ export default function SearchWidget() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50"
+                        className="absolute top-full left-0 right-0 md:left-auto md:right-auto mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 w-full md:w-64"
                       >
                         <div className="max-h-[280px] overflow-y-auto">
                           {destinations.map((dest) => (
@@ -296,23 +299,23 @@ export default function SearchWidget() {
                   alt="|"
                   width={2}
                   height={40}
-                  className="h-[60%] w-auto object-contain opacity-50"
+                  className="hidden md:block h-[60%] w-auto object-contain opacity-50"
                   unoptimized
                 />
 
                 {/* Section 2: "Thời gian đi - về" - CALENDAR POPUP */}
                 <div
-                  className="flex-[2.5] basis-0 h-full flex items-center justify-center px-2 relative"
+                  className="flex-1 md:flex-[2.5] md:basis-0 h-10 md:h-full flex items-center justify-center px-2 relative w-full md:w-auto"
                   ref={calendarRef}
                 >
                   <button
                     type="button"
                     onClick={() => setIsCalendarOpen(!isCalendarOpen)}
-                    className="w-full h-full flex items-center justify-center gap-2 bg-transparent border-none outline-none cursor-pointer group"
+                    className="w-full h-full flex items-center justify-center gap-1 md:gap-2 bg-transparent border border-[#E0F2F1] md:border-none rounded-lg md:rounded-none outline-none cursor-pointer group"
                   >
                     <Calendar
-                      size={16}
-                      className="text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors"
+                      size={14}
+                      className="hidden md:block text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors flex-shrink-0"
                     />
                     <span
                       className={`font-medium text-xs md:text-sm lg:text-base truncate ${
@@ -321,11 +324,11 @@ export default function SearchWidget() {
                           : "text-[#003F3E]/60"
                       }`}
                     >
-                      {getDateDisplayText() || "Thời gian đi - về"}
+                      {getDateDisplayText() || "Ngày đi - về"}
                     </span>
                     <ChevronDown
-                      size={16}
-                      className={`text-[#003F3E]/60 transition-transform duration-200 ${
+                      size={14}
+                      className={`text-[#003F3E]/60 transition-transform duration-200 flex-shrink-0 ${
                         isCalendarOpen ? "rotate-180" : ""
                       }`}
                     />
@@ -339,7 +342,7 @@ export default function SearchWidget() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full right-0 w-52 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 p-4"
+                        className="absolute top-full right-0 w-full md:w-52 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 p-4 left-0 md:left-auto"
                       >
                         <div className="space-y-4">
                           <div>
@@ -387,25 +390,25 @@ export default function SearchWidget() {
                   unoptimized
                 />
 
-                {/* Section 3: "Số người" - UI cũ + nút expand */}
+                {/* Section 3: "Số người" - Mobile simplified, Desktop expanded */}
                 <div
-                  className="flex-[1.5] basis-0 h-full flex items-center justify-center px-2 relative"
+                  className="flex-1 md:flex-[1.5] md:basis-0 h-10 md:h-full flex items-center justify-center px-2 relative w-full md:w-auto"
                   ref={peopleDropdownRef}
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1 md:gap-2">
                     <button
                       type="button"
                       onClick={() => setAdults(Math.max(adults - 1, 1))}
                       className="p-1 rounded-full hover:bg-[#E0F2F1] transition-colors group"
                     >
                       <ChevronDown
-                        size={18}
-                        className="text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors"
+                        size={14}
+                        className="md:size-[18px] text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors"
                       />
                     </button>
                     <div className="flex items-center gap-1">
-                      <Users size={16} className="text-[#003F3E]/60" />
-                      <span className="font-medium text-[#003F3E] text-sm lg:text-base min-w-[20px] text-center">
+                      <Users size={14} className="md:size-[16px] text-[#003F3E]/60" />
+                      <span className="font-medium text-[#003F3E] text-xs md:text-sm lg:text-base min-w-[20px] text-center">
                         {totalPeople}
                       </span>
                     </div>
@@ -415,18 +418,18 @@ export default function SearchWidget() {
                       className="p-1 rounded-full hover:bg-[#E0F2F1] transition-colors group"
                     >
                       <ChevronUp
-                        size={18}
-                        className="text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors"
+                        size={14}
+                        className="md:size-[18px] text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors"
                       />
                     </button>
                     {/* Nút "+" để mở rộng chọn Người lớn / Trẻ em */}
                     <button
                       type="button"
                       onClick={() => setIsPeopleExpanded(!isPeopleExpanded)}
-                      className="ml-1 w-6 h-6 rounded-full bg-[#003F3E]/10 hover:bg-[#003F3E]/20 flex items-center justify-center transition-colors"
+                      className="ml-1 w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#003F3E]/10 hover:bg-[#003F3E]/20 flex items-center justify-center transition-colors flex-shrink-0"
                       title="Chi tiết số người"
                     >
-                      <span className="text-[#003F3E] font-bold text-sm">
+                      <span className="text-[#003F3E] font-bold text-xs">
                         {isPeopleExpanded ? "−" : "+"}
                       </span>
                     </button>
@@ -440,7 +443,7 @@ export default function SearchWidget() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full w-52 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 p-4 min-w-[200px]"
+                        className="absolute top-full w-52 right-0 md:right-auto left-0 md:left-auto mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 p-4 min-w-[200px]"
                       >
                         <div className="space-y-4">
                           {/* Người lớn */}
@@ -521,36 +524,35 @@ export default function SearchWidget() {
                   alt="|"
                   width={2}
                   height={40}
-                  className="h-[60%] w-auto object-contain opacity-50"
+                  className="hidden md:block h-[60%] w-auto object-contain opacity-50"
                   unoptimized
                 />
 
-                {/* Section 4: "Ngân sách" */}
-                <div className="flex-[4.5] shrink-0 min-w-0 h-full flex items-center px-4 border-l border-gray-100">
+                {/* Section 4: "Ngân sách" - Mobile simplified */}
+                <div className="flex-1 md:flex-[4.5] shrink-0 min-w-0 h-10 md:h-full flex items-center px-2 md:px-4 md:border-l md:border-gray-100 w-full md:w-auto border border-[#E0F2F1] md:border-none rounded-lg md:rounded-none">
                   <div className="relative w-full group">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 md:gap-2">
                       {/* Icon ví tiền */}
                       <Wallet
-                        size={18}
-                        className="text-[#003F3E]/60 shrink-0"
+                        size={14}
+                        className="md:size-[18px] text-[#003F3E]/60 shrink-0"
                       />
 
                       <input
                         type="text"
-                        placeholder={`Ngân sách/${totalPeople} người`}
+                        placeholder={`Ngân sách`}
                         value={formatNumber(budget)}
                         onChange={(e) => {
                           const value = e.target.value;
                           const onlyNums = value.replace(/\D/g, "");
                           setBudget(onlyNums);
                         }}
-                        // Giải thích: pr-12 để chừa chỗ cho chữ VND không bị đè
-                        className="w-full bg-transparent border-none outline-none font-medium placeholder-[#003F3E]/60 text-[#003F3E] text-base pr-12 transition-all"
+                        className="w-full bg-transparent border-none outline-none font-medium placeholder-[#003F3E]/60 text-[#003F3E] text-xs md:text-base pr-8 md:pr-12 transition-all"
                       />
                     </div>
 
                     {/* Đơn vị tiền tệ - Cố định ở góc phải */}
-                    <span className="absolute right-0 top-1/2 -translate-y-1/2 text-base font-medium text-[#003F3E] tracking-wider">
+                    <span className="absolute right-0 top-1/2 -translate-y-1/2 text-xs md:text-base font-medium text-[#003F3E] tracking-wider">
                       VND
                     </span>
                   </div>
@@ -561,40 +563,42 @@ export default function SearchWidget() {
                   alt="|"
                   width={2}
                   height={40}
-                  className="h-[60%] w-auto object-contain opacity-50"
+                  className="hidden md:block h-[60%] w-auto object-contain opacity-50"
                   unoptimized
                 />
 
-                {/* Section 5: "Phong cách" - DROPDOWN */}
+                {/* Section 5: "Phong cách du lịch" */}
                 <div
-                  className="flex-[3] basis-0 h-full flex items-center justify-center px-2 relative"
+                  className="flex-1 md:flex-[3] md:basis-0 h-10 md:h-full flex items-center justify-center px-2 relative w-full md:w-auto"
                   ref={styleDropdownRef}
                 >
                   <button
                     type="button"
                     onClick={() => setIsStyleDropdownOpen(!isStyleDropdownOpen)}
-                    className="w-full h-full flex items-center justify-center gap-2 bg-transparent border-none outline-none cursor-pointer group"
+                    className="w-full h-full flex items-center justify-center gap-1 md:gap-2 bg-transparent border border-[#E0F2F1] md:border-none rounded-lg md:rounded-none outline-none cursor-pointer group"
                   >
                     <Sparkles
-                      size={16}
-                      className="text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors"
+                      size={14}
+                      className="hidden md:block text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors flex-shrink-0"
                     />
                     <span
                       className={`font-medium text-xs md:text-sm lg:text-base truncate ${
-                        styleLabel ? "text-[#003F3E]" : "text-[#003F3E]/60"
+                        styleLabel
+                          ? "text-[#003F3E]"
+                          : "text-[#003F3E]/60"
                       }`}
                     >
                       {styleLabel || "Phong cách"}
                     </span>
                     <ChevronDown
-                      size={16}
-                      className={`text-[#003F3E]/60 transition-transform duration-200 ${
+                      size={14}
+                      className={`text-[#003F3E]/60 transition-transform duration-200 flex-shrink-0 ${
                         isStyleDropdownOpen ? "rotate-180" : ""
                       }`}
                     />
                   </button>
 
-                  {/* Dropdown Menu */}
+                  {/* Style Dropdown */}
                   <AnimatePresence>
                     {isStyleDropdownOpen && (
                       <motion.div
@@ -602,7 +606,7 @@ export default function SearchWidget() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50"
+                        className="absolute top-full left-0 right-0 md:left-auto md:right-auto mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 w-full md:w-56"
                       >
                         <div className="max-h-[280px] overflow-y-auto">
                           {travelStyles.map((s) => (
@@ -629,7 +633,7 @@ export default function SearchWidget() {
 
                 {/* Search Icon */}
                 <div
-                  className="relative w-[5%] h-full flex items-center justify-center border-l border-gray-200/50 cursor-pointer hover:scale-110 transition-transform"
+                  className="relative w-8 h-10 md:w-[5%] md:h-full flex items-center justify-center md:border-l md:border-gray-200/50 cursor-pointer hover:scale-110 transition-transform flex-shrink-0 ml-1 md:ml-0"
                   onClick={handleSearch}
                 >
                   <Image
@@ -637,33 +641,34 @@ export default function SearchWidget() {
                     alt="Search"
                     width={24}
                     height={24}
-                    className="h-[28%] w-auto object-contain"
+                    className="h-[80%] w-auto object-contain"
                     unoptimized
                   />
                 </div>
               </div>
             </div>
 
-            {/* Rectangle 3 (Right Button) - Wrapped in Link to /plan-trip */}
-            {/* Rectangle 3 (Right Button) - Trigger Search */}
+            {/* Rectangle 3 (Right Button) - Mobile: Below, Desktop: Right */}
             <div
               onClick={handleSearch}
-              className="relative w-[16%] h-[70%] flex-shrink-0 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform"
+              className="relative w-full md:w-[16%] h-10 md:h-[70%] flex-shrink-0 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform mt-2 md:mt-0"
             >
               <Image
                 src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/search-bar/rectangle-3.png"
                 alt="Background"
                 fill
-                className="object-fill pointer-events-none"
+                className="object-fill pointer-events-none hidden md:block"
                 unoptimized
               />
+              {/* Mobile fallback background */}
+              <div className="absolute inset-0 md:hidden bg-gradient-to-r from-[#1B4D3E] to-[#2C6E5A] rounded-lg" />
               {/* The Label/Icon */}
               <Image
                 src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/search-bar/tao-lich-trinh.png"
                 alt="Tạo lịch trình"
                 width={120}
                 height={30}
-                className="relative z-10 h-[25%] w-auto object-contain"
+                className="relative z-10 h-[60%] md:h-[25%] w-auto object-contain"
                 unoptimized
               />
             </div>

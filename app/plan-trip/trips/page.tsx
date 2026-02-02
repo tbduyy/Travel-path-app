@@ -1349,6 +1349,37 @@ function TripsContent() {
                     </div>
                   )}
 
+                {/* Bottom Action Buttons */}
+                  <div className="flex gap-3 pt-4 relative z-20">
+                    <button
+                      onClick={() =>
+                        alert("Chức năng chỉnh sửa đang được phát triển")
+                      }
+                      className="flex-1 py-3 text-[#1B4D3E] border-2 border-[#1B4D3E] rounded-full font-bold hover:bg-[#1B4D3E]/5 transition-colors"
+                    >
+                      Chỉnh sửa
+                    </button>
+                    <button
+                      onClick={() => setShowAddActivityModal(true)}
+                      className="flex-1 py-3 bg-[#1B4D3E] text-white rounded-full font-bold hover:bg-[#113D38] transition-colors flex items-center justify-center gap-2"
+                    >
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                        />
+                      </svg>
+                      Thêm hoạt động
+                    </button>
+                  </div>
+
                 {/* Schedule Content - Scrollable */}
                 <div className="flex-1 overflow-y-auto bg-white/40 p-6 rounded-[32px] border border-[#1B4D3E]/5 shadow-sm space-y-6">
                   {/* Morning Period */}
@@ -1460,37 +1491,6 @@ function TripsContent() {
                         Chưa có hoạt động nào
                       </div>
                     )}
-                  </div>
-
-                  {/* Bottom Action Buttons */}
-                  <div className="flex gap-3 pt-4 relative z-20">
-                    <button
-                      onClick={() =>
-                        alert("Chức năng chỉnh sửa đang được phát triển")
-                      }
-                      className="flex-1 py-3 text-[#1B4D3E] border-2 border-[#1B4D3E] rounded-full font-bold hover:bg-[#1B4D3E]/5 transition-colors"
-                    >
-                      Chỉnh sửa
-                    </button>
-                    <button
-                      onClick={() => setShowAddActivityModal(true)}
-                      className="flex-1 py-3 bg-[#1B4D3E] text-white rounded-full font-bold hover:bg-[#113D38] transition-colors flex items-center justify-center gap-2"
-                    >
-                      <svg
-                        className="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                        />
-                      </svg>
-                      Thêm hoạt động
-                    </button>
                   </div>
                 </div>
               </div>

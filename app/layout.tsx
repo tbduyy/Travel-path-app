@@ -3,6 +3,7 @@ import { Quicksand } from "next/font/google"; // Rounded sans-serif from design
 import GlobalChatBubble from "@/components/layout/GlobalChatBubble";
 import { AuthStateListener } from "@/components/auth/AuthStateListener";
 import { AuthProvider } from "@/lib/context/AuthContext";
+import PageTransition from "@/components/layout/PageTransition";
 import "./globals.css";
 
 const quicksand = Quicksand({
@@ -45,7 +46,9 @@ export default function RootLayout({
       >
         <AuthProvider>
           <AuthStateListener />
-          {children}
+          <PageTransition>
+            {children}
+          </PageTransition>
           <GlobalChatBubble />
         </AuthProvider>
       </body>

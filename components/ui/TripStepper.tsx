@@ -43,9 +43,9 @@ export default function TripStepper() {
                     href={step.path}
                     className={`flex items-center gap-2 px-3 py-2 rounded-full transition-all duration-300 ${
                       isActive || isCurrent
-                        ? "bg-[#1B4D3E] text-white shadow-lg"
+                        ? "bg-[#153a2f] text-white shadow-lg"
                         : isCompleted
-                          ? "bg-[#2E968C]/20 text-[#1B4D3E] hover:bg-[#2E968C]/30"
+                          ? "bg-[#2E968C]/40 text-[#0d2622] hover:bg-[#2E968C]/50"
                           : "bg-gray-100 text-gray-400"
                     }`}
                   >
@@ -59,7 +59,7 @@ export default function TripStepper() {
                   </Link>
                 ) : (
                   <div
-                    className="flex items-center gap-2 px-3 py-2 rounded-full bg-gray-100 text-gray-400 cursor-not-allowed opacity-60"
+                    className="flex items-center gap-2 px-3 py-2 rounded-full bg-gray-200 text-gray-500 cursor-not-allowed opacity-70 font-medium"
                     title="Hoàn thành bước trước để mở khóa"
                   >
                     <span className="text-lg">{step.icon}</span>
@@ -72,8 +72,8 @@ export default function TripStepper() {
                 {/* Connector Line */}
                 {index < STEPS.length - 1 && (
                   <div
-                    className={`flex-1 h-1 mx-2 rounded-full transition-colors ${
-                      isCompleted ? "bg-[#2E968C]" : "bg-gray-200"
+                    className={`flex-1 h-1.5 mx-2 rounded-full transition-colors ${
+                      isCompleted ? "bg-[#1B7d73]" : "bg-gray-300"
                     }`}
                   />
                 )}
@@ -83,11 +83,11 @@ export default function TripStepper() {
         </div>
 
         {/* Progress Text */}
-        <div className="text-center mt-2 text-xs text-[#1B4D3E]/60">
+        <div className="text-center mt-2 text-xs font-semibold text-[#1B4D3E]">
           Bước {STEPS.findIndex((s) => s.key === currentStep) + 1} /{" "}
           {STEPS.length}
           {completedSteps.length > 0 && (
-            <span className="ml-2 text-[#2E968C] font-medium">
+            <span className="ml-2 text-[#1B4D3E] font-bold">
               ({completedSteps.length} đã hoàn thành)
             </span>
           )}
