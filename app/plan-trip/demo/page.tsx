@@ -44,12 +44,20 @@ function DemoContent() {
   const budgetParam = searchParams.get("budget") || storeBudget;
   const placeCount = placeIds.length;
 
+  // Video options - array of mockup videos
+  const videoOptions = [
+    { url: "https://streamable.com/e/p6n49a?autoplay=1&muted=1&nocontrols=1&loop=1", duration: "0:08" },
+    { url: "https://streamable.com/e/0mil6t?autoplay=1&muted=1&nocontrols=1&loop=1", duration: "0:08" },
+    { url: "https://streamable.com/e/ck5bds?autoplay=1&muted=1&nocontrols=1&loop=1", duration: "0:08" },
+  ];
+
   // Derived Data & State
   const [showPaymentRequirementModal, setShowPaymentRequirementModal] =
     useState(false);
   const [daysUntilTrip, setDaysUntilTrip] = useState<number>(10); // Default safe buffer
   const [isSaving, setIsSaving] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [selectedVideoIndex, setSelectedVideoIndex] = useState<number | null>(null);
 
   // Calculate duration string
   let durationString = "2N1Đ";
@@ -144,6 +152,18 @@ function DemoContent() {
     : destination?.includes("Nha Trang")
       ? "2.500.000 VND"
       : "8.000.000 VND";
+
+  // Random video selection on click
+  const handleVideoClick = () => {
+    if (selectedVideoIndex === null) {
+      // First click - randomly select a video
+      const randomIndex = Math.floor(Math.random() * videoOptions.length);
+      setSelectedVideoIndex(randomIndex);
+    }
+    setIsPlaying(true);
+  };
+
+  const selectedVideo = selectedVideoIndex !== null ? videoOptions[selectedVideoIndex] : videoOptions[0];
 
   const handleComplete = () => {
     // Check if user is authenticated first
@@ -390,15 +410,15 @@ function DemoContent() {
           </div>
         </div>
 
-        {/* Simulation Video Placeholder (click to play) */}
+        {/* Simulation Video (click to play) */}
         <div
           className="w-full aspect-video bg-black/20 rounded-[32px] overflow-hidden relative shadow-2xl group cursor-pointer border-4 border-white/50"
-          onClick={() => setIsPlaying(true)}
+          onClick={handleVideoClick}
         >
           {isPlaying ? (
             // Embedded streamable iframe (autoplay)
             <iframe
-              src="https://streamable.com/e/p6n49a?autoplay=1&muted=1&nocontrols=1&loop=1"
+              src={selectedVideo.url}
               frameBorder="0"
               width="100%"
               height="100%"
@@ -427,7 +447,7 @@ function DemoContent() {
                   Xem mô phỏng chuyến đi
                 </h2>
                 <p className="text-white/80 mt-2 font-medium">
-                  Thời lượng: 0:08
+                  Thời lượng: {selectedVideo.duration}
                 </p>
               </div>
 

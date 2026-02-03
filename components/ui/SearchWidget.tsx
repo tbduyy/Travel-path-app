@@ -24,12 +24,6 @@ import { useTripStore } from "@/lib/store/trip-store";
 const destinations = [
   { value: "Đà Lạt", label: "Đà Lạt", icon: "🏔️" },
   { value: "Nha Trang", label: "Nha Trang", icon: "🏖️" },
-  { value: "Phú Quốc", label: "Phú Quốc", icon: "🌴" },
-  { value: "Hà Nội", label: "Hà Nội", icon: "🏛️" },
-  { value: "Hồ Chí Minh", label: "TP. Hồ Chí Minh", icon: "🌆" },
-  { value: "Đà Nẵng", label: "Đà Nẵng", icon: "🌉" },
-  { value: "Hội An", label: "Hội An", icon: "🏮" },
-  { value: "Sa Pa", label: "Sa Pa", icon: "🌄" },
 ];
 
 // Danh sách phong cách
@@ -251,7 +245,7 @@ export default function SearchWidget() {
                           : "text-[#003F3E]/60"
                       }`}
                     >
-                      {destinationLabel || "Chọn điểm"}
+                      {destinationLabel || "Chọn điểm đến"}
                     </span>
                     <ChevronDown
                       size={14}
@@ -529,7 +523,7 @@ export default function SearchWidget() {
                 />
 
                 {/* Section 4: "Ngân sách" - Mobile simplified */}
-                <div className="flex-1 md:flex-[4.5] shrink-0 min-w-0 h-10 md:h-full flex items-center px-2 md:px-4 md:border-l md:border-gray-100 w-full md:w-auto border border-[#E0F2F1] md:border-none rounded-lg md:rounded-none">
+                <div className="flex-1 md:flex-[3.5] shrink-0 min-w-0 h-10 md:h-full flex items-center px-2 md:px-4 md:border-l md:border-gray-100 w-full md:w-auto border border-[#E0F2F1] md:border-none rounded-lg md:rounded-none">
                   <div className="relative w-full group">
                     <div className="flex items-center gap-1 md:gap-2">
                       {/* Icon ví tiền */}
@@ -629,21 +623,6 @@ export default function SearchWidget() {
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </div>
-
-                {/* Search Icon */}
-                <div
-                  className="relative w-8 h-10 md:w-[5%] md:h-full flex items-center justify-center md:border-l md:border-gray-200/50 cursor-pointer hover:scale-110 transition-transform flex-shrink-0 ml-1 md:ml-0"
-                  onClick={handleSearch}
-                >
-                  <Image
-                    src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/search-bar/search-icon.png"
-                    alt="Search"
-                    width={24}
-                    height={24}
-                    className="h-[80%] w-auto object-contain"
-                    unoptimized
-                  />
                 </div>
               </div>
             </div>

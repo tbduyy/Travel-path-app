@@ -67,14 +67,14 @@ export default function Home() {
       <section className="w-full bg-[#E0F2F1] relative z-10 py-8 md:py-16 -mt-4 md:-mt-10 rounded-t-[1.5rem] md:rounded-t-[3rem]">
         <div className="max-w-6xl mx-auto px-4 md:px-8">
           <div className="flex justify-center mb-4 md:mb-6">
-            <h2 className="bg-[#3A5A40] text-white text-lg md:text-xl font-bold px-6 md:px-8 py-2 rounded-full shadow-md">
+            <h2 className="bg-[#1A4540] text-white text-lg md:text-xl font-bold px-6 md:px-8 py-2 rounded-full shadow-md">
               Đối tác
             </h2>
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:gap-8">
             {/* Card 1: Hệ thống khách sạn uy tín (Image Left - Text Right) */}
-            <div className="bg-[#D8F3DC] rounded-2xl md:rounded-3xl p-4 md:p-6 flex flex-col md:flex-row items-center gap-4 md:gap-8 shadow-sm border border-white/50">
+            <div className="bg-[#D3EED7] rounded-2xl md:rounded-3xl p-4 md:p-6 flex flex-col md:flex-row items-center gap-4 md:gap-8 shadow-sm border border-white/50">
               <div className="w-full md:w-1/3 h-40 md:h-48 relative bg-white/30 rounded-xl md:rounded-2xl overflow-hidden flex items-center justify-center">
                 <Image
                   src="https://i.ibb.co/fYq4Bpn9/296817374-1015897554.jpg"
@@ -100,7 +100,7 @@ export default function Home() {
             </div>
 
             {/* Card 2: Địa điểm du lịch nổi tiếng (Text Left - Image Right) */}
-            <div className="bg-[#D8F3DC] rounded-2xl md:rounded-3xl p-4 md:p-6 flex flex-col md:flex-row items-center gap-4 md:gap-8 shadow-sm border border-white/50">
+            <div className="bg-[#D3EED7] rounded-2xl md:rounded-3xl p-4 md:p-6 flex flex-col md:flex-row items-center gap-4 md:gap-8 shadow-sm border border-white/50">
               <div className="flex-1 order-2 md:order-1 text-[#1B4D3E]">
                 <h3 className="text-lg md:text-2xl font-bold mb-2 md:mb-3">
                   Địa điểm du lịch nổi tiếng
@@ -160,7 +160,7 @@ export default function Home() {
 
           <div className="mt-2 md:mt-4 flex flex-col md:flex-row gap-8 md:gap-16 text-[#1B4D3E] w-full md:w-auto">
             {/* Contact Section */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col items-start gap-3">
               <h3 className="text-sm md:text-lg font-extrabold uppercase tracking-wide">
                 Liên hệ chúng tôi
               </h3>
@@ -185,7 +185,7 @@ export default function Home() {
             </div>
 
             {/* Social Section */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col items-start gap-3">
               <h3 className="text-sm md:text-lg font-extrabold uppercase tracking-wide">
                 Theo dõi chúng tôi
               </h3>

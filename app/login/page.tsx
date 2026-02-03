@@ -246,7 +246,7 @@ function LoginForm() {
           <p className="mt-10 text-center text-sm text-gray-500">
             Chưa có tài khoản?{" "}
             <Link
-              href="/signup"
+              href={redirectTo !== '/' ? `/signup?redirect=${encodeURIComponent(redirectTo)}` : '/signup'}
               className="font-semibold leading-6 text-[#2E968C] hover:text-[#1B4D3E]"
             >
               Đăng ký ngay

@@ -14,6 +14,9 @@ const quicksand = Quicksand({
 export const metadata: Metadata = {
   title: "Travel Path",
   description: "Một cú chạm, vạn hành trình",
+  icons: {
+    icon: '/favicon.ico', // Đảm bảo file này nằm trong thư mục public
+  },
 };
 
 export default function RootLayout({
