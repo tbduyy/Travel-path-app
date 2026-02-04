@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { getPlacesByIds } from "@/app/actions/search";
 import { useTripStore, type ActivitiesMap } from "@/lib/store/trip-store";
 import { useShallow } from "zustand/react/shallow";
-import { Loader2, Check, CreditCard, Wallet, QrCode } from "lucide-react";
+import { Loader2, Check, CreditCard, Wallet, QrCode, Tag, ChevronDown, ChevronUp, X, Gift, Percent, Sparkles, Ticket } from "lucide-react";
 import {
   useAuth,
   useRequireAuthFromContext,
@@ -23,6 +23,119 @@ import {
   getPrefetchedPaymentData, 
   clearPrefetchedPaymentData 
 } from "@/lib/utils/prefetch-payment";
+
+// Voucher Types and Data
+interface Voucher {
+  code: string;
+  name: string;
+  description: string;
+  discountType: "percentage" | "fixed";
+  discountValue: number;
+  maxDiscount?: number; // For percentage discounts
+  minOrderValue?: number; // Minimum order value to apply
+  icon: "gift" | "percent" | "sparkles" | "ticket" | "tag";
+  color: string; // Tailwind color class
+}
+
+// Mock vouchers data
+const VOUCHERS: Voucher[] = [
+  {
+    code: "BANMOI",
+    name: "BANMOI",
+    description: "Giảm 20% cho đơn hàng đầu tiên",
+    discountType: "percentage",
+    discountValue: 20,
+    icon: "gift",
+    color: "bg-red-500",
+  },
+  {
+    code: "HANHTRINHVUI",
+    name: "HANHTRINHVUI",
+    description: "Giảm 15% tối đa 300K",
+    discountType: "percentage",
+    discountValue: 15,
+    maxDiscount: 300000,
+    icon: "sparkles",
+    color: "bg-purple-500",
+  },
+  {
+    code: "MUNGXUAN26",
+    name: "MUNGXUAN26",
+    description: "Giảm 100.000đ cho đơn từ 1 triệu",
+    discountType: "fixed",
+    discountValue: 100000,
+    minOrderValue: 1000000,
+    icon: "ticket",
+    color: "bg-orange-500",
+  },
+  {
+    code: "FREESHIP",
+    name: "FREESHIP",
+    description: "Miễn phí dịch vụ đặt chỗ",
+    discountType: "fixed",
+    discountValue: 50000,
+    icon: "tag",
+    color: "bg-blue-500",
+  },
+  {
+    code: "SUMMER2026",
+    name: "SUMMER2026",
+    description: "Giảm 10% mùa hè 2026",
+    discountType: "percentage",
+    discountValue: 10,
+    icon: "percent",
+    color: "bg-yellow-500",
+  },
+  {
+    code: "NEWUSER",
+    name: "NEWUSER",
+    description: "Giảm 50.000đ cho người dùng mới",
+    discountType: "fixed",
+    discountValue: 50000,
+    icon: "gift",
+    color: "bg-green-500",
+  },
+];
+
+// Helper to get icon component
+function VoucherIcon({ icon, className }: { icon: Voucher["icon"]; className?: string }) {
+  switch (icon) {
+    case "gift":
+      return <Gift className={className} />;
+    case "percent":
+      return <Percent className={className} />;
+    case "sparkles":
+      return <Sparkles className={className} />;
+    case "ticket":
+      return <Ticket className={className} />;
+    case "tag":
+      return <Tag className={className} />;
+    default:
+      return <Tag className={className} />;
+  }
+}
+
+// Calculate discount amount based on voucher
+function calculateDiscount(voucher: Voucher | null, subtotal: number): number {
+  if (!voucher) return 0;
+  
+  // Check minimum order value
+  if (voucher.minOrderValue && subtotal < voucher.minOrderValue) {
+    return 0;
+  }
+  
+  if (voucher.discountType === "percentage") {
+    let discount = (subtotal * voucher.discountValue) / 100;
+    // Apply max discount cap if exists
+    if (voucher.maxDiscount && discount > voucher.maxDiscount) {
+      discount = voucher.maxDiscount;
+    }
+    return Math.round(discount);
+  } else {
+    // Fixed discount
+    return Math.min(voucher.discountValue, subtotal);
+  }
+}
 
 // Types
 interface PlaceData {
@@ -111,6 +224,18 @@ function PaymentContent() {
   // Selection state - which items user wants to pay for
   // Key format: "hotel" or "attraction-{id}"
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
+
+  // Voucher state
+  const [selectedVoucher, setSelectedVoucher] = useState<Voucher | null>(null);
+  const [showVoucherDropdown, setShowVoucherDropdown] = useState(false);
+
+  // Auto-apply BANMOI voucher on mount
+  useEffect(() => {
+    const banmoiVoucher = VOUCHERS.find((v) => v.code === "BANMOI");
+    if (banmoiVoucher) {
+      setSelectedVoucher(banmoiVoucher);
+    }
+  }, []);
 
   // Toggle selection for an item
   const toggleItemSelection = useCallback((key: string) => {
@@ -349,7 +474,30 @@ function PaymentContent() {
   const selectedAttractionsTotal = attractionCosts
     .filter((item) => item.isSelected)
     .reduce((acc, curr) => acc + curr.total, 0);
-  const grandTotal = selectedHotelTotal + selectedAttractionsTotal;
+  
+  // Subtotal before discount (always calculated for voucher preview)
+  const subtotalBeforeDiscount = hotelTotal + attractionCosts.reduce((acc, curr) => acc + curr.total, 0);
+  
+  // Calculate discount based on selected voucher (applies to ALL items, not just selected)
+  const discountAmount = calculateDiscount(selectedVoucher, subtotalBeforeDiscount);
+  
+  // Discount percentage for display on items
+  const discountPercentage = selectedVoucher?.discountType === "percentage" ? selectedVoucher.discountValue : 0;
+  
+  // Calculate discounted prices for individual items (for display)
+  const getDiscountedPrice = (originalPrice: number): number => {
+    if (!selectedVoucher || subtotalBeforeDiscount === 0) return originalPrice;
+    // Calculate proportional discount for this item
+    const itemRatio = originalPrice / subtotalBeforeDiscount;
+    const itemDiscount = Math.round(discountAmount * itemRatio);
+    return originalPrice - itemDiscount;
+  };
+  
+  // Grand total = selected items subtotal - discount applied to selected portion
+  const selectedSubtotal = selectedHotelTotal + selectedAttractionsTotal;
+  const selectedDiscountAmount = calculateDiscount(selectedVoucher, selectedSubtotal);
+  const grandTotal = selectedSubtotal - selectedDiscountAmount;
+  
   const formattedBudget_forPDF = new Intl.NumberFormat("vi-VN").format(grandTotal);
 
   // Count selected items
@@ -507,8 +655,15 @@ function PaymentContent() {
             {/* Hotel Section */}
             {selectedHotel && (
               <div
-                className={`bg-white p-6 rounded-[24px] shadow-sm transition-all ${isHotelSelected ? "ring-2 ring-[#2E968C]" : ""}`}
+                className={`bg-white p-6 rounded-[24px] shadow-sm transition-all relative ${isHotelSelected ? "ring-2 ring-[#2E968C]" : ""}`}
               >
+                {/* Discount Badge */}
+                {selectedVoucher && discountPercentage > 0 && (
+                  <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1">
+                    <Tag className="w-3 h-3" />
+                    -{discountPercentage}%
+                  </div>
+                )}
                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                   <span className="text-2xl">🏨</span> Lưu trú ({nights} đêm)
                 </h3>
@@ -534,8 +689,14 @@ function PaymentContent() {
                     </div>
                   </div>
                   <div className="text-right flex flex-col items-end gap-2">
-                    <div className="font-bold text-lg text-[#1B4D3E]">
-                      {new Intl.NumberFormat("vi-VN").format(hotelTotal)} ₫
+                    {/* Show original price with strikethrough if discount */}
+                    {selectedVoucher && discountAmount > 0 && (
+                      <div className="text-sm text-gray-400 line-through">
+                        {new Intl.NumberFormat("vi-VN").format(hotelTotal)} ₫
+                      </div>
+                    )}
+                    <div className="font-bold text-xl text-[#2E968C]">
+                      {new Intl.NumberFormat("vi-VN").format(getDiscountedPrice(hotelTotal))} ₫
                     </div>
                     <div className="text-xs text-gray-400">x {nights} đêm</div>
                     <button
@@ -557,7 +718,14 @@ function PaymentContent() {
 
             {/* Attractions Section */}
             {attractionCosts.length > 0 && (
-              <div className="bg-white p-6 rounded-[24px] shadow-sm">
+              <div className="bg-white p-6 rounded-[24px] shadow-sm relative">
+                {/* Discount Badge */}
+                {selectedVoucher && discountPercentage > 0 && (
+                  <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1">
+                    <Tag className="w-3 h-3" />
+                    -{discountPercentage}%
+                  </div>
+                )}
                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                   <span className="text-2xl">🎡</span> Hoạt động ({peopleCount}{" "}
                   người)
@@ -566,6 +734,7 @@ function PaymentContent() {
                   {attractionCosts.map((item) => {
                     const itemKey = `attraction-${item.id}`;
                     const isItemSelected = selectedItems.has(itemKey);
+                    const itemDiscountedPrice = getDiscountedPrice(item.total);
                     return (
                       <div
                         key={item.id}
@@ -595,11 +764,14 @@ function PaymentContent() {
                         <div className="text-right flex flex-col items-end gap-2">
                           {item.total > 0 ? (
                             <>
-                              <div className="font-bold text-[#1B4D3E]">
-                                {new Intl.NumberFormat("vi-VN").format(
-                                  item.total,
-                                )}{" "}
-                                ₫
+                              {/* Show original price with strikethrough if discount */}
+                              {selectedVoucher && discountAmount > 0 && (
+                                <div className="text-sm text-gray-400 line-through">
+                                  {new Intl.NumberFormat("vi-VN").format(item.total)} ₫
+                                </div>
+                              )}
+                              <div className="font-bold text-xl text-[#2E968C]">
+                                {new Intl.NumberFormat("vi-VN").format(itemDiscountedPrice)} ₫
                               </div>
                               <div className="text-xs text-gray-400">
                                 x {peopleCount} người
@@ -640,7 +812,7 @@ function PaymentContent() {
                 {(selectedHotel ? 1 : 0) + attractionCosts.length} mục
               </p>
 
-              <div className="space-y-4 mb-8">
+              <div className="space-y-4 mb-6">
                 {selectedHotel && isHotelSelected && (
                   <div className="flex justify-between items-center text-white/80">
                     <span className="flex items-center gap-2">
@@ -648,7 +820,7 @@ function PaymentContent() {
                       Lưu trú
                     </span>
                     <span>
-                      {new Intl.NumberFormat("vi-VN").format(hotelTotal)} ₫
+                      {new Intl.NumberFormat("vi-VN").format(isHotelSelected ? getDiscountedPrice(hotelTotal) : hotelTotal)} ₫
                     </span>
                   </div>
                 )}
@@ -668,7 +840,7 @@ function PaymentContent() {
                     </span>
                     <span>
                       {new Intl.NumberFormat("vi-VN").format(
-                        selectedAttractionsTotal,
+                        selectedAttractionsTotal - (selectedVoucher ? calculateDiscount(selectedVoucher, selectedAttractionsTotal) : 0),
                       )}{" "}
                       ₫
                     </span>
@@ -683,13 +855,113 @@ function PaymentContent() {
                   <span>Phí dịch vụ</span>
                   <span>0 ₫</span>
                 </div>
-                <div className="h-px bg-white/20 my-4"></div>
-                <div className="flex justify-between items-center text-2xl font-black">
-                  <span>Tổng</span>
-                  <span>
-                    {new Intl.NumberFormat("vi-VN").format(grandTotal)} ₫
-                  </span>
+              </div>
+
+              {/* Voucher Section */}
+              <div className="mb-6">
+                <div 
+                  className="flex items-center gap-2 cursor-pointer mb-3"
+                  onClick={() => setShowVoucherDropdown(!showVoucherDropdown)}
+                >
+                  <Tag className="w-5 h-5 text-white/80" />
+                  <span className="font-bold text-sm text-white/90">Mã giảm giá</span>
+                  {showVoucherDropdown ? (
+                    <ChevronUp className="w-4 h-4 text-white/60 ml-auto" />
+                  ) : (
+                    <ChevronDown className="w-4 h-4 text-white/60 ml-auto" />
+                  )}
                 </div>
+
+                {/* Selected Voucher Display */}
+                {selectedVoucher && (
+                  <div className="bg-[#2E968C] rounded-xl p-3 mb-3 flex items-center gap-3">
+                    <div className={`w-10 h-10 ${selectedVoucher.color} rounded-lg flex items-center justify-center`}>
+                      <VoucherIcon icon={selectedVoucher.icon} className="w-5 h-5 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-bold text-sm">{selectedVoucher.code}</p>
+                      <p className="text-xs text-white/70">{selectedVoucher.description}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedVoucher(null);
+                      }}
+                      className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+
+                {/* Voucher Dropdown */}
+                {showVoucherDropdown && (
+                  <div className="bg-white/10 rounded-xl overflow-hidden">
+                    <p className="text-xs text-white/60 px-3 py-2 border-b border-white/10">
+                      Chọn voucher có sẵn ({VOUCHERS.length})
+                    </p>
+                    <div className="max-h-48 overflow-y-auto">
+                      {VOUCHERS.map((voucher) => {
+                        const isSelected = selectedVoucher?.code === voucher.code;
+                        const isDisabled = voucher.minOrderValue && subtotalBeforeDiscount < voucher.minOrderValue;
+                        
+                        return (
+                          <button
+                            key={voucher.code}
+                            type="button"
+                            disabled={isDisabled}
+                            onClick={() => {
+                              if (!isDisabled) {
+                                setSelectedVoucher(isSelected ? null : voucher);
+                              }
+                            }}
+                            className={`w-full flex items-center gap-3 p-3 transition-all border-b border-white/5 last:border-0 ${
+                              isSelected 
+                                ? "bg-[#2E968C]" 
+                                : isDisabled 
+                                  ? "opacity-50 cursor-not-allowed" 
+                                  : "hover:bg-white/5"
+                            }`}
+                          >
+                            <div className={`w-9 h-9 ${voucher.color} rounded-lg flex items-center justify-center shrink-0`}>
+                              <VoucherIcon icon={voucher.icon} className="w-4 h-4 text-white" />
+                            </div>
+                            <div className="flex-1 text-left">
+                              <p className="font-bold text-sm">{voucher.code}</p>
+                              <p className="text-xs text-white/60">{voucher.description}</p>
+                            </div>
+                            {isSelected && (
+                              <Check className="w-5 h-5 text-green-400" />
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Discount Display */}
+              {selectedVoucher && selectedDiscountAmount > 0 && (
+                <div className="space-y-2 mb-4">
+                  <div className="h-px bg-white/20"></div>
+                  <div className="flex justify-between items-center text-green-400">
+                    <span className="flex items-center gap-2">
+                      <Tag className="w-4 h-4" />
+                      Giảm giá ({selectedVoucher.code})
+                    </span>
+                    <span>-{new Intl.NumberFormat("vi-VN").format(selectedDiscountAmount)} ₫</span>
+                  </div>
+                </div>
+              )}
+
+              <div className="h-px bg-white/20 my-4"></div>
+              <div className="flex justify-between items-center text-2xl font-black mb-6">
+                <span>Tổng</span>
+                <span>
+                  {new Intl.NumberFormat("vi-VN").format(grandTotal)} ₫
+                </span>
               </div>
 
               {/* Payment Methods */}
