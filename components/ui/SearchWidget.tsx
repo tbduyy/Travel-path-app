@@ -24,12 +24,6 @@ import { useTripStore } from "@/lib/store/trip-store";
 const destinations = [
   { value: "Đà Lạt", label: "Đà Lạt", icon: "🏔️" },
   { value: "Nha Trang", label: "Nha Trang", icon: "🏖️" },
-  { value: "Phú Quốc", label: "Phú Quốc", icon: "🌴" },
-  { value: "Hà Nội", label: "Hà Nội", icon: "🏛️" },
-  { value: "Hồ Chí Minh", label: "TP. Hồ Chí Minh", icon: "🌆" },
-  { value: "Đà Nẵng", label: "Đà Nẵng", icon: "🌉" },
-  { value: "Hội An", label: "Hội An", icon: "🏮" },
-  { value: "Sa Pa", label: "Sa Pa", icon: "🌄" },
 ];
 
 // Danh sách phong cách
@@ -623,20 +617,6 @@ export default function SearchWidget() {
                   </AnimatePresence>
                 </div>
 
-                {/* Search Icon */}
-                <div
-                  className="relative w-8 h-10 md:w-[5%] md:h-full flex items-center justify-center md:border-l md:border-gray-200/50 cursor-pointer hover:scale-110 transition-transform flex-shrink-0 ml-1 md:ml-0"
-                  onClick={handleSearch}
-                >
-                  <Image
-                    src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/search-bar/search-icon.png"
-                    alt="Search"
-                    width={24}
-                    height={24}
-                    className="h-[80%] w-auto object-contain"
-                    unoptimized
-                  />
-                </div>
               </div>
             </div>
 

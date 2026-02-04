@@ -32,13 +32,13 @@ export default function Home() {
           {/* Top Section: Title (Left) and Widget (Right) */}
           <div className="flex flex-col md:flex-row items-center justify-between w-full h-full gap-4 md:gap-8">
             {/* Left: Title Image */}
-            <div className="flex-1 flex justify-center md:justify-start items-center">
-              <div className="relative w-full max-w-sm md:max-w-6xl h-[30vh] md:h-[70vh]">
+            <div className="flex-1 flex justify-center md:justify-start items-center -mt-16 md:-mt-32">
+              <div className="relative w-full max-w-3xl md:max-w-7xl h-[40vh] md:h-[70vh] overflow-hidden">
                 <Image
-                  src="hero-title.png"
+                  src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/hero-title.png"
                   alt="Make Your Dream Trip"
                   fill
-                  className="object-contain object-center md:object-left"
+                  className="object-contain object-center md:object-left scale-110 md:scale-125 origin-left transition-transform duration-500"
                   unoptimized
                   priority
                 />
@@ -52,7 +52,7 @@ export default function Home() {
           </div>
 
           {/* Bottom Section: Search Widget & Badges */}
-          <div className="w-[95vw] md:w-full -translate-y-1/4 md:-translate-y-1/2 flex flex-col gap-4 md:gap-8 px-2">
+          <div className="w-[95vw] md:w-full translate-y-4 md:translate-y-8 flex flex-col gap-4 md:gap-8 px-2">
             <SearchWidget />
             {/* Floating Badges/Partnerships */}
           </div>
@@ -166,21 +166,21 @@ export default function Home() {
                 </h3>
                 <a
                   href="mailto:partnership@travelpath.io.vn"
-                  className="flex flex-row-reverse items-center gap-2 md:gap-3 text-xs md:text-sm font-medium hover:text-[#00B14F] transition-colors group"
+                  className="flex items-center gap-2 md:gap-3 text-xs md:text-sm font-medium hover:text-[#00B14F] transition-colors group"
                 >
-                  <span className="group-hover:translate-x-[-2px] transition-transform truncate">
+                  <Mail size={16} className="md:size-[20px] flex-shrink-0" />
+                  <span className="group-hover:translate-x-[2px] transition-transform truncate">
                     partnership@travelpath.io.vn
                   </span>
-                  <Mail size={16} className="md:size-[20px] flex-shrink-0" />
                 </a>
                 <a
                   href="tel:+84836427816"
-                  className="flex flex-row-reverse items-center gap-2 md:gap-3 text-xs md:text-sm font-medium hover:text-[#00B14F] transition-colors group"
+                  className="flex items-center gap-2 md:gap-3 text-xs md:text-sm font-medium hover:text-[#00B14F] transition-colors group"
                 >
-                  <span className="group-hover:translate-x-[-2px] transition-transform">
+                  <Phone size={16} className="md:size-[20px] flex-shrink-0" />
+                  <span className="group-hover:translate-x-[2px] transition-transform">
                     +84 836 427 816
                   </span>
-                  <Phone size={16} className="md:size-[20px] flex-shrink-0" />
                 </a>
               </div>
 
@@ -191,21 +191,21 @@ export default function Home() {
                 </h3>
                 <a
                   href="https://www.facebook.com/travelpath.io.vn/"
-                  className="flex flex-row-reverse items-center gap-2 md:gap-3 text-xs md:text-sm font-medium hover:text-[#00B14F] transition-colors group"
+                  className="flex items-center gap-2 md:gap-3 text-xs md:text-sm font-medium hover:text-[#00B14F] transition-colors group"
                 >
-                  <span className="group-hover:translate-x-[-2px] transition-transform">
+                  <Facebook size={16} className="md:size-[20px] flex-shrink-0" />
+                  <span className="group-hover:translate-x-[2px] transition-transform">
                     Facebook
                   </span>
-                  <Facebook size={16} className="md:size-[20px] flex-shrink-0" />
                 </a>
                 <a
                   href="https://www.instagram.com/travelpath.io.vn/"
-                  className="flex flex-row-reverse items-center gap-2 md:gap-3 text-xs md:text-sm font-medium hover:text-[#00B14F] transition-colors group"
+                  className="flex items-center gap-2 md:gap-3 text-xs md:text-sm font-medium hover:text-[#00B14F] transition-colors group"
                 >
-                  <span className="group-hover:translate-x-[-2px] transition-transform">
+                  <Instagram size={16} className="md:size-[20px] flex-shrink-0" />
+                  <span className="group-hover:translate-x-[2px] transition-transform">
                     Instagram
                   </span>
-                  <Instagram size={16} className="md:size-[20px] flex-shrink-0" />
                 </a>
               </div>
             </div>
