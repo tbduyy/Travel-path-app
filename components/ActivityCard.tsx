@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import ImageSlideshow from "./ui/ImageSlideshow";
 
 interface ActivityCardProps {
   activity: {
@@ -13,6 +14,7 @@ interface ActivityCardProps {
       id: string;
       name: string;
       image: string | null;
+      images?: string[]; // Add images support
       address: string | null;
     };
     transportation?: {
@@ -73,7 +75,14 @@ export default function ActivityCard({
     return "📍";
   };
 
-  const hasValidImage = activity.place?.image && !imageError;
+  // Determine images to show
+  const images = activity.place?.images?.length
+    ? activity.place.images
+    : activity.place?.image
+      ? [activity.place.image]
+      : [];
+
+  const hasValidImage = images.length > 0 && !imageError;
 
   return (
     <div className="space-y-2">
@@ -103,20 +112,15 @@ export default function ActivityCard({
       {/* Activity Card */}
       <div className="bg-white rounded-2xl shadow-sm border border-[#1B4D3E]/10 hover:shadow-lg transition-all duration-300 overflow-hidden group">
         <div className="flex gap-4 p-4">
-          {/* Left: Image or Fallback */}
+          {/* Left: Image Slideshow or Emoji */}
           <div className="relative w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden">
             {hasValidImage ? (
-              <>
-                <Image
-                  src={activity.place!.image!}
-                  alt={activity.place?.name || activity.title}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  onError={() => setImageError(true)}
-                  unoptimized
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-              </>
+              <ImageSlideshow
+                images={images}
+                alt={activity.place?.name || activity.title}
+                className="w-full h-full"
+                interval={4000}
+              />
             ) : (
               <div className="w-full h-full bg-gradient-to-br from-[#2E968C] to-[#1B4D3E] flex items-center justify-center">
                 <span className="text-4xl drop-shadow-lg">

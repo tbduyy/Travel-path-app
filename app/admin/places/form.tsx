@@ -21,7 +21,7 @@ export default function PlaceForm({ place }: { place?: Place | null }) {
     }, initialState)
 
     // Local state for interactive fields
-    const [image, setImage] = useState(place?.image || '')
+    const [image, setImage] = useState(place?.images?.[0] || '')
     const [description, setDescription] = useState(place?.description || '')
     const [jsonError, setJsonError] = useState('')
 

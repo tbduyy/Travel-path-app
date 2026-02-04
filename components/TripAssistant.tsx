@@ -170,21 +170,19 @@ export default function TripAssistant({
         <div className="flex bg-gray-100 p-1 rounded-full w-full max-w-[300px]">
           <button
             onClick={() => setActiveTab("map")}
-            className={`flex-1 py-2 rounded-full text-sm font-bold transition-all ${
-              activeTab === "map"
+            className={`flex-1 py-2 rounded-full text-sm font-bold transition-all ${activeTab === "map"
                 ? "bg-[#1B4D3E] text-white shadow-md"
                 : "text-gray-500 hover:bg-gray-200"
-            }`}
+              }`}
           >
             Bản đồ
           </button>
           <button
             onClick={() => setActiveTab("ai")}
-            className={`flex-1 py-2 rounded-full text-sm font-bold transition-all flex items-center justify-center gap-2 ${
-              activeTab === "ai"
+            className={`flex-1 py-2 rounded-full text-sm font-bold transition-all flex items-center justify-center gap-2 ${activeTab === "ai"
                 ? "bg-[#2E968C] text-white shadow-md"
                 : "text-gray-500 hover:bg-gray-200"
-            }`}
+              }`}
           >
             <span>🤖</span> Trợ lý AI
           </button>
@@ -192,7 +190,7 @@ export default function TripAssistant({
       </div>
 
       {/* 2. Content Area */}
-      <div className="flex-1 rounded-[32px] overflow-hidden shadow-lg border border-[#1B4D3E]/10 bg-white relative">
+      <div className="flex-1 rounded-[32px] overflow-hidden shadow-lg border border-[#1B4D3E]/10 bg-white relative z-0">
         {activeTab === "map" ? (
           <div className="w-full h-full bg-[#E0E8E8]">
             <MapComponent
@@ -226,16 +224,14 @@ export default function TripAssistant({
               {messages.map((msg) => (
                 <div
                   key={msg.id}
-                  className={`flex ${
-                    msg.sender === "user" ? "justify-end" : "justify-start"
-                  }`}
+                  className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"
+                    }`}
                 >
                   <div
-                    className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed shadow-sm ${
-                      msg.sender === "user"
+                    className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed shadow-sm ${msg.sender === "user"
                         ? "bg-[#1B4D3E] text-white rounded-br-none"
                         : "bg-white text-gray-800 rounded-bl-none border border-gray-100"
-                    }`}
+                      }`}
                   >
                     {msg.text}
 

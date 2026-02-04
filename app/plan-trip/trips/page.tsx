@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Header from "@/components/layout/Header";
+import SearchWidget from "@/components/ui/SearchWidget";
 import TripStepper from "@/components/ui/TripStepper";
 import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -20,6 +21,7 @@ import {
 import { API_BASE_URL } from "@/lib/api-config";
 import { exportAndDownloadTripPDF } from "@/lib/export-pdf";
 import { useAuthStatus, LoginPromptModal } from "@/lib/hooks/useRequireAuth";
+import ImageSlideshow from "@/components/ui/ImageSlideshow";
 
 // Dynamically import MapComponent
 const MapComponent = dynamic(() => import("@/components/MapComponent"), {
@@ -712,7 +714,9 @@ function TripsContent() {
         <TripStepper />
       </div>
 
-      <div className="flex-1 w-full max-w-[1500px] mx-auto p-4 md:p-6 pb-24 md:pb-6 h-[calc(100vh-140px)] flex flex-col">
+
+
+      <div className="flex-1 w-full max-w-[1500px] mx-auto p-4 md:p-6 pb-24 md:pb-6 h-[calc(100vh-140px)] flex flex-col overflow-visible">
         {/* Header Section */}
         <div className="flex flex-col mb-4 gap-6 shrink-0">
           {/* 1. Meta Info Row */}
@@ -802,21 +806,19 @@ function TripsContent() {
           <div className="flex items-center gap-4">
             <button
               onClick={() => setViewStep(1)}
-              className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 ${
-                viewStep === 1
-                  ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
-                  : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
-              }`}
+              className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 ${viewStep === 1
+                ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
+                : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
+                }`}
             >
               Danh sách du lịch
             </button>
             <button
               onClick={() => setViewStep(2)}
-              className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 hidden ${
-                viewStep === 2
-                  ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
-                  : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
-              }`}
+              className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 hidden ${viewStep === 2
+                ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
+                : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
+                }`}
             >
               Lịch trình cụ thể
             </button>
@@ -827,8 +829,8 @@ function TripsContent() {
         <div className="flex-1 min-h-0 relative">
           {/* Step 1: Travel List (Split View: List vs Map) */}
           {viewStep === 1 && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full">
-              {/* Left: Scrollable List (50%) */}
+            <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-6 h-full">
+              {/* Left: Scrollable List (60%) */}
               <div className="h-full flex flex-col">
                 <div className="bg-[#F0F5F5] p-6 rounded-[32px] border border-[#1B4D3E]/5 shadow-sm h-full flex flex-col overflow-hidden relative">
                   <div className="overflow-y-auto pr-2 flex-1 scrollbar-thin scrollbar-thumb-[#1B4D3E]/20 hover:scrollbar-thumb-[#1B4D3E]/40 space-y-8 pb-10">
@@ -851,11 +853,10 @@ function TripsContent() {
                             >
                               {/* Image Left */}
                               <div className="relative w-1/3 aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 flex-shrink-0">
-                                <Image
-                                  src={place.image || "/placeholder.jpg"}
+                                <ImageSlideshow
+                                  images={place.images?.length ? place.images : [place.image || "/placeholder.jpg"]}
                                   alt={place.name}
-                                  fill
-                                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                  className="w-full h-full group-hover:scale-105 transition-transform duration-700"
                                 />
                               </div>
 
@@ -932,7 +933,7 @@ function TripsContent() {
                                       Cách Khách sạn:{" "}
                                       {place.metadata?.distance ||
                                         (Math.random() * 5 + 1).toFixed(1) +
-                                          " km"}
+                                        " km"}
                                     </span>
                                   </div>
                                   <div className="inline-flex items-center gap-2 bg-[#CFE0E0] px-3 py-1.5 rounded-full w-fit">
@@ -1009,11 +1010,10 @@ function TripsContent() {
                             >
                               {/* Image Left */}
                               <div className="relative w-1/3 aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 flex-shrink-0">
-                                <Image
-                                  src={place.image || "/placeholder.jpg"}
+                                <ImageSlideshow
+                                  images={place.images?.length ? place.images : [place.image || "/placeholder.jpg"]}
                                   alt={place.name}
-                                  fill
-                                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                  className="w-full h-full group-hover:scale-105 transition-transform duration-700"
                                 />
                               </div>
 
@@ -1088,7 +1088,7 @@ function TripsContent() {
                                       Cách Khách sạn:{" "}
                                       {place.metadata?.distance ||
                                         (Math.random() * 5 + 1).toFixed(1) +
-                                          " km"}
+                                        " km"}
                                     </span>
                                   </div>
                                   <div className="inline-flex items-center gap-2 bg-[#CFE0E0] px-3 py-1.5 rounded-full w-fit">
@@ -1145,8 +1145,8 @@ function TripsContent() {
                 </div>
               </div>
 
-              {/* Right: Map (50%) */}
-              <div className="hidden lg:block h-full rounded-[32px] overflow-hidden shadow-lg border border-[#1B4D3E]/10 relative z-0">
+              {/* Right: Map (40%) */}
+              <div className="hidden lg:block h-[600px] rounded-[32px] overflow-hidden shadow-lg border border-[#1B4D3E]/10 relative z-0 sticky top-0">
                 <MapComponent markers={mapMarkers} />
               </div>
             </div>
@@ -1350,35 +1350,35 @@ function TripsContent() {
                   )}
 
                 {/* Bottom Action Buttons */}
-                  <div className="flex gap-3 pt-4 relative z-20">
-                    <button
-                      onClick={() =>
-                        alert("Chức năng chỉnh sửa đang được phát triển")
-                      }
-                      className="flex-1 py-3 text-[#1B4D3E] border-2 border-[#1B4D3E] rounded-full font-bold hover:bg-[#1B4D3E]/5 transition-colors"
+                <div className="flex gap-3 pt-4 relative z-20">
+                  <button
+                    onClick={() =>
+                      alert("Chức năng chỉnh sửa đang được phát triển")
+                    }
+                    className="flex-1 py-3 text-[#1B4D3E] border-2 border-[#1B4D3E] rounded-full font-bold hover:bg-[#1B4D3E]/5 transition-colors"
+                  >
+                    Chỉnh sửa
+                  </button>
+                  <button
+                    onClick={() => setShowAddActivityModal(true)}
+                    className="flex-1 py-3 bg-[#1B4D3E] text-white rounded-full font-bold hover:bg-[#113D38] transition-colors flex items-center justify-center gap-2"
+                  >
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
                     >
-                      Chỉnh sửa
-                    </button>
-                    <button
-                      onClick={() => setShowAddActivityModal(true)}
-                      className="flex-1 py-3 bg-[#1B4D3E] text-white rounded-full font-bold hover:bg-[#113D38] transition-colors flex items-center justify-center gap-2"
-                    >
-                      <svg
-                        className="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                        />
-                      </svg>
-                      Thêm hoạt động
-                    </button>
-                  </div>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      />
+                    </svg>
+                    Thêm hoạt động
+                  </button>
+                </div>
 
                 {/* Schedule Content - Scrollable */}
                 <div className="flex-1 overflow-y-auto bg-white/40 p-6 rounded-[32px] border border-[#1B4D3E]/5 shadow-sm space-y-6">
@@ -1428,7 +1428,7 @@ function TripsContent() {
                     </div>
 
                     {(activities[selectedDay]?.["afternoon"] || []).length >
-                    0 ? (
+                      0 ? (
                       <div className="space-y-4">
                         {activities[selectedDay]["afternoon"].map(
                           (item, idx) => (
@@ -1573,7 +1573,7 @@ function TripsContent() {
               >
                 <button
                   onClick={() => setViewedPlace(null)}
-                  className="absolute top-4 right-4 p-2 bg-gray-100 rounded-full hover:bg-gray-200"
+                  className="absolute top-4 right-4 p-2 bg-gray-100 rounded-full hover:bg-gray-200 z-50 transition-colors"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -1591,11 +1591,10 @@ function TripsContent() {
                   </svg>
                 </button>
                 <div className="w-full aspect-video rounded-2xl overflow-hidden relative mb-4">
-                  <Image
-                    src={viewedPlace.image || "/placeholder.jpg"}
+                  <ImageSlideshow
+                    images={viewedPlace.images?.length ? viewedPlace.images : [viewedPlace.image || "/placeholder.jpg"]}
                     alt={viewedPlace.name}
-                    fill
-                    className="object-cover"
+                    className="w-full h-full object-cover"
                   />
                 </div>
                 <h2 className="text-2xl font-black text-[#1B4D3E] mb-2">
@@ -1812,7 +1811,7 @@ function TripsContent() {
                       <p className="text-gray-600 text-xs mb-1">Chi phí</p>
                       <p className="font-semibold text-[#1B4D3E]">
                         {viewingActivityDetails.transportation.estimated_cost >
-                        0
+                          0
                           ? `${viewingActivityDetails.transportation.estimated_cost.toLocaleString()} đ`
                           : "Miễn phí"}
                       </p>

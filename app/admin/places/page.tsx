@@ -67,9 +67,9 @@ export default async function PlacesPage({ searchParams }: { searchParams: Promi
                             <tr key={place.id} className="hover:bg-gray-50 transition-colors group">
                                 <td className="px-6 py-4 w-24">
                                     <div className="relative w-16 h-12 rounded-lg overflow-hidden bg-gray-100">
-                                        {place.image && (
+                                        {place.images && place.images.length > 0 && (
                                             <Image
-                                                src={place.image}
+                                                src={place.images[0]}
                                                 alt={place.name}
                                                 fill
                                                 className="object-cover"

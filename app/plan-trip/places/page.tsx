@@ -10,6 +10,7 @@ import clsx from "clsx";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTripStore } from "@/lib/store/trip-store";
+import ImageSlideshow from "@/components/ui/ImageSlideshow";
 
 // Map Component
 const MapComponent = dynamic(() => import("@/components/MapComponent"), {
@@ -232,66 +233,12 @@ function PlacesContent() {
           {/* LEFT COLUMN: List */}
           <motion.div
             layout
-            className={clsx(
-              "h-full overflow-y-auto scrollbar-thin scrollbar-thumb-[#1B4D3E]/20 hover:scrollbar-thumb-[#1B4D3E]/40 z-10 rounded-[32px] border border-[#1B4D3E]/5 shadow-sm transition-all duration-500",
-              viewedPlace
-                ? "w-1/4 min-w-[300px] bg-[#F5F9F9] p-4"
-                : "w-full lg:w-[60%] bg-[#E8F1F0] p-6",
-            )}
+            className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-[#1B4D3E]/20 hover:scrollbar-thumb-[#1B4D3E]/40 z-10 rounded-[32px] border border-[#1B4D3E]/5 shadow-sm transition-all duration-500 w-full lg:w-[60%] bg-[#E8F1F0] p-6"
           >
-            <div
-              className={clsx(
-                "grid gap-4 transition-all",
-                viewedPlace
-                  ? "grid-cols-1"
-                  : "grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
-              )}
-            >
+            <div className="grid gap-4 transition-all grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
               {places.map((place) => {
                 const isSelected = selectedPlaceIds.includes(place.id);
                 const isViewed = viewedPlace?.id === place.id;
-
-                if (viewedPlace) {
-                  // COMPACT HORIZONTAL CARD (For Side List)
-                  return (
-                    <motion.div
-                      layout
-                      key={place.id}
-                      onClick={() => handleCardClick(place)}
-                      className={clsx(
-                        "bg-white rounded-2xl p-3 shadow-sm border transition-all cursor-pointer flex gap-3 group items-center",
-                        isViewed
-                          ? "border-[#1B4D3E] ring-1 ring-[#1B4D3E] bg-[#E0F2F1] shadow-md"
-                          : "border-transparent hover:border-[#1B4D3E]/20",
-                      )}
-                    >
-                      <div className="relative w-16 h-16 shrink-0 rounded-xl overflow-hidden bg-gray-200">
-                        <Image
-                          src={place.image || "/placeholder.jpg"}
-                          alt={place.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-[#1B4D3E] text-sm truncate group-hover:text-[#2E968C]">
-                          {place.name}
-                        </h3>
-                        <button
-                          onClick={(e) => toggleSelectPlace(e, place)}
-                          className={clsx(
-                            "text-xs px-3 py-1.5 rounded-full font-bold transition-all mt-1 block",
-                            isSelected
-                              ? "bg-[#1B4D3E] text-white"
-                              : "bg-gray-100 text-gray-600 hover:bg-[#1B4D3E]/10",
-                          )}
-                        >
-                          {isSelected ? "Đã chọn" : "Chọn"}
-                        </button>
-                      </div>
-                    </motion.div>
-                  );
-                }
 
                 // STANDARD GRID CARD
                 return (
@@ -308,11 +255,10 @@ function PlacesContent() {
                   >
                     {/* Image */}
                     <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden bg-gray-100 shadow-inner">
-                      <Image
-                        src={place.image || "/placeholder.jpg"}
+                      <ImageSlideshow
+                        images={place.images?.length ? place.images : [place.image || "/placeholder.jpg"]}
                         alt={place.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                        className="w-full h-full group-hover:scale-105 transition-transform duration-700"
                       />
                       <div className="absolute top-3 left-3 bg-white/90 backdrop-blur rounded-full p-2 shadow-sm text-[#1B4D3E]">
                         <svg
@@ -378,18 +324,22 @@ function PlacesContent() {
             </div>
           </motion.div>
 
-          {/* CENTER COLUMN: Detail View */}
-          <AnimatePresence mode="popLayout">
-            {viewedPlace && (
+          {/* DETAIL MODAL OVERLAY */}
+          {viewedPlace && (
+            <div
+              className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
+              onClick={() => setViewedPlace(null)}
+            >
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="bg-white m-0 h-full rounded-[32px] overflow-y-auto p-6 scrollbar-thin shadow-2xl z-20 w-[40%] min-w-[380px] hidden md:block border border-[#1B4D3E]/5 relative"
+                onClick={(e) => e.stopPropagation()}
+                className="bg-white m-0 max-h-[90vh] rounded-[32px] overflow-y-auto p-6 scrollbar-thin shadow-2xl z-20 w-[90%] md:w-[60%] lg:w-[45%] border border-[#1B4D3E]/5 relative"
               >
                 <button
                   onClick={() => setViewedPlace(null)}
-                  className="absolute top-4 right-4 p-2 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors z-10"
+                  className="absolute top-4 right-4 p-2 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors z-50"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -409,11 +359,10 @@ function PlacesContent() {
 
                 <div className="flex flex-col gap-6">
                   <div className="relative w-full aspect-video rounded-[24px] overflow-hidden shadow-lg group">
-                    <Image
-                      src={viewedPlace.image || "/placeholder.jpg"}
+                    <ImageSlideshow
+                      images={viewedPlace.images?.length ? viewedPlace.images : [viewedPlace.image || "/placeholder.jpg"]}
                       alt={viewedPlace.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="w-full h-full group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-60"></div>
                   </div>
@@ -497,7 +446,10 @@ function PlacesContent() {
 
                   <div className="mt-auto pt-8">
                     <button
-                      onClick={(e) => toggleSelectPlace(e, viewedPlace)}
+                      onClick={(e) => {
+                        toggleSelectPlace(e, viewedPlace);
+                        setViewedPlace(null);
+                      }}
                       className={clsx(
                         "w-full py-4 rounded-2xl font-black text-lg shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3",
                         selectedPlaceIds.includes(viewedPlace.id)
@@ -517,8 +469,8 @@ function PlacesContent() {
                   </div>
                 </div>
               </motion.div>
-            )}
-          </AnimatePresence>
+            </div>
+          )}
 
           {/* RIGHT COLUMN: Map */}
           <motion.div

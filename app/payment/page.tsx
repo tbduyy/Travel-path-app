@@ -19,9 +19,9 @@ import {
 } from "@/lib/hooks/useRequireAuth";
 import { exportTripToPDF } from "@/lib/export-pdf";
 import { sendTripConfirmationEmail } from "@/app/actions/email";
-import { 
-  getPrefetchedPaymentData, 
-  clearPrefetchedPaymentData 
+import {
+  getPrefetchedPaymentData,
+  clearPrefetchedPaymentData
 } from "@/lib/utils/prefetch-payment";
 
 // Types
@@ -32,7 +32,8 @@ interface PlaceData {
   type: string;
   rating?: number;
   address?: string;
-  image: string;
+  image?: string; // Optional separate field
+  images?: string[]; // New array field
   price?: string;
   duration?: string;
   priceLevel?: string;
@@ -40,6 +41,56 @@ interface PlaceData {
   lng?: number;
   metadata?: any;
 }
+
+interface Voucher {
+  code: string;
+  name: string;
+  description: string;
+  discountType: "PERCENT" | "FIXED";
+  value: number;
+  maxDiscount?: number;
+  minOrder?: number;
+  color: string;
+}
+
+const AVAILABLE_VOUCHERS: Voucher[] = [
+  {
+    code: "HANHTRINHVUI",
+    name: "HANHTRINHVUI",
+    description: "Giảm 15% tối đa 300K",
+    discountType: "PERCENT",
+    value: 15,
+    maxDiscount: 300000,
+    color: "bg-purple-100 text-purple-700",
+  },
+  {
+    code: "BANMOI",
+    name: "BANMOI",
+    description: "Giảm 20% cho đơn hàng đầu tiên",
+    discountType: "PERCENT",
+    value: 20,
+    maxDiscount: 200000,
+    minOrder: 0,
+    color: "bg-red-100 text-red-700",
+  },
+  {
+    code: "MUNGXUAN26",
+    name: "MUNGXUAN26",
+    description: "Giảm 100K cho đơn từ 1 triệu",
+    discountType: "FIXED",
+    value: 100000,
+    minOrder: 1000000,
+    color: "bg-yellow-100 text-yellow-700",
+  },
+  {
+    code: "FREESHIP",
+    name: "FREESHIP",
+    description: "Miễn phí dịch vụ",
+    discountType: "FIXED",
+    value: 50000,
+    color: "bg-blue-100 text-blue-700",
+  },
+];
 
 // Helper to parse price variations
 const parsePrice = (priceStr?: string): number => {
@@ -70,7 +121,7 @@ function PaymentContent() {
     isAuthenticated,
     showAuthPopup,
   } = useRequireAuthFromContext();
-  
+
   // Get user info from shared AuthContext (no extra server action call!)
   const { userEmail, userName } = useAuth();
 
@@ -134,6 +185,15 @@ function PaymentContent() {
     "pending" | "sending" | "sent" | "failed"
   >("pending");
 
+  // VOUCHER STATE
+  const [selectedVoucher, setSelectedVoucher] = useState<Voucher | null>(null);
+
+  // Auto-apply "HANHTRINHVUI" on enter
+  useEffect(() => {
+    const defaultVoucher = AVAILABLE_VOUCHERS.find(v => v.code === "HANHTRINHVUI");
+    if (defaultVoucher) setSelectedVoucher(defaultVoucher);
+  }, []);
+
   // User info is now from AuthContext - no server action call needed!
   const userInfo = { email: userEmail, name: userName };
 
@@ -148,7 +208,7 @@ function PaymentContent() {
 
   const currentMessage =
     processingMessages[
-      Math.floor((20 - countdown) / 10) % processingMessages.length
+    Math.floor((20 - countdown) / 10) % processingMessages.length
     ];
 
   // 1. Params - prioritize store, fallback to URL
@@ -191,7 +251,7 @@ function PaymentContent() {
       try {
         // PERFORMANCE: Check for prefetched data first (set by demo page before navigation)
         const prefetched = getPrefetchedPaymentData();
-        
+
         if (prefetched) {
           console.log("[Payment] Using prefetched data - INSTANT load");
           const hotel = prefetched.hotelData;
@@ -222,16 +282,25 @@ function PaymentContent() {
 
         if (result.success && result.data) {
           const places = result.data as PlaceData[];
+          // Transform data to support new schema if needed
+          const transformPlace = (p: any): PlaceData => ({
+            ...p,
+            image: p.images?.[0] || p.image || "/placeholder.jpg",
+          });
+
           const hotel = places.find(
             (p) => p.id === hotelId && p.type === "HOTEL",
           );
-          const attractions = places.filter(
-            (p) =>
-              placeIds.includes(p.id) &&
-              p.type !== "RESTAURANT" &&
-              p.type !== "HOTEL",
-          );
-          setSelectedHotel(hotel || null);
+          const attractions = places
+            .filter(
+              (p) =>
+                placeIds.includes(p.id) &&
+                p.type !== "RESTAURANT" &&
+                p.type !== "HOTEL",
+            )
+            .map(transformPlace);
+
+          setSelectedHotel(hotel ? transformPlace(hotel) : null);
           setSelectedAttractions(attractions);
         }
       } catch (error) {
@@ -349,7 +418,23 @@ function PaymentContent() {
   const selectedAttractionsTotal = attractionCosts
     .filter((item) => item.isSelected)
     .reduce((acc, curr) => acc + curr.total, 0);
-  const grandTotal = selectedHotelTotal + selectedAttractionsTotal;
+
+  const subTotal = selectedHotelTotal + selectedAttractionsTotal;
+
+  // Calculate Discount
+  let discountAmount = 0;
+  if (selectedVoucher && subTotal >= (selectedVoucher.minOrder || 0)) {
+    if (selectedVoucher.discountType === "PERCENT") {
+      discountAmount = (subTotal * selectedVoucher.value) / 100;
+      if (selectedVoucher.maxDiscount && discountAmount > selectedVoucher.maxDiscount) {
+        discountAmount = selectedVoucher.maxDiscount;
+      }
+    } else {
+      discountAmount = selectedVoucher.value;
+    }
+  }
+
+  const grandTotal = Math.max(0, subTotal - discountAmount);
   const formattedBudget_forPDF = new Intl.NumberFormat("vi-VN").format(grandTotal);
 
   // Count selected items
@@ -507,22 +592,28 @@ function PaymentContent() {
             {/* Hotel Section */}
             {selectedHotel && (
               <div
-                className={`bg-white p-6 rounded-[24px] shadow-sm transition-all ${isHotelSelected ? "ring-2 ring-[#2E968C]" : ""}`}
+                className={`bg-white p-6 rounded-[24px] shadow-sm transition-all relative ${isHotelSelected ? "ring-2 ring-[#2E968C]" : ""}`}
               >
+                {/* Discount Tag */}
+                {selectedVoucher && isHotelSelected && (
+                  <div className="absolute top-4 right-4 bg-red-100 text-red-600 px-2 py-1 rounded-md text-xs font-bold flex items-center gap-1">
+                    <span className="text-[10px]">🏷️</span>
+                    -{selectedVoucher.discountType === "PERCENT" ? `${selectedVoucher.value}%` : "Voucher"}
+                  </div>
+                )}
+
                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                   <span className="text-2xl">🏨</span> Lưu trú ({nights} đêm)
                 </h3>
                 <div className="flex gap-4 items-start border-b border-gray-100 pb-4 mb-4">
                   <div className="w-24 h-24 rounded-xl overflow-hidden relative shrink-0 bg-gray-100">
-                    {selectedHotel.image && (
-                      <Image
-                        src={selectedHotel.image}
-                        alt={selectedHotel.name}
-                        fill
-                        className="object-cover"
-                        priority
-                      />
-                    )}
+                    <Image
+                      src={selectedHotel.images?.[0] || selectedHotel.image || "/placeholder.jpg"}
+                      alt={selectedHotel.name}
+                      fill
+                      className="object-cover"
+                      priority
+                    />
                   </div>
                   <div className="flex-1">
                     <h4 className="font-bold text-lg">{selectedHotel.name}</h4>
@@ -535,17 +626,27 @@ function PaymentContent() {
                   </div>
                   <div className="text-right flex flex-col items-end gap-2">
                     <div className="font-bold text-lg text-[#1B4D3E]">
-                      {new Intl.NumberFormat("vi-VN").format(hotelTotal)} ₫
+                      {isHotelSelected && selectedVoucher ? (
+                        <div className="flex flex-col items-end">
+                          <span className="text-gray-400 line-through text-sm">
+                            {new Intl.NumberFormat("vi-VN").format(hotelTotal)} ₫
+                          </span>
+                          <span className="text-red-600">
+                            {new Intl.NumberFormat("vi-VN").format(hotelTotal * (1 - (selectedVoucher.discountType === "PERCENT" ? selectedVoucher.value / 100 : 0)))} ₫
+                          </span>
+                        </div>
+                      ) : (
+                        `${new Intl.NumberFormat("vi-VN").format(hotelTotal)} ₫`
+                      )}
                     </div>
                     <div className="text-xs text-gray-400">x {nights} đêm</div>
                     <button
                       type="button"
                       onClick={() => toggleItemSelection("hotel")}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 mt-2 ${
-                        isHotelSelected
-                          ? "bg-[#1B4D3E] text-white"
-                          : "bg-[#E8F5E9] text-[#1B4D3E] hover:bg-[#D0EBD0]"
-                      }`}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 mt-2 ${isHotelSelected
+                        ? "bg-[#1B4D3E] text-white"
+                        : "bg-[#E8F5E9] text-[#1B4D3E] hover:bg-[#D0EBD0]"
+                        }`}
                     >
                       {isHotelSelected && <Check className="w-4 h-4" />}
                       {isHotelSelected ? "Đã chọn" : "Chọn chỗ này"}
@@ -557,7 +658,14 @@ function PaymentContent() {
 
             {/* Attractions Section */}
             {attractionCosts.length > 0 && (
-              <div className="bg-white p-6 rounded-[24px] shadow-sm">
+              <div className="bg-white p-6 rounded-[24px] shadow-sm relative">
+                {/* Discount Tag */}
+                {selectedVoucher && attractionCosts.some(i => i.isSelected) && (
+                  <div className="absolute top-4 right-4 bg-red-100 text-red-600 px-2 py-1 rounded-md text-xs font-bold flex items-center gap-1">
+                    <span className="text-[10px]">🏷️</span>
+                    -{selectedVoucher.discountType === "PERCENT" ? `${selectedVoucher.value}%` : "Voucher"}
+                  </div>
+                )}
                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                   <span className="text-2xl">🎡</span> Hoạt động ({peopleCount}{" "}
                   người)
@@ -569,22 +677,19 @@ function PaymentContent() {
                     return (
                       <div
                         key={item.id}
-                        className={`flex gap-4 items-center p-3 rounded-xl transition-all ${
-                          isItemSelected
-                            ? "bg-[#E8F5E9] ring-2 ring-[#2E968C]"
-                            : "hover:bg-gray-50"
-                        }`}
+                        className={`flex gap-4 items-center p-3 rounded-xl transition-all ${isItemSelected
+                          ? "bg-[#E8F5E9] ring-2 ring-[#2E968C]"
+                          : "hover:bg-gray-50"
+                          }`}
                       >
                         <div className="w-16 h-16 rounded-xl overflow-hidden relative shrink-0 bg-gray-100">
-                          {item.image && (
-                            <Image
-                              src={item.image}
-                              alt={item.name}
-                              fill
-                              className="object-cover"
-                              loading="lazy"
-                            />
-                          )}
+                          <Image
+                            src={item.images?.[0] || item.image || "/placeholder.jpg"}
+                            alt={item.name}
+                            fill
+                            className="object-cover"
+                            loading="lazy"
+                          />
                         </div>
                         <div className="flex-1">
                           <h4 className="font-bold text-base">{item.name}</h4>
@@ -613,11 +718,10 @@ function PaymentContent() {
                           <button
                             type="button"
                             onClick={() => toggleItemSelection(itemKey)}
-                            className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
-                              isItemSelected
-                                ? "bg-[#1B4D3E] text-white"
-                                : "bg-[#E8F5E9] text-[#1B4D3E] hover:bg-[#D0EBD0]"
-                            }`}
+                            className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${isItemSelected
+                              ? "bg-[#1B4D3E] text-white"
+                              : "bg-[#E8F5E9] text-[#1B4D3E] hover:bg-[#D0EBD0]"
+                              }`}
                           >
                             {isItemSelected && <Check className="w-3 h-3" />}
                             {isItemSelected ? "Đã chọn" : "Thêm vào"}
@@ -655,25 +759,25 @@ function PaymentContent() {
                 {attractionCosts.filter((item) =>
                   selectedItems.has(`attraction-${item.id}`),
                 ).length > 0 && (
-                  <div className="flex justify-between items-center text-white/80">
-                    <span className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-green-400" />
-                      Vé tham quan (
-                      {
-                        attractionCosts.filter((item) =>
-                          selectedItems.has(`attraction-${item.id}`),
-                        ).length
-                      }
-                      )
-                    </span>
-                    <span>
-                      {new Intl.NumberFormat("vi-VN").format(
-                        selectedAttractionsTotal,
-                      )}{" "}
-                      ₫
-                    </span>
-                  </div>
-                )}
+                    <div className="flex justify-between items-center text-white/80">
+                      <span className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-green-400" />
+                        Vé tham quan (
+                        {
+                          attractionCosts.filter((item) =>
+                            selectedItems.has(`attraction-${item.id}`),
+                          ).length
+                        }
+                        )
+                      </span>
+                      <span>
+                        {new Intl.NumberFormat("vi-VN").format(
+                          selectedAttractionsTotal,
+                        )}{" "}
+                        ₫
+                      </span>
+                    </div>
+                  )}
                 {selectedCount === 0 && (
                   <p className="text-white/50 text-sm text-center py-4">
                     Chưa chọn dịch vụ nào
@@ -683,12 +787,76 @@ function PaymentContent() {
                   <span>Phí dịch vụ</span>
                   <span>0 ₫</span>
                 </div>
+
+                {/* Voucher Applied */}
+                {selectedVoucher && (
+                  <div className="flex justify-between items-center text-green-300 animate-in slide-in-from-right-2">
+                    <span className="flex items-center gap-2">
+                      <span className="text-lg">🎟️</span>
+                      Mã giảm giá
+                    </span>
+                    <span className="font-bold">
+                      - {new Intl.NumberFormat("vi-VN").format(discountAmount)} ₫
+                    </span>
+                  </div>
+                )}
+
                 <div className="h-px bg-white/20 my-4"></div>
                 <div className="flex justify-between items-center text-2xl font-black">
                   <span>Tổng</span>
                   <span>
                     {new Intl.NumberFormat("vi-VN").format(grandTotal)} ₫
                   </span>
+                </div>
+              </div>
+
+              <div className="bg-white/10 rounded-xl p-4 mb-6">
+                <h4 className="font-bold text-sm mb-3 text-white/90 flex items-center gap-2">
+                  <span className="text-lg">🏷️</span> Mã giảm giá
+                </h4>
+
+                {/* Selected Voucher Display */}
+                {selectedVoucher ? (
+                  <div className="bg-[#2E4A45] p-3 rounded-lg flex items-center justify-between border border-[#4E7A75] mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-lg">
+                        🎫
+                      </div>
+                      <div>
+                        <p className="font-bold text-sm uppercase text-white">{selectedVoucher.code}</p>
+                        <p className="text-[10px] text-white/70">{selectedVoucher.description}</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => setSelectedVoucher(null)}
+                      className="text-white/60 hover:text-white hover:bg-white/10 p-1 rounded-full transition-colors"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                    </button>
+                  </div>
+                ) : null}
+
+                {/* Available Vouchers List */}
+                <div className="space-y-2 max-h-[150px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-white/20">
+                  <p className="text-xs text-white/50 mb-2">Chọn voucher có sẵn: ({AVAILABLE_VOUCHERS.length})</p>
+                  {AVAILABLE_VOUCHERS.filter(v => v.code !== selectedVoucher?.code).map(voucher => (
+                    <div
+                      key={voucher.code}
+                      onClick={() => setSelectedVoucher(voucher)}
+                      className="bg-white/5 hover:bg-white/10 p-2.5 rounded-lg border border-white/5 cursor-pointer transition-all flex items-center gap-3 group"
+                    >
+                      <div className={`w-8 h-8 rounded-md flex items-center justify-center text-xs font-bold ${voucher.color.replace('bg-', 'bg-opacity-20 bg-').replace('text-', 'text-white ')}`}>
+                        %
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-bold text-xs uppercase text-white group-hover:text-[#41C7D6] transition-colors">{voucher.code}</p>
+                        <p className="text-[10px] text-white/60 truncate">{voucher.description}</p>
+                      </div>
+                      <div className="w-4 h-4 rounded-full border border-white/30 group-hover:border-[#41C7D6] flex items-center justify-center">
+                        <div className="w-2 h-2 bg-[#41C7D6] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -699,11 +867,10 @@ function PaymentContent() {
                 </h4>
                 <div className="space-y-2">
                   <label
-                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${
-                      paymentMethod === "momo"
-                        ? "bg-white text-[#A50064] border-[#A50064]"
-                        : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
-                    }`}
+                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${paymentMethod === "momo"
+                      ? "bg-white text-[#A50064] border-[#A50064]"
+                      : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
+                      }`}
                     onClick={() => setPaymentMethod("momo")}
                   >
                     <div className="w-5 h-5 rounded-full border border-current flex items-center justify-center">
@@ -716,11 +883,10 @@ function PaymentContent() {
                   </label>
 
                   <label
-                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${
-                      paymentMethod === "vnpay"
-                        ? "bg-white text-[#005BAA] border-[#005BAA]"
-                        : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
-                    }`}
+                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${paymentMethod === "vnpay"
+                      ? "bg-white text-[#005BAA] border-[#005BAA]"
+                      : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
+                      }`}
                     onClick={() => setPaymentMethod("vnpay")}
                   >
                     <div className="w-5 h-5 rounded-full border border-current flex items-center justify-center">
@@ -733,11 +899,10 @@ function PaymentContent() {
                   </label>
 
                   <label
-                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${
-                      paymentMethod === "card"
-                        ? "bg-white text-[#1B4D3E] border-[#1B4D3E]"
-                        : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
-                    }`}
+                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${paymentMethod === "card"
+                      ? "bg-white text-[#1B4D3E] border-[#1B4D3E]"
+                      : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
+                      }`}
                     onClick={() => setPaymentMethod("card")}
                   >
                     <div className="w-5 h-5 rounded-full border border-current flex items-center justify-center">
@@ -754,11 +919,10 @@ function PaymentContent() {
               <button
                 onClick={handlePay}
                 disabled={selectedCount === 0}
-                className={`w-full py-4 rounded-2xl font-bold text-lg transition-all shadow-lg flex justify-center items-center gap-2 ${
-                  selectedCount === 0
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-[#EF4444] hover:bg-[#DC2626] hover:shadow-2xl hover:-translate-y-1"
-                }`}
+                className={`w-full py-4 rounded-2xl font-bold text-lg transition-all shadow-lg flex justify-center items-center gap-2 ${selectedCount === 0
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[#EF4444] hover:bg-[#DC2626] hover:shadow-2xl hover:-translate-y-1"
+                  }`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

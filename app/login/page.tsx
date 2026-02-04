@@ -6,22 +6,41 @@ import { login } from "./actions";
 import { signInWithGoogle } from "./oauth-actions";
 import Header from "../../components/layout/Header";
 import { Loader2 } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useAuth } from "@/lib/context/AuthContext";
 
 // Initial state for the form
 const initialState = {
   error: "",
+  success: false,
+  redirectTo: "",
 };
 
 function LoginForm() {
+  const { refreshAuth } = useAuth();
+  const router = useRouter();
+
   const [state, formAction, isPending] = useActionState(
     async (_prevState: any, formData: FormData) => {
       const result = await login(formData);
-      if (result?.error) return { error: result.error };
-      return { error: "" };
+      if (result?.error) {
+        return { error: result.error, success: false, redirectTo: "" };
+      }
+      return { error: "", success: true, redirectTo: result.redirectTo };
     },
     initialState,
   );
+
+  useEffect(() => {
+    if (state.success && state.redirectTo) {
+      const handleLoginSuccess = async () => {
+        await refreshAuth(); // Update auth context immediately
+        router.refresh(); // Refresh server components
+        router.replace(state.redirectTo); // Client-side redirect
+      };
+      handleLoginSuccess();
+    }
+  }, [state.success, state.redirectTo, refreshAuth, router]);
 
   const searchParams = useSearchParams();
   const [showAuthPopup, setShowAuthPopup] = useState(false);

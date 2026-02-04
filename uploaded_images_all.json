@@ -1,0 +1,412 @@
+{
+  "nt-le-soleil": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-le-soleil/nt-le-soleil-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-le-soleil/nt-le-soleil-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-le-soleil/nt-le-soleil-3.jpg"
+  ],
+  "nt-brilliant-bay": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-brilliant-bay/nt-brilliant-bay-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-brilliant-bay/nt-brilliant-bay-2.webp",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-brilliant-bay/nt-brilliant-bay-3.webp"
+  ],
+  "nt-ckd-nha-trang": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-ckd-nha-trang/nt-ckd-nha-trang-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-ckd-nha-trang/nt-ckd-nha-trang-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-ckd-nha-trang/nt-ckd-nha-trang-3.webp"
+  ],
+  "nt-dendro": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-dendro/nt-dendro-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-dendro/nt-dendro-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-dendro/nt-dendro-3.jpg"
+  ],
+  "nt-dolphin-bay": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-dolphin-bay/nt-dolphin-bay-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-dolphin-bay/nt-dolphin-bay-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-dolphin-bay/nt-dolphin-bay-3.jpg"
+  ],
+  "nt-dubai-hotel": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-dubai-hotel/nt-dubai-hotel-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-dubai-hotel/nt-dubai-hotel-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-dubai-hotel/nt-dubai-hotel-3.jpg"
+  ],
+  "nt-maika": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-maika/nt-maika-1.avif",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-maika/nt-maika-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-maika/nt-maika-3.jpg"
+  ],
+  "nt-mangolia": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-mangolia/nt-mangolia-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-mangolia/nt-mangolia-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-mangolia/nt-mangolia-3.jpg"
+  ],
+  "nt-nang-bien-sunny-sea": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nang-bien-sunny-sea/nt-nang-bien-sunny-sea-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nang-bien-sunny-sea/nt-nang-bien-sunny-sea-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nang-bien-sunny-sea/nt-nang-bien-sunny-sea-3.jpg"
+  ],
+  "nt-palm-beach": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-palm-beach/nt-palm-beach-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-palm-beach/nt-palm-beach-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-palm-beach/nt-palm-beach-3.jpg"
+  ],
+  "nt-pearl-city": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-pearl-city/nt-pearl-city-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-pearl-city/nt-pearl-city-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-pearl-city/nt-pearl-city-3.avif"
+  ],
+  "nt-ruby-luxury": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-ruby-luxury/nt-ruby-luxury-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-ruby-luxury/nt-ruby-luxury-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-ruby-luxury/nt-ruby-luxury-3.jpg"
+  ],
+  "nt-sun-city": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-sun-city/nt-sun-city-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-sun-city/nt-sun-city-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-sun-city/nt-sun-city-3.jpg"
+  ],
+  "nt-vinpearl-beachfront": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-vinpearl-beachfront/nt-vinpearl-beachfront-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-vinpearl-beachfront/nt-vinpearl-beachfront-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-vinpearl-beachfront/nt-vinpearl-beachfront-3.jpg"
+  ],
+  "nt-van-kim": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-van-kim/nt-van-kim-1.webp",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-van-kim/nt-van-kim-2.webp",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-van-kim/nt-van-kim-3.jpg"
+  ],
+  "nt-banh-canh-co-ha": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-banh-canh-co-ha/nt-banh-canh-co-ha-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-banh-canh-co-ha/nt-banh-canh-co-ha-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-banh-canh-co-ha/nt-banh-canh-co-ha-3.jpg"
+  ],
+  "nt-banh-can-51": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-banh-can-51/nt-banh-can-51-1.webp",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-banh-can-51/nt-banh-can-51-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-banh-can-51/nt-banh-can-51-3.jpg"
+  ],
+  "nt-com-ga-nui-mot": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-com-ga-nui-mot/nt-com-ga-nui-mot-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-com-ga-nui-mot/nt-com-ga-nui-mot-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-com-ga-nui-mot/nt-com-ga-nui-mot-3.jpg"
+  ],
+  "nt-hai-san-thanh-suong": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-hai-san-thanh-suong/nt-hai-san-thanh-suong-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-hai-san-thanh-suong/nt-hai-san-thanh-suong-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-hai-san-thanh-suong/nt-hai-san-thanh-suong-3.jpg"
+  ],
+  "nt-nem-nuong-dang-van-quyen": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nem-nuong-dang-van-quyen/nt-nem-nuong-dang-van-quyen-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nem-nuong-dang-van-quyen/nt-nem-nuong-dang-van-quyen-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nem-nuong-dang-van-quyen/nt-nem-nuong-dang-van-quyen-3.jpg"
+  ],
+  "nt-z-beach": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-z-beach/nt-z-beach-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-z-beach/nt-z-beach-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-z-beach/nt-z-beach-3.jpg"
+  ],
+  "nt-sailing-club": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-sailing-club/nt-sailing-club-1.webp",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-sailing-club/nt-sailing-club-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-sailing-club/nt-sailing-club-3.jpg"
+  ],
+  "nt-bao-tang-hai-duong-hoc": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-bao-tang-hai-duong-hoc/nt-bao-tang-hai-duong-hoc-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-bao-tang-hai-duong-hoc/nt-bao-tang-hai-duong-hoc-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-bao-tang-hai-duong-hoc/nt-bao-tang-hai-duong-hoc-3.jpg"
+  ],
+  "nt-chua-long-son": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-chua-long-son/nt-chua-long-son-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-chua-long-son/nt-chua-long-son-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-chua-long-son/nt-chua-long-son-3.jpg"
+  ],
+  "nt-cho-dem": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-cho-dem/nt-cho-dem-1.webp",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-cho-dem/nt-cho-dem-2.webp"
+  ],
+  "nt-nha-hat-do": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nha-hat-do/nt-nha-hat-do-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nha-hat-do/nt-nha-hat-do-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nha-hat-do/nt-nha-hat-do-3.jpg"
+  ],
+  "nt-nha-tho-da": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nha-tho-da/nt-nha-tho-da-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nha-tho-da/nt-nha-tho-da-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nha-tho-da/nt-nha-tho-da-3.webp"
+  ],
+  "nt-quang-truong-2-4": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-quang-truong-2-4/nt-quang-truong-2-4-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-quang-truong-2-4/nt-quang-truong-2-4-2.jpg"
+  ],
+  "nt-tour-3-dao": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-tour-3-dao/nt-tour-3-dao-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-tour-3-dao/nt-tour-3-dao-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-tour-3-dao/nt-tour-3-dao-3.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-tour-3-dao/nt-tour-3-dao-4.jpg"
+  ],
+  "nt-vinwonders-nha-trang": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-vinwonders-nha-trang/nt-vinwonders-nha-trang-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-vinwonders-nha-trang/nt-vinwonders-nha-trang-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-vinwonders-nha-trang/nt-vinwonders-nha-trang-3.webp",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-vinwonders-nha-trang/nt-vinwonders-nha-trang-4.jpg"
+  ],
+  "nt-dap-am-chua": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-dap-am-chua/nt-dap-am-chua-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-dap-am-chua/nt-dap-am-chua-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-dap-am-chua/nt-dap-am-chua-3.jpg"
+  ],
+  "hn-chua-mot-cot": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-chua-mot-cot/hn-chua-mot-cot-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-chua-mot-cot/hn-chua-mot-cot-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-chua-mot-cot/hn-chua-mot-cot-3.webp"
+  ],
+  "hn-hoang-thanh-thang-long": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-hoang-thanh-thang-long/hn-hoang-thanh-thang-long-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-hoang-thanh-thang-long/hn-hoang-thanh-thang-long-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-hoang-thanh-thang-long/hn-hoang-thanh-thang-long-3.webp"
+  ],
+  "hn-ho-hoan-kiem-ho-guom": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-ho-hoan-kiem-ho-guom/hn-ho-hoan-kiem-ho-guom-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-ho-hoan-kiem-ho-guom/hn-ho-hoan-kiem-ho-guom-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-ho-hoan-kiem-ho-guom/hn-ho-hoan-kiem-ho-guom-3.jpg"
+  ],
+  "hn-ho-tay": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-ho-tay/hn-ho-tay-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-ho-tay/hn-ho-tay-2.jpg"
+  ],
+  "hn-dahlia-hotel": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-dahlia-hotel/hn-dahlia-hotel-1.jpg"
+  ],
+  "hn-gm-preminum-1": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-gm-preminum-1/hn-gm-preminum-1-1.jpg"
+  ],
+  "hn-gm-preminum": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-gm-preminum/hn-gm-preminum-1.jpg"
+  ],
+  "hn-grand-du-lac": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-grand-du-lac/hn-grand-du-lac-1.jpg"
+  ],
+  "hn-hanoi-boutique-hotel": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-hanoi-boutique-hotel/hn-hanoi-boutique-hotel-1.jpg"
+  ],
+  "hn-hilton-garden": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-hilton-garden/hn-hilton-garden-1.jpg"
+  ],
+  "hn-jm-marvel": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-jm-marvel/hn-jm-marvel-1.jpg"
+  ],
+  "hn-la-nueva-boutique-hotel-hanoi": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-la-nueva-boutique-hotel-hanoi/hn-la-nueva-boutique-hotel-hanoi-1.jpg"
+  ],
+  "hn-mayflower": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-mayflower/hn-mayflower-1.jpg"
+  ],
+  "hn-melia-hanoi": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-melia-hanoi/hn-melia-hanoi-1.jpg"
+  ],
+  "hn-melia": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-melia/hn-melia-1.jpg"
+  ],
+  "hn-meritel": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-meritel/hn-meritel-1.jpg"
+  ],
+  "hn-old-quarter-view-hanoi": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-old-quarter-view-hanoi/hn-old-quarter-view-hanoi-1.jpg"
+  ],
+  "hn-tripist-grand-hotel-du-lac-hanoi-7": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-tripist-grand-hotel-du-lac-hanoi-7/hn-tripist-grand-hotel-du-lac-hanoi-7-1.jpg"
+  ],
+  "hn-vacanza": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-vacanza/hn-vacanza-1.jpg"
+  ],
+  "hn-lang-bac-ba-dinh": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-lang-bac-ba-dinh/hn-lang-bac-ba-dinh-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-lang-bac-ba-dinh/hn-lang-bac-ba-dinh-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-lang-bac-ba-dinh/hn-lang-bac-ba-dinh-3.webp",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-lang-bac-ba-dinh/hn-lang-bac-ba-dinh-4.jpg"
+  ],
+  "hn-nha-tho-lon-ha-noi": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-nha-tho-lon-ha-noi/hn-nha-tho-lon-ha-noi-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-nha-tho-lon-ha-noi/hn-nha-tho-lon-ha-noi-2.jpg"
+  ],
+  "hn-nha-tu-hoa-lo": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-nha-tu-hoa-lo/hn-nha-tu-hoa-lo-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-nha-tu-hoa-lo/hn-nha-tu-hoa-lo-2.jpg"
+  ],
+  "hn-pho-co-ha-noi": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-pho-co-ha-noi/hn-pho-co-ha-noi-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-pho-co-ha-noi/hn-pho-co-ha-noi-2.jpg"
+  ],
+  "hn-van-mieu-quoc-tu-giam": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-van-mieu-quoc-tu-giam/hn-van-mieu-quoc-tu-giam-1.webp",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-van-mieu-quoc-tu-giam/hn-van-mieu-quoc-tu-giam-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hn/hn-van-mieu-quoc-tu-giam/hn-van-mieu-quoc-tu-giam-3.jpg"
+  ],
+  "hcm-bui-vien": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-bui-vien/hcm-bui-vien-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-bui-vien/hcm-bui-vien-2.webp",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-bui-vien/hcm-bui-vien-3.jpg"
+  ],
+  "hcm-bao-tang": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-bao-tang/hcm-bao-tang-1.webp",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-bao-tang/hcm-bao-tang-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-bao-tang/hcm-bao-tang-3.jpg"
+  ],
+  "hcm-cho-ben-thanh": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-cho-ben-thanh/hcm-cho-ben-thanh-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-cho-ben-thanh/hcm-cho-ben-thanh-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-cho-ben-thanh/hcm-cho-ben-thanh-3.webp"
+  ],
+  "hcm-dinh-doc-lap": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-dinh-doc-lap/hcm-dinh-doc-lap-1.webp"
+  ],
+  "hcm-landmark-81": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-landmark-81/hcm-landmark-81-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-landmark-81/hcm-landmark-81-2.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-landmark-81/hcm-landmark-81-3.jpg"
+  ],
+  "hcm-nha-hang-vi-sai-gon": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-nha-hang-vi-sai-gon/hcm-nha-hang-vi-sai-gon-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-nha-hang-vi-sai-gon/hcm-nha-hang-vi-sai-gon-2.jpg"
+  ],
+  "hcm-nha-tho-duc-ba": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-nha-tho-duc-ba/hcm-nha-tho-duc-ba-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-nha-tho-duc-ba/hcm-nha-tho-duc-ba-2.jpg"
+  ],
+  "hcm-suoi-tien": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-suoi-tien/hcm-suoi-tien-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-suoi-tien/hcm-suoi-tien-2.jpg"
+  ],
+  "hcm-the-rixx-hotel": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-the-rixx-hotel/hcm-the-rixx-hotel-1.jpg",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/hcm/hcm-the-rixx-hotel/hcm-the-rixx-hotel-2.jpg"
+  ],
+  "dn-ba-na-hills": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-ba-na-hills/dn-ba-na-hills-1.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-ba-na-hills/dn-ba-na-hills-2.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-ba-na-hills/dn-ba-na-hills-3.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-ba-na-hills/dn-ba-na-hills-4.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-ba-na-hills/dn-ba-na-hills-5.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-ba-na-hills/dn-ba-na-hills-6.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-ba-na-hills/dn-ba-na-hills-7.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-ba-na-hills/dn-ba-na-hills-8.png"
+  ],
+  "dn-ban-dao-son-tra": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-ban-dao-son-tra/dn-ban-dao-son-tra-1.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-ban-dao-son-tra/dn-ban-dao-son-tra-2.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-ban-dao-son-tra/dn-ban-dao-son-tra-3.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-ban-dao-son-tra/dn-ban-dao-son-tra-4.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-ban-dao-son-tra/dn-ban-dao-son-tra-5.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-ban-dao-son-tra/dn-ban-dao-son-tra-6.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-ban-dao-son-tra/dn-ban-dao-son-tra-7.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-ban-dao-son-tra/dn-ban-dao-son-tra-8.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-ban-dao-son-tra/dn-ban-dao-son-tra-9.png"
+  ],
+  "dn-bai-bien-my-khe": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-bai-bien-my-khe/dn-bai-bien-my-khe-1.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-bai-bien-my-khe/dn-bai-bien-my-khe-2.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-bai-bien-my-khe/dn-bai-bien-my-khe-3.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-bai-bien-my-khe/dn-bai-bien-my-khe-4.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-bai-bien-my-khe/dn-bai-bien-my-khe-5.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-bai-bien-my-khe/dn-bai-bien-my-khe-6.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-bai-bien-my-khe/dn-bai-bien-my-khe-7.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-bai-bien-my-khe/dn-bai-bien-my-khe-8.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-bai-bien-my-khe/dn-bai-bien-my-khe-9.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-bai-bien-my-khe/dn-bai-bien-my-khe-10.png"
+  ],
+  "dn-cau-rong": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-cau-rong/dn-cau-rong-1.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-cau-rong/dn-cau-rong-2.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-cau-rong/dn-cau-rong-3.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-cau-rong/dn-cau-rong-4.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-cau-rong/dn-cau-rong-5.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-cau-rong/dn-cau-rong-6.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-cau-rong/dn-cau-rong-7.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-cau-rong/dn-cau-rong-8.png"
+  ],
+  "dn-mi-quang-ba-mua": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-mi-quang-ba-mua/dn-mi-quang-ba-mua-1.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-mi-quang-ba-mua/dn-mi-quang-ba-mua-2.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-mi-quang-ba-mua/dn-mi-quang-ba-mua-3.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-mi-quang-ba-mua/dn-mi-quang-ba-mua-4.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-mi-quang-ba-mua/dn-mi-quang-ba-mua-5.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-mi-quang-ba-mua/dn-mi-quang-ba-mua-6.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-mi-quang-ba-mua/dn-mi-quang-ba-mua-7.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-mi-quang-ba-mua/dn-mi-quang-ba-mua-8.png"
+  ],
+  "dn-nha-hang-thia-go": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-nha-hang-thia-go/dn-nha-hang-thia-go-1.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-nha-hang-thia-go/dn-nha-hang-thia-go-2.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-nha-hang-thia-go/dn-nha-hang-thia-go-3.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-nha-hang-thia-go/dn-nha-hang-thia-go-4.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-nha-hang-thia-go/dn-nha-hang-thia-go-5.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-nha-hang-thia-go/dn-nha-hang-thia-go-6.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-nha-hang-thia-go/dn-nha-hang-thia-go-7.png",
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dn/dn-nha-hang-thia-go/dn-nha-hang-thia-go-8.png"
+  ],
+  "dl-s79-khai-ngoc-hotel": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-s79-khai-ngoc-hotel/dl-s79-khai-ngoc-hotel-1.avif"
+  ],
+  "dl-khach-san-anna-suong": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-khach-san-anna-suong/dl-khach-san-anna-suong-1.jpg"
+  ],
+  "dl-happy-day-2-guesthouse": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-happy-day-2-guesthouse/dl-happy-day-2-guesthouse-1.jpg"
+  ],
+  "dl-qa-hotel": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-qa-hotel/dl-qa-hotel-1.jpg"
+  ],
+  "dl-winterfell-hotel": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-winterfell-hotel/dl-winterfell-hotel-1.jpg"
+  ],
+  "dl-windy-hill-homestay": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-windy-hill-homestay/dl-windy-hill-homestay-1.jpg"
+  ],
+  "dl-pontus-hotel": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-pontus-hotel/dl-pontus-hotel-1.jpg"
+  ],
+  "dl-the-manor-villas": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-the-manor-villas/dl-the-manor-villas-1.jpg"
+  ],
+  "dl-rainbow-homestay-cau-dat": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-rainbow-homestay-cau-dat/dl-rainbow-homestay-cau-dat-1.jpg"
+  ],
+  "dl-moc-tra-farm": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-moc-tra-farm/dl-moc-tra-farm-1.jpg"
+  ],
+  "dl-hoang-gia-trang-homestay": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-hoang-gia-trang-homestay/dl-hoang-gia-trang-homestay-1.jpg"
+  ],
+  "dl-nature-hotel": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-nature-hotel/dl-nature-hotel-1.jpg"
+  ],
+  "dl-may-bach-da-lat": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-may-bach-da-lat/dl-may-bach-da-lat-1.jpg"
+  ],
+  "dl-le-homestay": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-le-homestay/dl-le-homestay-1.jpg"
+  ],
+  "dl-khu-du-lich-thac-datanla": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-khu-du-lich-thac-datanla/dl-khu-du-lich-thac-datanla-1.png"
+  ],
+  "dl-cho-dem-da-lat": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-cho-dem-da-lat/dl-cho-dem-da-lat-1.jpg"
+  ],
+  "dl-ga-da-lat": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-ga-da-lat/dl-ga-da-lat-1.jpg"
+  ],
+  "dl-quan-lau-ga-la-e-tao-ngo": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-quan-lau-ga-la-e-tao-ngo/dl-quan-lau-ga-la-e-tao-ngo-1.jpg"
+  ],
+  "dl-quang-truong-lam-vien": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-quang-truong-lam-vien/dl-quang-truong-lam-vien-1.jpg"
+  ],
+  "dl-tiem-ca-phe-tui-mo-to": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-tiem-ca-phe-tui-mo-to/dl-tiem-ca-phe-tui-mo-to-1.jpg"
+  ],
+  "dl-doi-che-cau-dat-cau-dat-farm-1": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-doi-che-cau-dat-cau-dat-farm-1/dl-doi-che-cau-dat-cau-dat-farm-1-1.jpg"
+  ],
+  "dl-doi-che-cau-dat-cau-dat-farm": [
+    "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-doi-che-cau-dat-cau-dat-farm/dl-doi-che-cau-dat-cau-dat-farm-1.jpg"
+  ]
+}

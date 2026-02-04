@@ -5,7 +5,7 @@ export interface PlaceData {
     description: string;
     rating: number;
     priceLevel: string;
-    image: string;
+    images: string[];
     address: string;
     price?: string;
     duration?: string;
@@ -25,7 +25,11 @@ export const vinWonders: PlaceData = {
     priceLevel: "$$$",
     price: "920.000 VND/người",
     duration: "12-13 tiếng",
-    image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-vinwonders.jpg",
+    images: [
+        "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-vinwonders/nt-vinwonders-1.jpg",
+        "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-vinwonders/nt-vinwonders-2.jpg",
+        "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-vinwonders/nt-vinwonders-3.jpg"
+    ],
     address: "Đảo Hòn Tre, Nha Trang",
     description: "Công viên VinWonders Nha Trang tọa lạc trên đảo Hòn Tre, được xem là thiên đường vui chơi – giải trí hàng đầu với hệ thống cáp treo vượt biển độc đáo.",
     lat: 12.2146,
@@ -43,7 +47,11 @@ export const vinWondersHotels: PlaceData[] = [
         price: "3.700.000 VND/đêm",
         address: "Trần Phú, Nha Trang",
         description: "Khách sạn 5 sao tiện nghi hàng đầu. Bao gồm 2 vé VinWonders 2 ngày.",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-vinpearl.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-vinpearl/nt-hotel-vinpearl-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-vinpearl/nt-hotel-vinpearl-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-vinpearl/nt-hotel-vinpearl-3.jpg"
+        ],
         lat: 12.235,
         lng: 109.196,
         relatedPlaceId: "nt-vinwonders",
@@ -58,7 +66,11 @@ export const vinWondersHotels: PlaceData[] = [
         price: "348.000 VND/đêm",
         address: "Trần Phú, Nha Trang",
         description: "Đối diện biển, không gian thoáng và giá khá bình dân.",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-dendro.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-dendro/nt-hotel-dendro-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-dendro/nt-hotel-dendro-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-dendro/nt-hotel-dendro-3.jpg"
+        ],
         lat: 12.231,
         lng: 109.197,
         relatedPlaceId: "nt-vinwonders",
@@ -73,7 +85,11 @@ export const vinWondersHotels: PlaceData[] = [
         price: "280.000 VND/đêm",
         address: "Trung tâm Nha Trang",
         description: "Khách sạn có mức giá rẻ và nằm trong trung tâm thành phố.",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-dubai.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-dubai/nt-hotel-dubai-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-dubai/nt-hotel-dubai-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-dubai/nt-hotel-dubai-3.jpg"
+        ],
         lat: 12.240,
         lng: 109.195,
         relatedPlaceId: "nt-vinwonders",
@@ -90,7 +106,12 @@ export const tour3Dao: PlaceData = {
     priceLevel: "$$",
     price: "700.000 VND/người",
     duration: "8-9 tiếng",
-    image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-tour3dao.jpg",
+    images: [
+        "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-tour3dao/nt-tour3dao-1.jpg",
+        "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-tour3dao/nt-tour3dao-2.jpg",
+        "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-tour3dao/nt-tour3dao-3.jpg",
+        "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-tour3dao/nt-tour3dao-4.jpg"
+    ],
     address: "Cảng Nha Trang",
     description: "Khám phá Hòn Mun – làng chài – Mini Beach, lặn ngắm san hô và thưởng thức hải sản.",
     lat: 12.2023,
@@ -108,7 +129,11 @@ export const tour3DaoHotels: PlaceData[] = [
         price: "257.000 VND/đêm",
         address: "Gần trung tâm",
         description: "Khách sạn gần trung tâm và có mức giá ưu đãi.",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-dolphin.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-dolphin/nt-hotel-dolphin-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-dolphin/nt-hotel-dolphin-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-dolphin/nt-hotel-dolphin-3.jpg"
+        ],
         lat: 12.230,
         lng: 109.194,
         relatedPlaceId: "nt-tour3dao",
@@ -123,7 +148,9 @@ export const tour3DaoHotels: PlaceData[] = [
         price: "300.000 VND/đêm",
         address: "Phía Bắc Nha Trang",
         description: "Sở hữu view biển đối diện thoáng đẹp.",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-brilliant.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-brilliant/nt-hotel-brilliant-1.jpg"
+        ],
         lat: 12.250,
         lng: 109.198,
         relatedPlaceId: "nt-tour3dao",
@@ -138,9 +165,13 @@ export const tour3DaoHotels: PlaceData[] = [
         price: "347.000 VND/đêm",
         address: "Khu phố Tây",
         description: "Nằm gần trung tâm và thuận tiện di chuyển đến các điểm du lịch.",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-palm.jpg",
-        lat: 12.233,
-        lng: 109.196,
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-palm/nt-hotel-palm-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-palm/nt-hotel-palm-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-palm/nt-hotel-palm-3.jpg"
+        ],
+        lat: 12.23439,
+        lng: 109.1966,
         relatedPlaceId: "nt-tour3dao",
         metadata: { distance: "1.8 km (từ TT)", time: "6 phút", note: "Thuận tiện di chuyển" }
     }
@@ -155,7 +186,10 @@ export const quangTruong: PlaceData = {
     priceLevel: "Free",
     price: "Miễn phí",
     duration: "15-30 phút",
-    image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-quangtruong.jpg",
+    images: [
+        "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-quangtruong/nt-quangtruong-1.jpg",
+        "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-quangtruong/nt-quangtruong-2.jpg"
+    ],
     address: "Trung tâm Nha Trang",
     description: "Biểu tượng du lịch sôi động và trái tim văn hóa của thành phố biển với tháp Trầm Hương.",
     lat: 12.2388,
@@ -173,7 +207,11 @@ export const quangTruongHotels: PlaceData[] = [
         price: "338.000 VND/đêm",
         address: "Gần Quảng trường",
         description: "Khách sạn đối diện biển và nằm gần quảng trường cùng các điểm du lịch.",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-suncity.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-suncity/nt-hotel-suncity-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-suncity/nt-hotel-suncity-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-suncity/nt-hotel-suncity-3.jpg"
+        ],
         lat: 12.239,
         lng: 109.196,
         relatedPlaceId: "nt-quangtruong",
@@ -188,7 +226,11 @@ export const quangTruongHotels: PlaceData[] = [
         price: "360.000 VND/đêm",
         address: "Gần Quảng trường",
         description: "Có kèm bữa sáng miễn phí và vị trí gần trung tâm.",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-lesoleil.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-lesoleil/nt-hotel-lesoleil-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-lesoleil/nt-hotel-lesoleil-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-lesoleil/nt-hotel-lesoleil-3.jpg"
+        ],
         lat: 12.240,
         lng: 109.196,
         relatedPlaceId: "nt-quangtruong",
@@ -203,7 +245,11 @@ export const quangTruongHotels: PlaceData[] = [
         price: "266.000 VND/đêm",
         address: "Đường Trần Phú",
         description: "Khách sạn có vị trí đối diện biển và gần các điểm du lịch.",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-nangbien.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-nangbien/nt-hotel-nangbien-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-nangbien/nt-hotel-nangbien-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-nangbien/nt-hotel-nangbien-3.jpg"
+        ],
         lat: 12.235,
         lng: 109.197,
         relatedPlaceId: "nt-quangtruong",
@@ -220,7 +266,11 @@ export const nemNuong: PlaceData = {
     priceLevel: "$",
     price: "50-70k/người",
     duration: "30-45 phút",
-    image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-nemnuong.jpg",
+    images: [
+        "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-nemnuong/nt-nemnuong-1.jpg",
+        "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-nemnuong/nt-nemnuong-2.jpg",
+        "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-nemnuong/nt-nemnuong-3.jpg"
+    ],
     address: "Lê Lợi / Phan Bội Châu",
     description: "Địa chỉ ẩm thực quen thuộc tại Nha Trang, nổi tiếng với các món đặc sản mang đậm hương vị địa phương.",
     lat: 12.2475,
@@ -238,7 +288,11 @@ export const nemNuongHotels: PlaceData[] = [
         price: "245.000 VND/đêm",
         address: "Trung tâm",
         description: "Gần các khu ăn uống và chợ, thuận tiện đi lại.",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-mangolia.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-mangolia/nt-hotel-mangolia-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-mangolia/nt-hotel-mangolia-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-mangolia/nt-hotel-mangolia-3.jpg"
+        ],
         lat: 12.247,
         lng: 109.192,
         relatedPlaceId: "nt-nemnuong",
@@ -253,7 +307,10 @@ export const nemNuongHotels: PlaceData[] = [
         price: "500.000 VND/đêm",
         address: "Trung tâm",
         description: "Nằm gần khu ăn uống và có thể dễ dàng đi bộ.",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-ckd.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-ckd/nt-hotel-ckd-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-ckd/nt-hotel-ckd-2.jpg"
+        ],
         lat: 12.248,
         lng: 109.1925,
         relatedPlaceId: "nt-nemnuong",
@@ -268,7 +325,10 @@ export const nemNuongHotels: PlaceData[] = [
         price: "344.000 VND/đêm",
         address: "Nguyễn Thiện Thuật",
         description: "Gần các địa điểm checkin, ăn uống hot trend.",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-maika.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-maika/nt-hotel-maika-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-maika/nt-hotel-maika-2.jpg"
+        ],
         lat: 12.240,
         lng: 109.194,
         relatedPlaceId: "nt-nemnuong",
@@ -285,7 +345,11 @@ export const haiSan: PlaceData = {
     priceLevel: "$$",
     price: "300-400k/người",
     duration: "45-60 phút",
-    image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-haisan.jpg",
+    images: [
+        "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-haisan/nt-haisan-1.jpg",
+        "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-haisan/nt-haisan-2.jpg",
+        "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-haisan/nt-haisan-3.jpg"
+    ],
     address: "Vĩnh Nguyên",
     description: "Hải sản tươi ngon, chế biến nhanh và chỉ sử dụng nguyên liệu trong ngày.",
     lat: 12.2081,
@@ -303,7 +367,9 @@ export const haiSanHotels: PlaceData[] = [
         price: "285.000 VND/đêm",
         address: "Bình Tân",
         description: "Mức giá khá ưu đãi so với chất lượng.",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-vankim.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-vankim/nt-hotel-vankim-1.jpg"
+        ],
         lat: 12.215,
         lng: 109.200,
         relatedPlaceId: "nt-haisan",
@@ -318,7 +384,11 @@ export const haiSanHotels: PlaceData[] = [
         price: "391.000 VND/đêm",
         address: "Khu vực cảng",
         description: "Chất lượng tương đối tốt với mức giá hợp lý.",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-ruby.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-ruby/nt-hotel-ruby-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-ruby/nt-hotel-ruby-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-ruby/nt-hotel-ruby-3.jpg"
+        ],
         lat: 12.210,
         lng: 109.205,
         relatedPlaceId: "nt-haisan",
@@ -333,7 +403,10 @@ export const haiSanHotels: PlaceData[] = [
         price: "334.000 VND/đêm",
         address: "Phước Long",
         description: "Gần các địa điểm khám phá du lịch.",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-pearl.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-pearl/nt-hotel-pearl-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-hotel-pearl/nt-hotel-pearl-2.jpg"
+        ],
         lat: 12.218,
         lng: 109.198,
         relatedPlaceId: "nt-haisan",
@@ -351,7 +424,11 @@ export const extraPlaces: PlaceData[] = [
         priceLevel: "$",
         price: "40.000 VND",
         duration: "1-2 tiếng",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-baotang.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-baotang/nt-baotang-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-baotang/nt-baotang-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-baotang/nt-baotang-3.jpg"
+        ],
         address: "Cầu Đá",
         description: "Trưng bày nhiều mẫu vật quý và sinh vật biển sống.",
         lat: 12.2078,
@@ -366,7 +443,11 @@ export const extraPlaces: PlaceData[] = [
         priceLevel: "Free",
         price: "Miễn phí",
         duration: "3-4 tiếng",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-amchua.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-amchua/nt-amchua-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-amchua/nt-amchua-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-amchua/nt-amchua-3.jpg"
+        ],
         address: "Diên Khánh",
         description: "Điểm đến thiên nhiên yên bình và thơ mộng.",
         lat: 12.2687,
@@ -381,7 +462,11 @@ export const extraPlaces: PlaceData[] = [
         priceLevel: "$$$",
         price: "420k - 630k",
         duration: "3-4 tiếng",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-nhahatdo.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-nhahatdo/nt-nhahatdo-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-nhahatdo/nt-nhahatdo-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-nhahatdo/nt-nhahatdo-3.jpg"
+        ],
         address: "Bãi Tiên",
         description: "Nhà hát được thiết kế như một chiếc đó khổng lồ, điểm đến nghệ thuật.",
         lat: 12.2959,
@@ -396,7 +481,11 @@ export const extraPlaces: PlaceData[] = [
         priceLevel: "$",
         price: "30k-50k",
         duration: "30-45 phút",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-comga.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-comga/nt-comga-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-comga/nt-comga-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-comga/nt-comga-3.jpg"
+        ],
         address: "Núi Một",
         description: "Cơm gà ngon đậm đà, tròn vị.",
         lat: 12.247,
@@ -411,7 +500,10 @@ export const extraPlaces: PlaceData[] = [
         priceLevel: "$",
         price: "20k-50k",
         duration: "20-30 phút",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-banhcan.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-banhcan/nt-banhcan-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-banhcan/nt-banhcan-2.jpg"
+        ],
         address: "Tô Hiến Thành",
         description: "Quán bánh căn ngon nổi tiếng.",
         lat: 12.238,
@@ -426,7 +518,11 @@ export const extraPlaces: PlaceData[] = [
         priceLevel: "$$",
         price: "40k+",
         duration: "1-2 tiếng",
-        image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-zbeach.jpg",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-zbeach/nt-zbeach-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-zbeach/nt-zbeach-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-zbeach/nt-zbeach-3.jpg"
+        ],
         address: "Trần Phú",
         description: "Bar bãi biển cực chill.",
         lat: 12.2356,
@@ -448,5 +544,3 @@ export const allNhaTrangHotels = [
     ...nemNuongHotels,
     ...haiSanHotels
 ];
-
-

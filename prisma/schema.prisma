@@ -53,7 +53,7 @@ model Place {
   type        String     // HOTEL, ATTRACTION, RESTAURANT, TRANSIT
   rating      Float      @default(0)
   address     String?
-  image       String?    // URL to image
+  images      String[]   // URLs to images
   priceLevel  Int        @default(1) // 1-5
   lat         Float?
   lng         Float?

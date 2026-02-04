@@ -9,7 +9,8 @@ export interface PlaceData {
   type: string;
   rating?: number;
   address?: string;
-  image: string;
+  image?: string;
+  images?: string[];
   price?: string;
   duration?: string;
   priceLevel?: string;

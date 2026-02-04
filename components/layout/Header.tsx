@@ -38,11 +38,11 @@ export default function Header() {
         {/* Content Layer (z-10) */}
         <div className="relative z-10 flex items-center justify-between w-full h-full">
           {/* Left: Logo + Name + Tagline */}
-          <Link href="/" className="flex items-center flex-shrink-0 gap-1 md:gap-2">
+          <Link href="/" className="flex items-center flex-shrink-0 gap-2 md:gap-3">
             {/* Icon */}
-            <div className="relative w-12 md:w-20 h-12 md:h-20 flex-shrink-0">
+            <div className="relative w-6 md:w-10 h-6 md:h-10 flex-shrink-0">
               <Image
-                src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/logo.png"
+                src="/logo.png"
                 alt="Logo"
                 fill
                 className="object-contain"
@@ -74,11 +74,10 @@ export default function Header() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`text-xs xl:text-base font-bold transition-colors tracking-tight uppercase whitespace-nowrap ${
-                    isActive
-                      ? "text-[#439B91] brightness-125"
-                      : "text-[#1B4D3E] hover:text-[#2C6E5A]"
-                  }`}
+                  className={`text-xs xl:text-base font-bold transition-colors tracking-tight uppercase whitespace-nowrap ${isActive
+                    ? "text-[#439B91] brightness-125"
+                    : "text-[#1B4D3E] hover:text-[#2C6E5A]"
+                    }`}
                 >
                   {link.name}
                 </Link>
@@ -118,11 +117,10 @@ export default function Header() {
                     key={link.name}
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`px-4 py-3 text-sm font-bold transition-colors uppercase border-b border-gray-100 last:border-b-0 ${
-                      isActive
-                        ? "text-[#439B91] bg-[#E0F2F1]"
-                        : "text-[#1B4D3E] hover:bg-[#F0F8F7]"
-                    }`}
+                    className={`px-4 py-3 text-sm font-bold transition-colors uppercase border-b border-gray-100 last:border-b-0 ${isActive
+                      ? "text-[#439B91] bg-[#E0F2F1]"
+                      : "text-[#1B4D3E] hover:bg-[#F0F8F7]"
+                      }`}
                   >
                     {link.name}
                   </Link>

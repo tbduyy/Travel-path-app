@@ -30,5 +30,6 @@ export async function login(formData: FormData) {
     }
 
     revalidatePath('/', 'layout')
-    redirect(redirectTo)
+    // Return success instead of redirecting on server
+    return { success: true, redirectTo }
 }

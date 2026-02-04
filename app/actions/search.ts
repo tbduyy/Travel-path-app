@@ -157,7 +157,7 @@ export async function searchPlaces(params: SearchParams) {
         id: true,
         name: true,
         description: true,
-        image: true,
+        images: true, // Select images array
         rating: true,
         priceLevel: true,
         address: true,
@@ -272,7 +272,7 @@ export async function searchPlaces(params: SearchParams) {
         lng = 109.197;
       }
 
-      return { ...p, lat, lng };
+      return { ...p, lat, lng, image: (p as any).images?.[0] || null };
     });
 
     if (destLower.includes("đà lạt")) {
@@ -339,8 +339,29 @@ export async function getPlacesByIds(ids: string[]) {
     if (notFoundIds.length > 0) {
       const dbPlaces = await prisma.place.findMany({
         where: { id: { in: notFoundIds } },
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          images: true, // Select images array
+          rating: true,
+          priceLevel: true,
+          address: true,
+          price: true,
+          metadata: true,
+          city: true,
+          duration: true,
+          lat: true,
+          lng: true,
+          type: true,
+        },
       });
-      results.push(...dbPlaces);
+      // Map images to image
+      const mappedDbPlaces = dbPlaces.map((p) => ({
+        ...p,
+        image: p.images?.[0] || null,
+      }));
+      results.push(...mappedDbPlaces);
     }
 
     return { success: true, data: results };

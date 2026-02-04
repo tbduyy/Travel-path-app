@@ -200,10 +200,10 @@ export default function SearchWidget() {
 
   return (
     <div className="w-full mx-auto relative z-20">
-      {/* Aspect Ratio 1360/173 - Responsive height */}
-      <div className="w-full aspect-auto md:aspect-[1360/150] flex items-center justify-center relative font-sans min-h-[80px] md:min-h-auto">
+      {/* Parent controls width (matches homepage). Keep responsive heights to match visual size */}
+      <div className="w-full flex items-center justify-center relative font-sans h-[80px] md:h-[110px] lg:h-[140px]">
         {/* 1. Container Wrapper (Rec 1) */}
-        <div className="relative w-full h-full flex items-center px-2 md:px-[2%] py-2 md:py-[1%]">
+        <div className="relative w-full h-full flex items-center px-2 md:px-[4%] py-2 md:py-[1%]">
           <Image
             src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/search-bar/rectangle-1.png"
             alt="Background"
@@ -245,19 +245,17 @@ export default function SearchWidget() {
                       className="hidden md:block text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors flex-shrink-0"
                     />
                     <span
-                      className={`font-medium text-xs md:text-sm lg:text-base truncate ${
-                        destinationLabel
-                          ? "text-[#003F3E]"
-                          : "text-[#003F3E]/60"
-                      }`}
+                      className={`font-medium text-xs md:text-sm lg:text-base truncate ${destinationLabel
+                        ? "text-[#003F3E]"
+                        : "text-[#003F3E]/60"
+                        }`}
                     >
                       {destinationLabel || "Chọn điểm"}
                     </span>
                     <ChevronDown
                       size={14}
-                      className={`text-[#003F3E]/60 transition-transform duration-200 flex-shrink-0 ${
-                        isDropdownOpen ? "rotate-180" : ""
-                      }`}
+                      className={`text-[#003F3E]/60 transition-transform duration-200 flex-shrink-0 ${isDropdownOpen ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
 
@@ -277,11 +275,10 @@ export default function SearchWidget() {
                               key={dest.value}
                               type="button"
                               onClick={() => handleSelectDestination(dest)}
-                              className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-[#E0F2F1] transition-colors text-left ${
-                                destination === dest.value
-                                  ? "bg-[#E0F2F1] text-[#003F3E] font-semibold"
-                                  : "text-gray-700"
-                              }`}
+                              className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-[#E0F2F1] transition-colors text-left ${destination === dest.value
+                                ? "bg-[#E0F2F1] text-[#003F3E] font-semibold"
+                                : "text-gray-700"
+                                }`}
                             >
                               <span className="text-sm md:text-base">
                                 {dest.label}
@@ -293,7 +290,7 @@ export default function SearchWidget() {
                     )}
                   </AnimatePresence>
                 </div>
-                
+
                 <Image
                   src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/search-bar/line-4.png"
                   alt="|"
@@ -318,19 +315,17 @@ export default function SearchWidget() {
                       className="hidden md:block text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors flex-shrink-0"
                     />
                     <span
-                      className={`font-medium text-xs md:text-sm lg:text-base truncate ${
-                        getDateDisplayText()
-                          ? "text-[#003F3E]"
-                          : "text-[#003F3E]/60"
-                      }`}
+                      className={`font-medium text-xs md:text-sm lg:text-base truncate ${getDateDisplayText()
+                        ? "text-[#003F3E]"
+                        : "text-[#003F3E]/60"
+                        }`}
                     >
                       {getDateDisplayText() || "Ngày đi - về"}
                     </span>
                     <ChevronDown
                       size={14}
-                      className={`text-[#003F3E]/60 transition-transform duration-200 flex-shrink-0 ${
-                        isCalendarOpen ? "rotate-180" : ""
-                      }`}
+                      className={`text-[#003F3E]/60 transition-transform duration-200 flex-shrink-0 ${isCalendarOpen ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
 
@@ -529,7 +524,7 @@ export default function SearchWidget() {
                 />
 
                 {/* Section 4: "Ngân sách" - Mobile simplified */}
-                <div className="flex-1 md:flex-[4.5] shrink-0 min-w-0 h-10 md:h-full flex items-center px-2 md:px-4 md:border-l md:border-gray-100 w-full md:w-auto border border-[#E0F2F1] md:border-none rounded-lg md:rounded-none">
+                <div className="flex-1 md:flex-[4.5] shrink-0 min-w-[150px] h-10 md:h-full flex items-center px-2 md:px-4 md:border-l md:border-gray-100 w-full md:w-auto border border-[#E0F2F1] md:border-none rounded-lg md:rounded-none">
                   <div className="relative w-full group">
                     <div className="flex items-center gap-1 md:gap-2">
                       {/* Icon ví tiền */}
@@ -582,19 +577,17 @@ export default function SearchWidget() {
                       className="hidden md:block text-[#003F3E]/60 group-hover:text-[#003F3E] transition-colors flex-shrink-0"
                     />
                     <span
-                      className={`font-medium text-xs md:text-sm lg:text-base truncate ${
-                        styleLabel
-                          ? "text-[#003F3E]"
-                          : "text-[#003F3E]/60"
-                      }`}
+                      className={`font-medium text-xs md:text-sm lg:text-base truncate ${styleLabel
+                        ? "text-[#003F3E]"
+                        : "text-[#003F3E]/60"
+                        }`}
                     >
                       {styleLabel || "Phong cách"}
                     </span>
                     <ChevronDown
                       size={14}
-                      className={`text-[#003F3E]/60 transition-transform duration-200 flex-shrink-0 ${
-                        isStyleDropdownOpen ? "rotate-180" : ""
-                      }`}
+                      className={`text-[#003F3E]/60 transition-transform duration-200 flex-shrink-0 ${isStyleDropdownOpen ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
 
@@ -614,11 +607,10 @@ export default function SearchWidget() {
                               key={s.value}
                               type="button"
                               onClick={() => handleSelectStyle(s)}
-                              className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-[#E0F2F1] transition-colors text-left ${
-                                style === s.value
-                                  ? "bg-[#E0F2F1] text-[#003F3E] font-semibold"
-                                  : "text-gray-700"
-                              }`}
+                              className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-[#E0F2F1] transition-colors text-left ${style === s.value
+                                ? "bg-[#E0F2F1] text-[#003F3E] font-semibold"
+                                : "text-gray-700"
+                                }`}
                             >
                               <span className="text-sm md:text-base">
                                 {s.label}
@@ -651,7 +643,7 @@ export default function SearchWidget() {
             {/* Rectangle 3 (Right Button) - Mobile: Below, Desktop: Right */}
             <div
               onClick={handleSearch}
-              className="relative w-full md:w-[16%] h-10 md:h-[70%] flex-shrink-0 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform mt-2 md:mt-0"
+              className="relative w-full md:w-[18%] min-w-[160px] h-10 md:h-[70%] flex-shrink-0 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform mt-2 md:mt-0"
             >
               <Image
                 src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/search-bar/rectangle-3.png"
@@ -675,7 +667,7 @@ export default function SearchWidget() {
           </div>
         </div>
       </div>
-      
+
       {/* Portal for Warning Modal to ensure it covers Header */}
       {mounted && createPortal(
         <AnimatePresence>
@@ -687,11 +679,11 @@ export default function SearchWidget() {
               className="fixed inset-0 z-[9999] flex items-center justify-center px-4 font-sans"
             >
               {/* Backdrop */}
-              <div 
+              <div
                 className="absolute inset-0 bg-black/60 backdrop-blur-sm"
                 onClick={() => setShowError(false)}
               />
-              
+
               {/* Modal Content */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -700,11 +692,11 @@ export default function SearchWidget() {
                 transition={{ duration: 0.3, delay: 0.1, ease: "easeOut" }}
                 className="relative bg-white rounded-3xl shadow-2xl p-6 w-full max-w-sm overflow-hidden"
               >
-                 {/* Decorative background circle */}
-                 <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#06424a]/5 rounded-full blur-2xl" />
-                 <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-[#E0F2F1] rounded-full blur-2xl" />
+                {/* Decorative background circle */}
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#06424a]/5 rounded-full blur-2xl" />
+                <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-[#E0F2F1] rounded-full blur-2xl" />
 
-                <button 
+                <button
                   onClick={() => setShowError(false)}
                   className="absolute top-4 right-4 p-1 rounded-full hover:bg-gray-100 transition-colors z-10"
                 >
@@ -715,7 +707,7 @@ export default function SearchWidget() {
                   <div className="w-16 h-16 rounded-full bg-[#E0F2F1] flex items-center justify-center mb-1">
                     <MapPin size={32} className="text-[#06424a]" />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <h3 className="text-xl font-bold text-[#06424a]">
                       Chưa chọn điểm đến

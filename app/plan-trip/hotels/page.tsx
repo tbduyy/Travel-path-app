@@ -10,6 +10,7 @@ import clsx from "clsx";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTripStore } from "@/lib/store/trip-store";
+import ImageSlideshow from "@/components/ui/ImageSlideshow";
 
 // Map Component
 const MapComponent = dynamic(() => import("@/components/MapComponent"), {
@@ -245,21 +246,9 @@ function HotelsContent() {
           {/* LEFT COLUMN: List */}
           <motion.div
             layout
-            className={clsx(
-              "h-full overflow-y-auto scrollbar-thin scrollbar-thumb-[#1B4D3E]/20 hover:scrollbar-thumb-[#1B4D3E]/40 z-10 rounded-[32px] border border-[#1B4D3E]/5 shadow-sm transition-all duration-500",
-              viewedHotel
-                ? "w-1/4 min-w-[300px] bg-[#F5F9F9] p-4"
-                : "w-full lg:w-[60%] bg-[#E8F1F0] p-6",
-            )}
+            className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-[#1B4D3E]/20 hover:scrollbar-thumb-[#1B4D3E]/40 z-10 rounded-[32px] border border-[#1B4D3E]/5 shadow-sm transition-all duration-500 w-full lg:w-[60%] bg-[#E8F1F0] p-6"
           >
-            <div
-              className={clsx(
-                "grid gap-4 transition-all",
-                viewedHotel
-                  ? "grid-cols-1"
-                  : "grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
-              )}
-            >
+            <div className="grid gap-4 transition-all grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
               {hotels.map((hotel, index) => {
                 const isSelected = selectedHotelId === hotel.id;
                 const isViewed = viewedHotel?.id === hotel.id;
@@ -267,50 +256,7 @@ function HotelsContent() {
                   (p) => p.id === hotel.relatedPlaceId,
                 );
 
-                if (viewedHotel) {
-                  // COMPACT SIDE CARD
-                  return (
-                    <motion.div
-                      layout
-                      key={hotel.id}
-                      onClick={() => handleCardClick(hotel)}
-                      className={clsx(
-                        "bg-white rounded-2xl p-3 shadow-sm border transition-all cursor-pointer flex gap-3 group items-center",
-                        isViewed
-                          ? "border-[#1B4D3E] ring-1 ring-[#1B4D3E] bg-[#E0F2F1] shadow-md"
-                          : "border-transparent hover:border-[#1B4D3E]/20",
-                      )}
-                    >
-                      <div className="relative w-16 h-16 shrink-0 rounded-xl overflow-hidden bg-gray-200">
-                        <Image
-                          src={hotel.image || "/placeholder.jpg"}
-                          alt={hotel.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-[#1B4D3E] text-sm truncate group-hover:text-[#2E968C]">
-                          {hotel.name}
-                        </h3>
-                        <p className="text-xs text-[#1B4D3E]/60 font-bold">
-                          {hotel.price || "Liên hệ"}
-                        </p>
-                        <button
-                          onClick={(e) => handleSelectHotel(e, hotel)}
-                          className={clsx(
-                            "text-xs px-3 py-1.5 rounded-full font-bold transition-all mt-1 block",
-                            isSelected
-                              ? "bg-[#1B4D3E] text-white"
-                              : "bg-gray-100 text-gray-600 hover:bg-[#1B4D3E]/10",
-                          )}
-                        >
-                          {isSelected ? "Đã chọn" : "Chọn"}
-                        </button>
-                      </div>
-                    </motion.div>
-                  );
-                }
+
 
                 // STANDARD GRID CARD
                 return (
@@ -350,11 +296,10 @@ function HotelsContent() {
 
                     {/* Image */}
                     <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden bg-gray-100 shadow-inner">
-                      <Image
-                        src={hotel.image || "/placeholder.jpg"}
+                      <ImageSlideshow
+                        images={hotel.images?.length ? hotel.images : [hotel.image || "/placeholder.jpg"]}
                         alt={hotel.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                        className="w-full h-full group-hover:scale-105 transition-transform duration-700"
                       />
                       <div className="absolute top-3 left-3 bg-white/90 backdrop-blur rounded-full p-1.5 shadow-sm">
                         <div className="w-4 h-4 rounded-full bg-[#1B4D3E]"></div>
@@ -455,18 +400,22 @@ function HotelsContent() {
             </div>
           </motion.div>
 
-          {/* CENTER COLUMN: Detail View */}
-          <AnimatePresence mode="popLayout">
-            {viewedHotel && (
+          {/* DETAIL MODAL OVERLAY */}
+          {viewedHotel && (
+            <div
+              className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
+              onClick={() => setViewedHotel(null)}
+            >
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="bg-white m-0 h-full rounded-[32px] overflow-y-auto p-6 scrollbar-thin shadow-2xl z-20 w-[40%] min-w-[380px] hidden md:block border border-[#1B4D3E]/5 relative"
+                onClick={(e) => e.stopPropagation()}
+                className="bg-white m-0 max-h-[90vh] rounded-[32px] overflow-y-auto p-6 scrollbar-thin shadow-2xl z-20 w-[90%] md:w-[60%] lg:w-[45%] border border-[#1B4D3E]/5 relative"
               >
                 <button
                   onClick={() => setViewedHotel(null)}
-                  className="absolute top-4 right-4 p-2 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors z-10"
+                  className="absolute top-4 right-4 p-2 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors z-50"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -486,11 +435,10 @@ function HotelsContent() {
 
                 <div className="flex flex-col gap-6">
                   <div className="relative w-full aspect-video rounded-[24px] overflow-hidden shadow-lg group">
-                    <Image
-                      src={viewedHotel.image || "/placeholder.jpg"}
+                    <ImageSlideshow
+                      images={viewedHotel.images?.length ? viewedHotel.images : [viewedHotel.image || "/placeholder.jpg"]}
                       alt={viewedHotel.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="w-full h-full group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-60"></div>
                   </div>
@@ -597,7 +545,10 @@ function HotelsContent() {
 
                   <div className="mt-auto pt-8">
                     <button
-                      onClick={(e) => handleSelectHotel(e, viewedHotel)}
+                      onClick={(e) => {
+                        handleSelectHotel(e, viewedHotel);
+                        setViewedHotel(null);
+                      }}
                       className={clsx(
                         "w-full py-4 rounded-2xl font-black text-lg shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3",
                         selectedHotelId === viewedHotel.id
@@ -617,8 +568,8 @@ function HotelsContent() {
                   </div>
                 </div>
               </motion.div>
-            )}
-          </AnimatePresence>
+            </div>
+          )}
 
           {/* RIGHT COLUMN: Map */}
           <motion.div
@@ -671,6 +622,7 @@ function HotelsContent() {
           </button>
         </div>
       </div>
+
     </div>
   );
 }

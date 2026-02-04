@@ -42,10 +42,15 @@ export default function MapComponent({
     const mapRef = useRef<L.Map | null>(null);
     const markersLayerRef = useRef<L.LayerGroup | null>(null);
     const routesLayerRef = useRef<L.LayerGroup | null>(null);
+    // Use a unique ID for the map container to prevent conflicts
+    const mapId = useRef(`map-${Math.random().toString(36).substr(2, 9)}`);
 
+    // 1. Initialize Map
     useEffect(() => {
+        if (typeof window === "undefined") return;
+
         if (!mapRef.current) {
-            mapRef.current = L.map("map-container", {
+            mapRef.current = L.map(mapId.current, {
                 center: defaultCenter,
                 zoom: 13,
                 zoomControl: !isStatic,
@@ -57,7 +62,6 @@ export default function MapComponent({
                 keyboard: !isStatic,
             });
 
-            // Standard OpenStreetMap (Light Mode)
             L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                 maxZoom: 19,
@@ -73,8 +77,9 @@ export default function MapComponent({
                 mapRef.current = null;
             }
         };
-    }, []);
+    }, []); // Run once on mount
 
+    // 2. Handle Markers & Routes
     useEffect(() => {
         if (!mapRef.current || !markersLayerRef.current || !routesLayerRef.current) return;
 
@@ -85,7 +90,6 @@ export default function MapComponent({
         if (markers.length === 0) return;
 
         const bounds = L.latLngBounds([]);
-
         const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
         // Helper to add marker
@@ -119,16 +123,21 @@ export default function MapComponent({
                                 left: 50%; 
                                 transform: translateX(-50%); 
                                 background: white; 
-                                padding: 4px 8px; 
-                                border-radius: 6px; 
+                                padding: 6px 10px; 
+                                border-radius: 8px; 
+                                border: 1px solid #E5E7EB;
                                 font-weight: bold; 
-                                font-size: 11px; 
-                                white-space: nowrap; 
-                                box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+                                font-size: 12px; 
+                                width: 150px;
+                                white-space: normal;
+                                text-align: center;
+                                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
                                 color: #1F2937;
-                                opacity: 0.9;
+                                opacity: 0.95;
+                                z-index: 1000;
                             ">
-                                ${marker.name}
+                                <div style="line-height: 1.2;">${marker.name}</div>
+                                ${marker.description ? `<div style="font-weight: normal; font-size: 10px; color: #6B7280; margin-top: 2px;">${marker.description.substring(0, 50)}</div>` : ''}
                             </div>
                         </div>
                     `,
@@ -139,7 +148,7 @@ export default function MapComponent({
             } else {
                 const isHotel = marker.isViewed;
                 if (isHotel) {
-                    // Hotel Marker (Red Pin) - existing code preserved but simplified for this view
+                    // Hotel Marker
                     const customIcon = L.divIcon({
                         className: 'custom-map-marker',
                         html: `
@@ -150,7 +159,7 @@ export default function MapComponent({
                     });
                     L.marker(latLng, { icon: customIcon, zIndexOffset: 1000 }).addTo(markersLayerRef.current!);
                 } else {
-                    // Attraction Marker (Green Dot)
+                    // Attraction Marker
                     const simpleIcon = L.divIcon({
                         className: 'simple-dot-marker',
                         html: `<div style="width: 14px; height: 14px; background-color: #2E968C; border: 3px solid white; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>`,
@@ -163,7 +172,6 @@ export default function MapComponent({
             return latLng;
         };
 
-        // Fetch route from OSRM
         const fetchRoute = async (start: L.LatLng, end: L.LatLng) => {
             try {
                 const response = await fetch(
@@ -179,7 +187,7 @@ export default function MapComponent({
             } catch (error) {
                 console.error("Routing error:", error);
             }
-            return null; // Fallback
+            return null;
         };
 
         const processMap = async () => {
@@ -196,7 +204,7 @@ export default function MapComponent({
                     lon = marker.lng;
                     found = true;
                 } else {
-                    // Fallback to Geocoding
+                    // Geocoding Fallback
                     try {
                         const query = encodeURIComponent(`${marker.name}, ${marker.address || ""}, ${marker.city || ""}`);
                         const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=1`);
@@ -206,22 +214,12 @@ export default function MapComponent({
                             lat = parseFloat(data[0].lat);
                             lon = parseFloat(data[0].lon);
                             found = true;
-                        } else {
-                            await delay(800);
-                            const query2 = encodeURIComponent(`${marker.name} ${marker.city || "Việt Nam"}`);
-                            const res2 = res.ok ? await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query2}&limit=1`) : { ok: false, json: async () => [] };
-                            const data2 = res2.ok ? await res2.json() : [];
-                            if (data2.length > 0) {
-                                lat = parseFloat(data2[0].lat);
-                                lon = parseFloat(data2[0].lon);
-                                found = true;
-                            }
                         }
                     } catch (e) { console.error(e); }
                 }
 
                 if (found) {
-                    // Jitter slightly if duplicate to avoid stacking exact same points
+                    // Jitter to avoid exact overlap
                     const isDuplicate = validLatLngs.some(p => Math.abs(p.latLng.lat - lat) < 0.0001 && Math.abs(p.latLng.lng - lon) < 0.0001);
                     if (isDuplicate) {
                         lat += (Math.random() - 0.5) * 0.002;
@@ -233,35 +231,23 @@ export default function MapComponent({
                         bounds.extend(resultLatLng);
                         validLatLngs.push({ latLng: resultLatLng, order: marker.order });
                     }
-
-                    if (!marker.lat || !marker.lng) await delay(800);
                 }
             }
 
             // 2. Draw Routes
             if (showRoutes && validLatLngs.length > 1) {
-                // Determine pairs based on mode
                 let pairs: { start: L.LatLng, end: L.LatLng }[] = [];
 
                 if (sequentialRoute) {
-                    // Sequential: 1->2, 2->3, etc.
-                    // Sort by order just in case
                     validLatLngs.sort((a, b) => (a.order || 0) - (b.order || 0));
-
                     for (let i = 0; i < validLatLngs.length - 1; i++) {
                         pairs.push({ start: validLatLngs[i].latLng, end: validLatLngs[i + 1].latLng });
                     }
-                } else {
-                    // Classic Hub-and-Spoke (first one is hub, rest are spokes - simplified logic for now)
-                    // Currently Step 1 logic is handled outside map component mostly, but if needed:
-                    const hub = validLatLngs.find(p => p.order === undefined && validLatLngs[0]) || validLatLngs[0];
-                    // ... avoiding this complex logic for now as Step 2 is the priority
                 }
 
-                // Draw segments
                 for (const pair of pairs) {
                     const routeData = await fetchRoute(pair.start, pair.end);
-                    const color = sequentialRoute ? '#8B5CF6' : '#3B82F6'; // Purple for sequence, Blue for explore
+                    const color = sequentialRoute ? '#8B5CF6' : '#3B82F6';
 
                     if (routeData) {
                         L.polyline(routeData.coordinates as L.LatLngExpression[], {
@@ -271,14 +257,7 @@ export default function MapComponent({
                             lineCap: 'round',
                             lineJoin: 'round'
                         }).addTo(routesLayerRef.current!);
-
-                        // Decorate with arrows if sequential
-                        if (sequentialRoute) {
-                            // Advanced: Leaflet doesn't support arrows on polylines natively without plugins
-                            // So we just rely on numbers to show direction
-                        }
                     } else {
-                        // Fallback straight line
                         L.polyline([pair.start, pair.end], {
                             color: color,
                             weight: 2,
@@ -286,29 +265,24 @@ export default function MapComponent({
                             opacity: 0.6
                         }).addTo(routesLayerRef.current!);
                     }
-                    await delay(300);
                 }
             }
 
-            // 3. Fit Bounds / Adjust View
-            if (mapRef.current) {
-                const shouldFitBounds = showRoutes || (validLatLngs.length > 0);
-
-                if (shouldFitBounds && bounds.isValid()) {
-                    mapRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 15 });
-                }
+            // 3. Fit Bounds
+            if (mapRef.current && (showRoutes || validLatLngs.length > 0) && bounds.isValid()) {
+                mapRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 15 });
             }
         };
 
         processMap();
-
     }, [markers, showRoutes, sequentialRoute]);
 
     return (
         <div
-            id="map-container"
+            id={mapId.current}
             className="w-full h-full rounded-3xl overflow-hidden bg-white"
             style={{ minHeight: "500px" }}
         />
     );
+}
 }

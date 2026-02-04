@@ -13,6 +13,7 @@ import {
   AuthLoadingScreen,
 } from "@/lib/hooks/useRequireAuth";
 import { useTripStore, type ActivitiesMap } from "@/lib/store/trip-store";
+import ImageSlideshow from "@/components/ui/ImageSlideshow";
 
 // Mock Weather Generator (Reused)
 const getWeather = (dateStr: string, destination: string = "") => {
@@ -181,6 +182,7 @@ function MyJourneyContent() {
     selectedPlaceIds: storeSelectedPlaceIds,
     selectedHotelId: storeSelectedHotelId,
     setActivities: setStoreActivities,
+    setTripInfo,
   } = useTripStore();
 
   // --- State ---
@@ -271,7 +273,15 @@ function MyJourneyContent() {
         const result = await getUserTrips();
 
         if (result.success && result.data && result.data.length > 0) {
-          const latestTrip = result.data[0];
+          const latestTrip: any = result.data[0];
+          console.log("MyJourney: Syncing trip to store...", latestTrip.id);
+
+          // Sync Trip Metadata to Store (Fixes Date/Day Calculation)
+          setTripInfo({
+            destination: latestTrip.destination,
+            startDate: latestTrip.startDate,
+            endDate: latestTrip.endDate
+          });
 
           const dbActivities: any = {};
           const tStart = new Date(latestTrip.startDate);
@@ -279,7 +289,7 @@ function MyJourneyContent() {
           const diffDays =
             Math.ceil(
               Math.abs(tEnd.getTime() - tStart.getTime()) /
-                (1000 * 60 * 60 * 24),
+              (1000 * 60 * 60 * 24),
             ) + 1;
 
           for (let d = 1; d <= diffDays; d++) {
@@ -305,7 +315,11 @@ function MyJourneyContent() {
                 item.startTime && item.endTime
                   ? `${item.startTime} - ${item.endTime}`
                   : item.transitDuration || "",
-              place: item.place,
+              place: {
+                ...item.place,
+                image: item.place.images?.[0] || item.place.image || "/placeholder.jpg",
+                images: item.place.images // Pass detailed images
+              },
               period: period,
             });
           });
@@ -321,6 +335,9 @@ function MyJourneyContent() {
       fetchMyTrips();
     }
   }, [mainTab, subTab]);
+
+  // Modal State
+  const [viewedActivity, setViewedActivity] = useState<any>(null);
 
   // Fetch Places Data (for context)
   useEffect(() => {
@@ -383,11 +400,10 @@ function MyJourneyContent() {
   const renderSubTabButton = (value: string, label: string) => (
     <button
       onClick={() => setSubTab(value)}
-      className={`px-6 py-2 rounded-full font-bold text-sm transition-all border ${
-        subTab === value
-          ? "bg-[#CFE0E0] border-[#CFE0E0] text-[#1B4D3E]"
-          : "bg-white border-gray-200 text-gray-500 hover:bg-gray-50"
-      }`}
+      className={`px-6 py-2 rounded-full font-bold text-sm transition-all border ${subTab === value
+        ? "bg-[#CFE0E0] border-[#CFE0E0] text-[#1B4D3E]"
+        : "bg-white border-gray-200 text-gray-500 hover:bg-gray-50"
+        }`}
     >
       {label}
     </button>
@@ -467,7 +483,7 @@ function MyJourneyContent() {
         <div className="bg-white/40 rounded-[40px] border border-[#1B4D3E]/5 min-h-[600px] p-1 relative">
           {/* 1. Upcoming Trips */}
           {mainTab === "my_trips" && subTab === "upcoming" && (
-            <div className="h-[800px] p-4">
+            <div className="min-h-[800px] p-4">
               {Object.keys(activities).length > 0 ? (
                 <ItineraryView
                   destination={destination || "Đà Lạt"}
@@ -483,121 +499,121 @@ function MyJourneyContent() {
                   onNextDay={() =>
                     selectedDay < tripDays && setSelectedDay((d) => d + 1)
                   }
-                  onEditActivity={() => {}}
-                  onDeleteActivity={() => {}}
-                  onAddActivity={() => {}}
+                  onEditActivity={(activity) => setViewedActivity(activity)}
+                  onDeleteActivity={() => { }}
+                  onAddActivity={() => { }}
                   onUpdateSchedule={(suggestion) => {
-                      console.log("DEBUG: onUpdateSchedule called", suggestion);
-                      // Handle Full Itinerary Replacement (Re-plan)
-                      if (suggestion.newItinerary) {
-                          const newDaySchedule = suggestion.newItinerary;
-                          // Convert backend 'DailyActivity' to frontend structure (morning/afternoon/evening)
-                          // Simplified classification based on time
-                          const morning: any[] = [];
-                          const afternoon: any[] = [];
-                          const evening: any[] = [];
-                          
-                          newDaySchedule.activities.forEach((act: any) => {
-                             const hour = parseInt(act.time_slot.split(':')[0]);
-                             const item = {
-                                 id: Date.now().toString() + Math.random(),
-                                 title: act.activity,
-                                 time: act.time_slot,
-                                 cost: act.estimated_cost ? `${(act.estimated_cost > 1000 ? act.estimated_cost / 1000 : act.estimated_cost).toLocaleString()}k` : undefined,
-                                 place: {
-                                     id: "ai-" + Math.random(),
-                                     name: act.location_name,
-                                     address: act.location_name + " (AI Suggestion)" 
-                                 }
-                             };
-                             
-                             if (hour < 12) morning.push({...item, period: 'morning'});
-                             else if (hour < 18) afternoon.push({...item, period: 'afternoon'});
-                             else evening.push({...item, period: 'evening'});
-                          });
-                          
-                          setActivities(prev => {
-                              const newActivities = {
-                                  ...prev,
-                                  [selectedDay]: {
-                                      morning,
-                                      afternoon,
-                                      evening
-                                  }
-                              };
-                              // Persist
-                              if (typeof window !== "undefined") {
-                                  localStorage.setItem("mytrip_activities", JSON.stringify(newActivities));
-                              }
-                              setStoreActivities(newActivities);
-                              return newActivities;
-                          });
-                          return;
-                      }
+                    console.log("DEBUG: onUpdateSchedule called", suggestion);
+                    // Handle Full Itinerary Replacement (Re-plan)
+                    if (suggestion.newItinerary) {
+                      const newDaySchedule = suggestion.newItinerary;
+                      // Convert backend 'DailyActivity' to frontend structure (morning/afternoon/evening)
+                      // Simplified classification based on time
+                      const morning: any[] = [];
+                      const afternoon: any[] = [];
+                      const evening: any[] = [];
 
-                      // Handle Single Place Suggestion (Old logic)
-                      if (!suggestion.suggestedPlace) {
-                          console.log("DEBUG: Invalid suggestion data");
-                          return;
-                      }
-                      
-                      const newPlace = suggestion.suggestedPlace;
-                      
-                      setActivities(prev => {
-                          const currentDayActs = prev[selectedDay] || { morning: [], afternoon: [], evening: [] };
-                          
-                          let targetPeriod = 'morning';
-                          if (currentDayActs.morning.length === 0 && currentDayActs.afternoon.length > 0) {
-                              targetPeriod = 'afternoon';
-                          } else if (currentDayActs.morning.length > 0) {
-                              targetPeriod = 'morning';
+                      newDaySchedule.activities.forEach((act: any) => {
+                        const hour = parseInt(act.time_slot.split(':')[0]);
+                        const item = {
+                          id: Date.now().toString() + Math.random(),
+                          title: act.activity,
+                          time: act.time_slot,
+                          cost: act.estimated_cost ? `${(act.estimated_cost > 1000 ? act.estimated_cost / 1000 : act.estimated_cost).toLocaleString()}k` : undefined,
+                          place: {
+                            id: "ai-" + Math.random(),
+                            name: act.location_name,
+                            address: act.location_name + " (AI Suggestion)"
                           }
-                          
-                          const list = [...(currentDayActs[targetPeriod] || [])];
-                          console.log("DEBUG: Target period", targetPeriod, "List length:", list.length);
-                          
-                          if (list.length > 0) {
-                              // Replace first item
-                              list[0] = {
-                                  ...list[0],
-                                  title: newPlace.name, 
-                                  place: {
-                                      ...list[0].place,
-                                      id: newPlace.id,
-                                      name: newPlace.name,
-                                      address: newPlace.address
-                                  }
-                              };
-                          } else {
-                              // Add new if empty
-                              list.push({
-                                  id: Date.now().toString(),
-                                  title: newPlace.name,
-                                  time: "14:00",
-                                  period: targetPeriod,
-                                  place: newPlace
-                              });
-                          }
-                          
-                          const newActivities = {
-                              ...prev,
-                              [selectedDay]: {
-                                  ...currentDayActs,
-                                  [targetPeriod]: list
-                              }
-                          };
-                          
-                          console.log("DEBUG: New activities state", newActivities);
-                          
-                           if (typeof window !== "undefined") {
-                              localStorage.setItem("mytrip_activities", JSON.stringify(newActivities));
-                           }
+                        };
 
-                           // Also sync to global store
-                           setStoreActivities(newActivities);
-                          
-                          return newActivities;
+                        if (hour < 12) morning.push({ ...item, period: 'morning' });
+                        else if (hour < 18) afternoon.push({ ...item, period: 'afternoon' });
+                        else evening.push({ ...item, period: 'evening' });
                       });
+
+                      setActivities(prev => {
+                        const newActivities = {
+                          ...prev,
+                          [selectedDay]: {
+                            morning,
+                            afternoon,
+                            evening
+                          }
+                        };
+                        // Persist
+                        if (typeof window !== "undefined") {
+                          localStorage.setItem("mytrip_activities", JSON.stringify(newActivities));
+                        }
+                        setStoreActivities(newActivities);
+                        return newActivities;
+                      });
+                      return;
+                    }
+
+                    // Handle Single Place Suggestion (Old logic)
+                    if (!suggestion.suggestedPlace) {
+                      console.log("DEBUG: Invalid suggestion data");
+                      return;
+                    }
+
+                    const newPlace = suggestion.suggestedPlace;
+
+                    setActivities(prev => {
+                      const currentDayActs = prev[selectedDay] || { morning: [], afternoon: [], evening: [] };
+
+                      let targetPeriod = 'morning';
+                      if (currentDayActs.morning.length === 0 && currentDayActs.afternoon.length > 0) {
+                        targetPeriod = 'afternoon';
+                      } else if (currentDayActs.morning.length > 0) {
+                        targetPeriod = 'morning';
+                      }
+
+                      const list = [...(currentDayActs[targetPeriod] || [])];
+                      console.log("DEBUG: Target period", targetPeriod, "List length:", list.length);
+
+                      if (list.length > 0) {
+                        // Replace first item
+                        list[0] = {
+                          ...list[0],
+                          title: newPlace.name,
+                          place: {
+                            ...list[0].place,
+                            id: newPlace.id,
+                            name: newPlace.name,
+                            address: newPlace.address
+                          }
+                        };
+                      } else {
+                        // Add new if empty
+                        list.push({
+                          id: Date.now().toString(),
+                          title: newPlace.name,
+                          time: "14:00",
+                          period: targetPeriod,
+                          place: newPlace
+                        });
+                      }
+
+                      const newActivities = {
+                        ...prev,
+                        [selectedDay]: {
+                          ...currentDayActs,
+                          [targetPeriod]: list
+                        }
+                      };
+
+                      console.log("DEBUG: New activities state", newActivities);
+
+                      if (typeof window !== "undefined") {
+                        localStorage.setItem("mytrip_activities", JSON.stringify(newActivities));
+                      }
+
+                      // Also sync to global store
+                      setStoreActivities(newActivities);
+
+                      return newActivities;
+                    });
                   }}
                   isReadOnly={false}
                 />
@@ -713,6 +729,86 @@ function MyJourneyContent() {
             </div>
           )}
         </div>
+
+        {/* DETAIL MODAL */}
+        {viewedActivity && (
+          <div
+            className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
+            onClick={() => setViewedActivity(null)}
+          >
+            <div
+              className="bg-white m-0 max-h-[90vh] rounded-[32px] overflow-y-auto p-6 scrollbar-thin shadow-2xl z-20 w-[90%] md:w-[60%] lg:w-[45%] border border-[#1B4D3E]/5 relative animate-in zoom-in-95 duration-200"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setViewedActivity(null)}
+                className="absolute top-4 right-4 p-2 bg-gray-100 rounded-full hover:bg-gray-200 z-50 transition-colors"
+                aria-label="Close"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+
+              <div className="w-full aspect-video rounded-2xl overflow-hidden relative mb-4">
+                {(viewedActivity.place?.images?.length || viewedActivity.place?.image) ? (
+                  <ImageSlideshow
+                    images={viewedActivity.place.images || [viewedActivity.place.image]}
+                    alt={viewedActivity.place.name || viewedActivity.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-100 flex items-center justify-center text-4xl">
+                    📍
+                  </div>
+                )}
+              </div>
+
+              <h2 className="text-2xl font-black text-[#1B4D3E] mb-2">
+                {viewedActivity.place?.name || viewedActivity.title}
+              </h2>
+              <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+                {viewedActivity.place?.description || "Chưa có mô tả chi tiết."}
+              </p>
+
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="bg-gray-50 p-3 rounded-xl">
+                  <p className="text-xs text-gray-400 font-bold uppercase">Thời gian</p>
+                  <p className="text-[#1B4D3E] font-bold">
+                    {viewedActivity.time}
+                  </p>
+                </div>
+                <div className="bg-gray-50 p-3 rounded-xl">
+                  <p className="text-xs text-gray-400 font-bold uppercase">Địa chỉ</p>
+                  <p className="text-[#1B4D3E] font-bold text-sm truncate">
+                    {viewedActivity.place?.address || "N/A"}
+                  </p>
+                </div>
+              </div>
+
+              {/* Transportation Info if exists */}
+              {viewedActivity.place?.metadata?.transportation && (
+                <div className="mb-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
+                  <h3 className="font-bold text-[#1B4D3E] mb-2 text-sm">🚗 Di chuyển ước tính</h3>
+                  <p className="text-sm text-gray-600">
+                    Khoảng {viewedActivity.place.metadata.transportation.distance_km} km ({viewedActivity.place.metadata.transportation.duration_minutes} phút)
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

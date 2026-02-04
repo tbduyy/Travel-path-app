@@ -72,8 +72,8 @@ export default function ItineraryView({
                     </div>
                 </div>
 
-                {/* Schedule Content - Scrollable */}
-                <div className="flex-1 overflow-y-auto bg-white/40 p-6 rounded-[32px] border border-[#1B4D3E]/5 shadow-sm space-y-6">
+                {/* Schedule Content - Grows with content */}
+                <div className="flex-1 bg-white/40 p-6 rounded-[32px] border border-[#1B4D3E]/5 shadow-sm space-y-6">
 
                     {/* Morning Period */}
                     <div className="bg-white rounded-2xl p-5 shadow-sm">
@@ -176,9 +176,9 @@ export default function ItineraryView({
                 </div>
             </div>
 
-            {/* Right: AI Trip Assistant (Replaces Widgets) */}
-            <div className="hidden lg:block h-full">
-                 <TripAssistant
+            {/* Right: AI Trip Assistant (Sticky) */}
+            <div className="hidden lg:block h-[calc(100vh-120px)] sticky top-24">
+                <TripAssistant
                     destination={destination}
                     selectedDayDate={selectedDayDate}
                     currentWeather={currentWeather}
@@ -188,8 +188,8 @@ export default function ItineraryView({
                         ...(activities[selectedDay]?.afternoon || []),
                         ...(activities[selectedDay]?.evening || [])
                     ]}
-                    onUpdateSchedule={onUpdateSchedule || (() => {})}
-                 />
+                    onUpdateSchedule={onUpdateSchedule || (() => { })}
+                />
             </div>
         </div>
     );

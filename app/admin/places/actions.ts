@@ -64,14 +64,16 @@ export async function savePlace(formData: FormData) {
             await prisma.place.update({
                 where: { id },
                 data: {
-                    name, description, address, type, city, price, image,
+                    name, description, address, type, city, price,
+                    images: image ? [image] : [], // Map to array
                     lat, lng, rating, metadata
                 }
             })
         } else {
             await prisma.place.create({
                 data: {
-                    name, description, address, type, city, price, image,
+                    name, description, address, type, city, price,
+                    images: image ? [image] : [], // Map to array
                     lat, lng, rating, metadata
                 }
             })
