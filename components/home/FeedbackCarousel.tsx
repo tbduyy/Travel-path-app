@@ -66,7 +66,7 @@ const FeedbackCarousel = () => {
     <section className="w-full bg-[#E0F2F1] relative z-10 pb-20">
       <div className="max-w-6xl mx-auto px-8">
         <div className="flex justify-center mb-12">
-          <h2 className="bg-[#3A5A40] text-white text-xl font-bold px-8 py-2 rounded-full shadow-md">
+          <h2 className="bg-[#1A4540] text-white text-xl font-bold px-8 py-2 rounded-full shadow-md">
             Phản hồi
           </h2>
         </div>

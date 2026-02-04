@@ -65,7 +65,7 @@ export default function PlanTripLandingPage() {
         </div>
 
         <div className="flex-1 flex flex-col items-center justify-start pt-2 md:pt-5 relative z-10 px-3 md:px-4 pb-10 md:pb-20 gap-6 md:gap-12">
-          <div className="w-full max-w-7xl animate-in fade-in slide-in-from-top-4 duration-700 z-20 px-4 md:px-8">
+          <div className="w-full md:w-[90vw] max-w-3xl animate-in fade-in slide-in-from-top-4 duration-700 z-20">
             <SearchWidget />
           </div>
 
