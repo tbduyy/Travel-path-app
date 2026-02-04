@@ -64,7 +64,7 @@ const CableCarAnimation = () => {
   });
 
   return (
-    <div className="relative w-full mx-auto max-w-[90vw] h-[550px] overflow-hidden z-30">
+    <div className="relative w-full mx-auto max-w-[90vw] h-[550px] overflow-hidden">
       {/* The Cable/Wire (SVG drawn) */}
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <path

@@ -79,13 +79,13 @@ export default function CitySlideWidget() {
                         transformClass = "scale-100 opacity-100 translate-x-0 z-40";
                         zIndex = 40;
                     } else if (isNext) {
-                        transformClass = "scale-90 opacity-80 -translate-x-16 -translate-y-4 z-30";
+                        transformClass = "scale-90 opacity-80 translate-x-0 -translate-y-4 z-30";
                         zIndex = 30;
                     } else if (isNextNext) {
-                        transformClass = "scale-80 opacity-60 -translate-x-28 -translate-y-8 z-20";
+                        transformClass = "scale-80 opacity-60 translate-x-0 -translate-y-8 z-20";
                         zIndex = 20;
                     } else if (isNextNextNext) {
-                        transformClass = "scale-70 opacity-40 -translate-x-36 -translate-y-12 z-10";
+                        transformClass = "scale-70 opacity-40 translate-x-0 -translate-y-12 z-10";
                         zIndex = 10;
                     }
 
