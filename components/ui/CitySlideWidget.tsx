@@ -65,40 +65,41 @@ export default function CitySlideWidget() {
                     // 1 = Behind 1
                     // 2 = Behind 2
                     // ... rest hidden or far behind
-                    if (position > 2 && position < cities.length - 1) return null; // Hide non-visible
+                    if (position > 3 && position < cities.length - 1) return null;
 
-                    // Determine styles based on position
                     const isCurrent = position === 0;
                     const isNext = position === 1;
                     const isNextNext = position === 2;
+                    const isNextNextNext = position === 3;
 
-                    let transformClass = "scale-90 opacity-0 translate-x-12"; // Default hidden state
+                    let transformClass = "scale-75 opacity-0 -translate-x-16";
                     let zIndex = 0;
 
                     if (isCurrent) {
-                        transformClass = "scale-100 opacity-100 translate-x-0 z-30 translate-y-0";
-                        zIndex = 30;
+                        transformClass = "scale-100 opacity-100 translate-x-0 z-40";
+                        zIndex = 40;
                     } else if (isNext) {
-                        transformClass = "scale-95 opacity-80 translate-x-4 translate-y-2 z-20";
-                        zIndex = 20;
+                        transformClass = "scale-90 opacity-80 -translate-x-16 -translate-y-4 z-30";
+                        zIndex = 30;
                     } else if (isNextNext) {
-                        transformClass = "scale-90 opacity-60 translate-x-8 translate-y-4 z-10";
+                        transformClass = "scale-80 opacity-60 -translate-x-28 -translate-y-8 z-20";
+                        zIndex = 20;
+                    } else if (isNextNextNext) {
+                        transformClass = "scale-70 opacity-40 -translate-x-36 -translate-y-12 z-10";
                         zIndex = 10;
                     }
 
-                    // If previous (last item), show sliding out effect
                     if (position === cities.length - 1) {
-                        transformClass = "scale-90 opacity-0 -translate-x-12 z-0";
+                        transformClass = "scale-110 opacity-0 translate-x-16 z-50";
                     }
 
                     return (
                         <div
                             key={city.name}
-                            className={`absolute top-0 left-0 w-full h-full transition-all duration-700 ease-in-out ${transformClass}`}
+                            className={`absolute top-0 right-0 w-full h-full transition-all duration-700 ease-in-out ${transformClass}`}
                             style={{ zIndex }}
                         >
-                            <div className="relative w-full h-full rounded-[2rem] overflow-hidden shadow-2xl bg-white border-4 border-white/50">
-                                {/* Image */}
+                            <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-2xl bg-white border-2 border-white/50">
                                 <Image
                                     src={city.image}
                                     alt={city.name}
@@ -106,22 +107,13 @@ export default function CitySlideWidget() {
                                     className="object-cover"
                                 />
 
-                                {/* Gradient Overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-                                {/* Content */}
-                                <div className="absolute bottom-0 left-0 w-full p-6 text-center pb-12">
-                                    {/* Title - Match Font of "VỀ TRAVEL PATH" */}
-                                    <h3 className="text-2xl md:text-3xl font-bold text-white uppercase tracking-tight mb-3 drop-shadow-md">
+                                <div className="absolute inset-x-4 bottom-4 bg-white/95 backdrop-blur-md rounded-[2rem] p-4 text-center shadow-lg border border-gray-100">
+                                    <h3 className="text-[#8B4513] text-lg md:text-xl font-bold uppercase tracking-tight mb-1">
                                         {city.name}
                                     </h3>
-
-                                    {/* Description */}
-                                    <div className="bg-white/90 backdrop-blur-sm rounded-xl p-3 shadow-lg">
-                                        <p className="text-[#1B4D3E] text-xs md:text-sm font-medium leading-relaxed">
-                                            {city.description}
-                                        </p>
-                                    </div>
+                                    <p className="text-[#1B4D3E] text-[10px] md:text-xs font-medium leading-relaxed px-2">
+                                        {city.description}
+                                    </p>
                                 </div>
                             </div>
                         </div>
