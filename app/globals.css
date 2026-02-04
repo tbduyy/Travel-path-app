@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Paytone+One&family=Yeseva+One&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -20,7 +19,6 @@
   --radius-2xl: 2rem;
 
   --font-yeseva: 'Yeseva One', serif;
-  --font-paytone: 'Paytone One', sans-serif;
 }
 
 @keyframes movePath {

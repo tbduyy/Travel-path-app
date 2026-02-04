@@ -2,24 +2,18 @@
 'use client'
 
 import Link from 'next/link'
-import { useActionState, useState, Suspense } from 'react'
+import { useActionState, useState } from 'react'
 import { signup } from './actions'
 import { signInWithGoogle } from '../login/oauth-actions'
 import Header from '../../components/layout/Header'
 import { Loader2 } from 'lucide-react'
-import { useSearchParams } from 'next/navigation'
 
 // Initial state for the form
 const initialState = {
     error: '',
 }
 
-function SignupForm() {
-    const searchParams = useSearchParams();
-    
-    // Get redirect URL from query params (same as login page)
-    const redirectTo = searchParams.get('redirect') || '/';
-    
+export default function SignupPage() {
     const [state, formAction, isPending] = useActionState(async (_prevState: any, formData: FormData) => {
         const result = await signup(formData);
         if (result?.error) return { error: result.error };
@@ -31,7 +25,7 @@ function SignupForm() {
     const handleGoogleSignIn = async () => {
         setIsGoogleLoading(true);
         try {
-            const result = await signInWithGoogle(redirectTo);
+            const result = await signInWithGoogle('/');
             if (result?.error) {
                 console.error('Google sign in error:', result.error);
                 setIsGoogleLoading(false);
@@ -57,8 +51,6 @@ function SignupForm() {
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form className="space-y-6" action={formAction}>
-                        {/* Hidden field to pass redirect URL to server action */}
-                        <input type="hidden" name="redirectTo" value={redirectTo} />
                         <div>
                             <label htmlFor="name" className="block text-sm font-medium leading-6 text-[#1B4D3E]">
                                 Họ tên
@@ -169,20 +161,12 @@ function SignupForm() {
 
                     <p className="mt-10 text-center text-sm text-gray-500">
                         Đã có tài khoản?{' '}
-                        <Link href={redirectTo !== '/' ? `/login?redirect=${encodeURIComponent(redirectTo)}` : '/login'} className="font-semibold leading-6 text-[#2E968C] hover:text-[#1B4D3E]">
+                        <Link href="/login" className="font-semibold leading-6 text-[#2E968C] hover:text-[#1B4D3E]">
                             Đăng nhập
                         </Link>
                     </p>
                 </div>
             </div>
         </main>
-    );
-}
-
-export default function SignupPage() {
-    return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <SignupForm />
-        </Suspense>
-    );
+    )
 }
