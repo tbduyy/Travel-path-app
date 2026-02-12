@@ -244,7 +244,7 @@ export default function SearchWidget() {
                         : "text-[#003F3E]/60"
                         }`}
                     >
-                      {destinationLabel || "Chọn điểm"}
+                      {destinationLabel || "Chọn điểm đến"}
                     </span>
                     <ChevronDown
                       size={14}

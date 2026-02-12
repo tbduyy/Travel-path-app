@@ -84,7 +84,7 @@ export default function PlanTripLandingPage() {
             </h1>
             <p className="text-sm md:text-xl text-[#1B4D3E]/70 font-medium max-w-2xl mx-auto px-2">
               Nhập điểm đến và sở thích của bạn, Travel Path sẽ giúp bạn lên lịch
-              trình hoàn hảo trong vài giây.
+              trình ngay trong vài giây.
             </p>
           </div>
         </div>
