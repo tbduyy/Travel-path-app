@@ -193,7 +193,7 @@ export default function SearchWidget() {
   };
 
   return (
-    <div className="w-full mx-auto relative z-20">
+    <div className="relative w-[110%] left-1/2 -translate-x-1/2 z-20">
       {/* Parent controls width (matches homepage). Keep responsive heights to match visual size */}
       <div className="w-full flex items-center justify-center relative font-sans h-[80px] md:h-[110px] lg:h-[140px]">
         {/* 1. Container Wrapper (Rec 1) */}
@@ -529,7 +529,7 @@ export default function SearchWidget() {
 
                       <input
                         type="text"
-                        placeholder={`Ngân sách`}
+                        placeholder={`Ngân sách/${totalPeople} người`}
                         value={formatNumber(budget)}
                         onChange={(e) => {
                           const value = e.target.value;

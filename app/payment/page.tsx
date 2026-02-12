@@ -692,15 +692,15 @@ function PaymentContent() {
                           />
                         </div>
                         <div className="flex-1">
-                          <h4 className="font-bold text-base">{item.name}</h4>
-                          <p className="text-xs text-gray-400">
+                          <h4 className="font-bold text-lg">{item.name}</h4>
+                          <p className="text-sm text-gray-400">
                             {item.price || "Miễn phí"}
                           </p>
                         </div>
                         <div className="text-right flex flex-col items-end gap-2">
                           {item.total > 0 ? (
                             <>
-                              <div className="font-bold text-[#1B4D3E]">
+                              <div className="font-bold text-lg text-[#1B4D3E]">
                                 {new Intl.NumberFormat("vi-VN").format(
                                   item.total,
                                 )}{" "}
@@ -718,7 +718,7 @@ function PaymentContent() {
                           <button
                             type="button"
                             onClick={() => toggleItemSelection(itemKey)}
-                            className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${isItemSelected
+                            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${isItemSelected
                               ? "bg-[#1B4D3E] text-white"
                               : "bg-[#E8F5E9] text-[#1B4D3E] hover:bg-[#D0EBD0]"
                               }`}
