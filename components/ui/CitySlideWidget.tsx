@@ -52,7 +52,7 @@ export default function CitySlideWidget() {
     };
 
     return (
-        <div className="relative w-72 h-72 md:w-96 md:h-96 group">
+        <div className="relative w-[14.5rem] h-[14.5rem] md:w-[19.5rem] md:h-[19.5rem] group">
             {/* Cards Stack Effect */}
             <div className="relative w-full h-full">
                 {cities.map((city, index) => {
@@ -107,11 +107,14 @@ export default function CitySlideWidget() {
                                     className="object-cover"
                                 />
 
-                                <div className="absolute inset-x-4 bottom-4 bg-white/95 backdrop-blur-md rounded-[2rem] p-4 text-center shadow-lg border border-gray-100">
-                                    <h3 className="text-[#8B4513] text-lg md:text-xl font-bold uppercase tracking-tight mb-1">
+                                {/* Dark gradient overlay to make text pop */}
+                                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 via-black/40 to-transparent pointer-events-none" />
+
+                                <div className="absolute inset-x-4 bottom-4 bg-transparent p-4 text-center z-10">
+                                    <h3 className="text-white drop-shadow-[0_4px_4px_rgba(0,0,0,1)] text-lg md:text-xl font-bold uppercase tracking-tight mb-1">
                                         {city.name}
                                     </h3>
-                                    <p className="text-[#1B4D3E] text-[10px] md:text-xs font-medium leading-relaxed px-2">
+                                    <p className="text-gray-100 drop-shadow-[0_2px_4px_rgba(0,0,0,1)] text-[10px] md:text-sm font-semibold leading-relaxed px-2">
                                         {city.description}
                                     </p>
                                 </div>

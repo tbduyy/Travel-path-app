@@ -207,7 +207,11 @@ export default function MapComponent({
                     // Geocoding Fallback
                     try {
                         const query = encodeURIComponent(`${marker.name}, ${marker.address || ""}, ${marker.city || ""}`);
-                        const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=1`);
+                        const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=1`, {
+                            headers: {
+                                "User-Agent": "TravelPath/1.0 (contact@travelpath.io.vn)"
+                            }
+                        });
                         const data = res.ok ? await res.json() : [];
 
                         if (data.length > 0) {

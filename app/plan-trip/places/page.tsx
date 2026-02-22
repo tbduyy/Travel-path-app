@@ -90,7 +90,7 @@ function PlacesContent() {
     try {
       const result = await searchPlaces({
         destination: term,
-        // type: "ATTRACTION", // Removed to show all types (Restaurants included)
+        type: "ATTRACTION", // Only show Attractions on this page
       });
       if (result.success && result.data) {
         setPlaces(result.data);
@@ -276,9 +276,9 @@ function PlacesContent() {
                           <circle cx="12" cy="10" r="3" />
                         </svg>
                       </div>
-                      <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur rounded-lg px-2 py-1 text-white text-xs font-bold">
-                        {place.rating} ⭐
-                      </div>
+                      <span className="flex items-center gap-1 text-xs font-bold bg-white/90 text-gray-900 px-2.5 py-1 rounded-full shadow-sm backdrop-blur-md absolute bottom-3 right-3">
+                        {Number(place.rating || 0).toFixed(1)} ⭐
+                      </span>
                     </div>
 
                     {/* Content */}
@@ -335,7 +335,7 @@ function PlacesContent() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 onClick={(e) => e.stopPropagation()}
-                className="bg-white m-0 max-h-[90vh] rounded-[32px] overflow-y-auto p-6 scrollbar-thin shadow-2xl z-20 w-[90%] md:w-[60%] lg:w-[45%] border border-[#1B4D3E]/5 relative"
+                className="bg-white m-0 h-auto rounded-[32px] p-6 shadow-2xl z-20 w-[90%] md:w-[60%] lg:w-[45%] border border-[#1B4D3E]/5 relative"
               >
                 <button
                   onClick={() => setViewedPlace(null)}
@@ -357,8 +357,8 @@ function PlacesContent() {
                   </svg>
                 </button>
 
-                <div className="flex flex-col gap-6">
-                  <div className="relative w-full aspect-video rounded-[24px] overflow-hidden shadow-lg group">
+                <div className="flex flex-col gap-4">
+                  <div className="relative w-full aspect-[5/2] rounded-[24px] overflow-hidden shadow-lg group">
                     <ImageSlideshow
                       images={viewedPlace.images?.length ? viewedPlace.images : [viewedPlace.image || "/placeholder.jpg"]}
                       alt={viewedPlace.name}
@@ -389,69 +389,69 @@ function PlacesContent() {
                         </svg>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600 mb-6 font-medium">
+                    <div className="flex items-center gap-2 text-sm text-gray-600 mb-3 font-medium">
                       <span className="flex text-yellow-500 text-base">
                         {"⭐".repeat(Math.round(viewedPlace.rating))}
                       </span>
                       <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                      <span>{viewedPlace.rating} (100+ đánh giá)</span>
+                      <span>{Number(viewedPlace.rating || 0).toFixed(1)} (100+ đánh giá)</span>
                     </div>
-                    <p className="text-gray-600 leading-relaxed text-base font-light">
+                    <p className="text-gray-600 leading-relaxed text-sm font-light">
                       {viewedPlace.description ||
                         "Một địa điểm tuyệt vời để khám phá tại Đà Lạt. Tận hưởng không khí trong lành và cảnh quan thiên nhiên đẹp mắt."}
                     </p>
                   </div>
 
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-4 text-[#1B4D3E] bg-[#F2F9F8] p-4 rounded-[20px]">
-                      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-lg">
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="flex flex-col items-center text-center gap-2 text-[#1B4D3E] bg-[#F2F9F8] p-3 rounded-[20px]">
+                      <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm text-sm">
                         📍
                       </div>
                       <div>
-                        <p className="text-xs text-[#1B4D3E]/60 font-bold uppercase tracking-wider">
+                        <p className="text-[10px] text-[#1B4D3E]/60 font-bold uppercase tracking-wider">
                           Địa chỉ
                         </p>
-                        <p className="text-sm font-semibold">
+                        <p className="text-xs font-semibold line-clamp-2" title={viewedPlace.address || "Đà Lạt, Lâm Đồng"}>
                           {viewedPlace.address || "Đà Lạt, Lâm Đồng"}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4 text-[#1B4D3E] bg-[#F2F9F8] p-4 rounded-[20px]">
-                      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-lg">
+                    <div className="flex flex-col items-center text-center gap-2 text-[#1B4D3E] bg-[#F2F9F8] p-3 rounded-[20px]">
+                      <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm text-sm">
                         ⏰
                       </div>
                       <div>
-                        <p className="text-xs text-[#1B4D3E]/60 font-bold uppercase tracking-wider">
+                        <p className="text-[10px] text-[#1B4D3E]/60 font-bold uppercase tracking-wider">
                           Thời gian
                         </p>
-                        <p className="text-sm font-semibold">
+                        <p className="text-xs font-semibold">
                           {viewedPlace.duration || "2-3 tiếng"}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4 text-[#1B4D3E] bg-[#F2F9F8] p-4 rounded-[20px]">
-                      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-lg">
+                    <div className="flex flex-col items-center text-center gap-2 text-[#1B4D3E] bg-[#F2F9F8] p-3 rounded-[20px]">
+                      <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm text-sm">
                         💵
                       </div>
                       <div>
-                        <p className="text-xs text-[#1B4D3E]/60 font-bold uppercase tracking-wider">
+                        <p className="text-[10px] text-[#1B4D3E]/60 font-bold uppercase tracking-wider">
                           Giá vé
                         </p>
-                        <p className="text-sm font-semibold">
+                        <p className="text-xs font-semibold">
                           {viewedPlace.price || "Miễn phí"}
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-auto pt-8">
+                  <div className="mt-auto pt-4">
                     <button
                       onClick={(e) => {
                         toggleSelectPlace(e, viewedPlace);
                         setViewedPlace(null);
                       }}
                       className={clsx(
-                        "w-full py-4 rounded-2xl font-black text-lg shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3",
+                        "w-full py-3 rounded-2xl font-black text-base shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-2",
                         selectedPlaceIds.includes(viewedPlace.id)
                           ? "bg-[#1B4D3E] text-white"
                           : "bg-white border-2 border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E] hover:text-white",
@@ -498,7 +498,7 @@ function PlacesContent() {
       {/* Footer / Floating Button */}
       <div
         className={clsx(
-          "fixed bottom-8 left-1/2 -translate-x-1/2 z-40 transition-all duration-500",
+          "fixed bottom-8 left-1/2 -translate-x-1/2 z-[70] transition-all duration-500",
           selectedPlaceIds.length > 0
             ? "translate-y-0 opacity-100"
             : "translate-y-20 opacity-0",

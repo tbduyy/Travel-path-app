@@ -38,7 +38,7 @@ export default function Home() {
                   src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/hero-title.png"
                   alt="Make Your Dream Trip"
                   fill
-                  className="object-contain object-center md:object-left scale-[1.2] md:scale-[1.4] origin-left transition-transform duration-500"
+                  className="object-contain object-center md:object-left scale-95 md:scale-[1.13] origin-left transition-transform duration-500"
                   unoptimized
                   priority
                 />
@@ -46,7 +46,7 @@ export default function Home() {
             </div>
 
             {/* Right: Slide Widget */}
-            <div className="flex-[0.5] hidden md:flex justify-end items-center w-full md:pr-4 pb-12">
+            <div className="flex-[0.5] hidden md:flex justify-end items-center w-full md:pr-4 pb-20">
               <CitySlideWidget />
             </div>
           </div>
@@ -146,7 +146,7 @@ export default function Home() {
                   className="w-16 md:w-[100px] h-auto object-contain"
                 />
               </div>
-              <div className="flex flex-col items-start gap-2 md:gap-4">
+              <div className="flex flex-col items-start gap-2 md:gap-4 -ml-4 md:-ml-8 -mt-2 md:-mt-4">
                 {/* Logo Name */}
                 <Image
                   src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/logo-name.png"

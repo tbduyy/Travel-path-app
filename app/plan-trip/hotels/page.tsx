@@ -304,9 +304,9 @@ function HotelsContent() {
                       <div className="absolute top-3 left-3 bg-white/90 backdrop-blur rounded-full p-1.5 shadow-sm">
                         <div className="w-4 h-4 rounded-full bg-[#1B4D3E]"></div>
                       </div>
-                      <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur rounded-lg px-2 py-1 text-white text-xs font-bold">
-                        {hotel.rating || 4.5} ⭐
-                      </div>
+                      <span className="flex items-center gap-1 text-xs font-bold bg-white/90 text-gray-900 px-2.5 py-1 rounded-full shadow-sm backdrop-blur-md">
+                        {Number(hotel.rating || 4.5).toFixed(1)} ⭐
+                      </span>
                     </div>
 
                     {/* Content */}
@@ -411,7 +411,7 @@ function HotelsContent() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 onClick={(e) => e.stopPropagation()}
-                className="bg-white m-0 max-h-[90vh] rounded-[32px] overflow-y-auto p-6 scrollbar-thin shadow-2xl z-20 w-[90%] md:w-[60%] lg:w-[45%] border border-[#1B4D3E]/5 relative"
+                className="bg-white m-0 h-auto rounded-[32px] p-6 shadow-2xl z-20 w-[90%] md:w-[60%] lg:w-[45%] border border-[#1B4D3E]/5 relative"
               >
                 <button
                   onClick={() => setViewedHotel(null)}
@@ -433,8 +433,8 @@ function HotelsContent() {
                   </svg>
                 </button>
 
-                <div className="flex flex-col gap-6">
-                  <div className="relative w-full aspect-video rounded-[24px] overflow-hidden shadow-lg group">
+                <div className="flex flex-col gap-4">
+                  <div className="relative w-full aspect-[5/2] rounded-[24px] overflow-hidden shadow-lg group">
                     <ImageSlideshow
                       images={viewedHotel.images?.length ? viewedHotel.images : [viewedHotel.image || "/placeholder.jpg"]}
                       alt={viewedHotel.name}
@@ -447,20 +447,19 @@ function HotelsContent() {
                     <h2 className="text-3xl font-black text-[#1B4D3E] mb-2 leading-tight">
                       {viewedHotel.name}
                     </h2>
-                    <div className="flex items-center gap-2 text-sm text-gray-600 mb-6 font-medium">
-                      <span className="flex text-yellow-500 text-base">
+                    <div className="flex items-center gap-2 text-sm text-gray-600 mt-2">
+                      <div className="flex text-yellow-400 text-base">
                         {"⭐".repeat(Math.round(viewedHotel.rating || 5))}
-                      </span>
-                      <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                      <span>{viewedHotel.rating || 4.5} (50+ đánh giá)</span>
+                      </div>
+                      <span>{Number(viewedHotel.rating || 4.5).toFixed(1)} (50+ đánh giá)</span>
                     </div>
-                    <p className="text-gray-600 leading-relaxed text-base font-light">
+                    <p className="text-gray-600 leading-relaxed text-sm font-light">
                       {viewedHotel.description ||
-                        "Khách sạn đầy đủ tiện nghi với view đẹp, gần trung tâm và thuận tiện di chuyển. Đội ngũ nhân viên chuyên nghiệp, tận tình."}
+                        "Khách sạn đầy đủ tiện nghi với view đẹp, gần trung tâm và thuận tiện di chuyển."}
                     </p>
                   </div>
 
-                  <div className="space-y-4">
+                  <div className="flex flex-col gap-3">
                     {/* DYNAMIC DISTANCE MATRIX */}
                     <div className="bg-[#F2F9F8] p-4 rounded-[24px]">
                       <h4 className="text-xs font-bold text-[#1B4D3E]/60 uppercase mb-3 tracking-wider flex items-center gap-2">
@@ -511,46 +510,50 @@ function HotelsContent() {
                       </div>
                     </div>
 
-                    {/* Warning Note */}
-                    {viewedHotel.metadata?.note && (
-                      <div className="flex items-start gap-3 text-orange-700 bg-orange-50 p-4 rounded-[20px] border border-orange-100">
-                        <div className="w-10 h-10 shrink-0 rounded-full bg-white flex items-center justify-center shadow-sm text-lg">
-                          ⚠️
+                    {/* Warning & Price row */}
+                    <div className="grid grid-cols-2 gap-3">
+                      {viewedHotel.metadata?.note ? (
+                        <div className="flex items-start gap-2 text-orange-700 bg-orange-50 p-3 rounded-[20px] border border-orange-100">
+                          <div className="w-8 h-8 shrink-0 rounded-full bg-white flex items-center justify-center shadow-sm text-sm">
+                            ⚠️
+                          </div>
+                          <div>
+                            <p className="text-[10px] text-orange-700/60 font-bold uppercase tracking-wider">
+                              Lưu ý
+                            </p>
+                            <p className="text-xs font-medium italic mt-0.5 max-h-12 overflow-y-auto scrollbar-thin">
+                              "{viewedHotel.metadata.note}"
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="bg-transparent"></div>
+                      )}
+
+                      <div className="flex items-center gap-3 text-[#1B4D3E] bg-[#F2F9F8] p-3 rounded-[20px]">
+                        <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm text-sm">
+                          💵
                         </div>
                         <div>
-                          <p className="text-xs text-orange-700/60 font-bold uppercase tracking-wider">
-                            Lưu ý quan trọng
+                          <p className="text-[10px] text-[#1B4D3E]/60 font-bold uppercase tracking-wider">
+                            Giá phòng
                           </p>
-                          <p className="text-sm font-medium italic mt-0.5">
-                            "{viewedHotel.metadata.note}"
+                          <p className="text-xs font-semibold">
+                            {viewedHotel.price || "Liên hệ"}
                           </p>
                         </div>
-                      </div>
-                    )}
-
-                    <div className="flex items-center gap-4 text-[#1B4D3E] bg-[#F2F9F8] p-4 rounded-[20px]">
-                      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-lg">
-                        💵
-                      </div>
-                      <div>
-                        <p className="text-xs text-[#1B4D3E]/60 font-bold uppercase tracking-wider">
-                          Giá phòng
-                        </p>
-                        <p className="text-sm font-semibold">
-                          {viewedHotel.price || "Liên hệ"}
-                        </p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-auto pt-8">
+                  <div className="mt-auto pt-4">
                     <button
                       onClick={(e) => {
                         handleSelectHotel(e, viewedHotel);
                         setViewedHotel(null);
                       }}
                       className={clsx(
-                        "w-full py-4 rounded-2xl font-black text-lg shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3",
+                        "w-full py-3 rounded-2xl font-black text-base shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-2",
                         selectedHotelId === viewedHotel.id
                           ? "bg-[#1B4D3E] text-white"
                           : "bg-white border-2 border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E] hover:text-white",
@@ -595,7 +598,7 @@ function HotelsContent() {
         {/* Footer Continue Button (Floating) */}
         <div
           className={clsx(
-            "fixed bottom-8 left-1/2 -translate-x-1/2 z-40 transition-all duration-500",
+            "fixed bottom-8 left-1/2 -translate-x-1/2 z-[70] transition-all duration-500",
             selectedHotelId
               ? "translate-y-0 opacity-100"
               : "translate-y-20 opacity-0",

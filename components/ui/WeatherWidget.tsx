@@ -66,7 +66,12 @@ export default function WeatherWidget() {
         let locationName = locationFallback;
         if (!locationName) {
           const geoRes = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`,
+            {
+              headers: {
+                "User-Agent": "TravelPath/1.0 (contact@travelpath.io.vn)",
+              },
+            }
           );
           const geoJson = await geoRes.json();
           locationName =
@@ -176,8 +181,8 @@ export default function WeatherWidget() {
 
   if (loading)
     return (
-      <div 
-        suppressHydrationWarning 
+      <div
+        suppressHydrationWarning
         className="relative w-64 h-64 md:w-80 md:h-80 rounded-[2.5rem] bg-blue-500 animate-pulse border border-white/20 shadow-2xl flex items-center justify-center text-white font-medium tracking-wider"
       >
         Getting Location...

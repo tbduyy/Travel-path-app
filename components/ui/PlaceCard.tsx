@@ -32,7 +32,7 @@ export default function PlaceCard({ place }: PlaceCardProps) {
                         <h3 className="font-bold text-lg text-gray-900 leading-tight">{place.name}</h3>
                         <div className="flex items-center gap-1 text-xs font-bold text-gray-900 bg-secondary px-2 py-0.5 rounded-full">
                             <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
-                            {place.rating}
+                            {Number(place.rating || 0).toFixed(1)}
                         </div>
                     </div>
 

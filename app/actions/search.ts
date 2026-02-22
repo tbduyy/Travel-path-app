@@ -51,7 +51,11 @@ export async function searchPlaces(params: SearchParams) {
 
     // --- STANDARD LOGIC (DA LAT & OTHERS) ---
     if (params.type) {
-      filters.type = params.type;
+      if (params.type === "NOT_HOTEL") {
+        filters.type = { not: "HOTEL" };
+      } else {
+        filters.type = params.type;
+      }
     }
 
     if (searchTerm !== "") {

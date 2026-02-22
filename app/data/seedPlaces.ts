@@ -1117,9 +1117,9 @@ export const seedPlaces = [
     },
     {
         "id": "dl-s79-khai-ngoc-hotel",
-        "name": "S79 Khai Ngoc Hotel",
+        "name": "S79 Khai Ngọc Hotel",
         "city": "Đà Lạt",
-        "description": "Khám phá S79 Khai Ngoc Hotel tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
+        "description": "Khám phá S79 Khai Ngọc Hotel tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
         "type": "HOTEL",
         "rating": 4.8354917864056866,
         "images": [
@@ -1131,16 +1131,16 @@ export const seedPlaces = [
     },
     {
         "id": "dl-khach-san-anna-suong",
-        "name": "Khach San Anna Suong",
+        "name": "Khách sạn Anna Sương",
         "city": "Đà Lạt",
-        "description": "Khám phá Khach San Anna Suong tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
-        "type": "ATTRACTION",
+        "description": "Khám phá Khách sạn Anna Sương tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
+        "type": "HOTEL",
         "rating": 4.193457163018642,
         "images": [
             "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-khach-san-anna-suong/dl-khach-san-anna-suong-1.jpg"
         ],
-        "priceLevel": 2,
-        "price": "Miễn phí",
+        "priceLevel": 3,
+        "price": "1.500.000 VND",
         "address": "Đà Lạt, Vietnam"
     },
     {
@@ -1148,20 +1148,20 @@ export const seedPlaces = [
         "name": "Happy Day 2 Guesthouse",
         "city": "Đà Lạt",
         "description": "Khám phá Happy Day 2 Guesthouse tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
-        "type": "ATTRACTION",
+        "type": "HOTEL",
         "rating": 4.101029156579639,
         "images": [
             "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-happy-day-2-guesthouse/dl-happy-day-2-guesthouse-1.jpg"
         ],
-        "priceLevel": 2,
-        "price": "Miễn phí",
+        "priceLevel": 3,
+        "price": "1.500.000 VND",
         "address": "Đà Lạt, Vietnam"
     },
     {
         "id": "dl-qa-hotel",
-        "name": "Qa Hotel",
+        "name": "QA Hotel",
         "city": "Đà Lạt",
-        "description": "Khám phá Qa Hotel tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
+        "description": "Khám phá QA Hotel tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
         "type": "HOTEL",
         "rating": 4.496335547105786,
         "images": [
@@ -1218,20 +1218,20 @@ export const seedPlaces = [
         "name": "The Manor Villas",
         "city": "Đà Lạt",
         "description": "Khám phá The Manor Villas tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
-        "type": "ATTRACTION",
+        "type": "HOTEL",
         "rating": 4.519025710139435,
         "images": [
             "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-the-manor-villas/dl-the-manor-villas-1.jpg"
         ],
-        "priceLevel": 2,
-        "price": "Miễn phí",
+        "priceLevel": 3,
+        "price": "1.500.000 VND",
         "address": "Đà Lạt, Vietnam"
     },
     {
         "id": "dl-rainbow-homestay-cau-dat",
-        "name": "Rainbow Homestay Cau Dat",
+        "name": "Rainbow Homestay Cầu Đất",
         "city": "Đà Lạt",
-        "description": "Khám phá Rainbow Homestay Cau Dat tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
+        "description": "Khám phá Rainbow Homestay Cầu Đất tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
         "type": "HOTEL",
         "rating": 4.982550988019167,
         "images": [
@@ -1243,23 +1243,23 @@ export const seedPlaces = [
     },
     {
         "id": "dl-moc-tra-farm",
-        "name": "Moc Tra Farm",
+        "name": "Mộc Trà Farm",
         "city": "Đà Lạt",
-        "description": "Khám phá Moc Tra Farm tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
-        "type": "ATTRACTION",
+        "description": "Khám phá Mộc Trà Farm tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
+        "type": "HOTEL",
         "rating": 4.885650946723352,
         "images": [
             "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-moc-tra-farm/dl-moc-tra-farm-1.jpg"
         ],
-        "priceLevel": 2,
-        "price": "Miễn phí",
+        "priceLevel": 3,
+        "price": "1.500.000 VND",
         "address": "Đà Lạt, Vietnam"
     },
     {
         "id": "dl-hoang-gia-trang-homestay",
-        "name": "Hoang Gia Trang Homestay",
+        "name": "Hoàng Gia Trang (Homestay)",
         "city": "Đà Lạt",
-        "description": "Khám phá Hoang Gia Trang Homestay tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
+        "description": "Khám phá Hoàng Gia Trang (Homestay) tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
         "type": "HOTEL",
         "rating": 4.1053112762889565,
         "images": [
@@ -1285,23 +1285,23 @@ export const seedPlaces = [
     },
     {
         "id": "dl-may-bach-da-lat",
-        "name": "May Bach Da Lat",
+        "name": "Mây Bách Đà Lạt",
         "city": "Đà Lạt",
-        "description": "Khám phá May Bach Da Lat tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
-        "type": "ATTRACTION",
+        "description": "Khám phá Mây Bách Đà Lạt tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
+        "type": "HOTEL",
         "rating": 4.701324611650399,
         "images": [
             "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-may-bach-da-lat/dl-may-bach-da-lat-1.jpg"
         ],
-        "priceLevel": 2,
-        "price": "Miễn phí",
+        "priceLevel": 3,
+        "price": "1.500.000 VND",
         "address": "Đà Lạt, Vietnam"
     },
     {
         "id": "dl-le-homestay",
-        "name": "Le Homestay",
+        "name": "Lê Homestay",
         "city": "Đà Lạt",
-        "description": "Khám phá Le Homestay tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
+        "description": "Khám phá Lê Homestay tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
         "type": "HOTEL",
         "rating": 4.426164184044743,
         "images": [
@@ -1313,9 +1313,9 @@ export const seedPlaces = [
     },
     {
         "id": "dl-khu-du-lich-thac-datanla",
-        "name": "Khu Du Lich Thac Datanla",
+        "name": "Khu du lịch Thác Datanla",
         "city": "Đà Lạt",
-        "description": "Khám phá Khu Du Lich Thac Datanla tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
+        "description": "Khám phá Khu du lịch Thác Datanla tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
         "type": "ATTRACTION",
         "rating": 4.240873084975977,
         "images": [
@@ -1327,9 +1327,9 @@ export const seedPlaces = [
     },
     {
         "id": "dl-cho-dem-da-lat",
-        "name": "Cho Dem Da Lat",
+        "name": "Chợ Đêm Đà Lạt",
         "city": "Đà Lạt",
-        "description": "Khám phá Cho Dem Da Lat tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
+        "description": "Khám phá Chợ Đêm Đà Lạt tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
         "type": "ATTRACTION",
         "rating": 4.209363030808587,
         "images": [
@@ -1341,9 +1341,9 @@ export const seedPlaces = [
     },
     {
         "id": "dl-ga-da-lat",
-        "name": "Ga Da Lat",
+        "name": "Ga Đà Lạt ",
         "city": "Đà Lạt",
-        "description": "Khám phá Ga Da Lat tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
+        "description": "Khám phá Ga Đà Lạt  tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
         "type": "ATTRACTION",
         "rating": 4.40734903536402,
         "images": [
@@ -1355,37 +1355,37 @@ export const seedPlaces = [
     },
     {
         "id": "dl-quan-lau-ga-la-e-tao-ngo",
-        "name": "Quan Lau Ga La E Tao Ngo",
+        "name": "Quán Lẩu Gà Lá É Tao Ngộ",
         "city": "Đà Lạt",
-        "description": "Khám phá Quan Lau Ga La E Tao Ngo tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
-        "type": "RESTAURANT",
+        "description": "Khám phá Quán Lẩu Gà Lá É Tao Ngộ tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
+        "type": "ATTRACTION",
         "rating": 4.365809679244741,
         "images": [
             "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-quan-lau-ga-la-e-tao-ngo/dl-quan-lau-ga-la-e-tao-ngo-1.jpg"
         ],
-        "priceLevel": 1,
+        "priceLevel": 2,
         "price": "Miễn phí",
         "address": "Đà Lạt, Vietnam"
     },
     {
         "id": "dl-quang-truong-lam-vien",
-        "name": "Quang Truong Lam Vien",
+        "name": "Quảng trường Lâm Viên",
         "city": "Đà Lạt",
-        "description": "Khám phá Quang Truong Lam Vien tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
-        "type": "RESTAURANT",
+        "description": "Khám phá Quảng trường Lâm Viên tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
+        "type": "ATTRACTION",
         "rating": 4.754014248455375,
         "images": [
             "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-quang-truong-lam-vien/dl-quang-truong-lam-vien-1.jpg"
         ],
-        "priceLevel": 1,
+        "priceLevel": 2,
         "price": "Miễn phí",
         "address": "Đà Lạt, Vietnam"
     },
     {
         "id": "dl-tiem-ca-phe-tui-mo-to",
-        "name": "Tiem Ca Phe Tui Mo To",
+        "name": "Tiệm Cà Phê Túi Mơ To",
         "city": "Đà Lạt",
-        "description": "Khám phá Tiem Ca Phe Tui Mo To tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
+        "description": "Khám phá Tiệm Cà Phê Túi Mơ To tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
         "type": "ATTRACTION",
         "rating": 4.997255252643237,
         "images": [
@@ -1394,26 +1394,13 @@ export const seedPlaces = [
         "priceLevel": 2,
         "price": "Miễn phí",
         "address": "Đà Lạt, Vietnam"
-    },
-    {
-        "id": "dl-doi-che-cau-dat-cau-dat-farm-1",
-        "name": "Doi Che Cau Dat Cau Dat Farm 1",
-        "city": "Đà Lạt",
-        "description": "Khám phá Doi Che Cau Dat Cau Dat Farm 1 tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
-        "type": "ATTRACTION",
-        "rating": 4.006299048588987,
-        "images": [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-doi-che-cau-dat-cau-dat-farm-1/dl-doi-che-cau-dat-cau-dat-farm-1-1.jpg"
-        ],
-        "priceLevel": 2,
-        "price": "Miễn phí",
-        "address": "Đà Lạt, Vietnam"
+
     },
     {
         "id": "dl-doi-che-cau-dat-cau-dat-farm",
-        "name": "Doi Che Cau Dat Cau Dat Farm",
+        "name": "Đồi Chè Cầu Đất (Cầu Đất Farm)",
         "city": "Đà Lạt",
-        "description": "Khám phá Doi Che Cau Dat Cau Dat Farm tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
+        "description": "Khám phá Đồi Chè Cầu Đất (Cầu Đất Farm) tại Đà Lạt. Một điểm đến tuyệt vời với trải nghiệm đáng nhớ.",
         "type": "ATTRACTION",
         "rating": 4.604239152976981,
         "images": [
