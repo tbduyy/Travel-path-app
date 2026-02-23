@@ -85,13 +85,19 @@ function DemoContent() {
     setIsSaving(true);
     try {
       if (typeof window !== "undefined") {
-        const savedActivities = localStorage.getItem("mytrip_activities");
-        if (savedActivities) {
-          const activities = JSON.parse(savedActivities);
+        const savedActivitiesRaw = localStorage.getItem("mytrip_activities");
+        // Fallback to Zustand store if localStorage is empty (e.g. after refresh)
+        const activitiesToSave = savedActivitiesRaw
+          ? JSON.parse(savedActivitiesRaw)
+          : Object.keys(storeActivities).length > 0
+          ? storeActivities
+          : null;
+
+        if (activitiesToSave) {
           const { saveTrip } = await import("@/app/actions/trip");
 
           const result = await saveTrip({
-            activities,
+            activities: activitiesToSave,
             destination,
             startDate: startDateParam || new Date().toISOString(),
             endDate: endDateParam || new Date().toISOString(),
@@ -99,15 +105,16 @@ function DemoContent() {
           });
 
           if (result.success) {
-            // Trip saved successfully - keep localStorage as backup
-            // localStorage.removeItem('mytrip_activities');
+            // Trip saved successfully - clear localStorage as it's now persisted to DB
+            localStorage.removeItem('mytrip_activities');
             router.push(redirectPath);
           } else {
             alert("Có lỗi khi lưu lịch trình: " + result.error);
             setIsSaving(false); // Only stop if error, otherwise we redirect
           }
         } else {
-          // No activities found, just redirect (fallback)
+          // No activities found anywhere - redirect without saving
+          console.warn("saveTripToSupabase: No activities found in localStorage or store, redirecting without save.");
           router.push(redirectPath);
         }
       }

@@ -236,7 +236,7 @@ export default function LocationTracking() {
 
                             <div className="space-y-4 mb-6">
                                 {[
-                                    { type: "Xe máy", price: "25,000", time: "10 phút" },
+                                    { type: "Grab Bike", price: "25,000", time: "10 phút" },
                                     { type: "Grab Car", price: "65,000", time: "8 phút" },
                                     { type: "Grab Car Plus", price: "95,000", time: "8 phút" },
                                 ].map((option, idx) => (

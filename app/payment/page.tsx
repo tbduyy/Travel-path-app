@@ -23,6 +23,7 @@ import {
   getPrefetchedPaymentData,
   clearPrefetchedPaymentData
 } from "@/lib/utils/prefetch-payment";
+import { savePaymentRecord } from "@/lib/utils/payment-history";
 
 // Types
 interface PlaceData {
@@ -385,6 +386,43 @@ function PaymentContent() {
         }
 
         // Clear and redirect regardless of email status
+        // Save payment record to localStorage for history
+        try {
+          savePaymentRecord({
+            destination,
+            startDate: startDateParam,
+            endDate: endDateParam,
+            duration: durationString,
+            people: peopleCount,
+            paymentMethod,
+            voucher: selectedVoucher?.code || null,
+            discountAmount,
+            subTotal,
+            grandTotal,
+            hotel: selectedHotel && isHotelSelected ? {
+              name: selectedHotel.name,
+              price: selectedHotel.price || "",
+              nights,
+              total: hotelTotal,
+              image: selectedHotel.images?.[0] || (selectedHotel as any).image,
+              address: selectedHotel.address,
+            } : null,
+            attractions: attractionCosts
+              .filter(a => a.isSelected)
+              .map(a => ({
+                name: a.name,
+                price: a.price || "",
+                unitPrice: a.unitPrice,
+                total: a.total,
+                image: a.images?.[0] || (a as any).image,
+              })),
+            userEmail: userInfo.email || null,
+          });
+          console.log("Payment record saved to history");
+        } catch (e) {
+          console.error("Failed to save payment history:", e);
+        }
+
         clearTrip();
         router.push("/farewell");
       };
@@ -506,6 +544,17 @@ function PaymentContent() {
             >
               Bắt đầu lên kế hoạch
             </button>
+            <button
+              onClick={() => router.push("/payment-history")}
+              className="flex items-center gap-2 mx-auto mt-4 px-4 py-2 bg-white/60 hover:bg-white text-[#1B4D3E] rounded-full text-sm font-bold transition-all border border-[#1B4D3E]/10 hover:border-[#1B4D3E]/30 shadow-sm hover:shadow-md"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                <path d="M3 3v5h5"/>
+                <path d="M12 7v5l4 2"/>
+              </svg>
+              Lịch sử thanh toán
+            </button>
           </div>
         </div>
       </div>
@@ -585,9 +634,22 @@ function PaymentContent() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left: Summary Details */}
           <div className="lg:col-span-2 flex flex-col gap-6">
-            <h1 className="text-3xl font-black uppercase tracking-wide">
-              Chi tiết thanh toán
-            </h1>
+            <div className="flex items-center justify-between">
+              <h1 className="text-3xl font-black uppercase tracking-wide">
+                Chi tiết thanh toán
+              </h1>
+              <button
+                onClick={() => router.push("/payment-history")}
+                className="flex items-center gap-2 px-4 py-2 bg-white/60 hover:bg-white text-[#1B4D3E] rounded-full text-sm font-bold transition-all border border-[#1B4D3E]/10 hover:border-[#1B4D3E]/30 shadow-sm hover:shadow-md"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                  <path d="M3 3v5h5"/>
+                  <path d="M12 7v5l4 2"/>
+                </svg>
+                Lịch sử
+              </button>
+            </div>
 
             {/* Hotel Section */}
             {selectedHotel && (
@@ -693,7 +755,7 @@ function PaymentContent() {
                         </div>
                         <div className="flex-1">
                           <h4 className="font-bold text-lg">{item.name}</h4>
-                          <p className="text-sm text-gray-400">
+                          <p className="mt-1 text-sm bg-blue-50 text-blue-800 px-3 py-1 rounded-lg inline-block font-medium">
                             {item.price || "Miễn phí"}
                           </p>
                         </div>
