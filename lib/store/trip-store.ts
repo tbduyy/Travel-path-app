@@ -85,6 +85,7 @@ export interface TripState {
   // Places
   addPlace: (placeId: string, placeData?: PlaceData) => void;
   removePlace: (placeId: string) => void;
+  setSelectedPlaceIds: (ids: string[]) => void;
   togglePlace: (placeId: string, placeData?: PlaceData) => void;
   setPlaces: (placeIds: string[], placesData?: PlaceData[]) => void;
 
@@ -182,6 +183,9 @@ export const useTripStore = create<TripState>()(
           ),
           placesData: state.placesData.filter((p) => p.id !== placeId),
         })),
+
+      setSelectedPlaceIds: (ids) =>
+        set((state) => ({ selectedPlaceIds: ids })),
 
       togglePlace: (placeId, placeData) => {
         const state = get();

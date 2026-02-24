@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { PrismaClient } from '@prisma/client'
 import { seedPlaces } from '../app/data/seedPlaces'
+import { extraDaLatPlaces } from '../app/data/daLatData'
 
 const prisma = new PrismaClient()
 
@@ -12,9 +13,10 @@ async function main() {
     await prisma.trip.deleteMany({})
     await prisma.place.deleteMany({})
 
-    console.log(`Seeding ${seedPlaces.length} places...`)
+    const allPlacesToSeed = [...seedPlaces, ...extraDaLatPlaces]
+    console.log(`Seeding ${allPlacesToSeed.length} places (including Da Lat attractions)...`)
 
-    for (const place of seedPlaces) {
+    for (const place of allPlacesToSeed) {
         // Ensure lat/lng are present (random if missing from seedPlaces generator)
         // My generate script didn't add lat/lng! I need to add them or defaults.
         // Prisma schema likely requires Float? No, looking at schema earlier...
@@ -23,23 +25,45 @@ async function main() {
         // lng Float
         // The generate script didn't include lat/lng. I must add them.
 
-        // Quick fix: Add random lat/lng near the city center.
-        let baseLat = 0;
-        let baseLng = 0;
+        // Quick fix: Add random lat/lng near the city center if missing
+        let finalCity = place.city || 'Đà Lạt';
+        let lat = place.lat;
+        let lng = place.lng;
 
-        if (place.city === 'Hà Nội') { baseLat = 21.0285; baseLng = 105.8542; }
-        else if (place.city === 'Thành phố Hồ Chí Minh') { baseLat = 10.8231; baseLng = 106.6297; }
-        else if (place.city === 'Đà Nẵng') { baseLat = 16.0544; baseLng = 108.2022; }
-        else if (place.city === 'Đà Lạt') { baseLat = 11.9404; baseLng = 108.4583; }
-        else if (place.city === 'Nha Trang') { baseLat = 12.2388; baseLng = 109.1967; }
+        if (!lat || !lng) {
+            let baseLat = 0;
+            let baseLng = 0;
 
-        // Add small random jitter
-        const lat = baseLat + (Math.random() - 0.5) * 0.05;
-        const lng = baseLng + (Math.random() - 0.5) * 0.05;
+            if (finalCity === 'Hà Nội') { baseLat = 21.0285; baseLng = 105.8542; }
+            else if (finalCity === 'Thành phố Hồ Chí Minh') { baseLat = 10.8231; baseLng = 106.6297; }
+            else if (finalCity === 'Đà Nẵng') { baseLat = 16.0544; baseLng = 108.2022; }
+            else if (finalCity === 'Đà Lạt') { baseLat = 11.9404; baseLng = 108.4583; }
+            else if (finalCity === 'Nha Trang') { baseLat = 12.2388; baseLng = 109.1967; }
+
+            // Add small random jitter
+            lat = baseLat + (Math.random() - 0.5) * 0.05;
+            lng = baseLng + (Math.random() - 0.5) * 0.05;
+        }
+
+        // Convert string priceLevel to Int
+        let finalPriceLevel = 2;
+        if (typeof place.priceLevel === 'string') {
+            if (place.priceLevel.toLowerCase() === 'free') {
+                finalPriceLevel = 0;
+            } else if (place.priceLevel.includes('$')) {
+                finalPriceLevel = place.priceLevel.replace(/[^$]/g, '').length || 1;
+            } else {
+                finalPriceLevel = parseInt(place.priceLevel) || 2;
+            }
+        } else if (typeof place.priceLevel === 'number') {
+            finalPriceLevel = place.priceLevel;
+        }
 
         await prisma.place.create({
             data: {
                 ...place,
+                city: finalCity,
+                priceLevel: finalPriceLevel,
                 lat,
                 lng,
                 rating: place.rating || 4.5

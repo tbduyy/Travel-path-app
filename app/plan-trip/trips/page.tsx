@@ -10,6 +10,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { searchPlaces, getPlaceById } from "@/app/actions/search";
 import dynamic from "next/dynamic";
 import { extraPlaces, allNhaTrangHotels } from "@/app/data/nhaTrangData";
+import { extraDaLatPlaces, extraDaLatHotels } from "@/app/data/daLatData";
 import AddActivityModal from "@/components/AddActivityModal";
 import ActivityCard from "@/components/ActivityCard";
 import TripMetaBar from "@/components/TripMetaBar";
@@ -91,6 +92,7 @@ function TripsContent() {
     startDate: storeStartDate,
     endDate: storeEndDate,
     selectedPlaceIds: storePlaceIds,
+    setSelectedPlaceIds: setStorePlaceIds,
     selectedHotelId: storeHotelId,
     budget: storeBudget,
     people: storePeople,
@@ -278,7 +280,7 @@ function TripsContent() {
           const existing = fetchedPlaces.find((p) => p.id === hotelId);
           if (!existing) {
             // 1. Try Client-Side Static Data (Fastest & Most Reliable for Nha Trang)
-            const staticHotel = allNhaTrangHotels.find((h) => h.id === hotelId);
+            const staticHotel = allNhaTrangHotels.find((h) => h.id === hotelId) || extraDaLatHotels.find((h) => h.id === hotelId);
             if (staticHotel) {
               fetchedPlaces.push(staticHotel);
             } else {
@@ -291,10 +293,17 @@ function TripsContent() {
           }
         }
 
-        // Use Extra Places from local data if Nha Trang
-        if (destination?.includes("Nha Trang")) {
+        // Determine which static extra places to use based on destination
+        let activeExtraPlaces: any[] = [];
+        if (destination?.includes("Nha Trang") || destination?.includes("Nhatrang")) {
+          activeExtraPlaces = extraPlaces;
+        } else if (destination?.includes("Đà Lạt") || destination?.includes("Da Lat")) {
+          activeExtraPlaces = extraDaLatPlaces;
+        }
+
+        if (activeExtraPlaces.length > 0) {
           // Combine them
-          fetchedPlaces = [...extraPlaces, ...fetchedPlaces];
+          fetchedPlaces = [...activeExtraPlaces, ...fetchedPlaces];
 
           // Deduplicate by ID
           const uniqueMap = new Map();
@@ -567,6 +576,9 @@ function TripsContent() {
     // Dedupe
     const uniqueIds = Array.from(new Set(newPlaceIds));
 
+    // Update Zustand Store directly for immediate UI update
+    setStorePlaceIds(uniqueIds);
+
     const params = new URLSearchParams(searchParams.toString());
     params.set("places", uniqueIds.join(","));
 
@@ -617,8 +629,8 @@ function TripsContent() {
   if (hotelId) {
     selectedHotel = allPlaces.find((p) => p.id === hotelId) || null;
     if (!selectedHotel) {
-      // Fallback for Nha Trang
-      selectedHotel = allNhaTrangHotels.find((h) => h.id === hotelId) || null;
+      // Fallback for static hotels
+      selectedHotel = allNhaTrangHotels.find((h) => h.id === hotelId) || extraDaLatHotels.find((h) => h.id === hotelId) || null;
     }
   }
 
@@ -626,8 +638,15 @@ function TripsContent() {
     ? [...selectedPlaces, selectedHotel]
     : selectedPlaces; // Combined for activity modal
 
-  // Directions for Suggestions: Only from extraPlaces
-  const extraPlaceIds = extraPlaces.map((e) => e.id);
+  // Directions for Suggestions: Only from activeExtraPlaces
+  let activeExtraPlacesConfig: any[] = [];
+  if (destination?.includes("Nha Trang") || destination?.includes("Nhatrang")) {
+    activeExtraPlacesConfig = extraPlaces;
+  } else if (destination?.includes("Đà Lạt") || destination?.includes("Da Lat")) {
+    activeExtraPlacesConfig = extraDaLatPlaces;
+  }
+
+  const extraPlaceIds = activeExtraPlacesConfig.map((e) => e.id);
   // Hotels are not in extraPlaces, so we just filter them by type
   const availableHotels = allPlaces.filter(
     (p) => !placeIds.includes(p.id) && p.type === "HOTEL",
@@ -1568,7 +1587,7 @@ function TripsContent() {
               onClick={() => setViewedPlace(null)}
             >
               <div
-                className="bg-white m-0 max-h-[90vh] rounded-[32px] overflow-y-auto p-6 scrollbar-thin shadow-2xl z-20 w-[90%] md:w-[60%] lg:w-[45%] border border-[#1B4D3E]/5 relative animate-in zoom-in-95 duration-200"
+                className="bg-white m-0 h-auto rounded-[32px] p-5 shadow-2xl z-20 w-[90%] md:w-[60%] lg:w-[45%] border border-[#1B4D3E]/5 relative animate-in zoom-in-95 duration-200"
                 onClick={(e) => e.stopPropagation()}
               >
                 <button
@@ -1590,34 +1609,34 @@ function TripsContent() {
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                   </svg>
                 </button>
-                <div className="w-full aspect-video rounded-2xl overflow-hidden relative mb-4">
+                <div className="w-full aspect-[5/2] rounded-2xl overflow-hidden relative mb-3">
                   <ImageSlideshow
                     images={viewedPlace.images?.length ? viewedPlace.images : [viewedPlace.image || "/placeholder.jpg"]}
                     alt={viewedPlace.name}
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <h2 className="text-2xl font-black text-[#1B4D3E] mb-2">
+                <h2 className="text-xl font-black text-[#1B4D3E] mb-1">
                   {viewedPlace.name}
                 </h2>
-                <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+                <p className="text-gray-600 mb-3 text-sm leading-snug line-clamp-3">
                   {viewedPlace.description || "Mô tả đang cập nhật..."}
                 </p>
 
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="bg-gray-50 p-3 rounded-xl">
-                    <p className="text-xs text-gray-400 font-bold uppercase">
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  <div className="bg-gray-50 p-2.5 rounded-xl">
+                    <p className="text-[10px] text-gray-400 font-bold uppercase mb-0.5">
                       Giờ mở cửa
                     </p>
-                    <p className="text-[#1B4D3E] font-bold">
+                    <p className="text-[#1B4D3E] font-bold text-sm">
                       {viewedPlace.duration || "08:00 - 17:00"}
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-3 rounded-xl">
-                    <p className="text-xs text-gray-400 font-bold uppercase">
+                  <div className="bg-gray-50 p-2.5 rounded-xl">
+                    <p className="text-[10px] text-gray-400 font-bold uppercase mb-0.5">
                       Giá vé
                     </p>
-                    <p className="text-[#1B4D3E] font-bold">
+                    <p className="text-[#1B4D3E] font-bold text-sm">
                       {viewedPlace.price || "Miễn phí"}
                     </p>
                   </div>
@@ -1625,13 +1644,13 @@ function TripsContent() {
 
                 <button
                   onClick={() => handleAddPlace(viewedPlace)}
-                  className="w-full py-4 rounded-2xl font-black text-lg shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3 bg-[#1B4D3E] text-white hover:scale-[1.02]"
+                  className="w-full py-3 rounded-2xl font-black text-base shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 bg-[#1B4D3E] text-white hover:scale-[1.02]"
                 >
                   <span>Thêm vào lịch trình</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
+                    width="18"
+                    height="18"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
