@@ -2,7 +2,6 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import prisma from '@/lib/prisma'
 
@@ -58,6 +57,9 @@ export async function signup(formData: FormData) {
         }
     }
 
+    const redirectTo = (formData.get('redirectTo') as string) || '/'
+
     revalidatePath('/', 'layout')
-    redirect('/')
+    // Return success with redirectTo for client-side redirect (preserves Zustand store)
+    return { success: true, redirectTo }
 }

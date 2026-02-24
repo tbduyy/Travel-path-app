@@ -654,7 +654,7 @@ function PaymentContent() {
             {/* Hotel Section */}
             {selectedHotel && (
               <div
-                className={`bg-white p-6 rounded-[24px] shadow-sm transition-all relative ${isHotelSelected ? "ring-2 ring-[#2E968C]" : ""}`}
+                className="bg-white p-6 rounded-[24px] shadow-sm transition-all relative"
               >
                 {/* Discount Tag */}
                 {selectedVoucher && isHotelSelected && (
@@ -667,7 +667,7 @@ function PaymentContent() {
                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                   <span className="text-2xl">🏨</span> Lưu trú ({nights} đêm)
                 </h3>
-                <div className="flex gap-4 items-start border-b border-gray-100 pb-4 mb-4">
+                <div className={`flex gap-4 items-start rounded-xl border-b border-gray-100 p-4 my-4 ${isHotelSelected ? "bg-[#E8F5E9] ring-2 ring-[#2E968C]" : "hover:bg-gray-50"}`}>
                   <div className="w-24 h-24 rounded-xl overflow-hidden relative shrink-0 bg-gray-100">
                     <Image
                       src={selectedHotel.images?.[0] || selectedHotel.image || "/placeholder.jpg"}
@@ -744,7 +744,7 @@ function PaymentContent() {
                           : "hover:bg-gray-50"
                           }`}
                       >
-                        <div className="w-16 h-16 rounded-xl overflow-hidden relative shrink-0 bg-gray-100">
+                        <div className="w-24 h-24 rounded-xl overflow-hidden relative shrink-0 bg-gray-100">
                           <Image
                             src={item.images?.[0] || item.image || "/placeholder.jpg"}
                             alt={item.name}

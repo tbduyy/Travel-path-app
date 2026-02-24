@@ -44,15 +44,60 @@ function DemoContent() {
   const budgetParam = searchParams.get("budget") || storeBudget;
   const placeCount = placeIds.length;
 
-  // Video options - array of mockup videos
-  const videoOptions = [
-    { url: "https://streamable.com/e/p6n49a?autoplay=1&muted=1&nocontrols=1&loop=1", duration: "0:08" },
-    { url: "https://streamable.com/e/0mil6t?autoplay=1&muted=1&nocontrols=1&loop=1", duration: "0:08" },
-    { url: "https://streamable.com/e/ck5bds?autoplay=1&muted=1&nocontrols=1&loop=1", duration: "0:08" },
-    { url: "https://streamable.com/e/zioqhh?autoplay=1&muted=1&nocontrols=1&loop=1", duration: "0:08" },
-    { url: "https://streamable.com/e/gvmbno?autoplay=1&muted=1&nocontrols=1&loop=1", duration: "0:08" },
-    { url: "https://streamable.com/e/tlu2w6?autoplay=1&muted=1&nocontrols=1&loop=1", duration: "0:08" },
+  // Video options - split by destination
+  const nhaTrangVideos = [
+    {
+      url: "https://streamable.com/e/p6n49a?autoplay=1&muted=1&nocontrols=1&loop=1",
+      duration: "0:08",
+    },
+    {
+      url: "https://streamable.com/e/0mil6t?autoplay=1&muted=1&nocontrols=1&loop=1",
+      duration: "0:08",
+    },
+    {
+      url: "https://streamable.com/e/ck5bds?autoplay=1&muted=1&nocontrols=1&loop=1",
+      duration: "0:08",
+    },
+    {
+      url: "https://streamable.com/e/zioqhh?autoplay=1&muted=1&nocontrols=1&loop=1",
+      duration: "0:08",
+    },
+    {
+      url: "https://streamable.com/e/gvmbno?autoplay=1&muted=1&nocontrols=1&loop=1",
+      duration: "0:08",
+    },
+    {
+      url: "https://streamable.com/e/tlu2w6?autoplay=1&muted=1&nocontrols=1&loop=1",
+      duration: "0:08",
+    },
   ];
+  const daLatVideos = [
+    {
+      url: "https://streamable.com/e/uu7psv?autoplay=1&muted=1&nocontrols=1&loop=1",
+      duration: "0:08",
+    },
+    {
+      url: "https://streamable.com/e/28d0r6?autoplay=1&muted=1&nocontrols=1&loop=1",
+      duration: "0:08",
+    },
+    {
+      url: "https://streamable.com/e/boyg7l?autoplay=1&muted=1&nocontrols=1&loop=1",
+      duration: "0:08",
+    },
+    {
+      url: "https://streamable.com/6akyhd?autoplay=1&muted=1&nocontrols=1&loop=1",
+      duration: "0:08",
+    },
+    {
+      url: "https://streamable.com/f2tlr2?autoplay=1&muted=1&nocontrols=1&loop=1",
+      duration: "0:08",
+    },
+  ];
+  const videoOptions =
+    destination?.toLowerCase().includes("đà lạt") ||
+    destination?.toLowerCase().includes("da lat")
+      ? daLatVideos
+      : nhaTrangVideos;
 
   // Derived Data & State
   const [showPaymentRequirementModal, setShowPaymentRequirementModal] =
@@ -60,7 +105,9 @@ function DemoContent() {
   const [daysUntilTrip, setDaysUntilTrip] = useState<number>(10); // Default safe buffer
   const [isSaving, setIsSaving] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [selectedVideoIndex, setSelectedVideoIndex] = useState<number | null>(null);
+  const [selectedVideoIndex, setSelectedVideoIndex] = useState<number | null>(
+    null,
+  );
 
   // Calculate duration string
   let durationString = "2N1Đ";
@@ -90,8 +137,8 @@ function DemoContent() {
         const activitiesToSave = savedActivitiesRaw
           ? JSON.parse(savedActivitiesRaw)
           : Object.keys(storeActivities).length > 0
-          ? storeActivities
-          : null;
+            ? storeActivities
+            : null;
 
         if (activitiesToSave) {
           const { saveTrip } = await import("@/app/actions/trip");
@@ -106,7 +153,7 @@ function DemoContent() {
 
           if (result.success) {
             // Trip saved successfully - clear localStorage as it's now persisted to DB
-            localStorage.removeItem('mytrip_activities');
+            localStorage.removeItem("mytrip_activities");
             router.push(redirectPath);
           } else {
             alert("Có lỗi khi lưu lịch trình: " + result.error);
@@ -114,7 +161,9 @@ function DemoContent() {
           }
         } else {
           // No activities found anywhere - redirect without saving
-          console.warn("saveTripToSupabase: No activities found in localStorage or store, redirecting without save.");
+          console.warn(
+            "saveTripToSupabase: No activities found in localStorage or store, redirecting without save.",
+          );
           router.push(redirectPath);
         }
       }
@@ -127,11 +176,11 @@ function DemoContent() {
 
   const handleProceedToPayment = () => {
     completeStep("demo"); // Mark demo step as complete
-    
+
     // PERFORMANCE: Prefetch payment data in background while saveTrip runs
     // This eliminates the data fetching waterfall on payment page load
     prefetchPaymentData(storePlaceIds, storeHotelId);
-    
+
     // Navigate using Zustand store - no URL params needed
     saveTripToSupabase(`/payment`);
   };
@@ -173,7 +222,10 @@ function DemoContent() {
     setIsPlaying(true);
   };
 
-  const selectedVideo = selectedVideoIndex !== null ? videoOptions[selectedVideoIndex] : videoOptions[0];
+  const selectedVideo =
+    selectedVideoIndex !== null
+      ? videoOptions[selectedVideoIndex]
+      : videoOptions[0];
 
   const handleComplete = () => {
     // Check if user is authenticated first
