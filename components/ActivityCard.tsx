@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import ImageSlideshow from "./ui/ImageSlideshow";
 
@@ -39,6 +39,8 @@ export default function ActivityCard({
   readOnly,
 }: ActivityCardProps) {
   const [imageError, setImageError] = useState(false);
+  const [bookingState, setBookingState] = useState<"idle" | "loading" | "booked">("idle");
+  const [showTooltip, setShowTooltip] = useState(false);
 
   // Use transportation data from activity if available
   const transportation = activity.transportation;
@@ -99,12 +101,59 @@ export default function ActivityCard({
               {transportation.duration_minutes} phút
             </p>
           </div>
-          <div className="text-right">
+          <div className="text-right flex items-center gap-3">
             <p className="text-sm font-bold text-[#1B4D3E]">
               {transportation.estimated_cost > 0
                 ? `${transportation.estimated_cost.toLocaleString()} đ`
                 : "Miễn phí"}
             </p>
+            {/* Book Ride Button */}
+            <div className="relative">
+              <button
+                onClick={() => {
+                  if (bookingState === "loading") return; // ignore clicks while loading
+                  if (bookingState === "booked") {
+                    // Toggle back to idle when user clicks the booked button
+                    setBookingState("idle");
+                    return;
+                  }
+                  // idle -> start booking (placeholder flow)
+                  setBookingState("loading");
+                  setTimeout(() => setBookingState("booked"), 5000);
+                }}
+                onMouseEnter={() => (bookingState === "idle" || bookingState === "booked") && setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+                disabled={bookingState === "loading"}
+                className={`px-3 py-1.5 rounded-full text-[11px] font-bold transition-all duration-300 whitespace-nowrap ${
+                  bookingState === "booked"
+                    ? "bg-emerald-100 text-emerald-700 border border-emerald-300"
+                    : bookingState === "loading"
+                      ? "bg-[#1B4D3E]/10 text-[#1B4D3E] border border-[#1B4D3E]/20 cursor-wait"
+                      : "bg-[#1B4D3E] text-white hover:bg-[#113D38] active:scale-95 shadow-sm"
+                }`}
+              >
+                {bookingState === "booked" ? (
+                  <span className="flex items-center gap-1">✅ Đã đặt xe</span>
+                ) : bookingState === "loading" ? (
+                  <span className="flex items-center gap-1.5">
+                    <svg className="animate-spin h-3 w-3" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Đang kết nối...
+                  </span>
+                ) : (
+                  <span>🚗 Đặt xe</span>
+                )}
+              </button>
+              {/* Tooltip (shows different text based on state) */}
+              {showTooltip && bookingState !== "loading" && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1.5 bg-[#1B4D3E] text-white text-[10px] rounded-lg whitespace-nowrap shadow-lg z-50 pointer-events-none">
+                  {bookingState === "idle" ? "Đặt trước xe cho chuyến đi" : "Nhấn để hủy"}
+                  <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#1B4D3E] rotate-45" />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}

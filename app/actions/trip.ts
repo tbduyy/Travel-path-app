@@ -1,9 +1,7 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "@/lib/prisma";
 
 export async function saveTrip(tripData: any) {
   const supabase = await createClient();
@@ -89,20 +87,28 @@ export async function saveTrip(tripData: any) {
       }
     }
 
-    // 3. Batch upsert all places at once (instead of N separate calls)
-    // REQUIRES: Ensure Prisma schema supports this. If not, consider raw SQL with UPSERT
-    for (const place of placesToUpsert.values()) {
-      await prisma.place.upsert({
-        where: { id: place.id },
-        update: {},
-        create: place,
+    // 3. Duplicate Detection: Check which places already exist
+    const placeIds = Array.from(placesToUpsert.keys());
+    const existingPlaces = await prisma.place.findMany({
+      where: { id: { in: placeIds } },
+      select: { id: true },
+    });
+    const existingPlaceIds = new Set(existingPlaces.map(p => p.id));
+
+    // 4. Only upsert new places (avoid unnecessary updates)
+    const newPlaces = Array.from(placesToUpsert.values()).filter(
+      place => !existingPlaceIds.has(place.id)
+    );
+    
+    if (newPlaces.length > 0) {
+      console.log(`saveTrip: Inserting ${newPlaces.length} new places...`);
+      await prisma.place.createMany({
+        data: newPlaces,
+        skipDuplicates: true,
       });
+    } else {
+      console.log("saveTrip: All places already exist, skipping upsert.");
     }
-    // TODO: Replace with batch upsert if Prisma doesn't optimize this:
-    // await prisma.place.createMany({
-    //     data: Array.from(placesToUpsert.values()),
-    //     skipDuplicates: true
-    // });
 
     // 4. Create Trip
     console.log("saveTrip: Creating trip record with items count:", tripItems.length);
@@ -138,7 +144,7 @@ export async function saveTrip(tripData: any) {
   }
 }
 
-export async function getUserTrips() {
+export async function getUserTrips(page: number = 1, pageSize: number = 10) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -162,6 +168,14 @@ export async function getUserTrips() {
 
     const targetUserId = dbUser ? dbUser.id : user.id;
     console.log("Using Target DB User ID:", targetUserId);
+
+    // Calculate skip value for pagination
+    const skip = (page - 1) * pageSize;
+
+    // Get total count for pagination metadata
+    const totalCount = await prisma.trip.count({
+      where: { userId: targetUserId },
+    });
 
     const trips = await prisma.trip.findMany({
       where: { userId: targetUserId },
@@ -192,10 +206,21 @@ export async function getUserTrips() {
       orderBy: {
         startDate: "desc",
       },
+      skip,
+      take: pageSize,
     });
 
-    console.log("Trips found:", trips.length);
-    return { success: true, data: trips };
+    console.log(`Trips found: ${trips.length} of ${totalCount} total`);
+    return { 
+      success: true, 
+      data: trips,
+      pagination: {
+        page,
+        pageSize,
+        totalCount,
+        totalPages: Math.ceil(totalCount / pageSize),
+      }
+    };
   } catch (error) {
     console.error("Failed to fetch trips:", error);
     return { success: false, error: "Failed to fetch trips: " + (error as any).message };

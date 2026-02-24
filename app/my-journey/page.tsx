@@ -60,7 +60,7 @@ function EmptyTripPopup({
   useEffect(() => {
     if (!isOpen) return; // Nếu không mở thì không làm gì cả
 
-    const timer = setTimeout(() => setShouldShow(true), 10000);
+    const timer = setTimeout(() => setShouldShow(true), 1000);
     return () => clearTimeout(timer);
   }, [isOpen]);
 
@@ -105,7 +105,7 @@ function EmptyTripPopup({
 
         <p className="text-gray-600 text-center mb-6 leading-relaxed">
           Bạn chưa có lịch trình nào. Hãy để{" "}
-          <strong className="text-[#2E968C]">TravelPath AI</strong> giúp bạn lên
+          <strong className="text-[#2E968C]">Hướng dẫn viên AI</strong> giúp bạn lên
           kế hoạch cho chuyến đi hoàn hảo!
         </p>
 
@@ -369,6 +369,8 @@ function MyJourneyContent() {
   const [mainTab, setMainTab] = useState<"my_trips" | "my_plans">("my_trips");
   const [subTab, setSubTab] = useState<string>("upcoming"); // upcoming, past, favorite, reference
   const [showEmptyTripPopup, setShowEmptyTripPopup] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [paginationData, setPaginationData] = useState<any>(null);
 
   // --- Data: Prioritize Store, fallback to URL params ---
   const placeIds =
@@ -435,6 +437,13 @@ function MyJourneyContent() {
     }
   }, []);
 
+  // Auto-close popup once activities are loaded (e.g. DB fetch completed after mount)
+  useEffect(() => {
+    if (Object.keys(activities).length > 0) {
+      setShowEmptyTripPopup(false);
+    }
+  }, [activities]);
+
   // Sync store activities to local state when available
   useEffect(() => {
     if (hasStoreActivities) {
@@ -450,11 +459,16 @@ function MyJourneyContent() {
 
       try {
         const { getUserTrips } = await import("@/app/actions/trip");
-        const result = await getUserTrips();
+        const result = await getUserTrips(currentPage, 10); // 10 trips per page
 
         if (result.success && result.data && result.data.length > 0) {
+          // Store pagination data for UI controls
+          if (result.pagination) {
+            setPaginationData(result.pagination);
+          }
+
           const latestTrip: any = result.data[0];
-          console.log("MyJourney: Syncing trip to store...", latestTrip.id);
+          console.log("MyJourney: Syncing trip to store...", latestTrip.id, "Page:", currentPage);
 
           // Sync Trip Metadata to Store (Fixes Date/Day Calculation)
           setTripInfo({
@@ -505,6 +519,8 @@ function MyJourneyContent() {
           });
 
           setActivities(dbActivities);
+          // Sync back to Zustand store so re-mounts don't need to re-fetch from DB
+          setStoreActivities(dbActivities);
         }
       } catch (error) {
         console.error("Error fetching trips:", error);
@@ -514,7 +530,7 @@ function MyJourneyContent() {
     if (mainTab === "my_trips" && subTab === "upcoming") {
       fetchMyTrips();
     }
-  }, [mainTab, subTab]);
+  }, [mainTab, subTab, currentPage]);
 
   // Modal State
   const [viewedActivity, setViewedActivity] = useState<any>(null);
@@ -693,6 +709,29 @@ function MyJourneyContent() {
             </>
           )}
         </div>
+
+        {/* Pagination Controls */}
+        {mainTab === "my_trips" && subTab === "upcoming" && paginationData && paginationData.totalPages > 1 && (
+          <div className="flex items-center justify-between mb-4 px-2">
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 bg-[#1B4D3E] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#113D38] transition-colors"
+            >
+              ← Trước
+            </button>
+            <span className="text-sm font-medium text-[#1B4D3E]">
+              Trang {currentPage} / {paginationData.totalPages} ({paginationData.totalCount} chuyến đi)
+            </span>
+            <button
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, paginationData.totalPages))}
+              disabled={currentPage === paginationData.totalPages}
+              className="px-4 py-2 bg-[#1B4D3E] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#113D38] transition-colors"
+            >
+              Tiếp → 
+            </button>
+          </div>
+        )}
 
         {/* Content Area */}
         <div className="bg-white/40 rounded-[40px] border border-[#1B4D3E]/5 min-h-[600px] p-1 relative">
