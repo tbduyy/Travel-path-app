@@ -185,6 +185,186 @@ function MyJourneyContent() {
     setTripInfo,
   } = useTripStore();
 
+  // --- Mock Trips & Favorites State ---
+  const [favoriteTripIds, setFavoriteTripIds] = useState<number[]>([]);
+
+  const toggleFavorite = (e: React.MouseEvent, id: number) => {
+    e.stopPropagation();
+    setFavoriteTripIds((prev) =>
+      prev.includes(id) ? prev.filter((tripId) => tripId !== id) : [...prev, id]
+    );
+  };
+
+  const mockReferenceTrips = React.useMemo(() => [
+    {
+      id: 1,
+      title: "Khám phá Nha Trang - Hòn Ngọc Biển Đông",
+      duration: "4N3Đ",
+      author: "TravelLover1",
+      views: "1.2k",
+      likes: 342,
+      image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-le-soleil/nt-le-soleil-1.jpg"
+    },
+    {
+      id: 2,
+      title: "Đà Lạt Mộng Mơ - Trải nghiệm săn mây",
+      duration: "3N2Đ",
+      author: "DaLatReviewer",
+      views: "2.5k",
+      likes: 512,
+      image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-thien-vien-truc-lam/dl-thien-vien-truc-lam-1.jpg"
+    }
+  ], []);
+
+  const mockPastTrips = React.useMemo(() => [
+    {
+      id: 101,
+      title: "Chuyến nghỉ dưỡng ngắm bình minh Đà Lạt",
+      destination: "Đà Lạt", // Added for weather
+      duration: "3N2Đ",
+      author: "Tôi",
+      date: "10/02/2026 - 12/02/2026",
+      views: "150",
+      likes: 12,
+      image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-quang-truong-lam-vien/dl-quang-truong-lam-vien-1.jpg"
+    }
+  ], []);
+
+  // Detailed mockup itinerary data mapped by trip ID
+  const mockTripActivities: Record<number, any> = React.useMemo(() => ({
+    1: {
+      tripDays: 4,
+      destination: "Nha Trang",
+      activities: {
+        1: {
+          morning: [
+            {
+              id: "m1",
+              title: "Tháp Bà Ponagar",
+              time: "08:30 - 10:00",
+              period: "morning",
+              place: { name: "Tháp Bà Ponagar", address: "61 Hai Tháng Tư", image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-thap-ba-ponagar/nt-thap-ba-ponagar-1.jpg", lat: 12.2654, lng: 109.1958 }
+            }
+          ],
+          afternoon: [
+            {
+              id: "a1",
+              title: "Hòn Chồng",
+              time: "14:00 - 16:00",
+              period: "afternoon",
+              place: { name: "Hòn Chồng", address: "Vĩnh Phước, Nha Trang", image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-hon-chong/nt-hon-chong-1.jpg", lat: 12.2618, lng: 109.2023 }
+            }
+          ],
+          evening: []
+        },
+        2: { morning: [], afternoon: [], evening: [] },
+        3: { morning: [], afternoon: [], evening: [] },
+        4: { morning: [], afternoon: [], evening: [] }
+      }
+    },
+    2: {
+      tripDays: 3,
+      destination: "Đà Lạt",
+      activities: {
+        1: {
+          morning: [
+            {
+              id: "m2",
+              title: "Thiền viện Trúc Lâm",
+              time: "08:00 - 10:30",
+              period: "morning",
+              place: { name: "Thiền viện Trúc Lâm", address: "Trần Thánh Tông", image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-thien-vien-truc-lam/dl-thien-vien-truc-lam-1.jpg", lat: 11.9048, lng: 108.4354 }
+            }
+          ],
+          afternoon: [],
+          evening: []
+        },
+        2: { morning: [], afternoon: [], evening: [] },
+        3: { morning: [], afternoon: [], evening: [] }
+      }
+    },
+    101: {
+      tripDays: 3,
+      destination: "Đà Lạt",
+      activities: {
+        1: {
+          morning: [
+            {
+              id: "m101",
+              title: "Quảng trường Lâm Viên",
+              time: "06:00 - 08:00",
+              period: "morning",
+              place: { name: "Quảng trường Lâm Viên", address: "Phường 1, Đà Lạt", image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-quang-truong-lam-vien/dl-quang-truong-lam-vien-1.jpg", lat: 11.9366, lng: 108.4419 }
+            }
+          ],
+          afternoon: [],
+          evening: []
+        },
+        2: { morning: [], afternoon: [], evening: [] },
+        3: { morning: [], afternoon: [], evening: [] }
+      }
+    }
+  }), []);
+
+  const [viewingMockTripId, setViewingMockTripId] = useState<number | null>(null);
+
+  const renderTripCard = (trip: any) => {
+    const isFavorite = favoriteTripIds.includes(trip.id);
+    return (
+      <div
+        key={trip.id}
+        onClick={() => setViewingMockTripId(trip.id)}
+        className="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-all cursor-pointer relative group flex flex-col"
+      >
+        <div className="relative w-full aspect-[16/10] rounded-xl bg-gray-200 mb-4 overflow-hidden">
+          <Image
+            src={trip.image}
+            alt={trip.title}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+          <div className="absolute top-2 right-2 bg-white/90 px-3 py-1 rounded-full text-xs font-bold text-[#1B4D3E] shadow-sm">
+            {trip.duration}
+          </div>
+          <button
+            onClick={(e) => toggleFavorite(e, trip.id)}
+            className="absolute top-2 left-2 p-2 rounded-full bg-white/80 hover:bg-white backdrop-blur-sm transition-all shadow-sm z-10"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill={isFavorite ? "#ff4b4b" : "none"}
+              stroke={isFavorite ? "#ff4b4b" : "currentColor"}
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+            </svg>
+          </button>
+        </div>
+        <h3 className="font-bold text-lg text-[#1B4D3E] mb-1 line-clamp-2 min-h-[56px]">
+          {trip.title}
+        </h3>
+        {trip.date && (
+          <p className="text-sm text-gray-500 mb-2 font-medium">{trip.date}</p>
+        )}
+        <div className="flex items-center gap-2 text-sm text-gray-500 mb-4 mt-auto">
+          <span className="w-6 h-6 rounded-full bg-gray-300 overflow-hidden relative shrink-0">
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#2E968C] to-[#1B4D3E] opacity-50"></div>
+          </span>
+          <span className="truncate">bởi {trip.author}</span>
+        </div>
+        <div className="flex justify-between items-center text-xs font-bold text-gray-400 pt-3 border-t border-gray-100">
+          <span className="flex items-center gap-1">👁️ {trip.views}</span>
+          <span className="flex items-center gap-1 text-[#ff4b4b]">❤️ {trip.likes + (isFavorite ? 1 : 0)}</span>
+        </div>
+      </div>
+    );
+  };
+
   // --- State ---
   const [mainTab, setMainTab] = useState<"my_trips" | "my_plans">("my_trips");
   const [subTab, setSubTab] = useState<string>("upcoming"); // upcoming, past, favorite, reference
@@ -409,6 +589,35 @@ function MyJourneyContent() {
     </button>
   );
 
+  // --- Derived State for Mock Itinerary View ---
+  const [mockSelectedDay, setMockSelectedDay] = useState(1);
+  const mockTripData = viewingMockTripId ? mockTripActivities[viewingMockTripId] : null;
+  const mockSelectedDayDate = React.useMemo(() => {
+    return "15/05"; // static for mock
+  }, []);
+  const mockCurrentWeather = React.useMemo(
+    () => getWeather(mockSelectedDayDate, mockTripData?.destination || ""),
+    [mockSelectedDayDate, mockTripData]
+  );
+  const mockMapMarkers = React.useMemo(() => {
+    if (!mockTripData) return [];
+    const dayActivities = mockTripData.activities[mockSelectedDay] || {};
+    const orderedItems: any[] = [];
+    ["morning", "afternoon", "evening"].forEach((period) => {
+      if (dayActivities[period]) orderedItems.push(...dayActivities[period]);
+    });
+    return orderedItems
+      .filter((item: any) => item.place)
+      .map((item: any, index: number) => ({
+        id: item.place.id,
+        name: item.place.name,
+        lat: item.place.lat,
+        lng: item.place.lng,
+        description: item.place.address,
+        order: index + 1,
+      }));
+  }, [mockTripData, mockSelectedDay]);
+
   return (
     <div className="min-h-screen flex flex-col font-sans text-[#1B4D3E] bg-[#F0FDFD]">
       <Header />
@@ -419,7 +628,13 @@ function MyJourneyContent() {
           {/* Back Button & Title */}
           <div className="flex items-center gap-4 w-full md:w-auto">
             <button
-              onClick={() => router.back()}
+              onClick={() => {
+                if (viewingMockTripId) {
+                  setViewingMockTripId(null);
+                } else {
+                  router.back();
+                }
+              }}
               className="p-2 hover:bg-black/5 rounded-full transition-colors"
             >
               <svg
@@ -481,256 +696,275 @@ function MyJourneyContent() {
 
         {/* Content Area */}
         <div className="bg-white/40 rounded-[40px] border border-[#1B4D3E]/5 min-h-[600px] p-1 relative">
-          {/* 1. Upcoming Trips */}
-          {mainTab === "my_trips" && subTab === "upcoming" && (
+
+          {viewingMockTripId && mockTripData ? (
             <div className="min-h-[800px] p-4">
-              {Object.keys(activities).length > 0 ? (
-                <ItineraryView
-                  destination={destination || "Đà Lạt"}
-                  selectedDay={selectedDay}
-                  tripDays={tripDays}
-                  selectedDayDate={selectedDayDate}
-                  activities={activities}
-                  currentWeather={currentWeather}
-                  mapMarkers={mapMarkers}
-                  onPreviousDay={() =>
-                    selectedDay > 1 && setSelectedDay((d) => d - 1)
-                  }
-                  onNextDay={() =>
-                    selectedDay < tripDays && setSelectedDay((d) => d + 1)
-                  }
-                  onEditActivity={(activity) => setViewedActivity(activity)}
-                  onDeleteActivity={() => { }}
-                  onAddActivity={() => { }}
-                  onUpdateSchedule={(suggestion) => {
-                    console.log("DEBUG: onUpdateSchedule called", suggestion);
-                    // Handle Full Itinerary Replacement (Re-plan)
-                    if (suggestion.newItinerary) {
-                      const newDaySchedule = suggestion.newItinerary;
-                      // Convert backend 'DailyActivity' to frontend structure (morning/afternoon/evening)
-                      // Simplified classification based on time
-                      const morning: any[] = [];
-                      const afternoon: any[] = [];
-                      const evening: any[] = [];
-
-                      newDaySchedule.activities.forEach((act: any) => {
-                        const hour = parseInt(act.time_slot.split(':')[0]);
-                        const item = {
-                          id: Date.now().toString() + Math.random(),
-                          title: act.activity,
-                          time: act.time_slot,
-                          cost: act.estimated_cost ? `${(act.estimated_cost > 1000 ? act.estimated_cost / 1000 : act.estimated_cost).toLocaleString()}k` : undefined,
-                          place: {
-                            id: "ai-" + Math.random(),
-                            name: act.location_name,
-                            address: act.location_name + " (AI Suggestion)"
-                          }
-                        };
-
-                        if (hour < 12) morning.push({ ...item, period: 'morning' });
-                        else if (hour < 18) afternoon.push({ ...item, period: 'afternoon' });
-                        else evening.push({ ...item, period: 'evening' });
-                      });
-
-                      setActivities(prev => {
-                        const newActivities = {
-                          ...prev,
-                          [selectedDay]: {
-                            morning,
-                            afternoon,
-                            evening
-                          }
-                        };
-                        // Persist
-                        if (typeof window !== "undefined") {
-                          localStorage.setItem("mytrip_activities", JSON.stringify(newActivities));
-                        }
-                        setStoreActivities(newActivities);
-                        return newActivities;
-                      });
-                      return;
-                    }
-
-                    // Handle Single Place Suggestion (Old logic)
-                    if (!suggestion.suggestedPlace) {
-                      console.log("DEBUG: Invalid suggestion data");
-                      return;
-                    }
-
-                    const newPlace = suggestion.suggestedPlace;
-
-                    setActivities(prev => {
-                      const currentDayActs = prev[selectedDay] || { morning: [], afternoon: [], evening: [] };
-
-                      let targetPeriod = 'morning';
-                      if (currentDayActs.morning.length === 0 && currentDayActs.afternoon.length > 0) {
-                        targetPeriod = 'afternoon';
-                      } else if (currentDayActs.morning.length > 0) {
-                        targetPeriod = 'morning';
+              <ItineraryView
+                destination={mockTripData.destination}
+                selectedDay={mockSelectedDay}
+                tripDays={mockTripData.tripDays}
+                selectedDayDate={mockSelectedDayDate}
+                activities={mockTripData.activities}
+                currentWeather={mockCurrentWeather}
+                mapMarkers={mockMapMarkers}
+                onPreviousDay={() =>
+                  mockSelectedDay > 1 && setMockSelectedDay((d) => d - 1)
+                }
+                onNextDay={() =>
+                  mockSelectedDay < mockTripData.tripDays && setMockSelectedDay((d) => d + 1)
+                }
+                onEditActivity={(activity) => setViewedActivity(activity)}
+                onDeleteActivity={() => { }}
+                onAddActivity={() => { }}
+                onUpdateSchedule={() => { }}
+                isReadOnly={true}
+              />
+            </div>
+          ) : (
+            <>
+              {/* 1. Upcoming Trips */}
+              {mainTab === "my_trips" && subTab === "upcoming" && (
+                <div className="min-h-[800px] p-4">
+                  {Object.keys(activities).length > 0 ? (
+                    <ItineraryView
+                      destination={destination || "Đà Lạt"}
+                      selectedDay={selectedDay}
+                      tripDays={tripDays}
+                      selectedDayDate={selectedDayDate}
+                      activities={activities}
+                      currentWeather={currentWeather}
+                      mapMarkers={mapMarkers}
+                      onPreviousDay={() =>
+                        selectedDay > 1 && setSelectedDay((d) => d - 1)
                       }
+                      onNextDay={() =>
+                        selectedDay < tripDays && setSelectedDay((d) => d + 1)
+                      }
+                      onEditActivity={(activity) => setViewedActivity(activity)}
+                      onDeleteActivity={() => { }}
+                      onAddActivity={() => { }}
+                      onUpdateSchedule={(suggestion) => {
+                        console.log("DEBUG: onUpdateSchedule called", suggestion);
+                        // Handle Full Itinerary Replacement (Re-plan)
+                        if (suggestion.newItinerary) {
+                          const newDaySchedule = suggestion.newItinerary;
+                          // Convert backend 'DailyActivity' to frontend structure (morning/afternoon/evening)
+                          // Simplified classification based on time
+                          const morning: any[] = [];
+                          const afternoon: any[] = [];
+                          const evening: any[] = [];
 
-                      const list = [...(currentDayActs[targetPeriod] || [])];
-                      console.log("DEBUG: Target period", targetPeriod, "List length:", list.length);
+                          newDaySchedule.activities.forEach((act: any) => {
+                            const hour = parseInt(act.time_slot.split(':')[0]);
+                            const item = {
+                              id: Date.now().toString() + Math.random(),
+                              title: act.activity,
+                              time: act.time_slot,
+                              cost: act.estimated_cost ? `${(act.estimated_cost > 1000 ? act.estimated_cost / 1000 : act.estimated_cost).toLocaleString()}k` : undefined,
+                              place: {
+                                id: "ai-" + Math.random(),
+                                name: act.location_name,
+                                address: act.location_name + " (AI Suggestion)"
+                              }
+                            };
 
-                      if (list.length > 0) {
-                        // Replace first item
-                        list[0] = {
-                          ...list[0],
-                          title: newPlace.name,
-                          place: {
-                            ...list[0].place,
-                            id: newPlace.id,
-                            name: newPlace.name,
-                            address: newPlace.address
+                            if (hour < 12) morning.push({ ...item, period: 'morning' });
+                            else if (hour < 18) afternoon.push({ ...item, period: 'afternoon' });
+                            else evening.push({ ...item, period: 'evening' });
+                          });
+
+                          setActivities(prev => {
+                            const newActivities = {
+                              ...prev,
+                              [selectedDay]: {
+                                morning,
+                                afternoon,
+                                evening
+                              }
+                            };
+                            // Persist
+                            if (typeof window !== "undefined") {
+                              localStorage.setItem("mytrip_activities", JSON.stringify(newActivities));
+                            }
+                            setStoreActivities(newActivities);
+                            return newActivities;
+                          });
+                          return;
+                        }
+
+                        // Handle Single Place Suggestion (Old logic)
+                        if (!suggestion.suggestedPlace) {
+                          console.log("DEBUG: Invalid suggestion data");
+                          return;
+                        }
+
+                        const newPlace = suggestion.suggestedPlace;
+
+                        setActivities(prev => {
+                          const currentDayActs = prev[selectedDay] || { morning: [], afternoon: [], evening: [] };
+
+                          let targetPeriod = 'morning';
+                          if (currentDayActs.morning.length === 0 && currentDayActs.afternoon.length > 0) {
+                            targetPeriod = 'afternoon';
+                          } else if (currentDayActs.morning.length > 0) {
+                            targetPeriod = 'morning';
                           }
-                        };
-                      } else {
-                        // Add new if empty
-                        list.push({
-                          id: Date.now().toString(),
-                          title: newPlace.name,
-                          time: "14:00",
-                          period: targetPeriod,
-                          place: newPlace
+
+                          const list = [...(currentDayActs[targetPeriod] || [])];
+                          console.log("DEBUG: Target period", targetPeriod, "List length:", list.length);
+
+                          if (list.length > 0) {
+                            // Replace first item
+                            list[0] = {
+                              ...list[0],
+                              title: newPlace.name,
+                              place: {
+                                ...list[0].place,
+                                id: newPlace.id,
+                                name: newPlace.name,
+                                address: newPlace.address
+                              }
+                            };
+                          } else {
+                            // Add new if empty
+                            list.push({
+                              id: Date.now().toString(),
+                              title: newPlace.name,
+                              time: "14:00",
+                              period: targetPeriod,
+                              place: newPlace
+                            });
+                          }
+
+                          const newActivities = {
+                            ...prev,
+                            [selectedDay]: {
+                              ...currentDayActs,
+                              [targetPeriod]: list
+                            }
+                          };
+
+                          console.log("DEBUG: New activities state", newActivities);
+
+                          if (typeof window !== "undefined") {
+                            localStorage.setItem("mytrip_activities", JSON.stringify(newActivities));
+                          }
+
+                          // Also sync to global store
+                          setStoreActivities(newActivities);
+
+                          return newActivities;
                         });
-                      }
+                      }}
+                      isReadOnly={false}
+                    />
+                  ) : (
+                    /* Empty State */
+                    <div className="flex flex-col items-center justify-center h-full">
+                      <div className="text-center max-w-md">
+                        {/* Animated Icon */}
+                        <div className="relative w-32 h-32 mx-auto mb-6">
+                          <div className="absolute inset-0 bg-gradient-to-br from-[#2E968C]/20 to-[#1B4D3E]/20 rounded-full animate-pulse"></div>
+                          <div
+                            className="absolute inset-2 bg-gradient-to-br from-[#2E968C]/30 to-[#1B4D3E]/30 rounded-full animate-pulse"
+                            style={{ animationDelay: "150ms" }}
+                          ></div>
+                          <div className="absolute inset-4 bg-white rounded-full flex items-center justify-center shadow-lg">
+                            <span className="text-5xl">🗺️</span>
+                          </div>
+                        </div>
 
-                      const newActivities = {
-                        ...prev,
-                        [selectedDay]: {
-                          ...currentDayActs,
-                          [targetPeriod]: list
-                        }
-                      };
+                        <h2 className="text-2xl font-black text-[#1B4D3E] mb-3">
+                          Chưa có lịch trình sắp tới
+                        </h2>
+                        <p className="text-gray-500 mb-6 leading-relaxed">
+                          Bạn chưa lên kế hoạch cho chuyến đi nào. Hãy bắt đầu khám
+                          phá và tạo lịch trình đầu tiên của bạn!
+                        </p>
 
-                      console.log("DEBUG: New activities state", newActivities);
+                        <button
+                          onClick={handleNavigateToPlanTrip}
+                          className="inline-flex items-center gap-2 px-8 py-4 bg-[#1B4D3E] text-white rounded-2xl font-bold text-lg hover:bg-[#113D38] transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M5 12h14" />
+                            <path d="m12 5 7 7-7 7" />
+                          </svg>
+                          Lên lịch trình ngay
+                        </button>
 
-                      if (typeof window !== "undefined") {
-                        localStorage.setItem("mytrip_activities", JSON.stringify(newActivities));
-                      }
-
-                      // Also sync to global store
-                      setStoreActivities(newActivities);
-
-                      return newActivities;
-                    });
-                  }}
-                  isReadOnly={false}
-                />
-              ) : (
-                /* Empty State */
-                <div className="flex flex-col items-center justify-center h-full">
-                  <div className="text-center max-w-md">
-                    {/* Animated Icon */}
-                    <div className="relative w-32 h-32 mx-auto mb-6">
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#2E968C]/20 to-[#1B4D3E]/20 rounded-full animate-pulse"></div>
-                      <div
-                        className="absolute inset-2 bg-gradient-to-br from-[#2E968C]/30 to-[#1B4D3E]/30 rounded-full animate-pulse"
-                        style={{ animationDelay: "150ms" }}
-                      ></div>
-                      <div className="absolute inset-4 bg-white rounded-full flex items-center justify-center shadow-lg">
-                        <span className="text-5xl">🗺️</span>
+                        <p className="text-xs text-gray-400 mt-4">
+                          Sử dụng AI để tạo lịch trình trong vài phút ✨
+                        </p>
                       </div>
                     </div>
-
-                    <h2 className="text-2xl font-black text-[#1B4D3E] mb-3">
-                      Chưa có lịch trình sắp tới
-                    </h2>
-                    <p className="text-gray-500 mb-6 leading-relaxed">
-                      Bạn chưa lên kế hoạch cho chuyến đi nào. Hãy bắt đầu khám
-                      phá và tạo lịch trình đầu tiên của bạn!
-                    </p>
-
-                    <button
-                      onClick={handleNavigateToPlanTrip}
-                      className="inline-flex items-center gap-2 px-8 py-4 bg-[#1B4D3E] text-white rounded-2xl font-bold text-lg hover:bg-[#113D38] transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M5 12h14" />
-                        <path d="m12 5 7 7-7 7" />
-                      </svg>
-                      Lên lịch trình ngay
-                    </button>
-
-                    <p className="text-xs text-gray-400 mt-4">
-                      Sử dụng AI để tạo lịch trình trong vài phút ✨
-                    </p>
-                  </div>
+                  )}
                 </div>
               )}
-            </div>
-          )}
 
-          {/* Empty Trip Popup */}
-          <EmptyTripPopup
-            isOpen={showEmptyTripPopup}
-            onClose={() => setShowEmptyTripPopup(false)}
-            onNavigate={handleNavigateToPlanTrip}
-          />
+              {/* Empty Trip Popup */}
+              <EmptyTripPopup
+                isOpen={showEmptyTripPopup}
+                onClose={() => setShowEmptyTripPopup(false)}
+                onNavigate={handleNavigateToPlanTrip}
+              />
 
-          {/* 2. Past Trips */}
-          {mainTab === "my_trips" && subTab === "past" && (
-            <div className="flex flex-col items-center justify-center h-[600px] text-gray-400">
-              <div className="text-6xl mb-4">🕰️</div>
-              <p className="font-bold">Chưa có lịch trình đã đi</p>
-            </div>
-          )}
-
-          {/* 3. Favorite Plans */}
-          {mainTab === "my_plans" && subTab === "favorite" && (
-            <div className="flex flex-col items-center justify-center h-[600px] text-gray-400">
-              <div className="text-6xl mb-4">❤️</div>
-              <p className="font-bold">Chưa có lịch trình yêu thích</p>
-            </div>
-          )}
-
-          {/* 4. Reference Plans */}
-          {mainTab === "my_plans" && subTab === "reference" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-all cursor-pointer"
-                >
-                  <div className="relative h-48 rounded-xl bg-gray-200 mb-4 overflow-hidden">
-                    <Image
-                      src={`/placeholder.jpg`}
-                      alt="Trip"
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute top-2 right-2 bg-white/90 px-3 py-1 rounded-full text-xs font-bold text-[#1B4D3E]">
-                      4N3Đ
+              {/* 2. Past Trips */}
+              {mainTab === "my_trips" && subTab === "past" && (
+                <div className="p-6">
+                  {mockPastTrips.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {mockPastTrips.map((trip) => renderTripCard(trip))}
                     </div>
-                  </div>
-                  <h3 className="font-bold text-lg text-[#1B4D3E] mb-1">
-                    Khám phá Nha Trang - Hòn Ngọc Biển Đông
-                  </h3>
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-                    <span className="w-6 h-6 rounded-full bg-gray-300 overflow-hidden relative"></span>
-                    <span>bởi TravelLover{i}</span>
-                  </div>
-                  <div className="flex justify-between items-center text-xs font-bold text-gray-400">
-                    <span className="flex items-center gap-1">👁️ 1.2k</span>
-                    <span className="flex items-center gap-1">❤️ 342</span>
-                  </div>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center h-[500px] text-gray-400">
+                      <div className="text-6xl mb-4">🕰️</div>
+                      <p className="font-bold">Chưa có lịch trình đã đi</p>
+                    </div>
+                  )}
                 </div>
-              ))}
-            </div>
+              )}
+
+              {/* 3. Favorite Plans */}
+              {mainTab === "my_plans" && subTab === "favorite" && (
+                <div className="p-6">
+                  {favoriteTripIds.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {[...mockReferenceTrips, ...mockPastTrips]
+                        .filter(trip => favoriteTripIds.includes(trip.id))
+                        .map((trip) => renderTripCard(trip))}
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center h-[500px] text-gray-400">
+                      <div className="text-6xl mb-4">❤️</div>
+                      <p className="font-bold">Chưa có lịch trình yêu thích</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* 4. Reference Plans */}
+              {mainTab === "my_plans" && subTab === "reference" && (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+                  {mockReferenceTrips.map((trip) => renderTripCard(trip))}
+                </div>
+              )}
+            </>
           )}
         </div>
 
         {/* DETAIL MODAL */}
+
         {viewedActivity && (
           <div
             className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"

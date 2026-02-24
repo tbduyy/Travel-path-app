@@ -1123,7 +1123,8 @@ export const seedPlaces = [
         "type": "HOTEL",
         "rating": 4.8354917864056866,
         "images": [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-s79-khai-ngoc-hotel/dl-s79-khai-ngoc-hotel-1.avif"
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-s79-khai-ngoc-hotel/dl-s79-khai-ngoc-hotel-1.avif",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-s79-khai-ngoc-hotel/dl-s79-khai-ngoc-hotel-2.jpg"
         ],
         "priceLevel": 3,
         "price": "1.500.000 VND",
@@ -1137,7 +1138,8 @@ export const seedPlaces = [
         "type": "HOTEL",
         "rating": 4.193457163018642,
         "images": [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-khach-san-anna-suong/dl-khach-san-anna-suong-1.jpg"
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-khach-san-anna-suong/dl-khach-san-anna-suong-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-khach-san-anna-suong/dl-khach-san-anna-suong-2.jpg"
         ],
         "priceLevel": 3,
         "price": "1.500.000 VND",
@@ -1151,7 +1153,8 @@ export const seedPlaces = [
         "type": "HOTEL",
         "rating": 4.101029156579639,
         "images": [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-happy-day-2-guesthouse/dl-happy-day-2-guesthouse-1.jpg"
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-happy-day-2-guesthouse/dl-happy-day-2-guesthouse-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-happy-day-2-guesthouse/dl-happy-day-2-guesthouse-2.jpg"
         ],
         "priceLevel": 3,
         "price": "1.500.000 VND",
@@ -1165,7 +1168,8 @@ export const seedPlaces = [
         "type": "HOTEL",
         "rating": 4.496335547105786,
         "images": [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-qa-hotel/dl-qa-hotel-1.jpg"
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-qa-hotel/dl-qa-hotel-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-qa-hotel/dl-qa-hotel-2.jpg"
         ],
         "priceLevel": 3,
         "price": "1.500.000 VND",
@@ -1179,7 +1183,8 @@ export const seedPlaces = [
         "type": "HOTEL",
         "rating": 4.844774692584504,
         "images": [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-winterfell-hotel/dl-winterfell-hotel-1.jpg"
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-winterfell-hotel/dl-winterfell-hotel-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-winterfell-hotel/dl-winterfell-hotel-2.jpg"
         ],
         "priceLevel": 3,
         "price": "1.500.000 VND",
@@ -1193,7 +1198,8 @@ export const seedPlaces = [
         "type": "HOTEL",
         "rating": 4.839755111240469,
         "images": [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-windy-hill-homestay/dl-windy-hill-homestay-1.jpg"
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-windy-hill-homestay/dl-windy-hill-homestay-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-windy-hill-homestay/dl-windy-hill-homestay-2.jpg"
         ],
         "priceLevel": 3,
         "price": "1.500.000 VND",
@@ -1207,7 +1213,8 @@ export const seedPlaces = [
         "type": "HOTEL",
         "rating": 4.419161844051134,
         "images": [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-pontus-hotel/dl-pontus-hotel-1.jpg"
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-pontus-hotel/dl-pontus-hotel-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-pontus-hotel/dl-pontus-hotel-2.jpg"
         ],
         "priceLevel": 3,
         "price": "1.500.000 VND",
@@ -1221,7 +1228,8 @@ export const seedPlaces = [
         "type": "HOTEL",
         "rating": 4.519025710139435,
         "images": [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-the-manor-villas/dl-the-manor-villas-1.jpg"
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-the-manor-villas/dl-the-manor-villas-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-the-manor-villas/dl-the-manor-villas-2.jpg"
         ],
         "priceLevel": 3,
         "price": "1.500.000 VND",
@@ -1235,7 +1243,8 @@ export const seedPlaces = [
         "type": "HOTEL",
         "rating": 4.982550988019167,
         "images": [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-rainbow-homestay-cau-dat/dl-rainbow-homestay-cau-dat-1.jpg"
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-rainbow-homestay-cau-dat/dl-rainbow-homestay-cau-dat-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-rainbow-homestay-cau-dat/dl-rainbow-homestay-cau-dat-2.jpg"
         ],
         "priceLevel": 3,
         "price": "1.500.000 VND",
@@ -1249,7 +1258,8 @@ export const seedPlaces = [
         "type": "HOTEL",
         "rating": 4.885650946723352,
         "images": [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-moc-tra-farm/dl-moc-tra-farm-1.jpg"
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-moc-tra-farm/dl-moc-tra-farm-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-moc-tra-farm/dl-moc-tra-farm-2.jpg"
         ],
         "priceLevel": 3,
         "price": "1.500.000 VND",
@@ -1263,7 +1273,8 @@ export const seedPlaces = [
         "type": "HOTEL",
         "rating": 4.1053112762889565,
         "images": [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-hoang-gia-trang-homestay/dl-hoang-gia-trang-homestay-1.jpg"
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-hoang-gia-trang-homestay/dl-hoang-gia-trang-homestay-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-hoang-gia-trang-homestay/dl-hoang-gia-trang-homestay-2.jpg"
         ],
         "priceLevel": 3,
         "price": "1.500.000 VND",
@@ -1277,7 +1288,8 @@ export const seedPlaces = [
         "type": "HOTEL",
         "rating": 4.586096218913907,
         "images": [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-nature-hotel/dl-nature-hotel-1.jpg"
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-nature-hotel/dl-nature-hotel-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-nature-hotel/dl-nature-hotel-2.jpg"
         ],
         "priceLevel": 3,
         "price": "1.500.000 VND",
@@ -1291,7 +1303,8 @@ export const seedPlaces = [
         "type": "HOTEL",
         "rating": 4.701324611650399,
         "images": [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-may-bach-da-lat/dl-may-bach-da-lat-1.jpg"
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-may-bach-da-lat/dl-may-bach-da-lat-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-may-bach-da-lat/dl-may-bach-da-lat-2.jpg"
         ],
         "priceLevel": 3,
         "price": "1.500.000 VND",
@@ -1305,7 +1318,8 @@ export const seedPlaces = [
         "type": "HOTEL",
         "rating": 4.426164184044743,
         "images": [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-le-homestay/dl-le-homestay-1.jpg"
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-le-homestay/dl-le-homestay-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-le-homestay/dl-le-homestay-2.jpeg"
         ],
         "priceLevel": 3,
         "price": "1.500.000 VND",

@@ -14,6 +14,8 @@ export interface PlaceData {
     lng: number;
     metadata?: any;
     relatedPlaceId?: string; // For hotels, which place they belong to
+    image?: any;
+    city?: string | null;
 }
 
 // 1. VinWonders
@@ -94,6 +96,63 @@ export const vinWondersHotels: PlaceData[] = [
         lng: 109.195,
         relatedPlaceId: "nt-vinwonders",
         metadata: { distance: "5 km", time: "15 phút", note: "Giá rẻ, trung tâm phố" }
+    },
+    {
+        id: "nt-cliff-house",
+        name: "Khách sạn CLIFFHOUSE",
+        type: "HOTEL",
+        rating: 4.2,
+        priceLevel: "$$",
+        price: "400.000 VND",
+        address: "12c Đường Trần Phú, Phường Vĩnh Nguyên",
+        description: "Gần VinWonders giúp việc di chuyển thuận tiện; tuy nhiên cách xa trung tâm.",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-cliff-house/nt-cliff-house-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-cliff-house/nt-cliff-house-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-cliff-house/nt-cliff-house-3.jpeg"
+        ],
+        lat: 12.210,
+        lng: 109.208,
+        relatedPlaceId: "nt-vinwonders",
+        metadata: { distance: "500m", time: "1 phút", note: "Gần VinWonders, xa trung tâm" }
+    },
+    {
+        id: "nt-ba-sao",
+        name: "Khách sạn Ba Sao",
+        type: "HOTEL",
+        rating: 3.8,
+        priceLevel: "$",
+        price: "220.000 VND",
+        address: "37 Đường Thích Quảng Đức, Phước Trung",
+        description: "Giá phòng rẻ, phù hợp lưu trú ngắn ngày; nhưng không nằm gần VinWonders.",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-ba-sao/nt-ba-sao-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-ba-sao/nt-ba-sao-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-ba-sao/nt-ba-sao-3.jpg"
+        ],
+        lat: 12.235,
+        lng: 109.185,
+        relatedPlaceId: "nt-vinwonders",
+        metadata: { distance: "4.3km", time: "9 phút", note: "Giá rẻ, cân nhắc chi phí di chuyển" }
+    },
+    {
+        id: "nt-aqua-seaview",
+        name: "Khách sạn AQUA Seaview",
+        type: "HOTEL",
+        rating: 4.5,
+        priceLevel: "$$",
+        price: "405.000 VND",
+        address: "Hẻm 9C, Số 11D, Đường Trần Phú, Vĩnh Nguyên",
+        description: "Gần biển, phù hợp nghỉ dưỡng; cách VinWonders không xa.",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-aqua-seaview/nt-aqua-seaview-1.webp",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-aqua-seaview/nt-aqua-seaview-2.webp",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-aqua-seaview/nt-aqua-seaview-3.webp"
+        ],
+        lat: 12.215,
+        lng: 109.205,
+        relatedPlaceId: "nt-vinwonders",
+        metadata: { distance: "3.5km", time: "7 phút", note: "Gần biển, giá cao hơn bình dân" }
     }
 ];
 
@@ -174,6 +233,63 @@ export const tour3DaoHotels: PlaceData[] = [
         lng: 109.1966,
         relatedPlaceId: "nt-tour3dao",
         metadata: { distance: "1.8 km (từ TT)", time: "6 phút", note: "Thuận tiện di chuyển" }
+    },
+    {
+        id: "nt-vitamin-sea-homestay",
+        name: "Vitamin Sea Homestay",
+        type: "HOTEL",
+        rating: 4.3,
+        priceLevel: "$$",
+        price: "320.000 VND",
+        address: "Số 35/4D Tô Hiến Thành, Phường Tân Lập",
+        description: "Vị trí gần trung tâm thành phố, thuận tiện di chuyển; tuy nhiên không đối diện biển.",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-vitamin-sea-homestay/nt-vitamin-sea-homestay-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-vitamin-sea-homestay/nt-vitamin-sea-homestay-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-vitamin-sea-homestay/nt-vitamin-sea-homestay-3.jpg"
+        ],
+        lat: 12.240,
+        lng: 109.192,
+        relatedPlaceId: "nt-tour3dao",
+        metadata: { distance: "1km", time: "4 phút", note: "Gần trung tâm, không đối diện biển" }
+    },
+    {
+        id: "nt-sen-vang-luxury",
+        name: "Khách sạn Sen Vàng Luxury",
+        type: "HOTEL",
+        rating: 4.1,
+        priceLevel: "$",
+        price: "265.000 VND",
+        address: "Số 12 Biệt Thự, Phường Lộc Thọ",
+        description: "Giá rẻ, gần trung tâm thành phố; tuy nhiên không đối diện biển.",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-sen-vang-luxury/nt-sen-vang-luxury-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-sen-vang-luxury/nt-sen-vang-luxury-2.webp",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-sen-vang-luxury/nt-sen-vang-luxury-3.jpg"
+        ],
+        lat: 12.238,
+        lng: 109.195,
+        relatedPlaceId: "nt-tour3dao",
+        metadata: { distance: "1.3km", time: "4 phút", note: "Giá rẻ, gần trung tâm" }
+    },
+    {
+        id: "nt-nha-trang-prince",
+        name: "Khách sạn Nha Trang Prince",
+        type: "HOTEL",
+        rating: 5.0,
+        priceLevel: "$$$",
+        price: "540.000 VND",
+        address: "Số 02-04 Phan Bội Châu, Phường Xương Huân",
+        description: "Gần trung tâm thành phố, tiêu chuẩn 5 sao; mức giá cao hơn bình dân.",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nha-trang-prince/nt-nha-trang-prince-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nha-trang-prince/nt-nha-trang-prince-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nha-trang-prince/nt-nha-trang-prince-3.jpg"
+        ],
+        lat: 12.250,
+        lng: 109.195,
+        relatedPlaceId: "nt-tour3dao",
+        metadata: { distance: "2km", time: "6 phút", note: "Khách sạn sao, giá cao" }
     }
 ];
 
@@ -254,6 +370,63 @@ export const quangTruongHotels: PlaceData[] = [
         lng: 109.197,
         relatedPlaceId: "nt-quangtruong",
         metadata: { distance: "950m", time: "3 phút", note: "Giá rẻ, đối diện biển" }
+    },
+    {
+        id: "nt-corgi-house-central",
+        name: "Homestay Corgi House Central",
+        type: "HOTEL",
+        rating: 4.6,
+        priceLevel: "$$$",
+        price: "630.000 VND",
+        address: "Số 105/9A Hoàng Hoa Thám, Phường Lộc Thọ",
+        description: "Phòng rộng, đầy đủ tiện nghi; vị trí trung tâm thuận tiện di chuyển.",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-corgi-house-central/nt-corgi-house-central-1.avif",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-corgi-house-central/nt-corgi-house-central-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-corgi-house-central/nt-corgi-house-central-3.avif"
+        ],
+        lat: 12.245,
+        lng: 109.195,
+        relatedPlaceId: "nt-quangtruong",
+        metadata: { distance: "850m", time: "4 phút", note: "Giá tương đối cao, tiện nghi" }
+    },
+    {
+        id: "nt-anna-beach",
+        name: "Khách sạn ANNA Beach",
+        type: "HOTEL",
+        rating: 4.4,
+        priceLevel: "$$$",
+        price: "490.000 VND",
+        address: "Số 37/10 Hoàng Diệu, Phường Vĩnh Nguyên",
+        description: "Phòng đẹp, rộng và thiết kế sang trọng; tuy nhiên không có view biển và mức giá khá cao.",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-anna-beach/nt-anna-beach-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-anna-beach/nt-anna-beach-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-anna-beach/nt-anna-beach-3.jpg"
+        ],
+        lat: 12.220,
+        lng: 109.198,
+        relatedPlaceId: "nt-quangtruong",
+        metadata: { distance: "600m", time: "4 phút", note: "Không view biển, giá cao" }
+    },
+    {
+        id: "nt-golden",
+        name: "Khách sạn Golden",
+        type: "HOTEL",
+        rating: 4.2,
+        priceLevel: "$$",
+        price: "320.000 VND",
+        address: "Số 82 Hùng Vương, Phường Lộc Thọ",
+        description: "Có view biển, phòng rộng và thiết kế sang trọng trong khi mức giá khá cạnh tranh.",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-golden/nt-golden-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-golden/nt-golden-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-golden/nt-golden-3.jpeg"
+        ],
+        lat: 12.240,
+        lng: 109.196,
+        relatedPlaceId: "nt-quangtruong",
+        metadata: { distance: "700m", time: "3 phút", note: "View biển đẹp, giá cạnh tranh" }
     }
 ];
 
@@ -333,6 +506,63 @@ export const nemNuongHotels: PlaceData[] = [
         lng: 109.194,
         relatedPlaceId: "nt-nemnuong",
         metadata: { distance: "1km", time: "3 phút", note: "Gần phố Tây, ăn uống" }
+    },
+    {
+        id: "nt-yen-vang",
+        name: "Khách sạn Yến Vàng",
+        type: "HOTEL",
+        rating: 3.9,
+        priceLevel: "$$",
+        price: "320.000 VND",
+        address: "Số 01 Nguyễn Chính, Phường Xương Huân",
+        description: "Không gần biển, không có view biển; sát phố ẩm thực nổi tiếng.",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-yen-vang/nt-yen-vang-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-yen-vang/nt-yen-vang-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-yen-vang/nt-yen-vang-3.jpg"
+        ],
+        lat: 12.248,
+        lng: 109.192,
+        relatedPlaceId: "nt-nemnuong",
+        metadata: { distance: "120m", time: "1 phút", note: "Gần phố đi bộ, không view biển" }
+    },
+    {
+        id: "nt-nha-trang-pearl",
+        name: "Khách sạn Nha Trang Pearl",
+        type: "HOTEL",
+        rating: 4.1,
+        priceLevel: "$",
+        price: "295.000 VND",
+        address: "Số 22 Phan Bội Châu, Phường Xương Huân",
+        description: "Vị trí rất gần khu ăn uống nổi tiếng, thuận tiện di chuyển; tuy nhiên không nằm sát biển.",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nha-trang-pearl/nt-nha-trang-pearl-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nha-trang-pearl/nt-nha-trang-pearl-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nha-trang-pearl/nt-nha-trang-pearl-3.jpg"
+        ],
+        lat: 12.249,
+        lng: 109.192,
+        relatedPlaceId: "nt-nemnuong",
+        metadata: { distance: "26m", time: "1 phút", note: "Rất sát khu ăn uống" }
+    },
+    {
+        id: "nt-doimoi-family",
+        name: "Khách sạn Domoi Family",
+        type: "HOTEL",
+        rating: 4.3,
+        priceLevel: "$$$",
+        price: "500.000 VND",
+        address: "Số 55 Hai Bà Trưng, Phường Xương Huân",
+        description: "Vị trí gần ăn uống, phù hợp đi theo nhóm hoặc gia đình. Mức giá khá cao.",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-doimoi-family/nt-doimoi-family-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-doimoi-family/nt-doimoi-family-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-doimoi-family/nt-doimoi-family-3.jpg"
+        ],
+        lat: 12.247,
+        lng: 109.191,
+        relatedPlaceId: "nt-nemnuong",
+        metadata: { distance: "130m", time: "1 phút", note: "Phù hợp nhóm, gia đình" }
     }
 ];
 
@@ -411,6 +641,63 @@ export const haiSanHotels: PlaceData[] = [
         lng: 109.198,
         relatedPlaceId: "nt-haisan",
         metadata: { distance: "3.6km", time: "8 phút", note: "Yên tĩnh" }
+    },
+    {
+        id: "nt-coral-boutique-2",
+        name: "Homestay Coral Boutique 2",
+        type: "HOTEL",
+        rating: 4.4,
+        priceLevel: "$$$",
+        price: "450.000 VND",
+        address: "Số 28 Võ Thị Sáu, Phường Vĩnh Trường",
+        description: "Phòng rộng, thiết kế đẹp; tuy nhiên vị trí xa trung tâm thành phố.",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-coral-boutique-2/nt-coral-boutique-2-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-coral-boutique-2/nt-coral-boutique-2-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-coral-boutique-2/nt-coral-boutique-2-3.jpg"
+        ],
+        lat: 12.205,
+        lng: 109.205,
+        relatedPlaceId: "nt-haisan",
+        metadata: { distance: "2.7km", time: "5 phút", note: "Thiết kế đẹp, xa trung tâm" }
+    },
+    {
+        id: "nt-an-binh-tan",
+        name: "Khách sạn An Bình Tân",
+        type: "HOTEL",
+        rating: 4.2,
+        priceLevel: "$$$",
+        price: "560.000 VND",
+        address: "Lô L31-01 Đường số 1, Khu đô thị An Bình Tân",
+        description: "Phòng đẹp, sạch sẽ; nhưng khoảng cách đến điểm ăn hải sản khá xa.",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-an-binh-tan/nt-an-binh-tan-1.avif",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-an-binh-tan/nt-an-binh-tan-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-an-binh-tan/nt-an-binh-tan-3.jpg"
+        ],
+        lat: 12.225,
+        lng: 109.180,
+        relatedPlaceId: "nt-haisan",
+        metadata: { distance: "4.8km", time: "10 phút", note: "Sạch sẽ, xa khu ăn" }
+    },
+    {
+        id: "nt-hao-phat",
+        name: "Khách sạn Hào Phát",
+        type: "HOTEL",
+        rating: 3.8,
+        priceLevel: "$$",
+        price: "340.000 VND",
+        address: "Số 11 Phạm Văn Đồng, Phường Vĩnh Hải",
+        description: "Mức giá hợp lý, phù hợp ngân sách; nhưng khoảng cách xa Thanh Sương.",
+        images: [
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-hao-phat/nt-hao-phat-1.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-hao-phat/nt-hao-phat-2.jpg",
+            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-hao-phat/nt-hao-phat-3.webp"
+        ],
+        lat: 12.260,
+        lng: 109.198,
+        relatedPlaceId: "nt-haisan",
+        metadata: { distance: "3.1km", time: "6 phút", note: "Giá hợp lý, vị trí hơi xa" }
     }
 ];
 
@@ -531,10 +818,121 @@ export const extraPlaces: PlaceData[] = [
     }
 ];
 
-// Master Lists
+// 6. Thác Yang Bay
+export const yangBay: PlaceData = {
+    id: "nt-yangbay",
+    name: "Thác Yang Bay",
+    type: "ATTRACTION",
+    rating: 4.4,
+    priceLevel: "$$",
+    price: "140.000 - 200.000 VND/ng",
+    duration: "4-5 tiếng",
+    images: [
+        "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nha-trang/nt-yangbay/nt-yangbay-1.jpg",
+        "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nha-trang/nt-yangbay/nt-yangbay-2.jpg"
+    ],
+    address: "Khánh Phú, Khánh Vĩnh",
+    description: "Thác hùng vĩ, bao quanh bởi rừng núi, có suối nước nóng tự nhiên.",
+    lat: 12.181,
+    lng: 108.918,
+    metadata: { tags: ["#ThiênNhiên"] }
+};
+
+export const yangBayHotels: PlaceData[] = [
+    {
+        id: "nt-van-anh",
+        name: "Nhà nghỉ Vân Anh",
+        type: "HOTEL",
+        rating: 3.5,
+        priceLevel: "$",
+        price: "296.000 VND",
+        address: "Khánh Phú, Khánh Vĩnh",
+        description: "Gần Yang Bay, xa trung tâm Nha Trang.",
+        images: ["https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-van-anh/nt-van-anh-1.jpg"],
+        lat: 12.190,
+        lng: 108.920,
+        relatedPlaceId: "nt-yangbay",
+        metadata: { distance: "26.2km", time: "35 phút", note: "Giá rẻ, tiện khám phá" }
+    },
+    {
+        id: "nt-vung-vinh",
+        name: "Khách sạn Vùng Vịnh",
+        type: "HOTEL",
+        rating: 4.1,
+        priceLevel: "$$$",
+        price: "490.000 VND",
+        address: "Vĩnh Hòa, Nha Trang",
+        description: "Không gian đẹp, xa Thác Yang Bay.",
+        images: ["https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-vung-vinh/nt-vung-vinh-1.jpg"],
+        lat: 12.270,
+        lng: 109.198,
+        relatedPlaceId: "nt-yangbay",
+        metadata: { distance: "29km", time: "40 phút", note: "Đẹp, hơi xa" }
+    },
+    {
+        id: "nt-timi-homestay",
+        name: "Homestay Timi",
+        type: "HOTEL",
+        rating: 4.0,
+        priceLevel: "$$",
+        price: "390.000 VND",
+        address: "Nguyễn Thiện Thuật",
+        description: "Khoảng cách đến Thác Yang Bay chấp nhận được.",
+        images: ["https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-timi-homestay/nt-timi-homestay-1.jpg"],
+        lat: 12.238,
+        lng: 109.195,
+        relatedPlaceId: "nt-yangbay",
+        metadata: { distance: "23.2km", time: "32 phút", note: "Vị trí trung tâm" }
+    },
+    {
+        id: "nt-thanh-binh",
+        name: "Homestay Thanh Bình",
+        type: "HOTEL",
+        rating: 4.1,
+        priceLevel: "$",
+        price: "300.000 VND",
+        address: "Nguyễn Chánh",
+        description: "Thiết kế đẹp; khoảng cách trung bình.",
+        images: ["https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-thanh-binh/nt-thanh-binh-1.jpg"],
+        lat: 12.240,
+        lng: 109.196,
+        relatedPlaceId: "nt-yangbay",
+        metadata: { distance: "27.6km", time: "37 phút", note: "Phòng đẹp, xa Yang Bay" }
+    },
+    {
+        id: "nt-misa",
+        name: "Nhà nghỉ Misa",
+        type: "HOTEL",
+        rating: 3.3,
+        priceLevel: "$",
+        price: "250.000 VND",
+        address: "Tô Hiến Thành",
+        description: "Giá rẻ, thuận tiện di chuyển trong phố.",
+        images: ["https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-misa/nt-misa-1.jpg"],
+        lat: 12.235,
+        lng: 109.192,
+        relatedPlaceId: "nt-yangbay",
+        metadata: { distance: "27.7km", time: "38 phút", note: "Giá sinh viên" }
+    },
+    {
+        id: "nt-nha-nghi-nhu-y",
+        name: "Nhà nghỉ Như Ý 2",
+        type: "HOTEL",
+        rating: 3.0,
+        priceLevel: "$",
+        price: "180.000 VND",
+        address: "Hùng Vương",
+        description: "Giá siêu rẻ, tiết kiệm. Cách xa Yang Bay.",
+        images: ["https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-nha-nghi-nhu-y/nt-nha-nghi-nhu-y-1.webp"],
+        lat: 12.238,
+        lng: 109.196,
+        relatedPlaceId: "nt-yangbay",
+        metadata: { distance: "30km", time: "40 phút", note: "Phòng cơ bản, siêu rẻ" }
+    }
+];
+
 export const allNhaTrangPlaces = [
-    vinWonders, tour3Dao, quangTruong, nemNuong, haiSan
-    //, ...extraPlaces (Removed as requested: only 5 main places for the primary selection flow)
+    vinWonders, tour3Dao, quangTruong, nemNuong, haiSan, yangBay
 ];
 
 export const allNhaTrangHotels = [
@@ -542,5 +940,6 @@ export const allNhaTrangHotels = [
     ...tour3DaoHotels,
     ...quangTruongHotels,
     ...nemNuongHotels,
-    ...haiSanHotels
+    ...haiSanHotels,
+    ...yangBayHotels
 ];

@@ -155,6 +155,7 @@ export async function searchPlaces(params: SearchParams) {
     }
 
     // --- DB FALLBACK FOR OTHER CITIES ---
+    // DB FALLBACK FOR OTHER CITIES
     const places = await prisma.place.findMany({
       where: filters,
       select: {
@@ -174,6 +175,8 @@ export async function searchPlaces(params: SearchParams) {
       },
       take: 50,
     });
+
+    console.log("DB Places Query Images Format Check: ", places.length > 0 ? places[0].images : "No places");
 
     let tripId = null;
     if (params.destination) {

@@ -175,7 +175,10 @@ export default function SearchWidget() {
       style,
     });
 
-    // Save trip info to Zustand store
+    // Clear previous trip state before starting a new one
+    useTripStore.getState().clearTrip();
+
+    // Save new trip info to Zustand store
     setTripInfo({
       destination: destination,
       startDate: startDate || null,
