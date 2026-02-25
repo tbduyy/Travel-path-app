@@ -242,7 +242,19 @@ export function LoginPromptModal({
         </div>
 
         <p className="text-center text-xs text-gray-400 mt-4">
-          Chưa có tài khoản? Đăng ký chỉ mất 30 giây! 🚀
+          Chưa có tài khoản?{" "}
+          <button
+            onClick={() => {
+              const currentPath = typeof window !== "undefined"
+                ? window.location.pathname + window.location.search
+                : "/";
+              window.location.href = `/signup?redirect=${encodeURIComponent(currentPath)}`;
+            }}
+            className="text-[#2E968C] text-sm font-semibold hover:text-[#1B4D3E] hover:underline transition-colors"
+          >
+            Đăng ký chỉ mất 30 giây!
+          </button>{" "}
+          🚀
         </p>
       </div>
     </div>
