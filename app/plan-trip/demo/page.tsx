@@ -85,11 +85,11 @@ function DemoContent() {
       duration: "0:08",
     },
     {
-      url: "https://streamable.com/6akyhd?autoplay=1&muted=1&nocontrols=1&loop=1",
+      url: "https://streamable.com/e/6akyhd?autoplay=1&muted=1&nocontrols=1&loop=1",
       duration: "0:08",
     },
     {
-      url: "https://streamable.com/f2tlr2?autoplay=1&muted=1&nocontrols=1&loop=1",
+      url: "https://streamable.com/e/f2tlr2?autoplay=1&muted=1&nocontrols=1&loop=1",
       duration: "0:08",
     },
   ];
