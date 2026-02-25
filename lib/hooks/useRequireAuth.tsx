@@ -250,7 +250,7 @@ export function LoginPromptModal({
                 : "/";
               window.location.href = `/signup?redirect=${encodeURIComponent(currentPath)}`;
             }}
-            className="text-[#2E968C] text-xl font-semibold hover:text-[#1B4D3E] hover:underline transition-colors"
+            className="text-[#2E968C] text-sm font-semibold hover:text-[#1B4D3E] hover:underline transition-colors"
           >
             Đăng ký chỉ mất 30 giây!
           </button>{" "}
