@@ -109,7 +109,7 @@ function TripsContent() {
       ? storePlaceIds
       : searchParams.get("places")?.split(",") || [];
   const hotelId = storeHotelId || searchParams.get("hotel");
-  const destination = storeDestination || searchParams.get("destination");
+  const destination = storeDestination || searchParams.get("destination") || "Đà Lạt";
   const startDateParam = storeStartDate || searchParams.get("startDate");
   const endDateParam = storeEndDate || searchParams.get("endDate");
   const people = storePeople || parseInt(searchParams.get("people") || "2");
@@ -270,7 +270,7 @@ function TripsContent() {
           type: "HOTEL",
         });
 
-        let fetchedPlaces = [
+        let fetchedPlaces: any[] = [
           ...(result.data || []),
           ...(hotelResult.data || []),
         ];
@@ -295,15 +295,16 @@ function TripsContent() {
 
         // Determine which static extra places to use based on destination
         let activeExtraPlaces: any[] = [];
-        if (destination?.includes("Nha Trang") || destination?.includes("Nhatrang")) {
+        const normDest = destination.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d");
+        if (normDest.includes("nha trang") || normDest.includes("nhatrang")) {
           activeExtraPlaces = extraPlaces;
-        } else if (destination?.includes("Đà Lạt") || destination?.includes("Da Lat")) {
-          activeExtraPlaces = extraDaLatPlaces;
+        } else if (normDest.includes("da lat") || normDest.includes("dalat")) {
+          activeExtraPlaces = [...extraDaLatPlaces, ...extraDaLatHotels];
         }
 
         if (activeExtraPlaces.length > 0) {
-          // Combine them
-          fetchedPlaces = [...activeExtraPlaces, ...fetchedPlaces];
+          // Combine them, putting activeExtraPlaces LAST so it overwrites DB data in the deduplication step
+          fetchedPlaces = [...fetchedPlaces, ...(activeExtraPlaces as any[])];
 
           // Deduplicate by ID
           const uniqueMap = new Map();
@@ -640,16 +641,17 @@ function TripsContent() {
 
   // Directions for Suggestions: Only from activeExtraPlaces
   let activeExtraPlacesConfig: any[] = [];
-  if (destination?.includes("Nha Trang") || destination?.includes("Nhatrang")) {
+  const normDest2 = destination.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d");
+  if (normDest2.includes("nha trang") || normDest2.includes("nhatrang")) {
     activeExtraPlacesConfig = extraPlaces;
-  } else if (destination?.includes("Đà Lạt") || destination?.includes("Da Lat")) {
-    activeExtraPlacesConfig = extraDaLatPlaces;
+  } else if (normDest2.includes("da lat") || normDest2.includes("dalat")) {
+    activeExtraPlacesConfig = [...extraDaLatPlaces, ...extraDaLatHotels];
   }
 
   const extraPlaceIds = activeExtraPlacesConfig.map((e) => e.id);
   // Hotels are not in extraPlaces, so we just filter them by type
   const availableHotels = allPlaces.filter(
-    (p) => !placeIds.includes(p.id) && p.type === "HOTEL",
+    (p) => !placeIds.includes(p.id) && p.type?.toUpperCase() === "HOTEL",
   );
 
   const availablePlaces = allPlaces.filter((p) => !placeIds.includes(p.id));
@@ -657,10 +659,10 @@ function TripsContent() {
   // Suggestions are filtered to be ONLY items that exist in extraPlaces (as requested)
   // AND are strictly of the correct Type
   const availableAttractions = availablePlaces.filter(
-    (p) => p.type === "ATTRACTION" && extraPlaceIds.includes(p.id),
+    (p) => p.type?.toUpperCase() === "ATTRACTION" && extraPlaceIds.includes(p.id),
   );
   const availableRestaurants = availablePlaces.filter(
-    (p) => p.type === "RESTAURANT" && extraPlaceIds.includes(p.id),
+    (p) => p.type?.toUpperCase() === "RESTAURANT" && extraPlaceIds.includes(p.id),
   );
 
   // Debug: If destination is Nha Trang but availableAttractions is empty, it might be due to IDs

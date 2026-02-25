@@ -16,8 +16,10 @@ export const extraDaLatPlaces: PlaceData[] = [
         price: "200.000 – 300.000 VNĐ",
         duration: "60 – 90 phút",
         images: [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-com-nieu-nhu-ngoc/dl-com-nieu-nhu-ngoc-1.jpg"
-        ],
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-comnieunhungoc/dl-comnieunhungoc-1.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-comnieunhungoc/dl-comnieunhungoc-2.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-comnieunhungoc/dl-comnieunhungoc-3.jpg"
+      ],
         address: "Số 19 Hồ Tùng Mậu, Phường 3, TP. Đà Lạt",
         description: "Cơm niêu Như Ngọc là địa chỉ quen thuộc dành cho những ai muốn thưởng thức bữa cơm gia đình đúng chất Việt giữa lòng Đà Lạt. Quán nổi tiếng với cơm niêu nóng giòn đáy, ăn kèm các món truyền thống như cá kho, thịt kho, canh rau và cà pháo.",
         lat: 11.9385,
@@ -33,8 +35,10 @@ export const extraDaLatPlaces: PlaceData[] = [
         price: "20.000 – 60.000 VNĐ",
         duration: "45 – 90 phút",
         images: [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-an-cafe/dl-an-cafe-1.webp"
-        ],
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-ancafe/dl-ancafe-1.webp",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-ancafe/dl-ancafe-2.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-ancafe/dl-ancafe-3.webp"
+      ],
         address: "Số 63 Bis Ba Tháng Hai, Phường 1, TP. Đà Lạt",
         description: "An Cafe là không gian cà phê mang phong cách mộc mạc, gần gũi với thiên nhiên, nổi bật với nhiều góc ngồi ngoài trời dưới tán cây xanh. Yên tĩnh, nhẹ nhàng.",
         lat: 11.9445,
@@ -50,8 +54,9 @@ export const extraDaLatPlaces: PlaceData[] = [
         price: "50.000 VNĐ",
         duration: "60 phút",
         images: [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-lang-hoa-van-thanh/dl-lang-hoa-van-thanh-1.webp"
-        ],
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-langhoavanthanh/dl-langhoavanthanh-1.webp",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-langhoavanthanh/dl-langhoavanthanh-2.jpg"
+      ],
         address: "Đường Vạn Thành, Phường 5, TP. Đà Lạt",
         description: "Làng hoa Vạn Thành là một trong những làng hoa lâu đời và lớn nhất Đà Lạt, nổi tiếng với các vườn hoa và nhà kính trải dài.",
         lat: 11.9367,
@@ -67,8 +72,10 @@ export const extraDaLatPlaces: PlaceData[] = [
         price: "120.000 VNĐ",
         duration: "75 phút",
         images: [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-fresh-garden/dl-fresh-garden-1.jpg"
-        ],
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-freshgarden/dl-freshgarden-1.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-freshgarden/dl-freshgarden-2.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-freshgarden/dl-freshgarden-3.jpg"
+      ],
         address: "90B Vạn Thành, Phường 5, TP. Đà Lạt",
         description: "Khu du lịch sinh thái nổi bật với vườn hoa nhiều màu sắc, cối xay gió, cổng trời và các tiểu cảnh thiết kế theo phong cách châu Âu.",
         lat: 11.9360,
@@ -84,8 +91,10 @@ export const extraDaLatPlaces: PlaceData[] = [
         price: "20.000 – 30.000 VNĐ",
         duration: "70 phút",
         images: [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-thac-voi/dl-thac-voi-1.jpg"
-        ],
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-thacvoi/dl-thacvoi-1.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-thacvoi/dl-thacvoi-2.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-thacvoi/dl-thacvoi-3.jpg"
+      ],
         address: "Xã Gia Lâm, Huyện Lâm Hà, Tỉnh Lâm Đồng",
         description: "Thác Voi là thác nước tự nhiên hùng vĩ nằm giữa không gian núi rừng hoang sơ. Dòng thác đổ mạnh tạo nên khung cảnh ấn tượng.",
         lat: 11.8228,
@@ -101,8 +110,9 @@ export const extraDaLatPlaces: PlaceData[] = [
         price: "40.000 VNĐ",
         duration: "90 phút",
         images: [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-dinh-bao-dai-iii/dl-dinh-bao-dai-iii-1.jpg"
-        ],
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-dinhbaodai3/dl-dinhbaodai3-1.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-dinhbaodai3/dl-dinhbaodai3-2.jpg"
+      ],
         address: "Số 01 Triệu Việt Vương, Phường 4, TP. Đà Lạt",
         description: "Dinh thự nghỉ dưỡng của vị vua cuối cùng triều Nguyễn, mang phong cách kiến trúc Pháp cổ điển, trang nhã.",
         lat: 11.9304,
@@ -118,8 +128,10 @@ export const extraDaLatPlaces: PlaceData[] = [
         price: "Miễn phí",
         duration: "90 phút",
         images: [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-thien-vien-truc-lam/dl-thien-vien-truc-lam-1.jpg"
-        ],
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-thienvientruclam/dl-thienvientruclam-1.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-thienvientruclam/dl-thienvientruclam-2.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-thienvientruclam/dl-thienvientruclam-3.jpg"
+      ],
         address: "Núi Phụng Hoàng, Phường 4, TP. Đà Lạt",
         description: "Một trong những thiền viện lớn và đẹp nhất Việt Nam, tọa lạc trên núi Phụng Hoàng, nhìn ra Hồ Tuyền Lâm.",
         lat: 11.9048,
@@ -152,8 +164,11 @@ export const extraDaLatPlaces: PlaceData[] = [
         price: "Miễn phí",
         duration: "60 – 90 phút",
         images: [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-ho-xuan-huong/dl-ho-xuan-huong-1.webp"
-        ],
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-hoxuanhuong/dl-hoxuanhuong-1.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-hoxuanhuong/dl-hoxuanhuong-2.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-hoxuanhuong/dl-hoxuanhuong-3.webp",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-hoxuanhuong/dl-hoxuanhuong-4.webp"
+      ],
         address: "Phường 1 & Phường 10, TP. Đà Lạt",
         description: "Biểu tượng trung tâm của Đà Lạt với mặt nước phẳng lặng, hàng thông và không khí mát mẻ. Phù hợp dạo bộ, ngắm cảnh.",
         lat: 11.9416,
@@ -169,8 +184,10 @@ export const extraDaLatPlaces: PlaceData[] = [
         price: "50.000 - 170.000 VNĐ",
         duration: "90 phút",
         images: [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-khu-du-lich-nui-langbiang/dl-khu-du-lich-nui-langbiang-1.jpg"
-        ],
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-langbiang/dl-langbiang-1.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-langbiang/dl-langbiang-2.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-langbiang/dl-langbiang-3.jpg"
+      ],
         address: "Thị trấn Lạc Dương, Tỉnh Lâm Đồng",
         description: "Khám phá ngọn núi biểu tượng của Đà Lạt, tham quan chân núi hoặc trải nghiệm xe Jeep lên đỉnh Radar ngắm trọn thành phố.",
         lat: 12.0463,
@@ -203,8 +220,10 @@ export const extraDaLatPlaces: PlaceData[] = [
         price: "70.000 – 80.000 VNĐ",
         duration: "90 phút",
         images: [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-vuon-hoa-thanh-pho-da-lat/dl-vuon-hoa-thanh-pho-da-lat-1.jpg"
-        ],
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-vuonhoathanhpho/dl-vuonhoathanhpho-1.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-vuonhoathanhpho/dl-vuonhoathanhpho-2.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-vuonhoathanhpho/dl-vuonhoathanhpho-3.jpg"
+      ],
         address: "Đường Trần Quốc Toản, Phường 8, TP. Đà Lạt",
         description: "Điểm đến quen thuộc với hàng trăm loài hoa đặc trưng của Đà Lạt được trưng bày rực rỡ theo mùa.",
         lat: 11.9472,
@@ -220,8 +239,10 @@ export const extraDaLatPlaces: PlaceData[] = [
         price: "60.000 – 120.000 VNĐ",
         duration: "60 phút",
         images: [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-horizon-coffee/dl-horizon-coffee-1.jpg"
-        ],
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-horizoncoffee/dl-horizoncoffee-1.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-horizoncoffee/dl-horizoncoffee-2.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-horizoncoffee/dl-horizoncoffee-3.jpg"
+      ],
         address: "Số 31/6 đường 3 Tháng 4, Phường 3, TP. Đà Lạt",
         description: "Nổi tiếng với không gian mở và tầm nhìn cao, bao quát rừng thông và thung lũng. Quán thiết kế tối giản, nhiều góc sống ảo.",
         lat: 11.9312,
@@ -237,8 +258,10 @@ export const extraDaLatPlaces: PlaceData[] = [
         price: "250.000 – 350.000 VNĐ",
         duration: "90 phút",
         images: [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-nha-hang-memory/dl-nha-hang-memory-1.webp"
-        ],
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-nhahangmemory/dl-nhahangmemory-1.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-nhahangmemory/dl-nhahangmemory-2.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-nhahangmemory/dl-nhahangmemory-3.webp"
+      ],
         address: "Số 24B Hùng Vương, Phường 10, TP. Đà Lạt",
         description: "Mang phong cách lãng mạn, ấm cúng. Thực đơn đa dạng từ món Việt đến món Âu, không gian yên tĩnh.",
         lat: 11.9416,
@@ -254,8 +277,10 @@ export const extraDaLatPlaces: PlaceData[] = [
         price: "100.000 – 120.000 VNĐ",
         duration: "90 phút",
         images: [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-mongo-land-da-lat/dl-mongo-land-da-lat-1.png"
-        ],
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-mongoland/dl-mongoland-1.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-mongoland/dl-mongoland-2.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-mongoland/dl-mongoland-3.png"
+      ],
         address: "Tổ 16, Thôn 1, Xã Tà Nung, TP. Đà Lạt",
         description: "Phong cách thảo nguyên Mông Cổ thu nhỏ với lều trại, trang phục và tiểu cảnh độc đáo để chụp ảnh trải nghiệm.",
         lat: 11.9056,
@@ -271,9 +296,9 @@ export const extraDaLatPlaces: PlaceData[] = [
         price: "100.000 VNĐ",
         duration: "75 phút",
         images: [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-hoa-son-dien-trang-1.jpg",
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-hoa-son-dien-trang-2.jpg"
-        ],
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-hoasondientrang/dl-hoasondientrang-1.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-hoasondientrang/dl-hoasondientrang-2.jpg"
+      ],
         address: "Tiểu khu 159, Phường 5, TP. Đà Lạt",
         description: "Nổi bật với các điểm check-in như Cổng Trời, Bàn tay Phật và rừng thông xanh mát thiên nhiên yên bình.",
         lat: 11.9216,
@@ -289,9 +314,10 @@ export const extraDaLatPlaces: PlaceData[] = [
         price: "180.000 – 250.000 VNĐ",
         duration: "60 phút",
         images: [
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-nha-hang-ta-nung-xua-1.jpg",
-            "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-nha-hang-ta-nung-xua-2.webp"
-        ],
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-tanungxua/dl-tanungxua-1.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-tanungxua/dl-tanungxua-2.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-tanungxua/dl-tanungxua-3.jpg"
+      ],
         address: "Thôn 1, Xã Tà Nung, TP. Đà Lạt",
         description: "Phục vụ các món địa phương đặc trưng như gà nướng, cơm lam và lẩu. Không gian thiên nhiên mát mẻ.",
         lat: 11.9051,

@@ -33,7 +33,7 @@ export const vinWonders: PlaceData = {
         "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-vinwonders/nt-vinwonders-3.jpg"
     ],
     address: "Đảo Hòn Tre, Nha Trang",
-    description: "Công viên VinWonders Nha Trang tọa lạc trên đảo Hòn Tre, được xem là thiên đường vui chơi – giải trí hàng đầu với hệ thống cáp treo vượt biển độc đáo.",
+    description: "Công viên VinWonders Nha Trang tọa lạc trên đảo Hòn Tre, được xem là thiên đường vui chơi – giải trí hàng đầu với hệ thống cáp treo vượt biển độc đáo và quần thể giải trí đẳng cấp quốc tế. Nơi đây hội tụ đa dạng trải nghiệm từ các trò chơi cảm giác mạnh, công viên nước sôi động, thủy cung kỳ thú đến khu vui chơi gia đình và những màn trình diễn ấn tượng. Phù hợp với mọi độ tuổi, VinWonders là điểm đến không thể bỏ qua trong hành trình khám phá Nha Trang.",
     lat: 12.2146,
     lng: 109.2458,
     metadata: { tags: ["#NgoàiTrời", "#KhámPhá", "#VuiChơi"] }
@@ -46,7 +46,7 @@ export const vinWondersHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 5.0,
         priceLevel: "$$$$",
-        price: "3.700.000 VND/đêm",
+        price: "3.700.000 VND/phòng/ngày",
         address: "Trần Phú, Nha Trang",
         description: "Khách sạn 5 sao tiện nghi hàng đầu. Bao gồm 2 vé VinWonders 2 ngày.",
         images: [
@@ -57,7 +57,7 @@ export const vinWondersHotels: PlaceData[] = [
         lat: 12.235,
         lng: 109.196,
         relatedPlaceId: "nt-vinwonders",
-        metadata: { distance: "4.5 km", time: "11 phút", note: "Giá cao nhưng bao gồm vé VinWonders" }
+        metadata: { distance: "4.5 km", time: "11 phút", note: "Giá hơi cao hơn mặt bằng chung nhưng đã bao gồm vé VinWonders 2N1Đ nên vẫn hợp lý, đồng thời thuộc nhóm khách sạn 5 sao tiện nghi hàng đầu tại Nha Trang." }
     },
     {
         id: "nt-hotel-dendro",
@@ -65,7 +65,7 @@ export const vinWondersHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.2,
         priceLevel: "$$",
-        price: "348.000 VND/đêm",
+        price: "348.000 VND/ngày",
         address: "Trần Phú, Nha Trang",
         description: "Đối diện biển, không gian thoáng và giá khá bình dân.",
         images: [
@@ -76,7 +76,7 @@ export const vinWondersHotels: PlaceData[] = [
         lat: 12.231,
         lng: 109.197,
         relatedPlaceId: "nt-vinwonders",
-        metadata: { distance: "3.6 km", time: "7 phút", note: "Đối diện biển, giá bình dân" }
+        metadata: { distance: "3.6 km", time: "7 phút", note: "Khách sạn nằm giữa trung tâm và VinWonders nên hơi bất tiện đi dạo trong trung tâm, bù lại đối diện biển, không gian thoáng và giá khá bình dân." }
     },
     {
         id: "nt-hotel-dubai",
@@ -84,7 +84,7 @@ export const vinWondersHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.0,
         priceLevel: "$",
-        price: "280.000 VND/đêm",
+        price: "280.000 VND/ngày",
         address: "Trung tâm Nha Trang",
         description: "Khách sạn có mức giá rẻ và nằm trong trung tâm thành phố.",
         images: [
@@ -95,7 +95,7 @@ export const vinWondersHotels: PlaceData[] = [
         lat: 12.240,
         lng: 109.195,
         relatedPlaceId: "nt-vinwonders",
-        metadata: { distance: "5 km", time: "15 phút", note: "Giá rẻ, trung tâm phố" }
+        metadata: { distance: "5 km", time: "15 phút", note: "Vị trí khá xa VinWonders nên việc di chuyển chưa thật sự thuận tiện, bù lại khách sạn có mức giá rẻ và nằm trong trung tâm thành phố, phù hợp với du khách ưu tiên tiết kiệm chi phí." }
     },
     {
         id: "nt-cliff-house",
@@ -103,7 +103,7 @@ export const vinWondersHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.2,
         priceLevel: "$$",
-        price: "400.000 VND",
+        price: "400.000 VND/ngày",
         address: "12c Đường Trần Phú, Phường Vĩnh Nguyên",
         description: "Gần VinWonders giúp việc di chuyển thuận tiện; tuy nhiên cách xa trung tâm.",
         images: [
@@ -114,7 +114,7 @@ export const vinWondersHotels: PlaceData[] = [
         lat: 12.210,
         lng: 109.208,
         relatedPlaceId: "nt-vinwonders",
-        metadata: { distance: "500m", time: "1 phút", note: "Gần VinWonders, xa trung tâm" }
+        metadata: { distance: "500m", time: "1 phút", note: "Vị trí gần VinWonders giúp việc di chuyển thuận tiện; tuy nhiên, do cách xa trung tâm nên chi phí di chuyển giữa các điểm tham quan trong khu vực trung tâm khá cao." }
     },
     {
         id: "nt-ba-sao",
@@ -122,7 +122,7 @@ export const vinWondersHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 3.8,
         priceLevel: "$",
-        price: "220.000 VND",
+        price: "220.000 VND/ngày",
         address: "37 Đường Thích Quảng Đức, Phước Trung",
         description: "Giá phòng rẻ, phù hợp lưu trú ngắn ngày; nhưng không nằm gần VinWonders.",
         images: [
@@ -133,7 +133,7 @@ export const vinWondersHotels: PlaceData[] = [
         lat: 12.235,
         lng: 109.185,
         relatedPlaceId: "nt-vinwonders",
-        metadata: { distance: "4.3km", time: "9 phút", note: "Giá rẻ, cân nhắc chi phí di chuyển" }
+        metadata: { distance: "4.3km", time: "9 phút", note: "Giá phòng rẻ, phù hợp lưu trú ngắn ngày; nhưng không nằm gần VinWonders, cần cân nhắc chi phí di chuyển." }
     },
     {
         id: "nt-aqua-seaview",
@@ -141,7 +141,7 @@ export const vinWondersHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.5,
         priceLevel: "$$",
-        price: "405.000 VND",
+        price: "405.000 VND/ngày",
         address: "Hẻm 9C, Số 11D, Đường Trần Phú, Vĩnh Nguyên",
         description: "Gần biển, phù hợp nghỉ dưỡng; cách VinWonders không xa.",
         images: [
@@ -152,7 +152,7 @@ export const vinWondersHotels: PlaceData[] = [
         lat: 12.215,
         lng: 109.205,
         relatedPlaceId: "nt-vinwonders",
-        metadata: { distance: "3.5km", time: "7 phút", note: "Gần biển, giá cao hơn bình dân" }
+        metadata: { distance: "3.5km", time: "7 phút", note: "Gần biển, phù hợp nghỉ dưỡng; cách VinWonders không xa nhưng chi phí lưu trú cao hơn so với các khách sạn giá rẻ." }
     }
 ];
 
@@ -172,7 +172,7 @@ export const tour3Dao: PlaceData = {
         "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-tour3dao/nt-tour3dao-4.jpg"
     ],
     address: "Cảng Nha Trang",
-    description: "Khám phá Hòn Mun – làng chài – Mini Beach, lặn ngắm san hô và thưởng thức hải sản.",
+    description: "Tour 3 đảo Nha Trang đưa du khách khám phá Hòn Mun – làng chài – Mini Beach, mang đến trải nghiệm trọn vẹn giữa thiên nhiên biển xanh trong lành. Bạn sẽ được tắm biển, lặn ngắm san hô rực rỡ tại Hòn Mun, tìm hiểu đời sống mộc mạc của ngư dân làng chài và thưởng thức hải sản tươi ngon. Hành trình kết thúc tại Mini Beach yên bình, nơi lý tưởng để thư giãn và tận hưởng nắng gió biển. Tour có hướng dẫn viên đồng hành và hỗ trợ đưa đón tận khách sạn, giúp chuyến đi thêm thuận tiện và thoải mái.",
     lat: 12.2023,
     lng: 109.214,
     metadata: { tags: ["#BiểnĐảo", "#LặnNgắm", "#HảiSản"] }
@@ -185,7 +185,7 @@ export const tour3DaoHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 3.8,
         priceLevel: "$",
-        price: "257.000 VND/đêm",
+        price: "257.000 VND/ngày",
         address: "Gần trung tâm",
         description: "Khách sạn gần trung tâm và có mức giá ưu đãi.",
         images: [
@@ -196,7 +196,7 @@ export const tour3DaoHotels: PlaceData[] = [
         lat: 12.230,
         lng: 109.194,
         relatedPlaceId: "nt-tour3dao",
-        metadata: { distance: "1.7 km (từ TT)", time: "7 phút", note: "Giá ưu đãi, nhanh hết phòng" }
+        metadata: { distance: "1.7 km (từ TT)", time: "7 phút", note: "Khách sạn gần trung tâm và có mức giá ưu đãi nên thường nhanh hết phòng; bên cạnh đó, đánh giá của khách hàng về chất lượng phòng vẫn còn chưa đồng nhất." }
     },
     {
         id: "nt-hotel-brilliant",
@@ -204,7 +204,7 @@ export const tour3DaoHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.0,
         priceLevel: "$",
-        price: "300.000 VND/đêm",
+        price: "300.000 VND/ngày",
         address: "Phía Bắc Nha Trang",
         description: "Sở hữu view biển đối diện thoáng đẹp.",
         images: [
@@ -213,7 +213,7 @@ export const tour3DaoHotels: PlaceData[] = [
         lat: 12.250,
         lng: 109.198,
         relatedPlaceId: "nt-tour3dao",
-        metadata: { distance: "3 km (từ TT)", time: "10 phút", note: "View biển đẹp, hơi xa trung tâm" }
+        metadata: { distance: "3 km (từ TT)", time: "10 phút", note: "Vị trí hơi xa trung tâm, bù lại sở hữu view biển đối diện thoáng đẹp." }
     },
     {
         id: "nt-hotel-palm",
@@ -221,7 +221,7 @@ export const tour3DaoHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.1,
         priceLevel: "$$",
-        price: "347.000 VND/đêm",
+        price: "347.000 VND/ngày",
         address: "Khu phố Tây",
         description: "Nằm gần trung tâm và thuận tiện di chuyển đến các điểm du lịch.",
         images: [
@@ -232,7 +232,7 @@ export const tour3DaoHotels: PlaceData[] = [
         lat: 12.23439,
         lng: 109.1966,
         relatedPlaceId: "nt-tour3dao",
-        metadata: { distance: "1.8 km (từ TT)", time: "6 phút", note: "Thuận tiện di chuyển" }
+        metadata: { distance: "1.8 km (từ TT)", time: "6 phút", note: "Mức giá không quá nổi bật so với mặt bằng phân khúc, nhưng bù lại nằm gần trung tâm và thuận tiện di chuyển đến các điểm du lịch." }
     },
     {
         id: "nt-vitamin-sea-homestay",
@@ -240,7 +240,7 @@ export const tour3DaoHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.3,
         priceLevel: "$$",
-        price: "320.000 VND",
+        price: "320.000 VND/ngày",
         address: "Số 35/4D Tô Hiến Thành, Phường Tân Lập",
         description: "Vị trí gần trung tâm thành phố, thuận tiện di chuyển; tuy nhiên không đối diện biển.",
         images: [
@@ -251,7 +251,7 @@ export const tour3DaoHotels: PlaceData[] = [
         lat: 12.240,
         lng: 109.192,
         relatedPlaceId: "nt-tour3dao",
-        metadata: { distance: "1km", time: "4 phút", note: "Gần trung tâm, không đối diện biển" }
+        metadata: { distance: "1km", time: "4 phút", note: "Vị trí gần trung tâm thành phố, thuận tiện di chuyển; tuy nhiên không đối diện biển." }
     },
     {
         id: "nt-sen-vang-luxury",
@@ -259,7 +259,7 @@ export const tour3DaoHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.1,
         priceLevel: "$",
-        price: "265.000 VND",
+        price: "265.000 VND/ngày",
         address: "Số 12 Biệt Thự, Phường Lộc Thọ",
         description: "Giá rẻ, gần trung tâm thành phố; tuy nhiên không đối diện biển.",
         images: [
@@ -270,7 +270,7 @@ export const tour3DaoHotels: PlaceData[] = [
         lat: 12.238,
         lng: 109.195,
         relatedPlaceId: "nt-tour3dao",
-        metadata: { distance: "1.3km", time: "4 phút", note: "Giá rẻ, gần trung tâm" }
+        metadata: { distance: "1.3km", time: "4 phút", note: "Giá rẻ, gần trung tâm thành phố; tuy nhiên không đối diện biển." }
     },
     {
         id: "nt-nha-trang-prince",
@@ -278,7 +278,7 @@ export const tour3DaoHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 5.0,
         priceLevel: "$$$",
-        price: "540.000 VND",
+        price: "540.000 VND/ngày",
         address: "Số 02-04 Phan Bội Châu, Phường Xương Huân",
         description: "Gần trung tâm thành phố, tiêu chuẩn 5 sao; mức giá cao hơn bình dân.",
         images: [
@@ -289,7 +289,7 @@ export const tour3DaoHotels: PlaceData[] = [
         lat: 12.250,
         lng: 109.195,
         relatedPlaceId: "nt-tour3dao",
-        metadata: { distance: "2km", time: "6 phút", note: "Khách sạn sao, giá cao" }
+        metadata: { distance: "2km", time: "6 phút", note: "Gần trung tâm thành phố, khách sạn tiêu chuẩn 5 sao; tuy nhiên mức giá cao hơn so với các lựa chọn lưu trú bình dân." }
     }
 ];
 
@@ -307,7 +307,7 @@ export const quangTruong: PlaceData = {
         "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-quangtruong/nt-quangtruong-2.jpg"
     ],
     address: "Trung tâm Nha Trang",
-    description: "Biểu tượng du lịch sôi động và trái tim văn hóa của thành phố biển với tháp Trầm Hương.",
+    description: "Quảng trường 2/4 tọa lạc tại trung tâm thành phố Nha Trang, Khánh Hòa, là biểu tượng du lịch sôi động và trái tim văn hóa của thành phố biển. Nổi bật với tháp Trầm Hương độc đáo, nơi đây là điểm dừng chân không thể bỏ qua để dạo bộ, thưởng thức ẩm thực, và tham gia các sự kiện, lễ hội lớn.",
     lat: 12.2388,
     lng: 109.1967,
     metadata: { tags: ["#VănHóa", "#CheckIn", "#ThànhPhố"] }
@@ -320,7 +320,7 @@ export const quangTruongHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.3,
         priceLevel: "$$",
-        price: "338.000 VND/đêm",
+        price: "338.000 VND/ngày",
         address: "Gần Quảng trường",
         description: "Khách sạn đối diện biển và nằm gần quảng trường cùng các điểm du lịch.",
         images: [
@@ -331,7 +331,7 @@ export const quangTruongHotels: PlaceData[] = [
         lat: 12.239,
         lng: 109.196,
         relatedPlaceId: "nt-quangtruong",
-        metadata: { distance: "250m", time: "1 phút", note: "Gần sát quảng trường, cần đặt trước" }
+        metadata: { distance: "250m", time: "1 phút", note: "Giá hơi nhỉnh so với mặt bằng chung và cần đặt trước (không hoàn hủy do phòng rất hot, nhanh kín), bù lại khách sạn đối diện biển và nằm gần quảng trường cùng các điểm du lịch." }
     },
     {
         id: "nt-hotel-lesoleil",
@@ -339,7 +339,7 @@ export const quangTruongHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.4,
         priceLevel: "$$",
-        price: "360.000 VND/đêm",
+        price: "360.000 VND/ngày",
         address: "Gần Quảng trường",
         description: "Có kèm bữa sáng miễn phí và vị trí gần trung tâm.",
         images: [
@@ -350,7 +350,7 @@ export const quangTruongHotels: PlaceData[] = [
         lat: 12.240,
         lng: 109.196,
         relatedPlaceId: "nt-quangtruong",
-        metadata: { distance: "350m", time: "1 phút", note: "Kèm bữa sáng, tiện di chuyển" }
+        metadata: { distance: "350m", time: "1 phút", note: "Mức giá không quá ưu đãi, nhưng có kèm bữa sáng miễn phí và vị trí gần trung tâm, thuận tiện di chuyển." }
     },
     {
         id: "nt-hotel-nangbien",
@@ -358,7 +358,7 @@ export const quangTruongHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 3.5,
         priceLevel: "$",
-        price: "266.000 VND/đêm",
+        price: "266.000 VND/ngày",
         address: "Đường Trần Phú",
         description: "Khách sạn có vị trí đối diện biển và gần các điểm du lịch.",
         images: [
@@ -369,7 +369,7 @@ export const quangTruongHotels: PlaceData[] = [
         lat: 12.235,
         lng: 109.197,
         relatedPlaceId: "nt-quangtruong",
-        metadata: { distance: "950m", time: "3 phút", note: "Giá rẻ, đối diện biển" }
+        metadata: { distance: "950m", time: "3 phút", note: "Do mức giá rẻ nên chất lượng chỉ ở mức cơ bản so với phân khúc, bù lại khách sạn có vị trí đối diện biển và gần các điểm du lịch." }
     },
     {
         id: "nt-corgi-house-central",
@@ -377,7 +377,7 @@ export const quangTruongHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.6,
         priceLevel: "$$$",
-        price: "630.000 VND",
+        price: "630.000 VND/ngày",
         address: "Số 105/9A Hoàng Hoa Thám, Phường Lộc Thọ",
         description: "Phòng rộng, đầy đủ tiện nghi; vị trí trung tâm thuận tiện di chuyển.",
         images: [
@@ -388,7 +388,7 @@ export const quangTruongHotels: PlaceData[] = [
         lat: 12.245,
         lng: 109.195,
         relatedPlaceId: "nt-quangtruong",
-        metadata: { distance: "850m", time: "4 phút", note: "Giá tương đối cao, tiện nghi" }
+        metadata: { distance: "850m", time: "4 phút", note: "Phòng rộng, đầy đủ tiện nghi; vị trí trung tâm thuận tiện di chuyển, nhưng giá lưu trú cao hơn các lựa chọn bình dân." }
     },
     {
         id: "nt-anna-beach",
@@ -396,7 +396,7 @@ export const quangTruongHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.4,
         priceLevel: "$$$",
-        price: "490.000 VND",
+        price: "490.000 VND/ngày",
         address: "Số 37/10 Hoàng Diệu, Phường Vĩnh Nguyên",
         description: "Phòng đẹp, rộng và thiết kế sang trọng; tuy nhiên không có view biển và mức giá khá cao.",
         images: [
@@ -407,7 +407,7 @@ export const quangTruongHotels: PlaceData[] = [
         lat: 12.220,
         lng: 109.198,
         relatedPlaceId: "nt-quangtruong",
-        metadata: { distance: "600m", time: "4 phút", note: "Không view biển, giá cao" }
+        metadata: { distance: "600m", time: "4 phút", note: "Phòng đẹp, rộng và thiết kế sang trọng; tuy nhiên không có view biển và mức giá khá cao." }
     },
     {
         id: "nt-golden",
@@ -415,7 +415,7 @@ export const quangTruongHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.2,
         priceLevel: "$$",
-        price: "320.000 VND",
+        price: "320.000 VND/ngày",
         address: "Số 82 Hùng Vương, Phường Lộc Thọ",
         description: "Có view biển, phòng rộng và thiết kế sang trọng trong khi mức giá khá cạnh tranh.",
         images: [
@@ -426,7 +426,7 @@ export const quangTruongHotels: PlaceData[] = [
         lat: 12.240,
         lng: 109.196,
         relatedPlaceId: "nt-quangtruong",
-        metadata: { distance: "700m", time: "3 phút", note: "View biển đẹp, giá cạnh tranh" }
+        metadata: { distance: "700m", time: "3 phút", note: "Có view biển, phòng rộng và thiết kế sang trọng trong khi mức giá khá cạnh tranh ở phân khúc hạng trung." }
     }
 ];
 
@@ -437,7 +437,7 @@ export const nemNuong: PlaceData = {
     type: "RESTAURANT",
     rating: 4.5,
     priceLevel: "$",
-    price: "50-70k/người",
+    price: "~50.000-70.000 VND/người",
     duration: "30-45 phút",
     images: [
         "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-nemnuong/nt-nemnuong-1.jpg",
@@ -445,7 +445,7 @@ export const nemNuong: PlaceData = {
         "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-nemnuong/nt-nemnuong-3.jpg"
     ],
     address: "Lê Lợi / Phan Bội Châu",
-    description: "Địa chỉ ẩm thực quen thuộc tại Nha Trang, nổi tiếng với các món đặc sản mang đậm hương vị địa phương.",
+    description: "Nem nướng Đặng Văn Quyên là địa chỉ ẩm thực quen thuộc tại Nha Trang, nổi tiếng với các món đặc sản mang đậm hương vị địa phương. Nhờ hương vị đặc trưng, khó quên, quán luôn thu hút đông đảo thực khách ghé thưởng thức.",
     lat: 12.2475,
     lng: 109.192,
     metadata: { tags: ["#ẨmThực", "#ĐặcSản"] }
@@ -458,7 +458,7 @@ export const nemNuongHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 3.9,
         priceLevel: "$",
-        price: "245.000 VND/đêm",
+        price: "245.000 VND/ngày",
         address: "Trung tâm",
         description: "Gần các khu ăn uống và chợ, thuận tiện đi lại.",
         images: [
@@ -469,7 +469,7 @@ export const nemNuongHotels: PlaceData[] = [
         lat: 12.247,
         lng: 109.192,
         relatedPlaceId: "nt-nemnuong",
-        metadata: { distance: "210m", time: "1 phút", note: "Gần khu ăn uống, không sát biển" }
+        metadata: { distance: "210m", time: "1 phút", note: "Không nằm sát biển và không có view hướng biển, bù lại gần các khu ăn uống và chợ, thuận tiện đi lại." }
     },
     {
         id: "nt-hotel-ckd",
@@ -477,7 +477,7 @@ export const nemNuongHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.5,
         priceLevel: "$$$",
-        price: "500.000 VND/đêm",
+        price: "500.000 VND/ngày",
         address: "Trung tâm",
         description: "Nằm gần khu ăn uống và có thể dễ dàng đi bộ.",
         images: [
@@ -487,7 +487,7 @@ export const nemNuongHotels: PlaceData[] = [
         lat: 12.248,
         lng: 109.1925,
         relatedPlaceId: "nt-nemnuong",
-        metadata: { distance: "140m", time: "1 phút", note: "Tiện nghi tốt, ngay trung tâm" }
+        metadata: { distance: "140m", time: "1 phút", note: "Mức giá ở mức trung bình–cao, bù lại nằm gần khu ăn uống và có thể dễ dàng đi bộ." }
     },
     {
         id: "nt-hotel-maika",
@@ -495,7 +495,7 @@ export const nemNuongHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.0,
         priceLevel: "$$",
-        price: "344.000 VND/đêm",
+        price: "344.000 VND/ngày",
         address: "Nguyễn Thiện Thuật",
         description: "Gần các địa điểm checkin, ăn uống hot trend.",
         images: [
@@ -505,7 +505,7 @@ export const nemNuongHotels: PlaceData[] = [
         lat: 12.240,
         lng: 109.194,
         relatedPlaceId: "nt-nemnuong",
-        metadata: { distance: "1km", time: "3 phút", note: "Gần phố Tây, ăn uống" }
+        metadata: { distance: "1km", time: "3 phút", note: "Không nằm sát biển và không có view hướng biển, bù lại gần các địa điểm checkin, ăn uống hot trend." }
     },
     {
         id: "nt-yen-vang",
@@ -513,7 +513,7 @@ export const nemNuongHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 3.9,
         priceLevel: "$$",
-        price: "320.000 VND",
+        price: "320.000 VND/ngày",
         address: "Số 01 Nguyễn Chính, Phường Xương Huân",
         description: "Không gần biển, không có view biển; sát phố ẩm thực nổi tiếng.",
         images: [
@@ -524,7 +524,7 @@ export const nemNuongHotels: PlaceData[] = [
         lat: 12.248,
         lng: 109.192,
         relatedPlaceId: "nt-nemnuong",
-        metadata: { distance: "120m", time: "1 phút", note: "Gần phố đi bộ, không view biển" }
+        metadata: { distance: "120m", time: "1 phút", note: "Không gần biển, không có view biển; giá chưa nổi bật nhưng gần các điểm check-in, ăn uống hot." }
     },
     {
         id: "nt-nha-trang-pearl",
@@ -532,7 +532,7 @@ export const nemNuongHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.1,
         priceLevel: "$",
-        price: "295.000 VND",
+        price: "295.000 VND/ngày",
         address: "Số 22 Phan Bội Châu, Phường Xương Huân",
         description: "Vị trí rất gần khu ăn uống nổi tiếng, thuận tiện di chuyển; tuy nhiên không nằm sát biển.",
         images: [
@@ -543,7 +543,7 @@ export const nemNuongHotels: PlaceData[] = [
         lat: 12.249,
         lng: 109.192,
         relatedPlaceId: "nt-nemnuong",
-        metadata: { distance: "26m", time: "1 phút", note: "Rất sát khu ăn uống" }
+        metadata: { distance: "26m", time: "1 phút", note: "Vị trí rất gần khu ăn uống nổi tiếng, thuận tiện di chuyển; tuy nhiên không nằm sát biển và không có view hướng biển." }
     },
     {
         id: "nt-doimoi-family",
@@ -551,7 +551,7 @@ export const nemNuongHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.3,
         priceLevel: "$$$",
-        price: "500.000 VND",
+        price: "500.000 VND/ngày",
         address: "Số 55 Hai Bà Trưng, Phường Xương Huân",
         description: "Vị trí gần ăn uống, phù hợp đi theo nhóm hoặc gia đình. Mức giá khá cao.",
         images: [
@@ -562,7 +562,7 @@ export const nemNuongHotels: PlaceData[] = [
         lat: 12.247,
         lng: 109.191,
         relatedPlaceId: "nt-nemnuong",
-        metadata: { distance: "130m", time: "1 phút", note: "Phù hợp nhóm, gia đình" }
+        metadata: { distance: "130m", time: "1 phút", note: "Vị trí gần ăn uống nổi tiếng, thuận tiện di chuyển; phù hợp đi theo nhóm hoặc gia đình, tuy nhiên mức giá khá cao so với các khách sạn cùng khu vực." }
     }
 ];
 
@@ -573,15 +573,15 @@ export const haiSan: PlaceData = {
     type: "RESTAURANT",
     rating: 4.4,
     priceLevel: "$$",
-    price: "300-400k/người",
-    duration: "45-60 phút",
+    price: "~ 300.000 VND - 400.000 VND/người",
+    duration: "30-45 phút",
     images: [
         "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-haisan/nt-haisan-1.jpg",
         "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-haisan/nt-haisan-2.jpg",
         "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/nha-trang/nt-haisan/nt-haisan-3.jpg"
     ],
     address: "Vĩnh Nguyên",
-    description: "Hải sản tươi ngon, chế biến nhanh và chỉ sử dụng nguyên liệu trong ngày.",
+    description: "Hải sản Thanh Sương là quán hải sản nổi tiếng tại Nha Trang, được nhiều thực khách yêu thích nhờ hải sản tươi ngon, chế biến nhanh và chỉ sử dụng nguyên liệu trong ngày. Với mức giá hợp lý, đây là địa điểm lý tưởng để tụ họp bạn bè, ăn nhậu thoải mái mà không lo tốn kém.",
     lat: 12.2081,
     lng: 109.215,
     metadata: { tags: ["#HảiSản", "#Nhậu", "#TươiSống"] }
@@ -594,7 +594,7 @@ export const haiSanHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 3.5,
         priceLevel: "$",
-        price: "285.000 VND/đêm",
+        price: "285.000 VND/ngày",
         address: "Bình Tân",
         description: "Mức giá khá ưu đãi so với chất lượng.",
         images: [
@@ -603,7 +603,7 @@ export const haiSanHotels: PlaceData[] = [
         lat: 12.215,
         lng: 109.200,
         relatedPlaceId: "nt-haisan",
-        metadata: { distance: "3.2km", time: "8 phút", note: "Giá rẻ" }
+        metadata: { distance: "3.2km", time: "8 phút", note: "Không nằm sát biển và trung tâm thành phố, bù lại mức giá khá ưu đãi so với chất lượng." }
     },
     {
         id: "nt-hotel-ruby",
@@ -611,7 +611,7 @@ export const haiSanHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.1,
         priceLevel: "$$",
-        price: "391.000 VND/đêm",
+        price: "391.000 VND/ngày",
         address: "Khu vực cảng",
         description: "Chất lượng tương đối tốt với mức giá hợp lý.",
         images: [
@@ -622,7 +622,7 @@ export const haiSanHotels: PlaceData[] = [
         lat: 12.210,
         lng: 109.205,
         relatedPlaceId: "nt-haisan",
-        metadata: { distance: "2.1km", time: "4 phút", note: "Gần cảng và hải sản" }
+        metadata: { distance: "2.1km", time: "4 phút", note: "Khách sạn có chất lượng tương đối tốt với mức giá hợp lý, tuy nhiên vị trí hơi xa trung tâm và các điểm tham quan nên việc di chuyển chưa thật sự thuận tiện." }
     },
     {
         id: "nt-hotel-pearl",
@@ -630,7 +630,7 @@ export const haiSanHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 3.8,
         priceLevel: "$$",
-        price: "334.000 VND/đêm",
+        price: "334.000 VND/ngày",
         address: "Phước Long",
         description: "Gần các địa điểm khám phá du lịch.",
         images: [
@@ -640,7 +640,7 @@ export const haiSanHotels: PlaceData[] = [
         lat: 12.218,
         lng: 109.198,
         relatedPlaceId: "nt-haisan",
-        metadata: { distance: "3.6km", time: "8 phút", note: "Yên tĩnh" }
+        metadata: { distance: "3.6km", time: "8 phút", note: "Không nằm sát biển và xa trung tâm thành phố, bù lại gần các địa điểm khám phá du lịch." }
     },
     {
         id: "nt-coral-boutique-2",
@@ -648,7 +648,7 @@ export const haiSanHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.4,
         priceLevel: "$$$",
-        price: "450.000 VND",
+        price: "450.000 VND/ngày",
         address: "Số 28 Võ Thị Sáu, Phường Vĩnh Trường",
         description: "Phòng rộng, thiết kế đẹp; tuy nhiên vị trí xa trung tâm thành phố.",
         images: [
@@ -659,7 +659,7 @@ export const haiSanHotels: PlaceData[] = [
         lat: 12.205,
         lng: 109.205,
         relatedPlaceId: "nt-haisan",
-        metadata: { distance: "2.7km", time: "5 phút", note: "Thiết kế đẹp, xa trung tâm" }
+        metadata: { distance: "2.7km", time: "5 phút", note: "Phòng rộng, thiết kế đẹp; thuận tiện di chuyển đến điểm ăn uống, tuy nhiên vị trí xa trung tâm thành phố và mức giá khá cao." }
     },
     {
         id: "nt-an-binh-tan",
@@ -667,7 +667,7 @@ export const haiSanHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 4.2,
         priceLevel: "$$$",
-        price: "560.000 VND",
+        price: "560.000 VND/ngày",
         address: "Lô L31-01 Đường số 1, Khu đô thị An Bình Tân",
         description: "Phòng đẹp, sạch sẽ; nhưng khoảng cách đến điểm ăn hải sản khá xa.",
         images: [
@@ -678,7 +678,7 @@ export const haiSanHotels: PlaceData[] = [
         lat: 12.225,
         lng: 109.180,
         relatedPlaceId: "nt-haisan",
-        metadata: { distance: "4.8km", time: "10 phút", note: "Sạch sẽ, xa khu ăn" }
+        metadata: { distance: "4.8km", time: "10 phút", note: "Phòng đẹp, sạch sẽ; tuy nhiên khoảng cách đến điểm ăn khá xa, thời gian di chuyển lâu và mức giá tương đối cao." }
     },
     {
         id: "nt-hao-phat",
@@ -686,7 +686,7 @@ export const haiSanHotels: PlaceData[] = [
         type: "HOTEL",
         rating: 3.8,
         priceLevel: "$$",
-        price: "340.000 VND",
+        price: "340.000 VND/ngày",
         address: "Số 11 Phạm Văn Đồng, Phường Vĩnh Hải",
         description: "Mức giá hợp lý, phù hợp ngân sách; nhưng khoảng cách xa Thanh Sương.",
         images: [
@@ -697,7 +697,7 @@ export const haiSanHotels: PlaceData[] = [
         lat: 12.260,
         lng: 109.198,
         relatedPlaceId: "nt-haisan",
-        metadata: { distance: "3.1km", time: "6 phút", note: "Giá hợp lý, vị trí hơi xa" }
+        metadata: { distance: "3.1km", time: "6 phút", note: "Mức giá hợp lý, phù hợp ngân sách; tuy nhiên khoảng cách đến Hải sản Thanh Sương khá xa." }
     }
 ];
 

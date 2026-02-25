@@ -147,9 +147,16 @@ export async function searchPlaces(params: SearchParams) {
         // Return Places (Attractions + Restaurants)
         // potentially filter by name if searchTerm is specific
         let resultPlaces = allNhaTrangPlaces;
-        if (params.type) {
-          resultPlaces = resultPlaces.filter((p) => p.type === params.type);
+        if (params.type && params.type !== "NOT_HOTEL") {
+          resultPlaces = resultPlaces.filter(
+            (p) =>
+              p.type === params.type ||
+              (params.type === "ATTRACTION" && ["nt-nemnuong", "nt-haisan"].includes(p.id))
+          );
+        } else if (params.type === "NOT_HOTEL") {
+          resultPlaces = resultPlaces.filter((p) => p.type !== "HOTEL");
         }
+
         return { success: true, data: resultPlaces };
       }
     }
@@ -282,12 +289,75 @@ export async function searchPlaces(params: SearchParams) {
       return { ...p, lat, lng, image: (p as any).images?.[0] || null };
     });
 
-    if (destLower.includes("đà lạt")) {
+
+
+    if (destLower.includes("đà lạt") || destLower.includes("da lat")) {
+      const allowedDaLatPlaceIds = [
+        "dl-quang-truong-lam-vien",
+        "dl-cho-dem-da-lat",
+        "dl-ga-da-lat",
+        "dl-quan-lau-ga-la-e-tao-ngo",
+        "dl-doi-che-cau-dat-cau-dat-farm",
+        "dl-khu-du-lich-thac-datanla",
+        "dl-tiem-ca-phe-tui-mo-to",
+        "dl-nha-tho-con-ga"
+      ];
+
+      // If Step 1 (Places selection), force exactly these 8 places to be returned, ignoring DB previous query types
+      if (params.type === "ATTRACTION") {
+        const dbPlaces = await prisma.place.findMany({
+          where: { id: { in: allowedDaLatPlaceIds } }
+        });
+
+        let mappedDbPlaces = dbPlaces.map((p) => {
+          return { ...p, lat: p.lat, lng: p.lng, image: (p as any).images?.[0] || null };
+        });
+
+        const { extraDaLatPlaces } = await import("@/app/data/daLatData");
+
+        let staticDaLat = (extraDaLatPlaces as any[]).filter(p => allowedDaLatPlaceIds.includes(p.id)).map((p) => ({
+          ...p,
+          image: p.images?.[0] || null,
+        }));
+
+        let finalDaLatPlaces = [...mappedDbPlaces, ...staticDaLat];
+        const uniqueMap = new Map();
+        finalDaLatPlaces.forEach((p) => uniqueMap.set(p.id, p));
+
+        // Return exactly these 8 places, sorting them to match user's order if needed
+        return { success: true, data: Array.from(uniqueMap.values()), tripId };
+      }
+
       fixedPlaces = fixedPlaces.filter(
         (p) =>
           !p.name.toLowerCase().includes("nha trang") &&
           !p.name.toLowerCase().includes("vinwonders"),
       );
+
+      // Inject static Da Lat places from code to combine with DB places
+      const { extraDaLatPlaces, extraDaLatHotels } = await import(
+        "@/app/data/daLatData"
+      );
+      let staticDaLat = [...extraDaLatPlaces, ...extraDaLatHotels] as any[];
+
+      // Apply type filtering to match the search request (e.g. ATTRACTION only for Step 1)
+      if (params.type && params.type !== "NOT_HOTEL") {
+        staticDaLat = staticDaLat.filter((p) => p.type?.toUpperCase() === params.type?.toUpperCase());
+      } else if (params.type === "NOT_HOTEL") {
+        staticDaLat = staticDaLat.filter((p) => p.type?.toUpperCase() !== "HOTEL");
+      }
+
+      // Format image field for the frontend map compatibility
+      staticDaLat = staticDaLat.map((p) => ({
+        ...p,
+        image: p.images?.[0] || null,
+      }));
+
+      // Combine array and deduplicate
+      fixedPlaces = [...staticDaLat, ...fixedPlaces];
+      const uniqueMap = new Map();
+      fixedPlaces.forEach((p) => uniqueMap.set(p.id, p));
+      fixedPlaces = Array.from(uniqueMap.values());
     }
 
     return { success: true, data: fixedPlaces, tripId };
@@ -299,10 +369,12 @@ export async function searchPlaces(params: SearchParams) {
 
 export async function getPlaceById(id: string) {
   try {
-    // 1. Static Data Check (Nha Trang)
+    // 1. Static Data Check
     const { allNhaTrangPlaces, allNhaTrangHotels } =
       await import("@/app/data/nhaTrangData");
-    const allStatic = [...allNhaTrangPlaces, ...allNhaTrangHotels];
+    const { extraDaLatPlaces, extraDaLatHotels } =
+      await import("@/app/data/daLatData");
+    const allStatic = [...allNhaTrangPlaces, ...allNhaTrangHotels, ...extraDaLatPlaces, ...extraDaLatHotels];
     const staticPlace = allStatic.find((p) => p.id === id);
     if (staticPlace) return { success: true, data: staticPlace };
 
@@ -325,10 +397,12 @@ export async function getPlacesByIds(ids: string[]) {
       return { success: true, data: [] };
     }
 
-    // 1. Static Data Check (Nha Trang)
+    // 1. Static Data Check
     const { allNhaTrangPlaces, allNhaTrangHotels } =
       await import("@/app/data/nhaTrangData");
-    const allStatic = [...allNhaTrangPlaces, ...allNhaTrangHotels];
+    const { extraDaLatPlaces, extraDaLatHotels } =
+      await import("@/app/data/daLatData");
+    const allStatic = [...allNhaTrangPlaces, ...allNhaTrangHotels, ...extraDaLatPlaces, ...extraDaLatHotels];
 
     const results: any[] = [];
     const notFoundIds: string[] = [];

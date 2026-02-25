@@ -52,7 +52,7 @@ export default function CitySlideWidget() {
     };
 
     return (
-        <div className="relative w-[14.5rem] h-[14.5rem] md:w-[19.5rem] md:h-[19.5rem] group">
+        <div className="relative w-[16rem] h-[16rem] md:w-[21.5rem] md:h-[21.5rem] group">
             {/* Cards Stack Effect */}
             <div className="relative w-full h-full">
                 {cities.map((city, index) => {

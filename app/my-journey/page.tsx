@@ -4,6 +4,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Header from "@/components/layout/Header";
 import ItineraryView from "@/components/ItineraryView";
+import { mockTripActivitiesData } from "./mock-data";
 import { useRouter, useSearchParams } from "next/navigation";
 import { searchPlaces } from "@/app/actions/search";
 import { extraPlaces, allNhaTrangHotels } from "@/app/data/nhaTrangData";
@@ -198,18 +199,18 @@ function MyJourneyContent() {
   const mockReferenceTrips = React.useMemo(() => [
     {
       id: 1,
-      title: "Khám phá Nha Trang - Hòn Ngọc Biển Đông",
+      title: "Lịch trình 4N3Đ Nha Trang (AI Đề xuất)",
       duration: "4N3Đ",
-      author: "TravelLover1",
+      author: "Hướng dẫn viên AI",
       views: "1.2k",
       likes: 342,
       image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-le-soleil/nt-le-soleil-1.jpg"
     },
     {
       id: 2,
-      title: "Đà Lạt Mộng Mơ - Trải nghiệm săn mây",
+      title: "Khám phá Đà Lạt 3N2Đ (AI Đề xuất)",
       duration: "3N2Đ",
-      author: "DaLatReviewer",
+      author: "Hướng dẫn viên AI",
       views: "2.5k",
       likes: 512,
       image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-thien-vien-truc-lam/dl-thien-vien-truc-lam-1.jpg"
@@ -219,10 +220,10 @@ function MyJourneyContent() {
   const mockPastTrips = React.useMemo(() => [
     {
       id: 101,
-      title: "Chuyến nghỉ dưỡng ngắm bình minh Đà Lạt",
+      title: "Chuyến đi Đà Lạt 3N2Đ (Thực tế từ AI)",
       destination: "Đà Lạt", // Added for weather
       duration: "3N2Đ",
-      author: "Tôi",
+      author: "Tôi (với AI)",
       date: "10/02/2026 - 12/02/2026",
       views: "150",
       likes: 12,
@@ -231,80 +232,7 @@ function MyJourneyContent() {
   ], []);
 
   // Detailed mockup itinerary data mapped by trip ID
-  const mockTripActivities: Record<number, any> = React.useMemo(() => ({
-    1: {
-      tripDays: 4,
-      destination: "Nha Trang",
-      activities: {
-        1: {
-          morning: [
-            {
-              id: "m1",
-              title: "Tháp Bà Ponagar",
-              time: "08:30 - 10:00",
-              period: "morning",
-              place: { name: "Tháp Bà Ponagar", address: "61 Hai Tháng Tư", image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-thap-ba-ponagar/nt-thap-ba-ponagar-1.jpg", lat: 12.2654, lng: 109.1958 }
-            }
-          ],
-          afternoon: [
-            {
-              id: "a1",
-              title: "Hòn Chồng",
-              time: "14:00 - 16:00",
-              period: "afternoon",
-              place: { name: "Hòn Chồng", address: "Vĩnh Phước, Nha Trang", image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/nt/nt-hon-chong/nt-hon-chong-1.jpg", lat: 12.2618, lng: 109.2023 }
-            }
-          ],
-          evening: []
-        },
-        2: { morning: [], afternoon: [], evening: [] },
-        3: { morning: [], afternoon: [], evening: [] },
-        4: { morning: [], afternoon: [], evening: [] }
-      }
-    },
-    2: {
-      tripDays: 3,
-      destination: "Đà Lạt",
-      activities: {
-        1: {
-          morning: [
-            {
-              id: "m2",
-              title: "Thiền viện Trúc Lâm",
-              time: "08:00 - 10:30",
-              period: "morning",
-              place: { name: "Thiền viện Trúc Lâm", address: "Trần Thánh Tông", image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-thien-vien-truc-lam/dl-thien-vien-truc-lam-1.jpg", lat: 11.9048, lng: 108.4354 }
-            }
-          ],
-          afternoon: [],
-          evening: []
-        },
-        2: { morning: [], afternoon: [], evening: [] },
-        3: { morning: [], afternoon: [], evening: [] }
-      }
-    },
-    101: {
-      tripDays: 3,
-      destination: "Đà Lạt",
-      activities: {
-        1: {
-          morning: [
-            {
-              id: "m101",
-              title: "Quảng trường Lâm Viên",
-              time: "06:00 - 08:00",
-              period: "morning",
-              place: { name: "Quảng trường Lâm Viên", address: "Phường 1, Đà Lạt", image: "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-quang-truong-lam-vien/dl-quang-truong-lam-vien-1.jpg", lat: 11.9366, lng: 108.4419 }
-            }
-          ],
-          afternoon: [],
-          evening: []
-        },
-        2: { morning: [], afternoon: [], evening: [] },
-        3: { morning: [], afternoon: [], evening: [] }
-      }
-    }
-  }), []);
+  const mockTripActivities: Record<number, any> = React.useMemo(() => mockTripActivitiesData, []);
 
   const [viewingMockTripId, setViewingMockTripId] = useState<number | null>(null);
 
@@ -728,7 +656,7 @@ function MyJourneyContent() {
               disabled={currentPage === paginationData.totalPages}
               className="px-4 py-2 bg-[#1B4D3E] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#113D38] transition-colors"
             >
-              Tiếp → 
+              Tiếp →
             </button>
           </div>
         )}

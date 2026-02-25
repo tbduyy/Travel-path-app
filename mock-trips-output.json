@@ -1,4 +1,833 @@
 {
-  "NhaTrang": null,
-  "DaLat": null
+  "NhaTrang": {
+    "destination": "NHA TRANG",
+    "hotel_name": "Khách sạn Liberty Central Nha Trang",
+    "hotel_image": null,
+    "schedule": [
+      {
+        "day": 1,
+        "date": "2026-03-01",
+        "activities": [
+          {
+            "time_slot": "08:00 - 09:00",
+            "activity": "Di chuyển đến khách sạn và nhận phòng",
+            "location_name": "Khách sạn Liberty Central Nha Trang",
+            "estimated_cost": 0,
+            "notes": "Check-in tại khách sạn, nghỉ ngơi sau chuyến đi.",
+            "image": "/images/destinations/nha_trang/attractions/vinwonders_nha_trang.jpg",
+            "duration_minutes": 60,
+            "distance_km": null,
+            "location_type": "Hotel",
+            "description": "Tọa lạc tại trung tâm thành phố Nha Trang, Khách sạn Liberty Central Nha Trang mang đến sự tiện nghi và thoải mái cho du khách. Với vị trí đắc địa, bạn dễ dàng tiếp cận các điểm tham quan, bãi biển và khu vực mua sắm. Khách sạn cung cấp nhiều dịch vụ như hồ bơi ngoài trời, nhà hàng và quầy bar, đảm bảo một kỳ nghỉ thư giãn và đáng nhớ.",
+            "transportation": null
+          },
+          {
+            "time_slot": "09:30 - 11:30",
+            "activity": "Thăm quan Chùa Long Sơn",
+            "location_name": "Chùa Long Sơn",
+            "estimated_cost": 0,
+            "notes": "Leo lên đỉnh để ngắm nhìn toàn cảnh thành phố.",
+            "image": "/images/destinations/nha_trang/attractions/chua_long_son.jpg",
+            "duration_minutes": 120,
+            "distance_km": 2.5,
+            "location_type": "Attraction",
+            "description": "Chùa Long Sơn là một trong những ngôi chùa cổ kính và nổi tiếng nhất Nha Trang, với biểu tượng là bức tượng Phật trắng khổng lồ trên đỉnh đồi Trại Thủy. Ngôi chùa không chỉ là trung tâm tâm linh quan trọng mà còn là một điểm đến thu hút du khách bởi kiến trúc độc đáo và tầm nhìn tuyệt đẹp ra vịnh Nha Trang. Du khách có thể leo khoảng 150 bậc thang để đến đỉnh, nơi có tượng Phật Thích Ca nhập Niết Bàn và toàn cảnh thành phố.",
+            "transportation": {
+              "vehicle_type": "Grab Car",
+              "icon": "🚗",
+              "duration_minutes": 15,
+              "estimated_cost": 40000,
+              "distance_km": 2.5
+            }
+          },
+          {
+            "time_slot": "12:00 - 13:30",
+            "activity": "Ăn trưa đặc sản nem nướng Ninh Hòa",
+            "location_name": "Nem Nướng Đặng Văn Quyên",
+            "estimated_cost": 300000,
+            "notes": "Thưởng thức nem nướng nổi tiếng của Nha Trang.",
+            "image": "/images/destinations/nha_trang/attractions/nem_nuong_đang_van_quyen.jpg",
+            "duration_minutes": 90,
+            "distance_km": 1,
+            "location_type": "Dining",
+            "description": "Nem nướng Ninh Hòa là một món ăn đặc sản trứ danh của vùng đất Khánh Hòa, đặc biệt là tại Nha Trang. Quán Nem Nướng Đặng Văn Quyên là một trong những địa chỉ uy tín để thưởng thức hương vị chuẩn mực của món ăn này. Nem được nướng trên bếp than hồng, dậy mùi thơm phức, ăn kèm với bánh tráng mỏng, rau sống tươi ngon và nước chấm đặc biệt đậm đà, tạo nên một trải nghiệm ẩm thực khó quên.",
+            "transportation": {
+              "vehicle_type": "Đi bộ",
+              "icon": "🚶",
+              "duration_minutes": 10,
+              "estimated_cost": 0,
+              "distance_km": 1
+            }
+          },
+          {
+            "time_slot": "14:00 - 17:00",
+            "activity": "Thư giãn tại bãi biển Trần Phú",
+            "location_name": "Bãi biển Trần Phú",
+            "estimated_cost": 0,
+            "notes": "Tắm biển, nghỉ ngơi và ngắm cảnh.",
+            "image": "/images/destinations/nha_trang/hotels/nang_bien_sunny_sea.jpg",
+            "duration_minutes": 180,
+            "distance_km": 0.8,
+            "location_type": "Attraction",
+            "description": "Bãi biển Trần Phú là một trong những bãi biển đẹp và dài nhất Nha Trang, trải dài theo con đường cùng tên thơ mộng. Nơi đây nổi tiếng với bờ cát trắng mịn, làn nước trong xanh và hàng dừa rợp bóng mát. Du khách có thể thỏa sức tắm biển, tham gia các hoạt động thể thao dưới nước hoặc đơn giản là nằm dài trên cát để thư giãn và tận hưởng không khí trong lành của biển cả.",
+            "transportation": {
+              "vehicle_type": "Đi bộ",
+              "icon": "🚶",
+              "duration_minutes": 8,
+              "estimated_cost": 0,
+              "distance_km": 0.8
+            }
+          },
+          {
+            "time_slot": "18:30 - 20:00",
+            "activity": "Ăn tối hải sản",
+            "location_name": "Nhà hàng Hải Sản Làng Bè",
+            "estimated_cost": 600000,
+            "notes": "Thưởng thức hải sản tươi sống.",
+            "image": "/images/destinations/nha_trang/attractions/bao_tang_hai_duong_hoc.jpg",
+            "duration_minutes": 90,
+            "distance_km": 3,
+            "location_type": "Dining",
+            "description": "Làng Bè là một khu phức hợp nhà hàng hải sản nổi tiếng tại Nha Trang, nơi du khách có thể lựa chọn trực tiếp những loại hải sản tươi sống từ bể và yêu cầu chế biến theo sở thích. Không gian thoáng đãng, hướng biển tạo cảm giác thư thái khi thưởng thức ẩm thực. Đây là điểm đến lý tưởng để trải nghiệm sự phong phú của các loại hải sản biển địa phương như tôm, cua, ghẹ, các loại cá và ốc.",
+            "transportation": {
+              "vehicle_type": "Grab Car",
+              "icon": "🚗",
+              "duration_minutes": 15,
+              "estimated_cost": 50000,
+              "distance_km": 3
+            }
+          },
+          {
+            "time_slot": "20:30 - 22:00",
+            "activity": "Dạo bộ và mua sắm tại Chợ Đêm Nha Trang",
+            "location_name": "Chợ Đêm Nha Trang",
+            "estimated_cost": 200000,
+            "notes": "Mua sắm quà lưu niệm và thưởng thức đồ ăn vặt.",
+            "image": "/images/destinations/nha_trang/hotels/ckd_nha_trang.jpg",
+            "duration_minutes": 90,
+            "distance_km": 1.5,
+            "location_type": "Attraction",
+            "description": "Chợ Đêm Nha Trang là một địa điểm sôi động về đêm, thu hút cả người dân địa phương lẫn du khách. Nơi đây bày bán đa dạng các mặt hàng từ quà lưu niệm, trang sức, quần áo đến đặc sản địa phương. Du khách có thể tìm thấy những món đồ thủ công mỹ nghệ tinh xảo, các loại hải sản khô, yến sào và thưởng thức các món ăn vặt hấp dẫn như bánh căn, chè, kem,... Không khí náo nhiệt của chợ đêm mang đến trải nghiệm văn hóa độc đáo.",
+            "transportation": {
+              "vehicle_type": "Đi bộ",
+              "icon": "🚶",
+              "duration_minutes": 15,
+              "estimated_cost": 0,
+              "distance_km": 1.5
+            }
+          }
+        ],
+        "total_cost_day": 1100000,
+        "total_transportation_cost": 90000
+      },
+      {
+        "day": 2,
+        "date": "2026-03-02",
+        "activities": [
+          {
+            "time_slot": "08:30 - 09:30",
+            "activity": "Ăn sáng tại khách sạn",
+            "location_name": "Khách sạn Liberty Central Nha Trang",
+            "estimated_cost": 0,
+            "notes": "Bữa sáng buffet tại khách sạn.",
+            "image": "/images/destinations/nha_trang/attractions/vinwonders_nha_trang.jpg",
+            "duration_minutes": 60,
+            "distance_km": null,
+            "location_type": "Hotel",
+            "description": "Bữa sáng buffet tại Khách sạn Liberty Central Nha Trang cung cấp một loạt các món ăn đa dạng từ Á đến Âu, đảm bảo đáp ứng khẩu vị của mọi du khách. Bạn có thể thưởng thức các món nóng như phở, bún, mì, trứng ốp la, cùng với bánh mì, ngũ cốc, trái cây tươi và các loại nước ép. Bữa sáng thịnh soạn này sẽ cung cấp năng lượng dồi dào cho một ngày khám phá.",
+            "transportation": null
+          },
+          {
+            "time_slot": "10:00 - 16:00",
+            "activity": "Tour tham quan 3 đảo (Hòn Mun, Hòn Một, Bãi Tranh)",
+            "location_name": "Tour 3 đảo Nha Trang",
+            "estimated_cost": 1200000,
+            "notes": "Bao gồm ăn trưa, lặn biển/ngắm san hô, các hoạt động vui chơi.",
+            "image": "/images/destinations/nha_trang/attractions/tour_3_đao.jpg",
+            "duration_minutes": 360,
+            "distance_km": 10,
+            "location_type": "Attraction",
+            "description": "Tour 3 đảo là một trong những trải nghiệm không thể bỏ lỡ khi đến Nha Trang, đưa du khách khám phá vẻ đẹp hoang sơ của các hòn đảo xung quanh. Tour thường ghé thăm Hòn Mun (khu bảo tồn biển, thích hợp lặn biển ngắm san hô), Hòn Một (nơi có các hoạt động vui chơi trên biển) và Bãi Tranh (bãi biển đẹp với nhiều dịch vụ giải trí). Giá tour thường bao gồm bữa trưa hải sản, vé tham quan và các hoạt động như tắm biển, chèo thuyền kayak.",
+            "transportation": {
+              "vehicle_type": "Taxi",
+              "icon": "🚕",
+              "duration_minutes": 20,
+              "estimated_cost": 100000,
+              "distance_km": 10
+            }
+          },
+          {
+            "time_slot": "16:30 - 18:00",
+            "activity": "Thư giãn tại khách sạn",
+            "location_name": "Khách sạn Liberty Central Nha Trang",
+            "estimated_cost": 0,
+            "notes": "Nghỉ ngơi sau tour, sử dụng tiện ích khách sạn.",
+            "image": "/images/destinations/nha_trang/attractions/vinwonders_nha_trang.jpg",
+            "duration_minutes": 90,
+            "distance_km": 10,
+            "location_type": "Hotel",
+            "description": "Sau một ngày dài khám phá các hòn đảo, du khách có thể trở về khách sạn để thư giãn. Tận hưởng các tiện ích của khách sạn như hồ bơi, phòng gym hoặc đơn giản là nghỉ ngơi tại phòng để phục hồi năng lượng cho buổi tối.",
+            "transportation": {
+              "vehicle_type": "Grab Car",
+              "icon": "🚗",
+              "duration_minutes": 15,
+              "estimated_cost": 50000,
+              "distance_km": 10
+            }
+          },
+          {
+            "time_slot": "18:30 - 20:00",
+            "activity": "Ăn tối món ăn địa phương",
+            "location_name": "Bún Chả Cá Nha Trang - Quán Gốc Đa",
+            "estimated_cost": 250000,
+            "notes": "Thưởng thức bún chả cá, đặc sản của Nha Trang.",
+            "image": "/images/destinations/nha_trang/hotels/ckd_nha_trang.jpg",
+            "duration_minutes": 90,
+            "distance_km": 2,
+            "location_type": "Dining",
+            "description": "Bún chả cá là món ăn đặc trưng của Nha Trang, nổi tiếng với hương vị ngọt thanh của nước dùng nấu từ cá và chả cá tươi ngon. Quán Gốc Đa là một địa chỉ quen thuộc và được nhiều người dân địa phương cũng như du khách yêu thích. Tô bún đầy đặn với chả cá dai ngon, kèm theo rau sống tươi mát và một chút mắm ruốc sẽ mang đến trải nghiệm ẩm thực đậm đà hương vị biển.",
+            "transportation": {
+              "vehicle_type": "Grab Car",
+              "icon": "🚗",
+              "duration_minutes": 10,
+              "estimated_cost": 40000,
+              "distance_km": 2
+            }
+          },
+          {
+            "time_slot": "20:30 - 22:00",
+            "activity": "Thưởng thức cà phê và ngắm biển",
+            "location_name": "Highlands Coffee - Trần Phú",
+            "estimated_cost": 150000,
+            "notes": "Thư giãn bên ly cà phê và ngắm nhìn vịnh Nha Trang về đêm.",
+            "image": null,
+            "duration_minutes": 90,
+            "distance_km": 1,
+            "location_type": "Dining",
+            "description": "Highlands Coffee trên đường Trần Phú là một địa điểm lý tưởng để thư giãn và ngắm nhìn vẻ đẹp lung linh của vịnh Nha Trang về đêm. Với không gian thoáng đãng và tầm nhìn hướng biển, bạn có thể thưởng thức những ly cà phê đậm đà hoặc các loại đồ uống yêu thích, đồng thời cảm nhận làn gió biển mát rượi. Đây là nơi tuyệt vời để kết thúc một ngày khám phá.",
+            "transportation": {
+              "vehicle_type": "Đi bộ",
+              "icon": "🚶",
+              "duration_minutes": 10,
+              "estimated_cost": 0,
+              "distance_km": 1
+            }
+          }
+        ],
+        "total_cost_day": 1600000,
+        "total_transportation_cost": 190000
+      },
+      {
+        "day": 3,
+        "date": "2026-03-03",
+        "activities": [
+          {
+            "time_slot": "08:00 - 09:00",
+            "activity": "Ăn sáng tại khách sạn",
+            "location_name": "Khách sạn Liberty Central Nha Trang",
+            "estimated_cost": 0,
+            "notes": "Bữa sáng buffet tại khách sạn.",
+            "image": "/images/destinations/nha_trang/attractions/vinwonders_nha_trang.jpg",
+            "duration_minutes": 60,
+            "distance_km": null,
+            "location_type": "Hotel",
+            "description": "Bữa sáng buffet tại Khách sạn Liberty Central Nha Trang cung cấp một loạt các món ăn đa dạng từ Á đến Âu, đảm bảo đáp ứng khẩu vị của mọi du khách. Bạn có thể thưởng thức các món nóng như phở, bún, mì, trứng ốp la, cùng với bánh mì, ngũ cốc, trái cây tươi và các loại nước ép. Bữa sáng thịnh soạn này sẽ cung cấp năng lượng dồi dào cho một ngày khám phá.",
+            "transportation": null
+          },
+          {
+            "time_slot": "09:30 - 12:00",
+            "activity": "Tham quan Viện Hải Dương học",
+            "location_name": "Viện Hải Dương học Nha Trang",
+            "estimated_cost": 100000,
+            "notes": "Tìm hiểu về thế giới sinh vật biển.",
+            "image": "/images/destinations/nha_trang/attractions/bao_tang_hai_duong_hoc.jpg",
+            "duration_minutes": 150,
+            "distance_km": 4,
+            "location_type": "Attraction",
+            "description": "Viện Hải Dương học Nha Trang là một trung tâm nghiên cứu và bảo tồn sinh vật biển hàng đầu tại Việt Nam, với bộ sưu tập đa dạng các loài sinh vật biển được trưng bày. Du khách có thể chiêm ngưỡng hàng nghìn mẫu vật của các loài cá, san hô, động vật có vỏ và các sinh vật biển khác, bao gồm cả bộ xương cá voi khổng lồ. Đây là cơ hội tuyệt vời để tìm hiểu về sự đa dạng sinh học của biển Đông và tầm quan trọng của việc bảo vệ môi trường biển.",
+            "transportation": {
+              "vehicle_type": "Grab Car",
+              "icon": "🚗",
+              "duration_minutes": 15,
+              "estimated_cost": 50000,
+              "distance_km": 4
+            }
+          },
+          {
+            "time_slot": "12:30 - 14:00",
+            "activity": "Ăn trưa món ăn địa phương",
+            "location_name": "Quán Cơm Niêu Nha Trang",
+            "estimated_cost": 350000,
+            "notes": "Thưởng thức cơm niêu và các món ăn Việt Nam.",
+            "image": "/images/destinations/nha_trang/hotels/ckd_nha_trang.jpg",
+            "duration_minutes": 90,
+            "distance_km": 1.5,
+            "location_type": "Dining",
+            "description": "Quán Cơm Niêu Nha Trang mang đến trải nghiệm ẩm thực độc đáo với món cơm niêu nóng hổi, dẻo thơm, được nấu trong những chiếc niêu đất nhỏ xinh. Bên cạnh cơm niêu, quán còn phục vụ nhiều món ăn Việt Nam hấp dẫn khác như cá kho tộ, thịt rang cháy cạnh, canh chua cá, đảm bảo hương vị đậm đà và quen thuộc. Không gian quán ấm cúng, phù hợp cho bữa trưa gia đình hoặc bạn bè.",
+            "transportation": {
+              "vehicle_type": "Grab Car",
+              "icon": "🚗",
+              "duration_minutes": 5,
+              "estimated_cost": 30000,
+              "distance_km": 1.5
+            }
+          },
+          {
+            "time_slot": "14:30 - 17:00",
+            "activity": "Tắm bùn và khoáng nóng tại I-Resort",
+            "location_name": "I-Resort Nha Trang",
+            "estimated_cost": 700000,
+            "notes": "Thư giãn và phục hồi sức khỏe.",
+            "image": "/images/destinations/nha_trang/attractions/vinwonders_nha_trang.jpg",
+            "duration_minutes": 150,
+            "distance_km": 5,
+            "location_type": "Attraction",
+            "description": "I-Resort Nha Trang là một khu phức hợp nghỉ dưỡng và chăm sóc sức khỏe nổi tiếng, mang đến trải nghiệm thư giãn tuyệt vời với các dịch vụ tắm bùn khoáng nóng. Du khách có thể ngâm mình trong các hồ bùn khoáng nóng tự nhiên, thưởng thức liệu pháp spa và tận hưởng không gian xanh mát, yên bình. Tắm bùn khoáng nóng không chỉ giúp thư giãn cơ thể mà còn có tác dụng tốt cho làn da và sức khỏe.",
+            "transportation": {
+              "vehicle_type": "Grab Car",
+              "icon": "🚗",
+              "duration_minutes": 15,
+              "estimated_cost": 60000,
+              "distance_km": 5
+            }
+          },
+          {
+            "time_slot": "18:30 - 20:00",
+            "activity": "Ăn tối với các món ăn đường phố",
+            "location_name": "Khu ẩm thực đường phố Xóm Cồn",
+            "estimated_cost": 300000,
+            "notes": "Khám phá sự đa dạng của ẩm thực đường phố Nha Trang.",
+            "image": null,
+            "duration_minutes": 90,
+            "distance_km": 3,
+            "location_type": "Dining",
+            "description": "Khu ẩm thực đường phố Xóm Cồn là thiên đường cho những ai yêu thích khám phá ẩm thực địa phương với giá cả phải chăng. Nơi đây tập trung nhiều quán ăn vặt và món đặc sản nổi tiếng của Nha Trang như bánh căn, bún sứa, nem nướng, hải sản nướng. Du khách có thể tự do lựa chọn và thưởng thức nhiều món ngon trong không khí nhộn nhịp, dân dã.",
+            "transportation": {
+              "vehicle_type": "Grab Car",
+              "icon": "🚗",
+              "duration_minutes": 10,
+              "estimated_cost": 40000,
+              "distance_km": 3
+            }
+          },
+          {
+            "time_slot": "20:30 - 22:00",
+            "activity": "Thư giãn tại quán bar",
+            "location_name": "Skylight Nha Trang (Vip Tower)",
+            "estimated_cost": 300000,
+            "notes": "Thưởng thức đồ uống và ngắm nhìn thành phố từ trên cao.",
+            "image": "/images/destinations/nha_trang/hotels/ckd_nha_trang.jpg",
+            "duration_minutes": 90,
+            "distance_km": 2,
+            "location_type": "Dining",
+            "description": "Skylight Nha Trang là một quán bar tầng thượng nổi tiếng, mang đến tầm nhìn 360 độ ngoạn mục ra toàn cảnh thành phố và vịnh Nha Trang. Với không gian sang trọng, âm nhạc sôi động và thực đơn đồ uống đa dạng, đây là điểm đến lý tưởng để thư giãn và tận hưởng không khí về đêm. Du khách có thể ngắm nhìn những ánh đèn lung linh của thành phố từ trên cao, tạo nên một trải nghiệm khó quên.",
+            "transportation": {
+              "vehicle_type": "Grab Car",
+              "icon": "🚗",
+              "duration_minutes": 10,
+              "estimated_cost": 40000,
+              "distance_km": 2
+            }
+          }
+        ],
+        "total_cost_day": 1650000,
+        "total_transportation_cost": 220000
+      },
+      {
+        "day": 4,
+        "date": "2026-03-04",
+        "activities": [
+          {
+            "time_slot": "08:00 - 09:00",
+            "activity": "Ăn sáng và chuẩn bị trả phòng",
+            "location_name": "Khách sạn Liberty Central Nha Trang",
+            "estimated_cost": 0,
+            "notes": "Ăn sáng và thu xếp hành lý.",
+            "image": "/images/destinations/nha_trang/attractions/vinwonders_nha_trang.jpg",
+            "duration_minutes": 60,
+            "distance_km": null,
+            "location_type": "Hotel",
+            "description": "Bữa sáng buffet tại Khách sạn Liberty Central Nha Trang cung cấp một loạt các món ăn đa dạng từ Á đến Âu, đảm bảo đáp ứng khẩu vị của mọi du khách. Bạn có thể thưởng thức các món nóng như phở, bún, mì, trứng ốp la, cùng với bánh mì, ngũ cốc, trái cây tươi và các loại nước ép. Bữa sáng thịnh soạn này sẽ cung cấp năng lượng dồi dào cho một ngày khám phá.",
+            "transportation": null
+          },
+          {
+            "time_slot": "09:30 - 10:30",
+            "activity": "Mua sắm quà lưu niệm tại Chợ Xóm Chiếu",
+            "location_name": "Chợ Xóm Chiếu",
+            "estimated_cost": 200000,
+            "notes": "Mua sắm đặc sản và quà lưu niệm.",
+            "image": "/images/destinations/nha_trang/attractions/đap_am_chua.jpg",
+            "duration_minutes": 60,
+            "distance_km": 2,
+            "location_type": "Attraction",
+            "description": "Chợ Xóm Chiếu là một khu chợ địa phương sầm uất tại Nha Trang, nơi du khách có thể tìm thấy nhiều mặt hàng đa dạng từ quần áo, đồ dùng sinh hoạt đến các loại đặc sản nổi tiếng. Đây là địa điểm lý tưởng để mua sắm quà lưu niệm cho người thân và bạn bè, với các sản phẩm như yến sào, hải sản khô, nem Ninh Hòa, hoặc các món đồ thủ công mỹ nghệ. Giá cả tại chợ thường hợp lý, mang đến trải nghiệm mua sắm thú vị.",
+            "transportation": {
+              "vehicle_type": "Grab Car",
+              "icon": "🚗",
+              "duration_minutes": 10,
+              "estimated_cost": 40000,
+              "distance_km": 2
+            }
+          },
+          {
+            "time_slot": "11:00 - 12:00",
+            "activity": "Trả phòng khách sạn và di chuyển ra sân bay",
+            "location_name": "Sân bay Cam Ranh (CXR)",
+            "estimated_cost": 0,
+            "notes": "Hoàn tất thủ tục trả phòng và di chuyển ra sân bay.",
+            "image": "/images/destinations/nha_trang/attractions/banh_canh_co_ha.jpg",
+            "duration_minutes": 60,
+            "distance_km": 40,
+            "location_type": "Airport",
+            "description": "Sân bay Cam Ranh (CXR) là cửa ngõ hàng không phục vụ tỉnh Khánh Hòa và thành phố Nha Trang. Sân bay có cơ sở hạ tầng hiện đại, cung cấp các dịch vụ cần thiết cho hành khách. Thời gian di chuyển từ trung tâm Nha Trang đến sân bay khoảng 40-60 phút tùy thuộc vào tình hình giao thông.",
+            "transportation": {
+              "vehicle_type": "Taxi",
+              "icon": "🚕",
+              "duration_minutes": 50,
+              "estimated_cost": 350000,
+              "distance_km": 40
+            }
+          }
+        ],
+        "total_cost_day": 200000,
+        "total_transportation_cost": 390000
+      }
+    ],
+    "total_estimated_cost": 3340000,
+    "total_distance_km": 98,
+    "summary": "Lịch trình du lịch Nha Trang 4 ngày 3 đêm theo phong cách thư giãn, tập trung vào khám phá các điểm tham quan văn hóa, tâm linh, tận hưởng biển đảo và ẩm thực địa phương. Lịch trình cân bằng giữa hoạt động và thời gian nghỉ ngơi, đồng thời tối ưu hóa lộ trình di chuyển để phù hợp với điều kiện giao thông tại Việt Nam.",
+    "budget_analysis": {
+      "total_budget": 5000000,
+      "total_estimated_cost": 3340000,
+      "total_activities_cost": 2650000,
+      "total_transportation_cost": 670000,
+      "is_within_budget": true,
+      "budget_difference": 1660000,
+      "budget_percentage_used": 66.8
+    }
+  },
+  "DaLat": {
+    "destination": "ĐÀ LẠT",
+    "hotel_name": "Khách sạn Đà Lạt",
+    "hotel_image": "/images/destinations/đa_lat/hotels/1.2_khach_san_anna_suong.jpg",
+    "schedule": [
+      {
+        "day": 1,
+        "date": "2026-03-01",
+        "activities": [
+          {
+            "time_slot": "08:00 - 10:00",
+            "activity": "Check-in khách sạn và nghỉ ngơi",
+            "location_name": "Khách sạn Đà Lạt",
+            "estimated_cost": 0,
+            "notes": null,
+            "image": "/images/destinations/đa_lat/attractions/cho_đem_đa_lat.jpg",
+            "duration_minutes": 120,
+            "distance_km": 0,
+            "location_type": "Hotel",
+            "description": "Nhận phòng, cất hành lý và dành thời gian thư giãn sau chuyến đi.",
+            "transportation": null
+          },
+          {
+            "time_slot": "10:00 - 12:00",
+            "activity": "Tham quan Vườn hoa Đà Lạt",
+            "location_name": "Vườn hoa Đà Lạt",
+            "estimated_cost": 100000,
+            "notes": null,
+            "image": "/images/destinations/đa_lat/attractions/ga_đa_lat_.jpg",
+            "duration_minutes": 120,
+            "distance_km": 2,
+            "location_type": "Attraction",
+            "description": "Vườn hoa Đà Lạt là một khu vườn rộng lớn với hàng trăm loài hoa khoe sắc quanh năm. Nơi đây có nhiều tiểu cảnh đẹp, rất thích hợp để chụp ảnh và chiêm ngưỡng vẻ đẹp thiên nhiên. Hãy ghé thăm vào buổi sáng để tận hưởng không khí trong lành và ánh nắng dịu nhẹ.",
+            "transportation": {
+              "vehicle_type": "Xe máy",
+              "icon": "🏍️",
+              "duration_minutes": 10,
+              "estimated_cost": 15000,
+              "distance_km": 2
+            }
+          },
+          {
+            "time_slot": "12:00 - 13:30",
+            "activity": "Ăn trưa",
+            "location_name": "Nhà hàng Lẩu bò Ba Toa",
+            "estimated_cost": 300000,
+            "notes": "Thưởng thức lẩu bò đặc sản Đà Lạt.",
+            "image": "/images/destinations/đa_lat/attractions/quan_lau_ga_la_e_tao_ngo.jpg",
+            "duration_minutes": 90,
+            "distance_km": 1,
+            "location_type": "Dining",
+            "description": "Nhà hàng Lẩu bò Ba Toa nổi tiếng với món lẩu bò đậm đà hương vị, nước dùng ngọt thanh và thịt bò tươi ngon. Đây là một trải nghiệm ẩm thực không thể bỏ lỡ khi đến Đà Lạt, đặc biệt là vào những ngày se lạnh. Giá cả hợp lý, phù hợp cho gia đình và nhóm bạn.",
+            "transportation": {
+              "vehicle_type": "Xe máy",
+              "icon": "🏍️",
+              "duration_minutes": 5,
+              "estimated_cost": 10000,
+              "distance_km": 1
+            }
+          },
+          {
+            "time_slot": "13:30 - 15:30",
+            "activity": "Tham quan Ga Đà Lạt",
+            "location_name": "Ga Đà Lạt",
+            "estimated_cost": 10000,
+            "notes": null,
+            "image": "/images/destinations/đa_lat/attractions/ga_đa_lat_.jpg",
+            "duration_minutes": 120,
+            "distance_km": 2,
+            "location_type": "Attraction",
+            "description": "Ga Đà Lạt là một trong những nhà ga cổ kính và đẹp nhất Đông Dương. Với kiến trúc độc đáo mang phong cách Pháp và những đầu máy hơi nước cổ, đây là điểm đến hấp dẫn cho những ai yêu thích lịch sử và kiến trúc. Bạn có thể chụp ảnh, tham quan và thậm chí đi một chuyến tàu ngắn đến Trại Mát.",
+            "transportation": {
+              "vehicle_type": "Xe máy",
+              "icon": "🏍️",
+              "duration_minutes": 10,
+              "estimated_cost": 15000,
+              "distance_km": 2
+            }
+          },
+          {
+            "time_slot": "15:30 - 17:30",
+            "activity": "Thư giãn tại Quảng trường Lâm Viên & Hồ Xuân Hương",
+            "location_name": "Quảng trường Lâm Viên",
+            "estimated_cost": 0,
+            "notes": null,
+            "image": "/images/destinations/đa_lat/attractions/quang_truong_lam_vien.jpg",
+            "duration_minutes": 120,
+            "distance_km": 1,
+            "location_type": "Attraction",
+            "description": "Quảng trường Lâm Viên với biểu tượng Nụ Hoa Dã Quỳ và Bông Atiso nổi bật là không gian công cộng lý tưởng để đi dạo, ngắm cảnh hồ Xuân Hương và tận hưởng không khí trong lành của Đà Lạt. Đây là nơi người dân địa phương và du khách thường lui tới để thư giãn, tập thể dục và chụp ảnh.",
+            "transportation": {
+              "vehicle_type": "Đi bộ",
+              "icon": "🚶",
+              "duration_minutes": 15,
+              "estimated_cost": 0,
+              "distance_km": 1
+            }
+          },
+          {
+            "time_slot": "17:30 - 19:00",
+            "activity": "Thưởng thức cafe và ngắm hoàng hôn",
+            "location_name": "Tiệm cà phê Tùng",
+            "estimated_cost": 150000,
+            "notes": "Thưởng thức cà phê và không khí hoài cổ.",
+            "image": "/images/destinations/đa_lat/attractions/tiem_ca_phe_tui_mo_to.jpg",
+            "duration_minutes": 90,
+            "distance_km": 1,
+            "location_type": "Dining",
+            "description": "Tiệm cà phê Tùng là một quán cà phê mang đậm phong cách hoài cổ, là điểm hẹn quen thuộc của nhiều thế hệ người Đà Lạt. Không gian yên tĩnh, âm nhạc xưa và những ly cà phê đậm đà sẽ mang đến cho bạn những giây phút thư giãn tuyệt vời. Rất thích hợp để ngắm hoàng hôn nhẹ nhàng.",
+            "transportation": {
+              "vehicle_type": "Xe máy",
+              "icon": "🏍️",
+              "duration_minutes": 5,
+              "estimated_cost": 10000,
+              "distance_km": 1
+            }
+          },
+          {
+            "time_slot": "19:00 - 21:00",
+            "activity": "Dạo Chợ Đêm Đà Lạt",
+            "location_name": "Chợ Đêm Đà Lạt",
+            "estimated_cost": 200000,
+            "notes": "Thưởng thức ẩm thực đường phố và mua sắm quà lưu niệm.",
+            "image": "/images/destinations/đa_lat/attractions/cho_đem_đa_lat.jpg",
+            "duration_minutes": 120,
+            "distance_km": 0.5,
+            "location_type": "Attraction",
+            "description": "Chợ Đêm Đà Lạt là thiên đường ẩm thực địa phương với hàng trăm gian hàng bán đồ ăn vặt, quần áo len và đặc sản. Đây là nơi tuyệt vời để thưởng thức bánh tráng nướng, sữa đậu nành nóng, dâu lắc và cảm nhận không khí sôi động của thành phố về đêm. Hãy chuẩn bị tiền mặt để thưởng thức đa dạng các món ăn.",
+            "transportation": {
+              "vehicle_type": "Xe máy",
+              "icon": "🏍️",
+              "duration_minutes": 5,
+              "estimated_cost": 10000,
+              "distance_km": 0.5
+            }
+          },
+          {
+            "time_slot": "21:00 - 22:00",
+            "activity": "Về khách sạn nghỉ ngơi",
+            "location_name": "Khách sạn Đà Lạt",
+            "estimated_cost": 0,
+            "notes": null,
+            "image": "/images/destinations/đa_lat/attractions/cho_đem_đa_lat.jpg",
+            "duration_minutes": 60,
+            "distance_km": 2,
+            "location_type": "Hotel",
+            "description": "Trở về khách sạn sau một ngày khám phá, nghỉ ngơi để chuẩn bị cho ngày tiếp theo.",
+            "transportation": {
+              "vehicle_type": "Grab Car",
+              "icon": "🚗",
+              "duration_minutes": 10,
+              "estimated_cost": 30000,
+              "distance_km": 2
+            }
+          }
+        ],
+        "total_cost_day": 910000,
+        "total_transportation_cost": 105000
+      },
+      {
+        "day": 2,
+        "date": "2026-03-02",
+        "activities": [
+          {
+            "time_slot": "08:00 - 09:30",
+            "activity": "Ăn sáng",
+            "location_name": "Quán Bún Bò Huế",
+            "estimated_cost": 100000,
+            "notes": "Thưởng thức bún bò Huế Đà Lạt.",
+            "image": null,
+            "duration_minutes": 90,
+            "distance_km": 0,
+            "location_type": "Dining",
+            "description": "Bún bò Huế là món ăn sáng phổ biến tại Đà Lạt, với hương vị cay nồng đặc trưng và sợi bún dai ngon. Quán có không gian sạch sẽ và phục vụ nhanh chóng, là lựa chọn tuyệt vời để bắt đầu một ngày mới.",
+            "transportation": null
+          },
+          {
+            "time_slot": "09:30 - 12:30",
+            "activity": "Tham quan Thác Datanla",
+            "location_name": "Thác Datanla",
+            "estimated_cost": 200000,
+            "notes": "Trải nghiệm máng trượt (tùy chọn, chi phí thêm).",
+            "image": "/images/destinations/đa_lat/attractions/khu_du_lich_thac_datanla.png",
+            "duration_minutes": 180,
+            "distance_km": 10,
+            "location_type": "Attraction",
+            "description": "Thác Datanla là một trong những thác nước đẹp và hùng vĩ nhất Đà Lạt, với dòng nước đổ xuống từ ghềnh đá tạo nên khung cảnh ấn tượng. Điểm nhấn đặc biệt là hệ thống máng trượt dài nhất Đông Nam Á, mang đến trải nghiệm phiêu lưu thú vị. Nên đi giày thoải mái và mang theo áo mưa nếu bạn định tham gia các hoạt động dưới thác.",
+            "transportation": {
+              "vehicle_type": "Grab Car",
+              "icon": "🚗",
+              "duration_minutes": 20,
+              "estimated_cost": 60000,
+              "distance_km": 10
+            }
+          },
+          {
+            "time_slot": "12:30 - 14:00",
+            "activity": "Ăn trưa",
+            "location_name": "Nhà hàng cơm niêu Đà Lạt",
+            "estimated_cost": 350000,
+            "notes": "Thưởng thức cơm niêu gia đình.",
+            "image": "/images/destinations/đa_lat/attractions/cho_đem_đa_lat.jpg",
+            "duration_minutes": 90,
+            "distance_km": 8,
+            "location_type": "Dining",
+            "description": "Nhà hàng cơm niêu Đà Lạt phục vụ các món ăn gia đình ấm cúng, đặc biệt là cơm niêu với lớp cháy giòn hấp dẫn. Thực đơn đa dạng với các món mặn, món xào, món canh phù hợp với khẩu vị nhiều người. Không gian thoáng đãng, thích hợp cho bữa trưa thư giãn.",
+            "transportation": {
+              "vehicle_type": "Grab Car",
+              "icon": "🚗",
+              "duration_minutes": 15,
+              "estimated_cost": 50000,
+              "distance_km": 8
+            }
+          },
+          {
+            "time_slot": "14:00 - 16:00",
+            "activity": "Tham quan Dinh Bảo Đại (Dinh III)",
+            "location_name": "Dinh Bảo Đại (Dinh III)",
+            "estimated_cost": 60000,
+            "notes": null,
+            "image": null,
+            "duration_minutes": 120,
+            "distance_km": 3,
+            "location_type": "Attraction",
+            "description": "Dinh Bảo Đại (Dinh III) là một công trình kiến trúc Pháp cổ, từng là nơi ở và làm việc của vua Bảo Đại cùng gia đình. Du khách có thể khám phá các căn phòng được bài trí nguyên bản, tìm hiểu về cuộc sống hoàng gia và chiêm ngưỡng nghệ thuật kiến trúc độc đáo. Nơi đây mang đến cái nhìn sâu sắc về lịch sử triều Nguyễn.",
+            "transportation": {
+              "vehicle_type": "Xe máy",
+              "icon": "🏍️",
+              "duration_minutes": 10,
+              "estimated_cost": 15000,
+              "distance_km": 3
+            }
+          },
+          {
+            "time_slot": "16:00 - 18:00",
+            "activity": "Tham quan Nhà thờ Con Gà",
+            "location_name": "Nhà thờ Con Gà (Nhà thờ Chính tòa Đà Lạt)",
+            "estimated_cost": 0,
+            "notes": null,
+            "image": "/images/destinations/đa_lat/hotels/7.1_may_bach_đa_lat.jpg",
+            "duration_minutes": 120,
+            "distance_km": 1,
+            "location_type": "Attraction",
+            "description": "Nhà thờ Con Gà, hay còn gọi là Nhà thờ Chính tòa Đà Lạt, là một công trình kiến trúc Gothic ấn tượng với ngọn tháp chuông cao vút. Đây là một trong những biểu tượng tôn giáo và kiến trúc đẹp nhất của thành phố Đà Lạt. Du khách có thể ghé thăm để chiêm ngưỡng kiến trúc và không gian thanh tịnh.",
+            "transportation": {
+              "vehicle_type": "Đi bộ",
+              "icon": "🚶",
+              "duration_minutes": 15,
+              "estimated_cost": 0,
+              "distance_km": 1
+            }
+          },
+          {
+            "time_slot": "18:00 - 19:30",
+            "activity": "Thưởng thức kem Bơ",
+            "location_name": "Kem Bơ Thanh Thảo",
+            "estimated_cost": 100000,
+            "notes": "Thưởng thức món kem bơ nổi tiếng.",
+            "image": "/images/destinations/đa_lat/hotels/2.2_qa_hotel.jpg",
+            "duration_minutes": 90,
+            "distance_km": 1,
+            "location_type": "Dining",
+            "description": "Kem Bơ Thanh Thảo là địa điểm không thể bỏ lỡ cho những ai yêu thích món kem bơ béo ngậy, mát lạnh đặc trưng của Đà Lạt. Kết hợp giữa vị béo của bơ tươi và vị ngọt thanh của kem, món tráng miệng này rất thích hợp để thưởng thức vào buổi chiều tà. Quán thường đông khách nên bạn có thể phải chờ một chút.",
+            "transportation": {
+              "vehicle_type": "Xe máy",
+              "icon": "🏍️",
+              "duration_minutes": 5,
+              "estimated_cost": 10000,
+              "distance_km": 1
+            }
+          },
+          {
+            "time_slot": "19:30 - 21:30",
+            "activity": "Dạo bộ và thưởng thức không khí Đà Lạt về đêm",
+            "location_name": "Khu Hòa Bình",
+            "estimated_cost": 0,
+            "notes": null,
+            "image": null,
+            "duration_minutes": 120,
+            "distance_km": 1,
+            "location_type": "Attraction",
+            "description": "Khu Hòa Bình là trung tâm của Đà Lạt, nơi tập trung nhiều cửa hàng, quán ăn và các hoạt động giải trí về đêm. Đi dạo quanh khu vực này, bạn có thể cảm nhận nhịp sống sôi động, thưởng thức không khí se lạnh đặc trưng và ghé vào các quán ăn vặt hoặc cửa hàng lưu niệm.",
+            "transportation": {
+              "vehicle_type": "Xe máy",
+              "icon": "🏍️",
+              "duration_minutes": 5,
+              "estimated_cost": 10000,
+              "distance_km": 1
+            }
+          },
+          {
+            "time_slot": "21:30 - 22:00",
+            "activity": "Về khách sạn nghỉ ngơi",
+            "location_name": "Khách sạn Đà Lạt",
+            "estimated_cost": 0,
+            "notes": null,
+            "image": "/images/destinations/đa_lat/attractions/cho_đem_đa_lat.jpg",
+            "duration_minutes": 30,
+            "distance_km": 2,
+            "location_type": "Hotel",
+            "description": "Trở về khách sạn, chuẩn bị cho ngày cuối cùng tại Đà Lạt.",
+            "transportation": {
+              "vehicle_type": "Grab Car",
+              "icon": "🚗",
+              "duration_minutes": 10,
+              "estimated_cost": 30000,
+              "distance_km": 2
+            }
+          }
+        ],
+        "total_cost_day": 810000,
+        "total_transportation_cost": 170000
+      },
+      {
+        "day": 3,
+        "date": "2026-03-03",
+        "activities": [
+          {
+            "time_slot": "08:00 - 09:30",
+            "activity": "Ăn sáng",
+            "location_name": "Quán Bánh Canh Xuân An",
+            "estimated_cost": 100000,
+            "notes": "Thưởng thức bánh canh giò heo đặc sản.",
+            "image": "/images/destinations/đa_lat/attractions/quang_truong_lam_vien.jpg",
+            "duration_minutes": 90,
+            "distance_km": 0,
+            "location_type": "Dining",
+            "description": "Bánh Canh Xuân An nổi tiếng với món bánh canh bột lọc dai ngon, nước dùng đậm đà và giò heo mềm. Đây là một lựa chọn bữa sáng tuyệt vời, mang đậm hương vị truyền thống của Đà Lạt. Quán thường đông khách vào buổi sáng.",
+            "transportation": null
+          },
+          {
+            "time_slot": "09:30 - 11:30",
+            "activity": "Tham quan Thiền Viện Trúc Lâm & Hồ Tuyền Lâm",
+            "location_name": "Thiền Viện Trúc Lâm",
+            "estimated_cost": 0,
+            "notes": null,
+            "image": null,
+            "duration_minutes": 120,
+            "distance_km": 7,
+            "location_type": "Attraction",
+            "description": "Thiền Viện Trúc Lâm là một trong những thiền viện lớn và đẹp nhất tại Đà Lạt, tọa lạc trên đỉnh đồi Phượng Hoàng, nhìn xuống Hồ Tuyền Lâm thơ mộng. Nơi đây mang đến không gian yên bình, thanh tịnh, lý tưởng cho việc chiêm bái và thưởng ngoạn cảnh quan thiên nhiên tuyệt đẹp. Bạn có thể đi cáp treo để ngắm nhìn toàn cảnh từ trên cao.",
+            "transportation": {
+              "vehicle_type": "Grab Car",
+              "icon": "🚗",
+              "duration_minutes": 15,
+              "estimated_cost": 50000,
+              "distance_km": 7
+            }
+          },
+          {
+            "time_slot": "11:30 - 13:00",
+            "activity": "Ăn trưa",
+            "location_name": "Nhà hàng cơm niêu Đà Lạt",
+            "estimated_cost": 300000,
+            "notes": "Bữa trưa cuối cùng tại Đà Lạt.",
+            "image": "/images/destinations/đa_lat/attractions/cho_đem_đa_lat.jpg",
+            "duration_minutes": 90,
+            "distance_km": 6,
+            "location_type": "Dining",
+            "description": "Thưởng thức bữa trưa với các món ăn đậm đà hương vị Đà Lạt tại một nhà hàng cơm niêu. Đây là cơ hội để bạn nạp năng lượng và thưởng thức những món ăn ngon trước khi chuẩn bị rời đi.",
+            "transportation": {
+              "vehicle_type": "Grab Car",
+              "icon": "🚗",
+              "duration_minutes": 15,
+              "estimated_cost": 50000,
+              "distance_km": 6
+            }
+          },
+          {
+            "time_slot": "13:00 - 15:00",
+            "activity": "Mua sắm đặc sản Đà Lạt",
+            "location_name": "Chợ Đà Lạt",
+            "estimated_cost": 300000,
+            "notes": "Mua trà, mứt, cà phê và các loại đặc sản khác.",
+            "image": "/images/destinations/đa_lat/attractions/cho_đem_đa_lat.jpg",
+            "duration_minutes": 120,
+            "distance_km": 3,
+            "location_type": "Attraction",
+            "description": "Chợ Đà Lạt là nơi bạn có thể tìm thấy đa dạng các loại đặc sản như mứt, trà, cà phê, dâu tây, hồng khô... Hãy dạo quanh chợ để lựa chọn những món quà ý nghĩa cho gia đình và bạn bè. Nên mặc cả để có giá tốt nhất.",
+            "transportation": {
+              "vehicle_type": "Xe máy",
+              "icon": "🏍️",
+              "duration_minutes": 10,
+              "estimated_cost": 15000,
+              "distance_km": 3
+            }
+          },
+          {
+            "time_slot": "15:00 - 16:00",
+            "activity": "Trả phòng khách sạn và di chuyển ra bến xe/sân bay",
+            "location_name": "Khách sạn Đà Lạt",
+            "estimated_cost": 0,
+            "notes": null,
+            "image": "/images/destinations/đa_lat/attractions/cho_đem_đa_lat.jpg",
+            "duration_minutes": 60,
+            "distance_km": 2,
+            "location_type": "Hotel",
+            "description": "Hoàn tất thủ tục trả phòng, thu dọn hành lý và di chuyển đến điểm khởi hành.",
+            "transportation": {
+              "vehicle_type": "Grab Car",
+              "icon": "🚗",
+              "duration_minutes": 10,
+              "estimated_cost": 30000,
+              "distance_km": 2
+            }
+          }
+        ],
+        "total_cost_day": 700000,
+        "total_transportation_cost": 145000
+      }
+    ],
+    "total_estimated_cost": 3525000,
+    "total_distance_km": 77,
+    "summary": "Lịch trình 3 ngày 2 đêm tại Đà Lạt với phong cách thư giãn, tập trung vào khám phá cảnh quan thiên nhiên, kiến trúc cổ và thưởng thức ẩm thực địa phương. Lịch trình đã được tối ưu hóa để giảm thiểu thời gian di chuyển và cân đối chi phí trong ngân sách cho phép.",
+    "budget_analysis": {
+      "total_budget": 5000000,
+      "total_estimated_cost": 3525000,
+      "total_activities_cost": 2420000,
+      "total_transportation_cost": 420000,
+      "is_within_budget": true,
+      "budget_difference": 1475000,
+      "budget_percentage_used": 70.5
+    }
+  }
 }
