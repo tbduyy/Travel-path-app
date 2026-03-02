@@ -77,7 +77,7 @@ export default function Home() {
               <div className="bg-[#D8F3DC] rounded-2xl md:rounded-3xl p-4 md:p-6 flex flex-col md:flex-row items-center gap-4 md:gap-8 shadow-sm border border-white/50">
                 <div className="w-full md:w-1/3 h-40 md:h-48 relative bg-white/30 rounded-xl md:rounded-2xl overflow-hidden flex items-center justify-center">
                   <Image
-                    src="https://i.ibb.co/fYq4Bpn9/296817374-1015897554.jpg"
+                    src="https://i.ibb.co/fz5Jq730/khach-san-ho-chi-minh-2.jpg"
                     alt="Hệ thống khách sạn"
                     fill
                     className="object-cover"
@@ -86,11 +86,11 @@ export default function Home() {
                 </div>
 
                 <div className="flex-1 text-[#1B4D3E]">
-                  <h3 className="text-lg md:text-2xl font-bold mb-2 md:mb-3">
+                  <h3 className="text-lg md:text-3xl font-bold mb-2 md:mb-3">
                     Hệ thống khách sạn uy tín
                   </h3>
 
-                  <p className="text-xs md:text-sm leading-relaxed font-medium opacity-80 text-justify">
+                  <p className="text-xs md:text-base leading-relaxed font-medium opacity-80 text-justify">
                     Travel Path hợp tác với hệ thống khách sạn uy tín trên khắp
                     Việt Nam, từ khách sạn trung tâm thành phố đến khu nghỉ dưỡng
                     tại các điểm du lịch nổi tiếng, mang đến lựa chọn lưu trú đa
@@ -102,11 +102,11 @@ export default function Home() {
               {/* Card 2: Địa điểm du lịch nổi tiếng (Text Left - Image Right) */}
               <div className="bg-[#D8F3DC] rounded-2xl md:rounded-3xl p-4 md:p-6 flex flex-col md:flex-row items-center gap-4 md:gap-8 shadow-sm border border-white/50">
                 <div className="flex-1 order-2 md:order-1 text-[#1B4D3E]">
-                  <h3 className="text-lg md:text-2xl font-bold mb-2 md:mb-3">
+                  <h3 className="text-lg md:text-3xl font-bold mb-2 md:mb-3">
                     Địa điểm du lịch nổi tiếng
                   </h3>
 
-                  <p className="text-xs md:text-sm leading-relaxed font-medium opacity-80 text-justify">
+                  <p className="text-xs md:text-base leading-relaxed font-medium opacity-80 text-justify">
                     Travel Path hợp tác với hệ thống khách sạn uy tín trên khắp cả
                     nước, hiện diện tại nhiều điểm du lịch nổi tiếng như Đà Lạt,
                     Đà Nẵng, Nha Trang, Phú Quốc, Hội An hay Hà Nội và TP.HCM. Các
@@ -118,7 +118,7 @@ export default function Home() {
 
                 <div className="w-full md:w-1/3 h-40 md:h-48 relative bg-gray-200 rounded-xl md:rounded-2xl overflow-hidden order-1 md:order-2">
                   <Image
-                    src="https://i.ibb.co/dswcFXGW/diem-du-lich-011632671030-11661249974-1711972079747417895017-1711973176462-1711973176683120802850.jpg"
+                    src="https://i.ibb.co/tW7KmSC/download-8.jpg"
                     alt="Địa điểm du lịch"
                     fill
                     className="object-cover"

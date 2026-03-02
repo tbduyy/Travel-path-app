@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from "react";
 import { Calendar, User, Clock, ArrowLeft, Image as ImageIcon, Plus, Loader } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { parseRichContent } from "@/components/admin/RichTextToolbar";
 
 export default function BlogPostContent({ post, canEdit = false }: { post: any, canEdit?: boolean }) {
     // Local State
@@ -161,9 +162,10 @@ export default function BlogPostContent({ post, canEdit = false }: { post: any, 
 
                             {/* Render Block */}
                             {block.type === 'text' ? (
-                                <p className={block.content.length < 100 && block.content.includes(":") ? "font-bold text-xl text-[#1B4D3E] mt-8 mb-4" : ""}>
-                                    {block.content}
-                                </p>
+                                <div
+                                    className={block.content.length < 100 && block.content.includes(":") ? "font-bold text-xl text-[#1B4D3E] mt-8 mb-4" : "leading-relaxed"}
+                                    dangerouslySetInnerHTML={{ __html: parseRichContent(block.content) }}
+                                />
                             ) : (
                                 <figure className="my-8 relative rounded-2xl overflow-hidden shadow-lg aspect-video w-full bg-gray-100">
                                     <Image
