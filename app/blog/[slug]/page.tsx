@@ -1,11 +1,19 @@
 
-import { PrismaClient } from "@prisma/client";
 import { notFound } from "next/navigation";
 import BlogPostContent from "./content";
 import prisma from '@/lib/prisma'
-
-
 import { createClient } from '@/utils/supabase/server'
+
+// Allow on-demand rendering for new blog slugs created after build
+export const dynamicParams = true;
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+    const posts = await prisma.post.findMany({
+        select: { slug: true },
+    });
+    return posts.map((post) => ({ slug: post.slug }));
+}
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;

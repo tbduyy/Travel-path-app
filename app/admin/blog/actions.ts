@@ -19,8 +19,10 @@ export async function deletePost(formData: FormData) {
 
     const id = formData.get('id') as string
     try {
-        await prisma.post.delete({ where: { id } })
+        const deleted = await prisma.post.delete({ where: { id } })
         revalidatePath('/admin/blog')
+        revalidatePath('/blog')
+        revalidatePath(`/blog/${deleted.slug}`)
         return { success: true }
     } catch (e) {
         return { error: 'Failed to delete' }
@@ -72,5 +74,7 @@ export async function savePost(formData: FormData) {
     }
 
     revalidatePath('/admin/blog')
+    revalidatePath('/blog')
+    revalidatePath(`/blog/${slug}`)
     redirect('/admin/blog')
 }
