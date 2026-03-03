@@ -17,7 +17,7 @@ interface PromoteEmailProps {
   customerName: string;
 }
 
-const IMG = "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/assets/email";
+const IMG = "https://res.cloudinary.com/dljdnrnl6/image/upload/v2";
 
 export function PromoteEmail({ customerName = "Khách hàng" }: PromoteEmailProps) {
   return (
@@ -34,7 +34,6 @@ export function PromoteEmail({ customerName = "Khách hàng" }: PromoteEmailProp
           `}
         </style>
       </Head>
-      <Preview>Ưu đãi đặc biệt từ Travel Path dành cho bạn</Preview>
       
       <Body style={main}>
         <Container style={container}>

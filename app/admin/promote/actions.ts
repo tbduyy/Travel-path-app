@@ -97,7 +97,7 @@ export async function sendPromoteEmailToAll(
         const { error } = await resend.emails.send({
           from: "Travel Path <no-reply@travelpath.io.vn>",
           to: user.email,
-          subject: "✨ Ưu đãi đặc biệt dành cho bạn — Travel Path",
+          subject: "Du lịch thôi, việc còn lại để Travel Path lo! ✈️",
           react: createElement(PromoteEmail, { customerName: name }),
           text: getPromotePlainText(name),
         });

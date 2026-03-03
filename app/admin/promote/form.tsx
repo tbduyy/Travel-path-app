@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useTransition } from "react";
 import { sendPromoteEmail, sendPromoteEmailToAll } from "./actions";
 import { Loader2, Send, Mail, User, Users } from "lucide-react";
 
@@ -19,6 +19,8 @@ export default function PromoteForm() {
     sendPromoteEmailToAll,
     initialState
   );
+
+  const [isTransitioning, startTransition] = useTransition();
 
   return (
     <form
@@ -102,7 +104,8 @@ export default function PromoteForm() {
           type="button"
           disabled={isPending || isAllPending}
           onClick={() => {
-            allFormAction();
+            if (!confirm("⚠️ Bạn chắc chắn muốn gửi email đến TẤT CẢ người dùng không?")) return;
+            startTransition(() => allFormAction());
           }}
           className="flex items-center gap-2 bg-[#00B14F] text-white px-8 py-3 rounded-xl font-bold hover:bg-[#009a43] transition-all disabled:opacity-50"
         >
