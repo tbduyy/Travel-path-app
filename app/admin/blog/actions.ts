@@ -51,6 +51,8 @@ export async function savePost(formData: FormData) {
 
     try {
         if (isEdit) {
+            // Get old slug before update so we can revalidate it
+            const oldPost = await prisma.post.findUnique({ where: { id }, select: { slug: true } })
             await prisma.post.update({
                 where: { id },
                 data: {
@@ -58,6 +60,10 @@ export async function savePost(formData: FormData) {
                     content: contentArray // stored as Json (array of strings)
                 }
             })
+            // Revalidate old slug path if slug changed
+            if (oldPost && oldPost.slug !== slug) {
+                revalidatePath(`/blog/${oldPost.slug}`)
+            }
         } else {
             await prisma.post.create({
                 data: {
@@ -72,5 +78,7 @@ export async function savePost(formData: FormData) {
     }
 
     revalidatePath('/admin/blog')
+    revalidatePath('/blog')
+    revalidatePath(`/blog/${slug}`)
     redirect('/admin/blog')
 }
