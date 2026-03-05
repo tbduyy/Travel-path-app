@@ -5,6 +5,8 @@ import { Plus, Pencil, Trash2, Search, Calendar, User } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import prisma from '@/lib/prisma'
+import DeletePostButton from './delete-button'
+import HidePostButton from './hide-button'
 
 async function getPosts() {
     return await prisma.post.findMany({
@@ -71,13 +73,14 @@ export default async function BlogAdminPage() {
                                 </td>
                                 <td className="px-6 py-4 text-right">
                                     <div className="flex justify-end gap-2">
+                                        <HidePostButton id={post.id} isHidden={post.isHidden || false} />
                                         <Link
                                             href={`/admin/blog/${post.id}`}
                                             className="p-2 rounded-lg hover:bg-blue-50 text-gray-500 hover:text-blue-600 transition-colors"
                                         >
                                             <Pencil size={18} />
                                         </Link>
-
+                                        <DeletePostButton id={post.id} />
                                     </div>
                                 </td>
                             </tr>

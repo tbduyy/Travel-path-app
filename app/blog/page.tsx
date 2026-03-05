@@ -9,6 +9,7 @@ import prisma from '@/lib/prisma'
 export default async function BlogPage() {
     // Safety check for prisma.post
     const posts = prisma.post ? await prisma.post.findMany({
+        where: { isHidden: false },
         orderBy: { createdAt: 'desc' }
     }) : [];
 

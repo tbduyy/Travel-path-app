@@ -42,5 +42,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         canEdit = profile?.role === 'admin'
     }
 
+    if (post.isHidden && !canEdit) {
+        notFound();
+    }
+
     return <BlogPostContent post={post} canEdit={canEdit} />;
 }

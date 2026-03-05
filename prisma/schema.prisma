@@ -36,6 +36,7 @@ model Post {
   coverImage String
   author    String
   tags      String[]
+  isHidden  Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

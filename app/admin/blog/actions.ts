@@ -26,6 +26,25 @@ export async function deletePost(formData: FormData) {
         return { error: 'Failed to delete' }
     }
 }
+export async function toggleHidePost(formData: FormData) {
+    if (!await checkAdmin()) return { error: 'Unauthorized' }
+
+    const id = formData.get('id') as string
+    const isHiddenStr = formData.get('isHidden') as string
+    const isHidden = isHiddenStr === 'true'
+
+    try {
+        await prisma.post.update({
+            where: { id },
+            data: { isHidden: !isHidden } // Toggle the status
+        })
+        revalidatePath('/admin/blog')
+        revalidatePath('/blog')
+        return { success: true }
+    } catch (e) {
+        return { error: 'Failed to update visibility' }
+    }
+}
 
 export async function savePost(formData: FormData) {
     if (!await checkAdmin()) return { error: 'Unauthorized' }
