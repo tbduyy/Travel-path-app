@@ -3,83 +3,21 @@
 
 import Header from "@/components/layout/Header";
 import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
-import { Calendar, User, Clock, ArrowLeft, Image as ImageIcon, Plus, Loader } from "lucide-react";
+import { useMemo } from "react";
+import { Calendar, User, Clock, ArrowLeft, Pencil } from "lucide-react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
+import { markdownToHtml } from "@/components/admin/RichTextToolbar";
 
 export default function BlogPostContent({ post, canEdit = false }: { post: any, canEdit?: boolean }) {
-    // Local State
-    const [contentBlocks, setContentBlocks] = useState<{ type: 'text' | 'image', content: string }[]>([]);
-    const [isEditMode, setIsEditMode] = useState(canEdit);
-    const [isUploading, setIsUploading] = useState(false);
-    const [activeBlockIndex, setActiveBlockIndex] = useState<number | null>(null);
-    const fileInputRef = useRef<HTMLInputElement>(null);
-
-    useEffect(() => {
-        if (post) {
-            const savedContent = localStorage.getItem(`blog_${post.slug}`);
-            if (savedContent) {
-                setContentBlocks(JSON.parse(savedContent));
-            } else {
-                // Handle both array of strings (from DB Json) or string (if not parsed)
-                const contentSrc = Array.isArray(post.content) ? post.content : [String(post.content)];
-                setContentBlocks(contentSrc.map((text: string) => ({ type: 'text', content: text })));
-            }
-        }
-    }, [post]);
-
-    const handleAddImageClick = (index: number) => {
-        setActiveBlockIndex(index);
-        fileInputRef.current?.click();
-    };
-
-    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file || activeBlockIndex === null) return;
-
-        try {
-            setIsUploading(true);
-            const fileExt = file.name.split('.').pop();
-            const fileName = `blog/${Date.now()}.${fileExt}`;
-
-            // Upload to Supabase 'blog' bucket
-            const { data, error } = await supabase.storage
-                .from('blog')
-                .upload(fileName, file);
-
-            if (error) {
-                alert('Lỗi khi tải ảnh lên: ' + error.message);
-                console.error(error);
-                return;
-            }
-
-            // Get Public URL
-            const { data: { publicUrl } } = supabase.storage
-                .from('blog')
-                .getPublicUrl(fileName);
-
-            const newBlocks = [...contentBlocks];
-            newBlocks.splice(activeBlockIndex + 1, 0, { type: 'image', content: publicUrl });
-            setContentBlocks(newBlocks);
-            localStorage.setItem(`blog_${post.slug}`, JSON.stringify(newBlocks));
-
-        } catch (error) {
-            console.error(error);
-            alert('Đã xảy ra lỗi không mong muốn khi tải ảnh');
-        } finally {
-            setIsUploading(false);
-            if (fileInputRef.current) fileInputRef.current.value = ''; // Reset input
-            setActiveBlockIndex(null);
-        }
-    };
-
-    const handleRemoveBlock = (index: number) => {
-        const newBlocks = [...contentBlocks];
-        newBlocks.splice(index, 1);
-        setContentBlocks(newBlocks);
-        localStorage.setItem(`blog_${post.slug}`, JSON.stringify(newBlocks));
-    };
+    // Join content array back into a single markdown string (same as admin WYSIWYG does)
+    // then render with markdownToHtml — identical pipeline to the editor preview
+    const renderedHtml = useMemo(() => {
+        if (!post?.content) return '';
+        const markdown = Array.isArray(post.content)
+            ? post.content.join('\n\n')
+            : String(post.content);
+        return markdownToHtml(markdown);
+    }, [post?.content]);
 
     if (!post) {
         return <div className="min-h-screen flex items-center justify-center">Bài viết không tồn tại</div>;
@@ -138,80 +76,44 @@ export default function BlogPostContent({ post, canEdit = false }: { post: any, 
             {/* Content Area */}
             <div className="max-w-3xl mx-auto px-6 py-16">
 
-                {/* Intro Tooltip */}
-                {isEditMode && (
-                    <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-8 flex gap-4 items-start animate-in fade-in slide-in-from-top-4">
-                        <div className="bg-blue-100 p-2 rounded-lg text-blue-600 shrink-0">
-                            <ImageIcon size={24} />
-                        </div>
-                        <div>
-                            <h3 className="font-bold text-blue-800">Chế độ Chèn Hình Ảnh (Supabase Upload)</h3>
-                            <p className="text-sm text-blue-600 mt-1">
-                                Bạn có thể tải hình ảnh từ máy lên bằng cách nhấn vào nút
-                                <span className="inline-flex items-center justify-center w-6 h-6 bg-gray-100 rounded-full mx-1 align-middle border border-dashed border-gray-400"><Plus size={12} /></span>
-                                . Ảnh sẽ được lưu trữ tự động trên đám mây.
-                            </p>
-                        </div>
+                {/* Admin edit shortcut */}
+                {canEdit && (
+                    <div className="flex justify-end mb-6">
+                        <Link
+                            href={`/admin/blog/${post.id}`}
+                            className="inline-flex items-center gap-2 bg-[#1B4D3E] text-white px-5 py-2.5 rounded-xl font-bold hover:bg-[#153a2f] transition-all text-sm shadow-sm"
+                        >
+                            <Pencil size={16} />
+                            Chỉnh sửa bài viết
+                        </Link>
                     </div>
                 )}
 
-                <div className="space-y-8 text-lg leading-relaxed text-gray-800">
-                    {contentBlocks.map((block, index) => (
-                        <div key={index} className="relative group">
-
-                            {/* Render Block */}
-                            {block.type === 'text' ? (
-                                <p className={block.content.length < 100 && block.content.includes(":") ? "font-bold text-xl text-[#1B4D3E] mt-8 mb-4" : ""}>
-                                    {block.content}
-                                </p>
-                            ) : (
-                                <figure className="my-8 relative rounded-2xl overflow-hidden shadow-lg aspect-video w-full bg-gray-100">
-                                    <Image
-                                        src={block.content}
-                                        alt="Blog Content"
-                                        fill
-                                        className="object-cover"
-                                    />
-                                    {isEditMode && (
-                                        <button
-                                            onClick={() => handleRemoveBlock(index)}
-                                            className="absolute top-4 right-4 bg-red-500 text-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity hover:scale-110"
-                                            title="Xóa ảnh này"
-                                        >
-                                            <Plus size={20} className="rotate-45" />
-                                        </button>
-                                    )}
-                                </figure>
-                            )}
-
-                            {/* Add Image Control (After every block) */}
-                            {isEditMode && block.type === 'text' && (
-                                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-full h-8 opacity-0 group-hover:opacity-100 transition-all z-10 flex items-center justify-center">
-                                    <button
-                                        onClick={() => handleAddImageClick(index)}
-                                        disabled={isUploading}
-                                        className="bg-white border-2 border-dashed border-[#2E968C] text-[#2E968C] hover:bg-[#E0F2F1] rounded-full px-4 py-1.5 flex items-center gap-2 text-sm font-bold shadow-sm scale-90 hover:scale-100 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
-                                    >
-                                        {isUploading && activeBlockIndex === index ? <Loader className="animate-spin" size={16} /> : <Plus size={16} />}
-                                        {isUploading && activeBlockIndex === index ? "Đang tải ảnh..." : "Thêm ảnh từ máy"}
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                </div>
-
-                {/* Hidden File Input */}
-                <input
-                    type="file"
-                    ref={fileInputRef}
-                    className="hidden"
-                    accept="image/*"
-                    onChange={handleFileChange}
+                {/*
+                  Rendered with markdownToHtml — the SAME function the WYSIWYG editor
+                  uses to display content. Styles below mirror the editor's Tailwind
+                  child-selectors so the output is pixel-identical (WYSIWYG).
+                */}
+                <div
+                    className="
+                        text-base leading-relaxed text-gray-800
+                        [&_h2]:text-2xl [&_h2]:font-black [&_h2]:text-[#1B4D3E] [&_h2]:mt-8 [&_h2]:mb-3
+                        [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-[#1B4D3E] [&_h3]:mt-6 [&_h3]:mb-2
+                        [&_blockquote]:border-l-4 [&_blockquote]:border-[#2E968C] [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-gray-500 [&_blockquote]:my-3
+                        [&_a]:text-[#2E968C] [&_a]:underline [&_a]:cursor-pointer
+                        [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:my-2
+                        [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:my-2
+                        [&_li]:my-1
+                        [&_img]:rounded-xl [&_img]:my-4 [&_img]:max-w-full [&_img]:shadow-md
+                        [&_hr]:border-t [&_hr]:border-gray-300 [&_hr]:my-6
+                        [&_p]:my-2 [&_p]:leading-relaxed
+                        [&_b]:font-bold [&_strong]:font-bold
+                    "
+                    dangerouslySetInnerHTML={{ __html: renderedHtml }}
                 />
 
                 <div className="mt-16 pt-8 border-t border-gray-100 text-center">
-                    <p className="font-bold text-[#1B4D3E] text-xl mb-4 italic">"Hãy đi khi đôi chân còn khỏe và trái tim còn trẻ"</p>
+                    <p className="font-bold text-[#1B4D3E] text-xl mb-4 italic">&ldquo;Hãy đi khi đôi chân còn khỏe và trái tim còn trẻ&rdquo;</p>
                     <div className="flex justify-center gap-4">
                         <button className="bg-[#1877F2] text-white px-6 py-2 rounded-full font-bold text-sm flex items-center gap-2 hover:brightness-110 transition-all">
                             Chia sẻ lên Facebook

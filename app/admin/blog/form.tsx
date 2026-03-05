@@ -1,13 +1,14 @@
 
 'use client'
 
-import { useActionState, useState } from 'react'
+import { useActionState, useState, useRef } from 'react'
 import { savePost } from './actions'
 import { Post } from '@prisma/client'
 import { Loader2, ArrowLeft, Save } from 'lucide-react'
 import Link from 'next/link'
 
 import ImageUpload from '@/components/ui/image-upload'
+import WysiwygEditor from '@/components/admin/RichTextToolbar'
 
 const initialState = {
     error: '',
@@ -28,10 +29,12 @@ export default function PostForm({ post, role }: { post?: Post | null, role?: st
 
     const [coverImage, setCoverImage] = useState(post?.coverImage || '')
     const [content, setContent] = useState(contentString)
+    const contentRef = useRef(contentString)
 
-    const handleContentImageUpload = (url: string) => {
-        const imageMarkdown = `\n![Image Description](${url})\n`
-        setContent(prev => prev + imageMarkdown)
+    // Keep ref in sync for form submission
+    const handleMarkdownChange = (md: string) => {
+        contentRef.current = md
+        setContent(md)
     }
 
     const canUpload = role === 'admin'
@@ -60,22 +63,13 @@ export default function PostForm({ post, role }: { post?: Post | null, role?: st
                         </div>
 
                         <div>
-                            <div className="flex justify-between items-center mb-2">
-                                <label className="block text-sm font-bold text-gray-700">Nội dung (Mỗi đoạn cách nhau bởi 2 dòng trống)</label>
-                                {canUpload && (
-                                    <div className="scale-90 origin-right">
-                                        <ImageUpload onUpload={handleContentImageUpload} label="Chèn ảnh vào bài" />
-                                    </div>
-                                )}
-                            </div>
-                            <textarea
-                                name="content"
-                                value={content}
-                                onChange={(e) => setContent(e.target.value)}
-                                required
-                                rows={20}
-                                className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00B14F] font-serif text-lg leading-relaxed"
-                                placeholder="Viết nội dung tại đây..."
+                            <label className="block text-sm font-bold text-gray-700 mb-2">Nội dung bài viết</label>
+                            {/* Hidden input carries markdown for form submission */}
+                            <input type="hidden" name="content" value={content} />
+                            <WysiwygEditor
+                                initialMarkdown={contentString}
+                                onMarkdownChange={handleMarkdownChange}
+                                canUpload={canUpload}
                             />
                         </div>
                     </div>

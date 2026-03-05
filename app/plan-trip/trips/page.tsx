@@ -109,7 +109,8 @@ function TripsContent() {
       ? storePlaceIds
       : searchParams.get("places")?.split(",") || [];
   const hotelId = storeHotelId || searchParams.get("hotel");
-  const destination = storeDestination || searchParams.get("destination") || "Đà Lạt";
+  const destination =
+    storeDestination || searchParams.get("destination") || "Đà Lạt";
   const startDateParam = storeStartDate || searchParams.get("startDate");
   const endDateParam = storeEndDate || searchParams.get("endDate");
   const people = storePeople || parseInt(searchParams.get("people") || "2");
@@ -280,7 +281,9 @@ function TripsContent() {
           const existing = fetchedPlaces.find((p) => p.id === hotelId);
           if (!existing) {
             // 1. Try Client-Side Static Data (Fastest & Most Reliable for Nha Trang)
-            const staticHotel = allNhaTrangHotels.find((h) => h.id === hotelId) || extraDaLatHotels.find((h) => h.id === hotelId);
+            const staticHotel =
+              allNhaTrangHotels.find((h) => h.id === hotelId) ||
+              extraDaLatHotels.find((h) => h.id === hotelId);
             if (staticHotel) {
               fetchedPlaces.push(staticHotel);
             } else {
@@ -295,7 +298,11 @@ function TripsContent() {
 
         // Determine which static extra places to use based on destination
         let activeExtraPlaces: any[] = [];
-        const normDest = destination.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d");
+        const normDest = destination
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase()
+          .replace(/đ/g, "d");
         if (normDest.includes("nha trang") || normDest.includes("nhatrang")) {
           activeExtraPlaces = extraPlaces;
         } else if (normDest.includes("da lat") || normDest.includes("dalat")) {
@@ -631,7 +638,10 @@ function TripsContent() {
     selectedHotel = allPlaces.find((p) => p.id === hotelId) || null;
     if (!selectedHotel) {
       // Fallback for static hotels
-      selectedHotel = allNhaTrangHotels.find((h) => h.id === hotelId) || extraDaLatHotels.find((h) => h.id === hotelId) || null;
+      selectedHotel =
+        allNhaTrangHotels.find((h) => h.id === hotelId) ||
+        extraDaLatHotels.find((h) => h.id === hotelId) ||
+        null;
     }
   }
 
@@ -641,7 +651,11 @@ function TripsContent() {
 
   // Directions for Suggestions: Only from activeExtraPlaces
   let activeExtraPlacesConfig: any[] = [];
-  const normDest2 = destination.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d");
+  const normDest2 = destination
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/đ/g, "d");
   if (normDest2.includes("nha trang") || normDest2.includes("nhatrang")) {
     activeExtraPlacesConfig = extraPlaces;
   } else if (normDest2.includes("da lat") || normDest2.includes("dalat")) {
@@ -659,10 +673,12 @@ function TripsContent() {
   // Suggestions are filtered to be ONLY items that exist in extraPlaces (as requested)
   // AND are strictly of the correct Type
   const availableAttractions = availablePlaces.filter(
-    (p) => p.type?.toUpperCase() === "ATTRACTION" && extraPlaceIds.includes(p.id),
+    (p) =>
+      p.type?.toUpperCase() === "ATTRACTION" && extraPlaceIds.includes(p.id),
   );
   const availableRestaurants = availablePlaces.filter(
-    (p) => p.type?.toUpperCase() === "RESTAURANT" && extraPlaceIds.includes(p.id),
+    (p) =>
+      p.type?.toUpperCase() === "RESTAURANT" && extraPlaceIds.includes(p.id),
   );
 
   // Debug: If destination is Nha Trang but availableAttractions is empty, it might be due to IDs
@@ -734,8 +750,6 @@ function TripsContent() {
         <Header />
         <TripStepper />
       </div>
-
-
 
       <div className="flex-1 w-full max-w-[1500px] mx-auto p-4 md:p-6 pb-24 md:pb-6 h-[calc(100vh-140px)] flex flex-col overflow-visible">
         {/* Header Section */}
@@ -827,19 +841,21 @@ function TripsContent() {
           <div className="flex items-center gap-4">
             <button
               onClick={() => setViewStep(1)}
-              className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 ${viewStep === 1
-                ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
-                : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
-                }`}
+              className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 ${
+                viewStep === 1
+                  ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
+                  : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
+              }`}
             >
               Danh sách du lịch
             </button>
             <button
               onClick={() => setViewStep(2)}
-              className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 hidden ${viewStep === 2
-                ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
-                : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
-                }`}
+              className={`px-8 py-2.5 rounded-full font-bold text-lg transition-all border-2 hidden ${
+                viewStep === 2
+                  ? "bg-[#1B4D3E] text-white border-[#1B4D3E] shadow-md"
+                  : "bg-transparent border-[#1B4D3E] text-[#1B4D3E] hover:bg-[#1B4D3E]/5"
+              }`}
             >
               Lịch trình cụ thể
             </button>
@@ -855,6 +871,70 @@ function TripsContent() {
               <div className="h-full flex flex-col">
                 <div className="bg-[#F0F5F5] p-6 rounded-[32px] border border-[#1B4D3E]/5 shadow-sm h-full flex flex-col overflow-hidden relative">
                   <div className="overflow-y-auto pr-2 flex-1 scrollbar-thin scrollbar-thumb-[#1B4D3E]/20 hover:scrollbar-thumb-[#1B4D3E]/40 space-y-8 pb-10">
+                    {/* 0. Already Selected Places */}
+                    {selectedPlaces.length > 0 && (
+                      <div className="flex flex-col gap-3">
+                        <div className="flex items-center gap-2 mb-1 sticky top-0 bg-[#F0F5F5] z-10 py-2">
+                          <span className="text-xl">✅</span>
+                          <h3 className="text-xl font-black text-[#1B4D3E] tracking-tight">
+                            Đã chọn ({selectedPlaces.length})
+                          </h3>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedPlaces.map((place) => (
+                            <div
+                              key={place.id}
+                              className="flex items-center gap-2 bg-[#1B4D3E]/10 border border-[#1B4D3E]/20 rounded-full px-4 py-2 group"
+                            >
+                              <span className="text-sm font-bold text-[#1B4D3E]">
+                                {place.name}
+                              </span>
+                              <button
+                                onClick={() => {
+                                  const newIds = placeIds.filter(
+                                    (id) => id !== place.id,
+                                  );
+                                  setStorePlaceIds(newIds);
+                                  const params = new URLSearchParams(
+                                    searchParams.toString(),
+                                  );
+                                  params.set("places", newIds.join(","));
+                                  router.replace(`?${params.toString()}`, {
+                                    scroll: false,
+                                  });
+                                }}
+                                className="text-[#1B4D3E]/50 hover:text-red-500 transition-colors"
+                                title="Bỏ chọn"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                >
+                                  <line x1="18" y1="6" x2="6" y2="18" />
+                                  <line x1="6" y1="6" x2="18" y2="18" />
+                                </svg>
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                        {selectedHotel && (
+                          <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-full px-4 py-2 w-fit">
+                            <span className="text-sm">🏨</span>
+                            <span className="text-sm font-bold text-amber-800">
+                              {selectedHotel.name}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     {/* 1. Available Attractions */}
                     {availableAttractions.length > 0 && (
                       <div className="flex flex-col gap-4">
@@ -875,7 +955,11 @@ function TripsContent() {
                               {/* Image Left */}
                               <div className="relative w-1/3 aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 flex-shrink-0">
                                 <ImageSlideshow
-                                  images={place.images?.length ? place.images : [place.image || "/placeholder.jpg"]}
+                                  images={
+                                    place.images?.length
+                                      ? place.images
+                                      : [place.image || "/placeholder.jpg"]
+                                  }
                                   alt={place.name}
                                   className="w-full h-full group-hover:scale-105 transition-transform duration-700"
                                 />
@@ -887,11 +971,18 @@ function TripsContent() {
                                   <h3 className="font-bold text-[#1B4D3E] text-lg leading-tight line-clamp-2">
                                     {place.name}
                                   </h3>
-                                  <button className="text-[#1B4D3E] hover:bg-[#1B4D3E]/10 p-1 rounded-full transition-colors flex-shrink-0">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleAddPlace(place);
+                                    }}
+                                    className="text-white bg-[#1B4D3E] hover:bg-[#113D38] p-1.5 rounded-full transition-colors flex-shrink-0 shadow-md hover:scale-110 active:scale-95"
+                                    title="Thêm vào lịch trình"
+                                  >
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
-                                      width="20"
-                                      height="20"
+                                      width="18"
+                                      height="18"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -899,9 +990,8 @@ function TripsContent() {
                                       strokeLinecap="round"
                                       strokeLinejoin="round"
                                     >
-                                      <circle cx="12" cy="12" r="10" />
-                                      <line x1="12" y1="8" x2="12" y2="16" />
-                                      <line x1="8" y1="12" x2="16" y2="12" />
+                                      <line x1="12" y1="5" x2="12" y2="19" />
+                                      <line x1="5" y1="12" x2="19" y2="12" />
                                     </svg>
                                   </button>
                                 </div>
@@ -954,7 +1044,7 @@ function TripsContent() {
                                       Cách Khách sạn:{" "}
                                       {place.metadata?.distance ||
                                         (Math.random() * 5 + 1).toFixed(1) +
-                                        " km"}
+                                          " km"}
                                     </span>
                                   </div>
                                   <div className="inline-flex items-center gap-2 bg-[#CFE0E0] px-3 py-1.5 rounded-full w-fit">
@@ -1032,7 +1122,11 @@ function TripsContent() {
                               {/* Image Left */}
                               <div className="relative w-1/3 aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 flex-shrink-0">
                                 <ImageSlideshow
-                                  images={place.images?.length ? place.images : [place.image || "/placeholder.jpg"]}
+                                  images={
+                                    place.images?.length
+                                      ? place.images
+                                      : [place.image || "/placeholder.jpg"]
+                                  }
                                   alt={place.name}
                                   className="w-full h-full group-hover:scale-105 transition-transform duration-700"
                                 />
@@ -1044,11 +1138,18 @@ function TripsContent() {
                                   <h3 className="font-bold text-[#1B4D3E] text-lg leading-tight line-clamp-2">
                                     {place.name}
                                   </h3>
-                                  <button className="text-[#1B4D3E] hover:bg-[#1B4D3E]/10 p-1 rounded-full transition-colors flex-shrink-0">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleAddPlace(place);
+                                    }}
+                                    className="text-white bg-[#1B4D3E] hover:bg-[#113D38] p-1.5 rounded-full transition-colors flex-shrink-0 shadow-md hover:scale-110 active:scale-95"
+                                    title="Thêm vào lịch trình"
+                                  >
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
-                                      width="20"
-                                      height="20"
+                                      width="18"
+                                      height="18"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -1056,9 +1157,8 @@ function TripsContent() {
                                       strokeLinecap="round"
                                       strokeLinejoin="round"
                                     >
-                                      <circle cx="12" cy="12" r="10" />
-                                      <line x1="12" y1="8" x2="12" y2="16" />
-                                      <line x1="8" y1="12" x2="16" y2="12" />
+                                      <line x1="12" y1="5" x2="12" y2="19" />
+                                      <line x1="5" y1="12" x2="19" y2="12" />
                                     </svg>
                                   </button>
                                 </div>
@@ -1109,7 +1209,7 @@ function TripsContent() {
                                       Cách Khách sạn:{" "}
                                       {place.metadata?.distance ||
                                         (Math.random() * 5 + 1).toFixed(1) +
-                                        " km"}
+                                          " km"}
                                     </span>
                                   </div>
                                   <div className="inline-flex items-center gap-2 bg-[#CFE0E0] px-3 py-1.5 rounded-full w-fit">
@@ -1449,7 +1549,7 @@ function TripsContent() {
                     </div>
 
                     {(activities[selectedDay]?.["afternoon"] || []).length >
-                      0 ? (
+                    0 ? (
                       <div className="space-y-4">
                         {activities[selectedDay]["afternoon"].map(
                           (item, idx) => (
@@ -1613,7 +1713,11 @@ function TripsContent() {
                 </button>
                 <div className="w-full aspect-[5/2] rounded-2xl overflow-hidden relative mb-3">
                   <ImageSlideshow
-                    images={viewedPlace.images?.length ? viewedPlace.images : [viewedPlace.image || "/placeholder.jpg"]}
+                    images={
+                      viewedPlace.images?.length
+                        ? viewedPlace.images
+                        : [viewedPlace.image || "/placeholder.jpg"]
+                    }
                     alt={viewedPlace.name}
                     className="w-full h-full object-cover"
                   />
@@ -1832,7 +1936,7 @@ function TripsContent() {
                       <p className="text-gray-600 text-xs mb-1">Chi phí</p>
                       <p className="font-semibold text-[#1B4D3E]">
                         {viewingActivityDetails.transportation.estimated_cost >
-                          0
+                        0
                           ? `${viewingActivityDetails.transportation.estimated_cost.toLocaleString()} đ`
                           : "Miễn phí"}
                       </p>
