@@ -4,7 +4,7 @@ import GlobalChatBubble from "@/components/layout/GlobalChatBubble";
 import { AuthStateListener } from "@/components/auth/AuthStateListener";
 import { AuthProvider } from "@/lib/context/AuthContext";
 import PageTransition from "@/components/layout/PageTransition";
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const quicksand = Quicksand({
@@ -13,8 +13,18 @@ const quicksand = Quicksand({
 });
 
 export const metadata: Metadata = {
-  title: "Travel Path",
-  description: "Một cú chạm, vạn hành trình",
+  title: {
+    default: "Travel Path - Một cú chạm, vạn hành trình",
+    template: "%s | Travel Path",
+  },
+  description:
+    "Travel Path hợp tác với hệ thống khách sạn uy tín trên khắp Việt Nam, giúp bạn tạo lịch trình du lịch nhanh chóng bằng AI.",
+  metadataBase: new URL("https://www.travelpath.io.vn"),
+  openGraph: {
+    siteName: "Travel Path",
+    locale: "vi_VN",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -47,9 +57,7 @@ export default function RootLayout({
       >
         <AuthProvider>
           <AuthStateListener />
-          <PageTransition>
-            {children}
-          </PageTransition>
+          <PageTransition>{children}</PageTransition>
           <GlobalChatBubble />
         </AuthProvider>
         <Analytics />
