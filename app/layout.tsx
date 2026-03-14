@@ -5,6 +5,7 @@ import { AuthStateListener } from "@/components/auth/AuthStateListener";
 import { AuthProvider } from "@/lib/context/AuthContext";
 import PageTransition from "@/components/layout/PageTransition";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const quicksand = Quicksand({
@@ -61,6 +62,7 @@ export default function RootLayout({
           <GlobalChatBubble />
         </AuthProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
