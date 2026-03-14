@@ -335,7 +335,11 @@ export const extraDaLatHotels: PlaceData[] = [
         priceLevel: "$$",
         price: "350.000 VNĐ/đêm",
         duration: "N/A",
-        images: ["https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-duparchotel-1.jpg"],
+        images: [
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-duparchotel/dl-duparchotel-1.jpg",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-duparchotel/dl-duparchotel-2.avif",
+                "https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/places/places/dl/dl-duparchotel/dl-duparchotel-3.jpg"
+      ],
         address: "15 Trần Phú, Phường 3, TP. Đà Lạt",
         description: "Khách sạn phong cách cổ điển, yên tĩnh. Cách Dinh Bảo Đại III khoảng 1.5 km (6-8 phút di chuyển).",
         lat: 11.9392,
