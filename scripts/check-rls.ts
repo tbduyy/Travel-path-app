@@ -50,7 +50,7 @@ async function main() {
 
         // Try Service Role
         console.log('Attempting to read Profile (Service Role)...');
-        const serviceClient = createClient(SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY!);
+        const serviceClient = createClient(SUPABASE_URL as string, process.env.SUPABASE_SERVICE_ROLE_KEY as string);
         const { data: adminProfile, error: adminError } = await serviceClient
             .from('Profile')
             .select('*')

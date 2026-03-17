@@ -57,6 +57,8 @@ export default async function TripDetailPage({
           src="/assets/plan-trip/rectangle-7.png"
           alt="Trip Banner"
           fill
+          sizes="100vw"
+          priority
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center text-white p-4 text-center">
@@ -157,9 +159,10 @@ export default async function TripDetailPage({
                     {/* Image */}
                     <div className="w-full md:w-48 h-32 md:h-auto relative rounded-xl overflow-hidden shrink-0">
                       <Image
-                        src={item.place.image || "/placeholder.png"}
+                        src={item.place.images?.[0] || "/placeholder.png"}
                         alt={item.place.name}
                         fill
+                        sizes="(max-width: 768px) 100vw, 192px"
                         className="object-cover"
                       />
                     </div>

@@ -1,6 +1,8 @@
-import prisma from "@/lib/prisma";
-import { Users, MapPin, FileText } from "lucide-react";
+import { PrismaClient } from "@prisma/client";
+import { Users, MapPin, FileText, BarChart3 } from "lucide-react";
 import Link from "next/link";
+
+const prisma = new PrismaClient();
 
 async function getStats() {
   // Determine counts. Prisma might fail if Profile table not synced yet.
@@ -39,6 +41,13 @@ export default async function AdminDashboard() {
       icon: FileText,
       color: "bg-purple-500",
       href: "/admin/blog",
+    },
+    {
+      name: "Thống kê",
+      value: "Live",
+      icon: BarChart3,
+      color: "bg-green-500",
+      href: "/admin/analytics",
     },
   ];
 

@@ -1,0 +1,6 @@
+app/admin/migrate/actions.ts(887,25): error TS2561: Object literal may only specify known properties, but 'image' does not exist in type '(Without<PlaceCreateInput, PlaceUncheckedCreateInput> & PlaceUncheckedCreateInput) | (Without<...> & PlaceCreateInput)'. Did you mean to write 'images'?
+app/admin/migrate/actions.ts(923,25): error TS2561: Object literal may only specify known properties, but 'image' does not exist in type '(Without<PlaceCreateInput, PlaceUncheckedCreateInput> & PlaceUncheckedCreateInput) | (Without<...> & PlaceCreateInput)'. Did you mean to write 'images'?
+app/login/page.tsx(39,24): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+scripts/check-rls.ts(53,44): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
