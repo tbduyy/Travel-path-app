@@ -1,33 +1,47 @@
-
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient } from "@prisma/client";
 
 const prismaClientSingleton = () => {
-    // Append connection_limit=1 to prevent connection exhaustion in serverless/build environments
-    const url = process.env.DATABASE_URL;
-    let newUrl = url;
-    if (url && !url.includes("connection_limit")) {
-        newUrl = url.includes("?")
-            ? `${url}&connection_limit=1`
-            : `${url}?connection_limit=1`;
+  // Keep pool settings configurable instead of forcing a single connection.
+  const url = process.env.DATABASE_URL;
+  let newUrl = url;
+  const connectionLimit = process.env.PRISMA_CONNECTION_LIMIT || "5";
+  const poolTimeout = process.env.PRISMA_POOL_TIMEOUT || "20";
+
+  if (url) {
+    const hasConnectionLimit = url.includes("connection_limit=");
+    const hasPoolTimeout = url.includes("pool_timeout=");
+    const separator = url.includes("?") ? "&" : "?";
+    const extraParams: string[] = [];
+
+    if (!hasConnectionLimit) {
+      extraParams.push(`connection_limit=${connectionLimit}`);
+    }
+    if (!hasPoolTimeout) {
+      extraParams.push(`pool_timeout=${poolTimeout}`);
     }
 
-    return new PrismaClient({
-        datasources: {
-            db: {
-                url: newUrl,
-            },
-        },
-    })
-}
+    if (extraParams.length > 0) {
+      newUrl = `${url}${separator}${extraParams.join("&")}`;
+    }
+  }
 
-type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>
+  return new PrismaClient({
+    datasources: {
+      db: {
+        url: newUrl,
+      },
+    },
+  });
+};
+
+type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>;
 
 const globalForPrisma = globalThis as unknown as {
-    prisma: PrismaClientSingleton | undefined
-}
+  prisma: PrismaClientSingleton | undefined;
+};
 
-const prisma = globalForPrisma.prisma ?? prismaClientSingleton()
+const prisma = globalForPrisma.prisma ?? prismaClientSingleton();
 
-export default prisma
+export default prisma;
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;

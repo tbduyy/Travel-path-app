@@ -156,8 +156,17 @@ function DemoContent() {
             localStorage.removeItem("mytrip_activities");
             router.push(redirectPath);
           } else {
-            alert("Có lỗi khi lưu lịch trình: " + result.error);
-            setIsSaving(false); // Only stop if error, otherwise we redirect
+            // Do not block checkout if persistence fails temporarily.
+            if (redirectPath === "/payment") {
+              console.warn(
+                "saveTripToSupabase: saveTrip failed, continuing to payment:",
+                result.error,
+              );
+              router.push(redirectPath);
+            } else {
+              alert("Có lỗi khi lưu lịch trình: " + result.error);
+              setIsSaving(false);
+            }
           }
         } else {
           // No activities found anywhere - redirect without saving
@@ -169,8 +178,16 @@ function DemoContent() {
       }
     } catch (e) {
       console.error(e);
-      alert("Lỗi kết nối");
-      setIsSaving(false);
+      if (redirectPath === "/payment") {
+        console.warn(
+          "saveTripToSupabase: connection error, continuing to payment",
+          e,
+        );
+        router.push(redirectPath);
+      } else {
+        alert("Lỗi kết nối");
+        setIsSaving(false);
+      }
     }
   };
 
