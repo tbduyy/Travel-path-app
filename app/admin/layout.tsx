@@ -2,7 +2,7 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
-import { LayoutDashboard, Users, MapPin, FileText, Info, Home, Mail } from 'lucide-react'
+import { LayoutDashboard, Users, MapPin, FileText, Info, Home, Mail, BarChart3 } from 'lucide-react'
 
 export default async function AdminLayout({
     children,
@@ -29,6 +29,7 @@ export default async function AdminLayout({
     const navItems = [
         { name: 'Trang chủ', href: '/', icon: Home },
         { name: 'Tổng quan', href: '/admin', icon: LayoutDashboard },
+        // { name: 'Thống kê', href: '/admin/analytics', icon: BarChart3 },
         { name: 'Người dùng', href: '/admin/users', icon: Users },
         { name: 'Địa điểm', href: '/admin/places', icon: MapPin },
         { name: 'Bài viết', href: '/admin/blog', icon: FileText },

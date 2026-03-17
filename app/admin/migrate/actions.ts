@@ -883,9 +883,7 @@ export async function migrateData() {
                         type: 'ATTRACTION',
                         rating: attr.rating,
                         priceLevel: attr.priceLevel,
-                        address: attr.address,
-                        image: attr.image,
-                        lat: attr.lat,
+                        images: attr.image ? [attr.image] : [],
                         lng: attr.lng,
                         city: attr.city,
                         price: attr.price,
@@ -919,9 +917,7 @@ export async function migrateData() {
                         type: 'HOTEL',
                         rating: hotel.rating,
                         priceLevel: 3, // Default or estimate
-                        address: hotel.address,
-                        image: hotel.image,
-                        lat: hotel.lat,
+                        images: hotel.image ? [hotel.image] : [],
                         lng: hotel.lng,
                         city: hotel.relatedTo[0]?.includes('VinWonders') ? 'Nha Trang'
                             : hotel.relatedTo[0]?.includes('Bà Nà') ? 'Đà Nẵng'

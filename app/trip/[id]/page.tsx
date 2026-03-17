@@ -51,6 +51,8 @@ export default async function TripDetailPage({ params }: { params: { id: string 
                     src="/assets/plan-trip/rectangle-7.png"
                     alt="Trip Banner"
                     fill
+                    sizes="100vw"
+                    priority
                     className="object-cover"
                 />
                 <div className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center text-white p-4 text-center">
@@ -102,8 +104,8 @@ export default async function TripDetailPage({ params }: { params: { id: string 
                                                     </p>
                                                 </div>
                                                 <span className={`px-3 py-1 rounded-full text-xs font-bold ${item.place.type === 'HOTEL' ? 'bg-blue-100 text-blue-700' :
-                                                        item.place.type === 'TRANSIT' ? 'bg-orange-100 text-orange-700' :
-                                                            'bg-[#D8F3DC] text-[#1B4D3E]'
+                                                    item.place.type === 'TRANSIT' ? 'bg-orange-100 text-orange-700' :
+                                                        'bg-[#D8F3DC] text-[#1B4D3E]'
                                                     }`}>
                                                     {item.place.type}
                                                 </span>
@@ -125,9 +127,10 @@ export default async function TripDetailPage({ params }: { params: { id: string 
                                         {/* Image */}
                                         <div className="w-full md:w-48 h-32 md:h-auto relative rounded-xl overflow-hidden shrink-0">
                                             <Image
-                                                src={item.place.image || "/placeholder.png"}
+                                                src={item.place.images?.[0] || "/placeholder.png"}
                                                 alt={item.place.name}
                                                 fill
+                                                sizes="(max-width: 768px) 100vw, 192px"
                                                 className="object-cover"
                                             />
                                         </div>

@@ -35,8 +35,7 @@ function LoginForm() {
     if (state.success && state.redirectTo) {
       const handleLoginSuccess = async () => {
         await refreshAuth(); // Update auth context immediately
-        router.refresh(); // Refresh server components
-        router.replace(state.redirectTo); // Client-side redirect
+        router.replace(state.redirectTo as string); // Client-side redirect
       };
       handleLoginSuccess();
     }

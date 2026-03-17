@@ -59,6 +59,7 @@ export default function ImageSlideshow({
                         src={validImages[currentIndex]}
                         alt={`${alt} - Image ${currentIndex + 1}`}
                         fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover"
                         priority={currentIndex === 0} // Prioritize first image
                     />

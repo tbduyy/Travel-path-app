@@ -17,8 +17,8 @@ export default function PlaceCard({ place }: PlaceCardProps) {
                         src={place.image}
                         alt={place.name}
                         fill
+                        sizes="128px"
                         className="object-cover"
-                        unoptimized
                     />
                 ) : (
                     <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">No Image</div>

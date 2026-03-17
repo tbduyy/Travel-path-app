@@ -1,6 +1,6 @@
 
 import { PrismaClient } from '@prisma/client'
-import { Users, MapPin, FileText } from 'lucide-react'
+import { Users, MapPin, FileText, BarChart3 } from 'lucide-react'
 import Link from 'next/link'
 
 const prisma = new PrismaClient()
@@ -25,6 +25,7 @@ export default async function AdminDashboard() {
         { name: 'Người dùng', value: stats.userCount, icon: Users, color: 'bg-blue-500', href: '/admin/users' },
         { name: 'Địa điểm', value: stats.placeCount, icon: MapPin, color: 'bg-orange-500', href: '/admin/places' },
         { name: 'Bài viết', value: stats.postCount, icon: FileText, color: 'bg-purple-500', href: '/admin/blog' },
+        { name: 'Thống kê', value: 'Live', icon: BarChart3, color: 'bg-green-500', href: '/admin/analytics' },
     ]
 
     return (

@@ -47,8 +47,8 @@ export default async function ItineraryView() {
                         {/* Card */}
                         <div className="bg-zinc-800/80 backdrop-blur border border-white/10 rounded-xl p-3 hover:bg-zinc-800 transition-colors flex gap-3">
                             <div className="relative w-16 h-16 bg-zinc-700 rounded-lg overflow-hidden shrink-0">
-                                {item.place.image && (
-                                    <Image src={item.place.image} alt={item.place.name} fill className="object-cover" />
+                                {item.place.images?.[0] && (
+                                    <Image src={item.place.images[0]} alt={item.place.name} fill sizes="64px" className="object-cover" />
                                 )}
                             </div>
 
