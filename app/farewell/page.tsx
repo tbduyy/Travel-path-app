@@ -1,12 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { CheckCircle, Home } from "lucide-react";
 
 export default function FarewellPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [countdown, setCountdown] = useState(10);
+  const [showMailPopup, setShowMailPopup] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get("mail") !== "sent") return;
+
+    setShowMailPopup(true);
+    const popupTimer = setTimeout(() => {
+      setShowMailPopup(false);
+    }, 3000);
+
+    return () => clearTimeout(popupTimer);
+  }, [searchParams]);
 
   useEffect(() => {
     if (countdown <= 0) {
@@ -23,6 +36,12 @@ export default function FarewellPage() {
 
   return (
     <main className="min-h-screen bg-[#F0F9F9] flex items-center justify-center">
+      {showMailPopup && (
+        <div className="fixed top-5 right-5 z-50 bg-[#1B4D3E] text-white px-5 py-3 rounded-xl shadow-xl animate-in slide-in-from-top-2 duration-300">
+          Mail đã được gửi. Vui lòng kiểm tra hộp thư của bạn.
+        </div>
+      )}
+
       <div className="max-w-2xl mx-auto px-6 py-12 text-center">
         {/* Success Icon */}
         <div className="mb-8">

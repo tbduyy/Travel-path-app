@@ -9,10 +9,7 @@ import { getPlacesByIds } from "@/app/actions/search";
 import { useTripStore, type ActivitiesMap } from "@/lib/store/trip-store";
 import { useShallow } from "zustand/react/shallow";
 import { Loader2, Check, CreditCard, Wallet, QrCode } from "lucide-react";
-import {
-  useAuth,
-  useRequireAuthFromContext,
-} from "@/lib/context/AuthContext";
+import { useAuth, useRequireAuthFromContext } from "@/lib/context/AuthContext";
 import {
   AuthRequiredPopup,
   AuthLoadingScreen,
@@ -21,7 +18,7 @@ import { exportTripToPDF } from "@/lib/export-pdf";
 import { sendTripConfirmationEmail } from "@/app/actions/email";
 import {
   getPrefetchedPaymentData,
-  clearPrefetchedPaymentData
+  clearPrefetchedPaymentData,
 } from "@/lib/utils/prefetch-payment";
 import { savePaymentRecord } from "@/lib/utils/payment-history";
 
@@ -149,7 +146,7 @@ function PaymentContent() {
       activities: state.activities,
       clearTrip: state.clearTrip,
       budget: state.budget,
-    }))
+    })),
   );
 
   // State for fetched data
@@ -182,16 +179,15 @@ function PaymentContent() {
   // Payment processing state (20s delay logic)
   const [isProcessing, setIsProcessing] = useState(false);
   const [countdown, setCountdown] = useState(20);
-  const [emailStatus, setEmailStatus] = useState<
-    "pending" | "sending" | "sent" | "failed"
-  >("pending");
 
   // VOUCHER STATE
   const [selectedVoucher, setSelectedVoucher] = useState<Voucher | null>(null);
 
   // Auto-apply "HANHTRINHVUI" on enter
   useEffect(() => {
-    const defaultVoucher = AVAILABLE_VOUCHERS.find(v => v.code === "HANHTRINHVUI");
+    const defaultVoucher = AVAILABLE_VOUCHERS.find(
+      (v) => v.code === "HANHTRINHVUI",
+    );
     if (defaultVoucher) setSelectedVoucher(defaultVoucher);
   }, []);
 
@@ -209,7 +205,7 @@ function PaymentContent() {
 
   const currentMessage =
     processingMessages[
-    Math.floor((20 - countdown) / 10) % processingMessages.length
+      Math.floor((20 - countdown) / 10) % processingMessages.length
     ];
 
   // 1. Params - prioritize store, fallback to URL
@@ -318,19 +314,14 @@ function PaymentContent() {
     if (!isProcessing) return;
 
     if (countdown <= 0) {
-      // Send email with PDF before redirecting
-      const sendEmailWithPDF = async () => {
+      // Fire-and-forget email send so checkout UX is not blocked by email latency.
+      const sendEmailInBackground = async () => {
         if (!userInfo.email) {
           console.log("No user email, skipping email send");
-          clearTrip();
-          router.push("/farewell");
           return;
         }
 
-        setEmailStatus("sending");
-
         try {
-          // Generate PDF
           const pdfBlob = await exportTripToPDF({
             destination: destination,
             startDate: startDateParam,
@@ -342,11 +333,9 @@ function PaymentContent() {
             hotelData: selectedHotel,
           });
 
-          // Convert blob to base64
           const arrayBuffer = await pdfBlob.arrayBuffer();
           const pdfBase64 = Buffer.from(arrayBuffer).toString("base64");
 
-          // Format dates for email
           const formatDate = (dateStr: string | null) => {
             if (!dateStr) return "Chưa xác định";
             return new Date(dateStr).toLocaleDateString("vi-VN", {
@@ -356,8 +345,7 @@ function PaymentContent() {
             });
           };
 
-          // Send email
-          const result = await sendTripConfirmationEmail({
+          void sendTripConfirmationEmail({
             to: userInfo.email,
             userName: userInfo.name || "Quý khách",
             destination: destination,
@@ -371,63 +359,67 @@ function PaymentContent() {
             ).length,
             pdfBase64,
             pdfFilename: `Lich-trinh-${destination.replace(/\s+/g, "-")}.pdf`,
-          });
-
-          if (result.success) {
-            setEmailStatus("sent");
-            console.log("Email sent successfully!");
-          } else {
-            setEmailStatus("failed");
-            console.error("Email failed:", result.error);
-          }
+          })
+            .then((result) => {
+              if (!result.success) {
+                console.error("Email failed:", result.error);
+                return;
+              }
+              console.log("Email sent successfully!");
+            })
+            .catch((error) => {
+              console.error("Error sending email:", error);
+            });
         } catch (error) {
-          console.error("Error sending email:", error);
-          setEmailStatus("failed");
+          console.error("Error preparing email payload:", error);
         }
-
-        // Clear and redirect regardless of email status
-        // Save payment record to localStorage for history
-        try {
-          savePaymentRecord({
-            destination,
-            startDate: startDateParam,
-            endDate: endDateParam,
-            duration: durationString,
-            people: peopleCount,
-            paymentMethod,
-            voucher: selectedVoucher?.code || null,
-            discountAmount,
-            subTotal,
-            grandTotal,
-            hotel: selectedHotel && isHotelSelected ? {
-              name: selectedHotel.name,
-              price: selectedHotel.price || "",
-              nights,
-              total: hotelTotal,
-              image: selectedHotel.images?.[0] || (selectedHotel as any).image,
-              address: selectedHotel.address,
-            } : null,
-            attractions: attractionCosts
-              .filter(a => a.isSelected)
-              .map(a => ({
-                name: a.name,
-                price: a.price || "",
-                unitPrice: a.unitPrice,
-                total: a.total,
-                image: a.images?.[0] || (a as any).image,
-              })),
-            userEmail: userInfo.email || null,
-          });
-          console.log("Payment record saved to history");
-        } catch (e) {
-          console.error("Failed to save payment history:", e);
-        }
-
-        clearTrip();
-        router.push("/farewell");
       };
 
-      sendEmailWithPDF();
+      void sendEmailInBackground();
+
+      // Save payment record to localStorage for history
+      try {
+        savePaymentRecord({
+          destination,
+          startDate: startDateParam,
+          endDate: endDateParam,
+          duration: durationString,
+          people: peopleCount,
+          paymentMethod,
+          voucher: selectedVoucher?.code || null,
+          discountAmount,
+          subTotal,
+          grandTotal,
+          hotel:
+            selectedHotel && isHotelSelected
+              ? {
+                  name: selectedHotel.name,
+                  price: selectedHotel.price || "",
+                  nights,
+                  total: hotelTotal,
+                  image:
+                    selectedHotel.images?.[0] || (selectedHotel as any).image,
+                  address: selectedHotel.address,
+                }
+              : null,
+          attractions: attractionCosts
+            .filter((a) => a.isSelected)
+            .map((a) => ({
+              name: a.name,
+              price: a.price || "",
+              unitPrice: a.unitPrice,
+              total: a.total,
+              image: a.images?.[0] || (a as any).image,
+            })),
+          userEmail: userInfo.email || null,
+        });
+        console.log("Payment record saved to history");
+      } catch (e) {
+        console.error("Failed to save payment history:", e);
+      }
+
+      clearTrip();
+      router.push(userInfo.email ? "/farewell?mail=sent" : "/farewell");
       return;
     }
 
@@ -464,7 +456,10 @@ function PaymentContent() {
   if (selectedVoucher && subTotal >= (selectedVoucher.minOrder || 0)) {
     if (selectedVoucher.discountType === "PERCENT") {
       discountAmount = (subTotal * selectedVoucher.value) / 100;
-      if (selectedVoucher.maxDiscount && discountAmount > selectedVoucher.maxDiscount) {
+      if (
+        selectedVoucher.maxDiscount &&
+        discountAmount > selectedVoucher.maxDiscount
+      ) {
         discountAmount = selectedVoucher.maxDiscount;
       }
     } else {
@@ -473,7 +468,9 @@ function PaymentContent() {
   }
 
   const grandTotal = Math.max(0, subTotal - discountAmount);
-  const formattedBudget_forPDF = new Intl.NumberFormat("vi-VN").format(grandTotal);
+  const formattedBudget_forPDF = new Intl.NumberFormat("vi-VN").format(
+    grandTotal,
+  );
 
   // Count selected items
   const selectedCount = selectedItems.size;
@@ -548,10 +545,20 @@ function PaymentContent() {
               onClick={() => router.push("/payment-history")}
               className="flex items-center gap-2 mx-auto mt-4 px-4 py-2 bg-white/60 hover:bg-white text-[#1B4D3E] rounded-full text-sm font-bold transition-all border border-[#1B4D3E]/10 hover:border-[#1B4D3E]/30 shadow-sm hover:shadow-md"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-                <path d="M3 3v5h5"/>
-                <path d="M12 7v5l4 2"/>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                <path d="M3 3v5h5" />
+                <path d="M12 7v5l4 2" />
               </svg>
               Lịch sử thanh toán
             </button>
@@ -570,43 +577,28 @@ function PaymentContent() {
         </div>
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center max-w-md mx-auto p-8 bg-white rounded-3xl shadow-2xl">
-            {emailStatus === "sending" ? (
-              <>
-                <div className="text-6xl mb-4">📧</div>
-                <h2 className="text-2xl font-bold mb-2 text-[#1B4D3E]">
-                  Đang gửi email xác nhận
-                </h2>
-                <p className="text-[#1B4D3E]/70 mb-4">
-                  Lịch trình PDF đang được gửi đến {userInfo.email}
-                </p>
-                <Loader2 className="w-8 h-8 animate-spin text-[#2E968C] mx-auto" />
-              </>
-            ) : (
-              <>
-                <Loader2 className="w-16 h-16 animate-spin text-[#2E968C] mx-auto mb-6" />
-                <h2 className="text-2xl font-bold mb-2 text-[#1B4D3E]">
-                  Đang xử lý thanh toán
-                </h2>
-                <p className="text-[#1B4D3E]/70 mb-4">{currentMessage}</p>
-                <div className="text-5xl font-black text-[#2E968C] mb-4">
-                  {countdown}s
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-                  <div
-                    className="bg-[#2E968C] h-2 rounded-full transition-all duration-1000"
-                    style={{ width: `${((20 - countdown) / 20) * 100}%` }}
-                  ></div>
-                </div>
-                {userInfo.email && (
-                  <p className="text-xs text-[#2E968C] mb-2">
-                    📧 Email xác nhận sẽ được gửi đến: {userInfo.email}
-                  </p>
-                )}
-                <p className="text-xs text-gray-400">
-                  Vui lòng không đóng trang này
-                </p>
-              </>
+            <Loader2 className="w-16 h-16 animate-spin text-[#2E968C] mx-auto mb-6" />
+            <h2 className="text-2xl font-bold mb-2 text-[#1B4D3E]">
+              Đang xử lý thanh toán
+            </h2>
+            <p className="text-[#1B4D3E]/70 mb-4">{currentMessage}</p>
+            <div className="text-5xl font-black text-[#2E968C] mb-4">
+              {countdown}s
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+              <div
+                className="bg-[#2E968C] h-2 rounded-full transition-all duration-1000"
+                style={{ width: `${((20 - countdown) / 20) * 100}%` }}
+              ></div>
+            </div>
+            {userInfo.email && (
+              <p className="text-xs text-[#2E968C] mb-2">
+                📧 Email xác nhận sẽ được gửi đến: {userInfo.email}
+              </p>
             )}
+            <p className="text-xs text-gray-400">
+              Vui lòng không đóng trang này
+            </p>
           </div>
         </div>
       </div>
@@ -626,7 +618,9 @@ function PaymentContent() {
             destination={destination}
             duration={durationString}
             placeCount={placeIds.length}
-            budget={new Intl.NumberFormat("vi-VN").format(parseInt(budgetParam || "0") - grandTotal)}
+            budget={new Intl.NumberFormat("vi-VN").format(
+              parseInt(budgetParam || "0") - grandTotal,
+            )}
           />
         </div>
 
@@ -642,10 +636,20 @@ function PaymentContent() {
                 onClick={() => router.push("/payment-history")}
                 className="flex items-center gap-2 px-4 py-2 bg-white/60 hover:bg-white text-[#1B4D3E] rounded-full text-sm font-bold transition-all border border-[#1B4D3E]/10 hover:border-[#1B4D3E]/30 shadow-sm hover:shadow-md"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-                  <path d="M3 3v5h5"/>
-                  <path d="M12 7v5l4 2"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                  <path d="M3 3v5h5" />
+                  <path d="M12 7v5l4 2" />
                 </svg>
                 Lịch sử
               </button>
@@ -653,24 +657,30 @@ function PaymentContent() {
 
             {/* Hotel Section */}
             {selectedHotel && (
-              <div
-                className="bg-white p-6 rounded-[24px] shadow-sm transition-all relative"
-              >
+              <div className="bg-white p-6 rounded-[24px] shadow-sm transition-all relative">
                 {/* Discount Tag */}
                 {selectedVoucher && isHotelSelected && (
                   <div className="absolute top-4 right-4 bg-red-100 text-red-600 px-2 py-1 rounded-md text-xs font-bold flex items-center gap-1">
-                    <span className="text-[10px]">🏷️</span>
-                    -{selectedVoucher.discountType === "PERCENT" ? `${selectedVoucher.value}%` : "Voucher"}
+                    <span className="text-[10px]">🏷️</span>-
+                    {selectedVoucher.discountType === "PERCENT"
+                      ? `${selectedVoucher.value}%`
+                      : "Voucher"}
                   </div>
                 )}
 
                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                   <span className="text-2xl">🏨</span> Lưu trú ({nights} đêm)
                 </h3>
-                <div className={`flex gap-4 items-start rounded-xl border-b border-gray-100 p-4 my-4 ${isHotelSelected ? "bg-[#E8F5E9] ring-2 ring-[#2E968C]" : "hover:bg-gray-50"}`}>
+                <div
+                  className={`flex gap-4 items-start rounded-xl border-b border-gray-100 p-4 my-4 ${isHotelSelected ? "bg-[#E8F5E9] ring-2 ring-[#2E968C]" : "hover:bg-gray-50"}`}
+                >
                   <div className="w-24 h-24 rounded-xl overflow-hidden relative shrink-0 bg-gray-100">
                     <Image
-                      src={selectedHotel.images?.[0] || selectedHotel.image || "/placeholder.jpg"}
+                      src={
+                        selectedHotel.images?.[0] ||
+                        selectedHotel.image ||
+                        "/placeholder.jpg"
+                      }
                       alt={selectedHotel.name}
                       fill
                       className="object-cover"
@@ -691,10 +701,18 @@ function PaymentContent() {
                       {isHotelSelected && selectedVoucher ? (
                         <div className="flex flex-col items-end">
                           <span className="text-gray-400 line-through text-sm">
-                            {new Intl.NumberFormat("vi-VN").format(hotelTotal)} ₫
+                            {new Intl.NumberFormat("vi-VN").format(hotelTotal)}{" "}
+                            ₫
                           </span>
                           <span className="text-red-600">
-                            {new Intl.NumberFormat("vi-VN").format(hotelTotal * (1 - (selectedVoucher.discountType === "PERCENT" ? selectedVoucher.value / 100 : 0)))} ₫
+                            {new Intl.NumberFormat("vi-VN").format(
+                              hotelTotal *
+                                (1 -
+                                  (selectedVoucher.discountType === "PERCENT"
+                                    ? selectedVoucher.value / 100
+                                    : 0)),
+                            )}{" "}
+                            ₫
                           </span>
                         </div>
                       ) : (
@@ -705,10 +723,11 @@ function PaymentContent() {
                     <button
                       type="button"
                       onClick={() => toggleItemSelection("hotel")}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 mt-2 ${isHotelSelected
-                        ? "bg-[#1B4D3E] text-white"
-                        : "bg-[#E8F5E9] text-[#1B4D3E] hover:bg-[#D0EBD0]"
-                        }`}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 mt-2 ${
+                        isHotelSelected
+                          ? "bg-[#1B4D3E] text-white"
+                          : "bg-[#E8F5E9] text-[#1B4D3E] hover:bg-[#D0EBD0]"
+                      }`}
                     >
                       {isHotelSelected && <Check className="w-4 h-4" />}
                       {isHotelSelected ? "Đã chọn" : "Chọn chỗ này"}
@@ -722,12 +741,15 @@ function PaymentContent() {
             {attractionCosts.length > 0 && (
               <div className="bg-white p-6 rounded-[24px] shadow-sm relative">
                 {/* Discount Tag */}
-                {selectedVoucher && attractionCosts.some(i => i.isSelected) && (
-                  <div className="absolute top-4 right-4 bg-red-100 text-red-600 px-2 py-1 rounded-md text-xs font-bold flex items-center gap-1">
-                    <span className="text-[10px]">🏷️</span>
-                    -{selectedVoucher.discountType === "PERCENT" ? `${selectedVoucher.value}%` : "Voucher"}
-                  </div>
-                )}
+                {selectedVoucher &&
+                  attractionCosts.some((i) => i.isSelected) && (
+                    <div className="absolute top-4 right-4 bg-red-100 text-red-600 px-2 py-1 rounded-md text-xs font-bold flex items-center gap-1">
+                      <span className="text-[10px]">🏷️</span>-
+                      {selectedVoucher.discountType === "PERCENT"
+                        ? `${selectedVoucher.value}%`
+                        : "Voucher"}
+                    </div>
+                  )}
                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                   <span className="text-2xl">🎡</span> Hoạt động ({peopleCount}{" "}
                   người)
@@ -739,14 +761,19 @@ function PaymentContent() {
                     return (
                       <div
                         key={item.id}
-                        className={`flex gap-4 items-center p-3 rounded-xl transition-all ${isItemSelected
-                          ? "bg-[#E8F5E9] ring-2 ring-[#2E968C]"
-                          : "hover:bg-gray-50"
-                          }`}
+                        className={`flex gap-4 items-center p-3 rounded-xl transition-all ${
+                          isItemSelected
+                            ? "bg-[#E8F5E9] ring-2 ring-[#2E968C]"
+                            : "hover:bg-gray-50"
+                        }`}
                       >
                         <div className="w-24 h-24 rounded-xl overflow-hidden relative shrink-0 bg-gray-100">
                           <Image
-                            src={item.images?.[0] || item.image || "/placeholder.jpg"}
+                            src={
+                              item.images?.[0] ||
+                              item.image ||
+                              "/placeholder.jpg"
+                            }
                             alt={item.name}
                             fill
                             className="object-cover"
@@ -780,10 +807,11 @@ function PaymentContent() {
                           <button
                             type="button"
                             onClick={() => toggleItemSelection(itemKey)}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${isItemSelected
-                              ? "bg-[#1B4D3E] text-white"
-                              : "bg-[#E8F5E9] text-[#1B4D3E] hover:bg-[#D0EBD0]"
-                              }`}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                              isItemSelected
+                                ? "bg-[#1B4D3E] text-white"
+                                : "bg-[#E8F5E9] text-[#1B4D3E] hover:bg-[#D0EBD0]"
+                            }`}
                           >
                             {isItemSelected && <Check className="w-3 h-3" />}
                             {isItemSelected ? "Đã chọn" : "Thêm vào"}
@@ -821,25 +849,25 @@ function PaymentContent() {
                 {attractionCosts.filter((item) =>
                   selectedItems.has(`attraction-${item.id}`),
                 ).length > 0 && (
-                    <div className="flex justify-between items-center text-white/80">
-                      <span className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-green-400" />
-                        Vé tham quan (
-                        {
-                          attractionCosts.filter((item) =>
-                            selectedItems.has(`attraction-${item.id}`),
-                          ).length
-                        }
-                        )
-                      </span>
-                      <span>
-                        {new Intl.NumberFormat("vi-VN").format(
-                          selectedAttractionsTotal,
-                        )}{" "}
-                        ₫
-                      </span>
-                    </div>
-                  )}
+                  <div className="flex justify-between items-center text-white/80">
+                    <span className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-green-400" />
+                      Vé tham quan (
+                      {
+                        attractionCosts.filter((item) =>
+                          selectedItems.has(`attraction-${item.id}`),
+                        ).length
+                      }
+                      )
+                    </span>
+                    <span>
+                      {new Intl.NumberFormat("vi-VN").format(
+                        selectedAttractionsTotal,
+                      )}{" "}
+                      ₫
+                    </span>
+                  </div>
+                )}
                 {selectedCount === 0 && (
                   <p className="text-white/50 text-sm text-center py-4">
                     Chưa chọn dịch vụ nào
@@ -858,7 +886,8 @@ function PaymentContent() {
                       Mã giảm giá
                     </span>
                     <span className="font-bold">
-                      - {new Intl.NumberFormat("vi-VN").format(discountAmount)} ₫
+                      - {new Intl.NumberFormat("vi-VN").format(discountAmount)}{" "}
+                      ₫
                     </span>
                   </div>
                 )}
@@ -885,34 +914,61 @@ function PaymentContent() {
                         🎫
                       </div>
                       <div>
-                        <p className="font-bold text-sm uppercase text-white">{selectedVoucher.code}</p>
-                        <p className="text-[10px] text-white/70">{selectedVoucher.description}</p>
+                        <p className="font-bold text-sm uppercase text-white">
+                          {selectedVoucher.code}
+                        </p>
+                        <p className="text-[10px] text-white/70">
+                          {selectedVoucher.description}
+                        </p>
                       </div>
                     </div>
                     <button
                       onClick={() => setSelectedVoucher(null)}
                       className="text-white/60 hover:text-white hover:bg-white/10 p-1 rounded-full transition-colors"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M18 6 6 18" />
+                        <path d="m6 6 12 12" />
+                      </svg>
                     </button>
                   </div>
                 ) : null}
 
                 {/* Available Vouchers List */}
                 <div className="space-y-2 max-h-[150px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-white/20">
-                  <p className="text-xs text-white/50 mb-2">Chọn voucher có sẵn: ({AVAILABLE_VOUCHERS.length})</p>
-                  {AVAILABLE_VOUCHERS.filter(v => v.code !== selectedVoucher?.code).map(voucher => (
+                  <p className="text-xs text-white/50 mb-2">
+                    Chọn voucher có sẵn: ({AVAILABLE_VOUCHERS.length})
+                  </p>
+                  {AVAILABLE_VOUCHERS.filter(
+                    (v) => v.code !== selectedVoucher?.code,
+                  ).map((voucher) => (
                     <div
                       key={voucher.code}
                       onClick={() => setSelectedVoucher(voucher)}
                       className="bg-white/5 hover:bg-white/10 p-2.5 rounded-lg border border-white/5 cursor-pointer transition-all flex items-center gap-3 group"
                     >
-                      <div className={`w-8 h-8 rounded-md flex items-center justify-center text-xs font-bold ${voucher.color.replace('bg-', 'bg-opacity-20 bg-').replace('text-', 'text-white ')}`}>
+                      <div
+                        className={`w-8 h-8 rounded-md flex items-center justify-center text-xs font-bold ${voucher.color.replace("bg-", "bg-opacity-20 bg-").replace("text-", "text-white ")}`}
+                      >
                         %
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-bold text-xs uppercase text-white group-hover:text-[#41C7D6] transition-colors">{voucher.code}</p>
-                        <p className="text-[10px] text-white/60 truncate">{voucher.description}</p>
+                        <p className="font-bold text-xs uppercase text-white group-hover:text-[#41C7D6] transition-colors">
+                          {voucher.code}
+                        </p>
+                        <p className="text-[10px] text-white/60 truncate">
+                          {voucher.description}
+                        </p>
                       </div>
                       <div className="w-4 h-4 rounded-full border border-white/30 group-hover:border-[#41C7D6] flex items-center justify-center">
                         <div className="w-2 h-2 bg-[#41C7D6] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -929,10 +985,11 @@ function PaymentContent() {
                 </h4>
                 <div className="space-y-2">
                   <label
-                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${paymentMethod === "momo"
-                      ? "bg-white text-[#A50064] border-[#A50064]"
-                      : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
-                      }`}
+                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${
+                      paymentMethod === "momo"
+                        ? "bg-white text-[#A50064] border-[#A50064]"
+                        : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
+                    }`}
                     onClick={() => setPaymentMethod("momo")}
                   >
                     <div className="w-5 h-5 rounded-full border border-current flex items-center justify-center">
@@ -945,10 +1002,11 @@ function PaymentContent() {
                   </label>
 
                   <label
-                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${paymentMethod === "vnpay"
-                      ? "bg-white text-[#005BAA] border-[#005BAA]"
-                      : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
-                      }`}
+                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${
+                      paymentMethod === "vnpay"
+                        ? "bg-white text-[#005BAA] border-[#005BAA]"
+                        : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
+                    }`}
                     onClick={() => setPaymentMethod("vnpay")}
                   >
                     <div className="w-5 h-5 rounded-full border border-current flex items-center justify-center">
@@ -961,10 +1019,11 @@ function PaymentContent() {
                   </label>
 
                   <label
-                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${paymentMethod === "card"
-                      ? "bg-white text-[#1B4D3E] border-[#1B4D3E]"
-                      : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
-                      }`}
+                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border ${
+                      paymentMethod === "card"
+                        ? "bg-white text-[#1B4D3E] border-[#1B4D3E]"
+                        : "bg-transparent border-white/20 text-white/70 hover:bg-white/5"
+                    }`}
                     onClick={() => setPaymentMethod("card")}
                   >
                     <div className="w-5 h-5 rounded-full border border-current flex items-center justify-center">
@@ -981,10 +1040,11 @@ function PaymentContent() {
               <button
                 onClick={handlePay}
                 disabled={selectedCount === 0}
-                className={`w-full py-4 rounded-2xl font-bold text-lg transition-all shadow-lg flex justify-center items-center gap-2 ${selectedCount === 0
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[#EF4444] hover:bg-[#DC2626] hover:shadow-2xl hover:-translate-y-1"
-                  }`}
+                className={`w-full py-4 rounded-2xl font-bold text-lg transition-all shadow-lg flex justify-center items-center gap-2 ${
+                  selectedCount === 0
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-[#EF4444] hover:bg-[#DC2626] hover:shadow-2xl hover:-translate-y-1"
+                }`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
