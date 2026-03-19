@@ -61,6 +61,7 @@ export default async function BlogPage() {
                       alt={post.title}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      unoptimized={post.coverImage?.includes("supabase.co")}
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-gray-300">
