@@ -1,25 +1,31 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { CheckCircle, Home } from "lucide-react";
 
 export default function FarewellPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [countdown, setCountdown] = useState(10);
   const [showMailPopup, setShowMailPopup] = useState(false);
 
   useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
     if (searchParams.get("mail") !== "sent") return;
 
-    setShowMailPopup(true);
-    const popupTimer = setTimeout(() => {
-      setShowMailPopup(false);
-    }, 3000);
+    let hideTimer: ReturnType<typeof setTimeout> | undefined;
+    const showTimer = setTimeout(() => {
+      setShowMailPopup(true);
+      hideTimer = setTimeout(() => {
+        setShowMailPopup(false);
+      }, 3000);
+    }, 0);
 
-    return () => clearTimeout(popupTimer);
-  }, [searchParams]);
+    return () => {
+      clearTimeout(showTimer);
+      if (hideTimer) clearTimeout(hideTimer);
+    };
+  }, []);
 
   useEffect(() => {
     if (countdown <= 0) {
