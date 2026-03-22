@@ -33,6 +33,7 @@ export function markdownToHtml(md: string): string {
   // Block elements
   html = html.replace(/^# (.+)$/gm, "%%H2%%$1%%/H2%%");
   html = html.replace(/^## (.+)$/gm, "%%H3%%$1%%/H3%%");
+  html = html.replace(/^### (.+)$/gm, "%%H4%%$1%%/H4%%");
   html = html.replace(/^&gt; (.+)$/gm, "%%BQ%%$1%%/BQ%%");
   html = html.replace(/^---$/gm, "%%HR%%");
   html = html.replace(/^- (.+)$/gm, "%%LI%%$1%%/LI%%");
@@ -63,6 +64,7 @@ export function markdownToHtml(md: string): string {
   // Now restore block placeholders to real HTML
   html = html.replace(/%%H2%%(.+?)%%\/H2%%/g, "<h2>$1</h2>");
   html = html.replace(/%%H3%%(.+?)%%\/H3%%/g, "<h3>$1</h3>");
+  html = html.replace(/%%H4%%(.+?)%%\/H4%%/g, "<h4>$1</h4>");
   html = html.replace(/%%BQ%%(.+?)%%\/BQ%%/g, "<blockquote>$1</blockquote>");
   html = html.replace(/%%HR%%/g, "<hr>");
 
@@ -121,6 +123,8 @@ export function htmlToMarkdown(html: string): string {
         return `\n# ${children}\n`;
       case "h3":
         return `\n## ${children}\n`;
+      case "h4":
+        return `\n### ${children}\n`;
       case "blockquote":
         return `\n${children
           .split("\n")
@@ -265,7 +269,37 @@ export default function WysiwygEditor({
     bold: false,
     italic: false,
     underline: false,
+    h2: false,
+    h3: false,
+    h4: false,
+    unorderedList: false,
+    orderedList: false,
+    quote: false,
+    alignLeft: true,
+    alignCenter: false,
+    alignRight: false,
   });
+
+  const getCurrentBlockTag = useCallback(() => {
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0 || !editorRef.current) {
+      return "";
+    }
+
+    let node = selection.anchorNode;
+
+    while (node && node !== editorRef.current) {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const tag = (node as HTMLElement).tagName.toLowerCase();
+        if (["h2", "h3", "h4", "p", "blockquote"].includes(tag)) {
+          return tag;
+        }
+      }
+      node = node.parentNode;
+    }
+
+    return "";
+  }, []);
 
   // ── Init editor HTML from markdown ──────────
   useEffect(() => {
@@ -310,12 +344,25 @@ export default function WysiwygEditor({
   }, []);
 
   const updateFmt = useCallback(() => {
+    const blockTag = getCurrentBlockTag();
+    const isCenter = document.queryCommandState("justifyCenter");
+    const isRight = document.queryCommandState("justifyRight");
+
     setFmt({
       bold: document.queryCommandState("bold"),
       italic: document.queryCommandState("italic"),
       underline: document.queryCommandState("underline"),
+      h2: blockTag === "h2",
+      h3: blockTag === "h3",
+      h4: blockTag === "h4",
+      unorderedList: document.queryCommandState("insertUnorderedList"),
+      orderedList: document.queryCommandState("insertOrderedList"),
+      quote: blockTag === "blockquote",
+      alignLeft: !isCenter && !isRight,
+      alignCenter: isCenter,
+      alignRight: isRight,
     });
-  }, []);
+  }, [getCurrentBlockTag]);
 
   // ── execCommand helper ──────────────────────
   const exec = useCallback(
@@ -326,6 +373,20 @@ export default function WysiwygEditor({
       updateFmt();
     },
     [sync, updateFmt],
+  );
+
+  const toggleBlock = useCallback(
+    (target: "h2" | "h3" | "h4" | "blockquote") => {
+      const currentBlock = getCurrentBlockTag();
+      if (currentBlock === target) {
+        exec("formatBlock", "P");
+        return;
+      }
+
+      const tag = target === "blockquote" ? "BLOCKQUOTE" : target.toUpperCase();
+      exec("formatBlock", tag);
+    },
+    [exec, getCurrentBlockTag],
   );
 
   // ── Toolbar actions ─────────────────────────
@@ -505,16 +566,25 @@ export default function WysiwygEditor({
 
         {/* Headings */}
         <ToolbarBtn
-          onClick={() => exec("formatBlock", "H2")}
+          onClick={() => toggleBlock("h2")}
           title="Tiêu đề lớn"
+          active={fmt.h2}
         >
           <Heading1 size={16} />
         </ToolbarBtn>
         <ToolbarBtn
-          onClick={() => exec("formatBlock", "H3")}
+          onClick={() => toggleBlock("h3")}
           title="Tiêu đề phụ"
+          active={fmt.h3}
         >
           <Heading2 size={16} />
+        </ToolbarBtn>
+        <ToolbarBtn
+          onClick={() => toggleBlock("h4")}
+          title="Tiêu đề nhỏ"
+          active={fmt.h4}
+        >
+          <span className="text-[11px] font-bold leading-none">H3</span>
         </ToolbarBtn>
         <ToolbarBtn
           onClick={() => exec("formatBlock", "P")}
@@ -529,18 +599,21 @@ export default function WysiwygEditor({
         <ToolbarBtn
           onClick={() => exec("insertUnorderedList")}
           title="Danh sách chấm"
+          active={fmt.unorderedList}
         >
           <List size={16} />
         </ToolbarBtn>
         <ToolbarBtn
           onClick={() => exec("insertOrderedList")}
           title="Danh sách số"
+          active={fmt.orderedList}
         >
           <ListOrdered size={16} />
         </ToolbarBtn>
         <ToolbarBtn
-          onClick={() => exec("formatBlock", "BLOCKQUOTE")}
+          onClick={() => toggleBlock("blockquote")}
           title="Trích dẫn"
+          active={fmt.quote}
         >
           <Quote size={16} />
         </ToolbarBtn>
@@ -548,13 +621,25 @@ export default function WysiwygEditor({
         <Sep />
 
         {/* Align */}
-        <ToolbarBtn onClick={() => exec("justifyLeft")} title="Căn trái">
+        <ToolbarBtn
+          onClick={() => exec("justifyLeft")}
+          title="Căn trái"
+          active={fmt.alignLeft}
+        >
           <AlignLeft size={16} />
         </ToolbarBtn>
-        <ToolbarBtn onClick={() => exec("justifyCenter")} title="Căn giữa">
+        <ToolbarBtn
+          onClick={() => exec("justifyCenter")}
+          title="Căn giữa"
+          active={fmt.alignCenter}
+        >
           <AlignCenter size={16} />
         </ToolbarBtn>
-        <ToolbarBtn onClick={() => exec("justifyRight")} title="Căn phải">
+        <ToolbarBtn
+          onClick={() => exec("justifyRight")}
+          title="Căn phải"
+          active={fmt.alignRight}
+        >
           <AlignRight size={16} />
         </ToolbarBtn>
 
@@ -596,6 +681,7 @@ export default function WysiwygEditor({
                     overflow-y-auto resize-y
                     [&_h2]:text-2xl [&_h2]:font-black [&_h2]:text-[#1B4D3E] [&_h2]:mt-5 [&_h2]:mb-2
                     [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-[#1B4D3E] [&_h3]:mt-3 [&_h3]:mb-1
+                    [&_h4]:text-lg [&_h4]:font-semibold [&_h4]:text-[#1B4D3E] [&_h4]:mt-2.5 [&_h4]:mb-1
                     [&_blockquote]:border-l-4 [&_blockquote]:border-[#2E968C] [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-gray-500 [&_blockquote]:my-3
                     [&_a]:text-[#2E968C] [&_a]:underline [&_a]:cursor-pointer
                     [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:my-2

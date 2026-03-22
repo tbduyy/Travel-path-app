@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import { unstable_cache } from "next/cache";
 import BlogPostContent from "./content";
 import prisma from "@/lib/prisma";
 import { createClient } from "@/utils/supabase/server";
@@ -24,6 +25,27 @@ async function getPost(slug: string) {
   }
   return post;
 }
+
+const getLatestVisiblePosts = unstable_cache(
+  async () => {
+    return prisma.post.findMany({
+      where: { isHidden: false },
+      orderBy: { createdAt: "desc" },
+      take: 8,
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        author: true,
+        createdAt: true,
+      },
+    });
+  },
+  ["blog-latest-visible-posts"],
+  {
+    revalidate: 300,
+  },
+);
 
 export async function generateMetadata({
   params,
@@ -104,6 +126,14 @@ export default async function BlogPostPage({
     notFound();
   }
 
+  const latestPosts = (await getLatestVisiblePosts())
+    .filter((item) => item.id !== post.id)
+    .slice(0, 4)
+    .map((item) => ({
+      ...item,
+      href: `/blog/${item.slug.replace(/^\//, "")}`,
+    }));
+
   // JSON-LD structured data for Google rich results
   const jsonLd = {
     "@context": "https://schema.org",
@@ -129,7 +159,11 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <BlogPostContent post={post} canEdit={canEdit} />
+      <BlogPostContent
+        post={post}
+        canEdit={canEdit}
+        latestPosts={latestPosts}
+      />
     </>
   );
 }
