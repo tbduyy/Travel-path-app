@@ -99,6 +99,14 @@ export default function BlogPostContent({
   }, [post?.content]);
 
   const hasToc = toc.length > 0;
+  const numberedToc = useMemo(
+    () =>
+      toc.map((item, index) => ({
+        ...item,
+        order: `${index + 1}.`,
+      })),
+    [toc],
+  );
 
   if (!post) {
     return (
@@ -194,16 +202,19 @@ export default function BlogPostContent({
                   MỤC LỤC BÀI VIẾT
                 </h2>
                 <ul className="space-y-2 text-[15px] leading-6 text-[#1B4D3E]">
-                  {toc.map((item) => (
+                  {numberedToc.map((item) => (
                     <li
                       key={item.id}
                       className={item.level === 3 ? "pl-5" : "pl-0"}
                     >
                       <a
                         href={`#${item.id}`}
-                        className="font-semibold transition-colors hover:text-[#2E968C]"
+                        className="inline-flex items-start gap-2 transition-colors font-medium hover:text-[#2E968C]"
                       >
-                        {item.text}
+                        <span className="min-w-6 font-black text-[#2E968C]">
+                          {item.order}
+                        </span>
+                        <span>{item.text}</span>
                       </a>
                     </li>
                   ))}
