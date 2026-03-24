@@ -49,3 +49,10 @@ next-env.d.ts
 /docs
 
 /project-91b5f05d-151f-4c3b-927-76e65cf6cb75.json
+# Logs and debug
+*.log
+*.txt
+
+# Mock and upload data
+mock-*.json
+uploaded_images*.json
