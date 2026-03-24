@@ -229,7 +229,7 @@ export default function BlogPostContent({
                     */}
             <div
               className="
-                        text-base leading-relaxed text-gray-800
+                        text-base leading-relaxed text-gray-800 text-justify
                         [&_h2]:text-2xl [&_h2]:font-black [&_h2]:text-[#1B4D3E] [&_h2]:mt-8 [&_h2]:mb-3
                         [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-[#1B4D3E] [&_h3]:mt-6 [&_h3]:mb-2
                         [&_h2]:scroll-mt-32 [&_h3]:scroll-mt-32
