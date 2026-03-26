@@ -4,6 +4,7 @@ import GlobalChatBubble from "@/components/layout/GlobalChatBubble";
 import { AuthStateListener } from "@/components/auth/AuthStateListener";
 import { AuthProvider } from "@/lib/context/AuthContext";
 import PageTransition from "@/components/layout/PageTransition";
+import SiteFooter from "@/components/layout/SiteFooter";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -59,6 +60,7 @@ export default function RootLayout({
         <AuthProvider>
           <AuthStateListener />
           <PageTransition>{children}</PageTransition>
+          <SiteFooter />
           <GlobalChatBubble />
         </AuthProvider>
         <Analytics />
