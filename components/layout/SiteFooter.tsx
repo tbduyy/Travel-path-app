@@ -35,7 +35,7 @@ export default function SiteFooter() {
               Liên kết
             </h3>
             <a
-              href="https://www.facebook.com/travelpath.io.vn/about"
+              href="https://travelpath.io.vn/about"
               className="text-xs md:text-sm font-medium hover:text-[#00B14F] transition-colors group"
             >
               Về chúng tôi

@@ -14,7 +14,7 @@ export default async function AboutPage() {
 
   const visionContent =
     vision?.content ||
-    "Travel Path hướng đến việc trở thành một nền tảng xây dựng hành trình du lịch cá nhân hóa từ những ý tưởng ban đầu đến một lộ trình tối ưu phù hợp với sở thích, nhu cầu và phong cách du lịch cá nhân.";
+    "Travel Path hướng đến việc trở thành nền tảng du lịch tích hợp toàn diện, nơi người dùng có thể lên kế hoạch, quản lý và trải nghiệm toàn bộ chuyến đi trên một nền tảng duy nhất, giúp việc du lịch trở nên đơn giản và thư thái hơn.";
   const missionContent =
     mission?.content ||
     "Travel Path mang đến một hệ sinh thái thông minh nhằm cung cấp các lựa chọn về địa điểm tham quan, vui chơi giải trí đến nơi lưu trú và tiện ích về phương tiện di chuyển cho người dùng. Không chỉ dừng lại ở việc lên kế hoạch, công nghệ mà Travel Path mang lại còn giúp người dùng tận hưởng trọn vẹn chuyến đi thông qua người bạn đồng hành - Hướng dẫn viên AI hỗ trợ xuyên suốt hành trình của bạn.";

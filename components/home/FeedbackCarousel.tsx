@@ -8,39 +8,50 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const feedbackData = [
   {
     id: 1,
-    title: "Placeholder",
-    subtitle: "Placeholder",
-    image: "https://placehold.co/400x300?text=Placeholder",
+    title: "Nguyễn Hoàng Phúc",
+    subtitle:
+      "Giao diện dễ dùng, mình có thể lên lịch trình rất nhanh mà không cần chuyển qua nhiều app khác.",
+    image:
+      "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1XKlV7.img?w=768&h=512&m=6&x=513&y=337&s=144&d=144",
   },
   {
     id: 2,
-    title: "Placeholder",
-    subtitle: "Placeholder",
-    image: "https://placehold.co/400x300?text=Placeholder",
+    title: "Trần Thị Hồng Nhung",
+    subtitle:
+      "Tính năng AI gợi ý khá sát với nhu cầu, nhưng mình mong hệ thống cập nhật thông tin địa điểm theo thời gian thực tốt hơn.",
+    image:
+      "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1YAFvM.img?w=768&h=1364&m=6&x=613&y=941&s=126&d=126",
   },
   {
     id: 3,
-    title: "Placeholder",
-    subtitle: "Placeholder",
-    image: "https://placehold.co/400x300?text=Placeholder",
+    title: "Trần Đốc Đam",
+    subtitle:
+      "Rất tiện khi có thể vừa lên kế hoạch vừa điều chỉnh trong chuyến đi, cảm giác như có một trợ lý du lịch đi cùng.",
+    image:
+      "https://cdn-img.thethao247.vn/origin_640x0/storage/files/haibui/2025/06/09/chrome_oiegmvpz97-1-684691595c2e2.png",
   },
   {
     id: 4,
-    title: "Placeholder",
-    subtitle: "Placeholder",
-    image: "https://placehold.co/400x300?text=Placeholder",
+    title: "Potential Writer",
+    subtitle:
+      "App này giúp mình tiết kiệm thời gian lên lịch trình rất nhiều, mách nước các địa điểm hay mà mình chưa biết.",
+    image:
+      "https://static.wikia.nocookie.net/lookback/images/d/da/Author_Tatsuki_Fujimoto_icon.webp/revision/latest?cb=20240226014910",
   },
   {
     id: 5,
-    title: "Placeholder",
-    subtitle: "Placeholder",
-    image: "https://placehold.co/400x300?text=Placeholder",
+    title: "Ẩn danh",
+    subtitle:
+      "Rất hài lòng với tính năng sắp xếp tối ưu, giúp mình đi thăm nhiều nơi mà vẫn không mệt mỏi.",
+    image:
+      "https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg",
   },
   {
     id: 6,
-    title: "Placeholder",
-    subtitle: "Placeholder",
-    image: "https://placehold.co/400x300?text=Placeholder",
+    title: "Selina Lin",
+    subtitle:
+      "Tấm ảnh du lịch được lưu lại lịch sử, gợi ý thêm điểm thú vị khác rất sáng tạo.",
+    image: "fb9.jpg",
   },
 ];
 
@@ -59,7 +70,7 @@ const FeedbackCarousel = () => {
 
   const visibleItems = feedbackData.slice(
     currentIndex * itemsPerPage,
-    currentIndex * itemsPerPage + itemsPerPage
+    currentIndex * itemsPerPage + itemsPerPage,
   );
 
   return (
