@@ -41,7 +41,7 @@ const quickActions = [
 
 export default function ProfiePage() {
   const { isLoading, isAuthenticated, showAuthPopup } =
-    useRequireAuthFromContext({ returnTo: "/profie" });
+    useRequireAuthFromContext({ returnTo: "/profile" });
   const { userName, userEmail, profile, signOut } = useAuth();
   const clearTrip = useTripStore((state) => state.clearTrip);
 
