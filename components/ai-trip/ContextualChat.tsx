@@ -114,7 +114,6 @@ export default function ContextualChat() {
               src="/assets/plan-trip/new_ai-chatbot-ver2.png"
               alt="AI Avatar"
               fill
-              sizes="40px"
               className="object-cover"
             />
           </div>

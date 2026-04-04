@@ -29,7 +29,6 @@ export default function Header() {
             src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/header-bg.png"
             alt="Background"
             fill
-            sizes="100vw"
             className="object-fill"
             unoptimized
             priority
@@ -49,7 +48,6 @@ export default function Header() {
                 src="/logo.png"
                 alt="Logo"
                 fill
-                sizes="(max-width: 768px) 24px, 40px"
                 className="object-contain"
                 unoptimized
               />
@@ -57,14 +55,15 @@ export default function Header() {
             {/* Name & Tagline Column */}
             <div className="hidden sm:flex flex-col justify-center gap-1">
               {/* Name Text (Larger Ratio) */}
-              <Image
-                src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/logo-name.png"
-                alt="Travel Path"
-                width={480}
-                height={120}
-                className="h-8 md:h-12 w-auto object-contain object-left"
-                unoptimized
-              />
+              <div className="relative aspect-[4/1] h-8 md:h-12">
+                <Image
+                  src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/logo-name.png"
+                  alt="Travel Path"
+                  fill
+                  className="object-contain object-left"
+                  unoptimized
+                />
+              </div>
             </div>
           </Link>
 

@@ -117,8 +117,6 @@ export default function CitySlideWidget() {
                   src={city.image}
                   alt={city.name}
                   fill
-                  sizes="(max-width: 768px) 256px, 344px"
-                  loading={isCurrent ? "eager" : "lazy"}
                   className="object-cover"
                 />
 

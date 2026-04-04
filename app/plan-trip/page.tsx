@@ -75,8 +75,6 @@ export default function PlanTripLandingPage() {
                 src="/assets/plan-trip/new_ai-chatbot-ver2.png"
                 alt="AI Travel"
                 fill
-                sizes="(max-width: 768px) 64px, 88px"
-                loading="eager"
                 className="object-cover drop-shadow-2xl animate-bounce rounded-full overflow-hidden"
                 style={{ animationDuration: "3s" }}
               />

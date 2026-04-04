@@ -92,7 +92,7 @@ const CableCarAnimation = () => {
             alt="Cable Car Cabin"
             width={220}
             height={220}
-            className="w-[220px] h-[220px] object-contain pointer-events-none"
+            className="object-contain pointer-events-none"
           />
         </div>
       ))}
