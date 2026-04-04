@@ -29,6 +29,7 @@ export default function Header() {
             src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/header-bg.png"
             alt="Background"
             fill
+            sizes="100vw"
             className="object-fill"
             unoptimized
             priority
@@ -38,13 +39,17 @@ export default function Header() {
         {/* Content Layer (z-10) */}
         <div className="relative z-10 flex items-center justify-between w-full h-full">
           {/* Left: Logo + Name + Tagline */}
-          <Link href="/" className="flex items-center flex-shrink-0 gap-2 md:gap-3">
+          <Link
+            href="/"
+            className="flex items-center flex-shrink-0 gap-2 md:gap-3"
+          >
             {/* Icon */}
             <div className="relative w-6 md:w-10 h-6 md:h-10 flex-shrink-0">
               <Image
                 src="/logo.png"
                 alt="Logo"
                 fill
+                sizes="(max-width: 768px) 24px, 40px"
                 className="object-contain"
                 unoptimized
               />
@@ -52,15 +57,14 @@ export default function Header() {
             {/* Name & Tagline Column */}
             <div className="hidden sm:flex flex-col justify-center gap-1">
               {/* Name Text (Larger Ratio) */}
-              <div className="relative aspect-[4/1] h-8 md:h-12">
-                <Image
-                  src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/logo-name.png"
-                  alt="Travel Path"
-                  fill
-                  className="object-contain object-left"
-                  unoptimized
-                />
-              </div>
+              <Image
+                src="https://cwlovgpnraogycqfbwvx.supabase.co/storage/v1/object/public/home-page/logo-name.png"
+                alt="Travel Path"
+                width={480}
+                height={120}
+                className="h-8 md:h-12 w-auto object-contain object-left"
+                unoptimized
+              />
             </div>
           </Link>
 
@@ -74,10 +78,11 @@ export default function Header() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`text-xs xl:text-base font-bold transition-colors tracking-tight uppercase whitespace-nowrap ${isActive
-                    ? "text-[#439B91] brightness-125"
-                    : "text-[#1B4D3E] hover:text-[#2C6E5A]"
-                    }`}
+                  className={`text-xs xl:text-base font-bold transition-colors tracking-tight uppercase whitespace-nowrap ${
+                    isActive
+                      ? "text-[#439B91] brightness-125"
+                      : "text-[#1B4D3E] hover:text-[#2C6E5A]"
+                  }`}
                 >
                   {link.name}
                 </Link>
@@ -117,10 +122,11 @@ export default function Header() {
                     key={link.name}
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`px-4 py-3 text-sm font-bold transition-colors uppercase border-b border-gray-100 last:border-b-0 ${isActive
-                      ? "text-[#439B91] bg-[#E0F2F1]"
-                      : "text-[#1B4D3E] hover:bg-[#F0F8F7]"
-                      }`}
+                    className={`px-4 py-3 text-sm font-bold transition-colors uppercase border-b border-gray-100 last:border-b-0 ${
+                      isActive
+                        ? "text-[#439B91] bg-[#E0F2F1]"
+                        : "text-[#1B4D3E] hover:bg-[#F0F8F7]"
+                    }`}
                   >
                     {link.name}
                   </Link>

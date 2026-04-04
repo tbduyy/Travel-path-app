@@ -30,6 +30,7 @@ export default function GlobalChatBubble() {
             src="/assets/plan-trip/new_ai-chatbot-ver2.png"
             alt="AI Assistant"
             fill
+            sizes="64px"
             className="object-cover"
           />
         </div>

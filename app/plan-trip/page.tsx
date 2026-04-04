@@ -75,6 +75,8 @@ export default function PlanTripLandingPage() {
                 src="/assets/plan-trip/new_ai-chatbot-ver2.png"
                 alt="AI Travel"
                 fill
+                sizes="(max-width: 768px) 64px, 88px"
+                loading="eager"
                 className="object-cover drop-shadow-2xl animate-bounce rounded-full overflow-hidden"
                 style={{ animationDuration: "3s" }}
               />
@@ -83,8 +85,8 @@ export default function PlanTripLandingPage() {
               Bắt đầu chuyến đi
             </h1>
             <p className="text-sm md:text-xl text-[#1B4D3E]/70 font-medium max-w-2xl mx-auto px-2">
-              Nhập điểm đến và sở thích của bạn, Travel Path sẽ giúp bạn lên lịch
-              trình ngay trong vài giây.
+              Nhập điểm đến và sở thích của bạn, Travel Path sẽ giúp bạn lên
+              lịch trình ngay trong vài giây.
             </p>
           </div>
         </div>

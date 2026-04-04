@@ -47,7 +47,7 @@ function DemoContent() {
   // Video options - split by destination
   const nhaTrangVideos = [
     {
-      url: "https://streamable.com/e/p6n49a?autoplay=1&muted=1&nocontrols=1&loop=1",
+      url: "https://streamable.com/e/777ogl?autoplay=1&muted=1&nocontrols=1&loop=1",
       duration: "0:08",
     },
     {

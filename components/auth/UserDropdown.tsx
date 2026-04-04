@@ -5,18 +5,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { useAuth } from "@/lib/context/AuthContext";
 import { useTripStore } from "@/lib/store/trip-store";
-import {
-  LogOut,
-  User as UserIcon,
-  LayoutDashboard,
-} from "lucide-react";
+import { LogOut, User as UserIcon, LayoutDashboard } from "lucide-react";
 
 /**
  * UserDropdown - Now uses shared AuthContext
- * 
+ *
  * Previously: Made its own supabase.auth.getUser() call → DUPLICATE request
  * Now: Uses useAuth() from AuthProvider → NO extra network calls
- * 
+ *
  * Performance improvement: Eliminates ~100-200ms duplicate auth check
  */
 export default function UserDropdown() {
@@ -101,7 +97,7 @@ export default function UserDropdown() {
               )}
 
               <Link
-                href="#"
+                href="/profie"
                 className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-medium"
                 onClick={() => setIsOpen(false)}
               >
